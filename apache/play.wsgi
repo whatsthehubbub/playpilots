@@ -1,8 +1,8 @@
 import os, sys
 
-sys.path.append('/home/alper/site/Django-1.2.1/')
-sys.path.append('/home/alper/site/')
-sys.path.append('/home/alper/site/ebi/')
+sys.path.append('/home/alper/ebi/Django-1.2.1/')
+sys.path.append('/home/alper/ebi/')
+# sys.path.append('/home/alper/ebi/ebi/')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'ebi.settings'
 
