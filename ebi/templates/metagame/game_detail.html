@@ -1,0 +1,48 @@
+{% extends "metagame/base.html" %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="/static/css/game.css" type="text/css" media="screen" charset="utf-8">
+    
+    <title>Game {{ game.name }}</title>
+{% endblock %}
+
+{% block content %}
+<div id="game_id" class="game">
+    <div id="side">
+        <img src="" style="width: 200px; height: 200px;">
+        
+        <p>flickr machine tag</p>
+        
+        <p><a href="/maker/bla/">{{ game.maker.logo }} maker logo </a></p>
+        <p><a href="/festival/bla/">{{ game.festival.logo }} festival logo</a></p>
+
+        <button onclick="alert('doe nou niet!');">KNOP OM OP TE KLIKKEN</button>
+    </div>
+
+    <p>datum begin<br>
+    datum eind</p>
+
+    <h1>{{ game.name }}</h1>
+
+    <p>door <a href="/maker/{{ game.maker.slug }}/">{{ game.maker.name }}</a></p>
+
+    <p>voor <a href="/festival/{{ game.festival.slug }}/">{{ game.festival.name }}</a></p>
+
+    <p>[ blurb wat is het ]</p>
+
+    <p>spelers<br>
+    wie hebben dit gespeeld, lijst van <a href="/players/p/">spelers</a><br>
+    wie wil dit spelen, lijst van <a href="/players/p/">spelers</a></p>
+    
+    <p><a href="">making of</a></p>
+    
+    <div id="activity">
+        <h2>game activity</h2>
+        
+        <ol>
+            <li>Alper heeft net een powerup gehaald</li>
+            <li>Kars heeft zich net aangemeld</li>
+        </ol>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "metagame/base.html" %}
+
+{% block extrahead %}
+    <title>{{ festival.name }}</title>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ festival.name }}</h1>
+    
+    <p>festivalinfo</p>
+    
+    <p>festivalblurb</p>
+    
+    <p>{{ festival.start }} - {{ festival.end }}</p>
+    
+    <p>externe link: <a href="{{ festival.link }}">{{ festival.link }}</a></p>
+    
+    <p>link naar gekoppelde <a href="/game/{{ festival.first_game.slug }}/">{{ festival.first_game.name }}</a></p>
+    
+    <p>Photo:
+    <img id="photo" src="" style="width: 300px; height: 200px;"></p>
+    
+    <p>Logo:
+    <img id="logo" src="{{ festival.logo.url }}" style="width: 200px;"></p>
+    
+    <h2>Activiteiten</h2>
+    
+    <p>Hier de activiteiten voor het festival. Wat precies?</p>
+{% endblock %}

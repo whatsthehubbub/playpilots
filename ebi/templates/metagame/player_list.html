@@ -1,0 +1,13 @@
+{% extends "metagame/base.html" %}
+
+{% block extrahead %}
+    <title>List of players</title>
+{% endblock %}
+
+{% block content %}
+    {% for player in players %}
+        {{ player.twitterName }}
+    {% empty %}
+        <p>No players yet.</p>
+    {% endfor %}
+{% endblock %}
