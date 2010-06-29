@@ -19,7 +19,13 @@ img { display: block; }
 /* @end */
 
 /* @group body */
-body {  }
+body {
+    font-family: Lucida Grande;
+    font-size: 14px;
+    line-height: 22px;
+    
+    color: #333333;
+}
 div {  }
 /* @end */
 
@@ -117,11 +123,31 @@ em, i { font-style: italic; }
 /* @end */
 
 /* @group headings */
-h1, h2, h3, h4, h5, h6 {  }
-h1 {  }
-h2 {  }
-h3 {  }
-h4 {  }
+h1, h2, h3, h4, h5, h6 { 
+    font-family: "proxima-nova-extra-condensed-1","proxima-nova-extra-condensed-2", Arial;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+h1 { 
+    color: #f30;
+    font-size: 40px;
+    line-height: 44px;
+}
+h2 {
+    color: #06c;
+    font-size: 22px;
+    line-height: 22px;
+}
+h3 {
+    color: black;
+    font-size: 16px;
+    line-height: 22px;
+}
+h4 {
+    color: #666;
+    font-size: 14px;
+    line-height: 18px;
+}
 h5 {  }
 h6 {  }
 /* @end */
