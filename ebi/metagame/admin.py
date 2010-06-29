@@ -3,17 +3,17 @@ from django.contrib import admin
 
 
 class MakerAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {"slug": ("name",)}
 admin.site.register(Maker, MakerAdmin)
 
 
 class FestivalAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {"slug": ("name",)}
 admin.site.register(Festival, FestivalAdmin)
 
 
 class GameAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {"slug": ("name",)}
 admin.site.register(Game, GameAdmin)
 
 

@@ -26,11 +26,71 @@
             background-color: #f5f5f5;
         }
         
-        #footergraphic {
-            
+        #logo {
+            height: 50px;
         }
         
-        .footerlinks A {
+        #menu OL {
+            list-style-type: none;
+        }
+        
+        #menu LI {
+            float: left;
+        }
+        
+        #menu LI A {
+            display: inline-block;
+            padding: 5px;
+            margin-left: 10px;
+            text-decoration: none;
+        }
+        
+        #menu LI A.current {
+            color: #f30;
+            text-decoration: underline;
+            font-weight: bolder;
+        }
+        
+        #splash {
+            background-color: #262A33;
+            
+            color: #f6e9d7;
+        }
+        
+        #footergraphic {
+            border: thin solid grey;
+            
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            
+            height: 50px;
+            padding: 5px;
+            
+            /* TODO guessed these colors and sizes */
+            background-color: #d9d9d9;
+            margin-top: 10px;
+            border-top: 4px solid #adadad;
+        }
+        
+        #footercolofon {
+            -webkit-border-bottom-right-radius: 5px;
+            -webkit-border-bottom-left-radius: 5px;
+            -moz-border-radius-bottomright: 5px;
+            -moz-border-radius-bottomleft: 5px;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            
+            border: thin solid grey;
+            padding: 5px;
+            
+            background-color: #d9d9d9;
+        }
+        
+        #footercolofon A {
             text-decoration: none;
         }
     </style>
@@ -46,7 +106,13 @@
     </div>
 
     <div id="menu" class="grid_8">
-        home, games, events, about
+        <ol>
+            <li><a href="/" class="current">Home</a></li>
+            <li><a href="/games/">Games</a></li>
+            <li><a href="/festivals/">Festivals</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contact/">Contact</a></li>
+        </ol>
     </div>
 
     <div id="checkin" class="grid_2">
@@ -89,12 +155,10 @@
     
     <div class="clear"></div>
     
-    <div id="license" class="grid_9">
-        <p>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a></p>
-    </div>
-    
-    <div id="footerlinks" class="grid_3">
-        <strong><p><a href="http://blog.play.whatsthuhubbub.nl/">Blog</a> | <a href="/contact/">Contact</a> | <a href="/about/">About</a></p></strong>
+    <div id="footercolofon" class="grid_12">
+        <div style="float: right"><a href="/about/">About</a> | <a href="http://ebi.posterous.com/">Blog</a> | <a href="/contact/">Contact</a></div>
+                
+        <p>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a>
     </div>
 
     <div class="clear"></div>
