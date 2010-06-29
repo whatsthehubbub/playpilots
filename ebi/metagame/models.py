@@ -40,9 +40,8 @@ class Festival(models.Model):
     
     link = models.URLField(verify_exists=False, blank=True)
     
-    # maybe we want to specify time of start too? TODO
-    start = models.DateField(blank=True, null=True)
-    end = models.DateField(blank=True, null=True)
+    start = models.DateTimeField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
 
     # Probably want to attach more than one photo ? TODO
     photo = models.ImageField(upload_to='festival_photos', blank=True)
@@ -67,9 +66,8 @@ class Game(models.Model):
     
     description = models.TextField(blank=True)
     
-    # maybe we want to specify time of start too? TODO
-    start = models.DateField(blank=True, null=True)
-    end = models.DateField(blank=True, null=True)
+    start = models.DateTimeField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
     
     # Probably want to attach more than one photo ? TODO
     photo = models.ImageField(upload_to='game_photos', blank=True)

@@ -73,7 +73,6 @@
             /* TODO guessed these colors and sizes */
             background-color: #d9d9d9;
             margin-top: 10px;
-            border-top: 4px solid #adadad;
         }
         
         #footercolofon {
@@ -124,10 +123,16 @@
     <div id="splash" class="grid_12">
         splash, next up, etc.
     </div>
+    
+    <div class="clear"></div>
+
+    <div id="temptagline" class="grid_12" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
 
     <div class="clear"></div>
 
     <div id="tagline" class="grid_9 prefix_1 suffix_2">
+        
+        
         {% block content %}
             EVENTS: A next level play experience! About &rdquo;
         {% endblock %}
@@ -144,7 +149,7 @@
         
         <h4>{{ blogentry.title }}</h4>
         
-        <p>{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }} {{ blogentry.summary|striptags|truncatewords:34 }} <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
+        <p>{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }} {{ blogentry.summary|striptags|truncatewords:32 }} <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
     </div>
 
     <div class="clear"></div>
