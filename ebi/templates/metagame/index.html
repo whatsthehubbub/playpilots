@@ -1,53 +1,21 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
+    <title>PLAY!</title>
+    
     <style type="text/css" media="screen">
-        #games {
-            list-style-type: none;
-        }
-        
-        .frontside {
-            float: right;
-            clear: both;
-            
-            width: 200px;
-        }
-        
-        LI.game {
-            height: 200px;
+        #activity LI {
+            float: left;
+            width: 100px;
         }
     </style>
-    
-    <title>PLAY!</title>
 {% endblock %}
 
 {% block content %}
-    <h1>PLAY!</h1>
-    
-    <h2>A next generation play experience!</h2>
-    
     <div id="description" class="frontside">
         <h3>Description</h3>
         
         <p>Korte beschrijving van het project.</p>
-    </div>
-    
-    <div id="activity" class="frontside">
-        <h3>Recente activiteit</h3>
-        
-        <ol>
-            <li><img src="https://asset1.37img.com/missing/avatar.png?r=3"> Bernhard heeft zich aangemeld</li>
-            <li><img src="https://asset1.37img.com/missing/avatar.png?r=3"> Simon is ingecheckt voor het NFF.</li>
-            <li><img src="https://asset1.37img.com/e01543200262bf213a1c63a1224816fbc5a03ed8/avatar.png?r=3"> Kars heeft een nieuw stempel in zijn paspoort</li>
-        </ol>
-    </div>
-    
-    <div id="name" class="frontside">
-        <h3>Berichten over PLAY!</h3>
-        
-        <ol>
-            <li>Hier gaat Bernhard nog een diepzinnige blogpost schrijven over ons creatieve proces.</li>
-        </ol>
     </div>
     
     <ol id="games">

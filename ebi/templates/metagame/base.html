@@ -7,6 +7,9 @@
 	
 	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js" charset="utf-8"></script>
 	
+	<script type="text/javascript" src="http://use.typekit.com/usl0osf.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	
 	{% comment %}
 	<link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8">
 	<link rel="stylesheet" href="/static/css/layout.css" type="text/css" media="screen" charset="utf-8">
@@ -25,18 +28,70 @@
 
 <body>
 
-<div id="head" class="mainblock">
-    <p><a href="/">home</a></p>
+<div class="container_12">
+    <div id="logo" class="grid_2">
+        <p><a href="/">The Gam Pan</a></p>
+    </div>
+
+    <div id="menu" class="grid_8">
+        home, games, events, about
+    </div>
+
+    <div id="checkin" class="grid_2">
+        Cehck in
+    </div>
+
+    <div class="clear"></div>
+    
+    <div id="splash" class="grid_12">
+        splash, next up, etc.
+    </div>
+
+    <div class="clear"></div>
+
+    <div id="tagline" class="grid_9 prefix_1 suffix_2">
+        {% block content %}
+            EVENTS: A next level play experience! About &rdquo;
+        {% endblock %}
+    </div>
+
+    <div class="clear"></div>
+    
+    <div id="activity" class="grid_8">
+        {% include "metagame/activity_fragment.html" %}
+    </div>
+    
+    <div id="blog" class="grid_4">
+        <h3>Blog</h3>
+        
+        <h4>{{ blogentry.title }}</h4>
+        
+        <p>{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }} {{ blogentry.summary|striptags|truncatewords:34 }} <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
+    </div>
+
+    <div class="clear"></div>
+    
+    <div id="footergraphic" class="grid_12">
+        footer graphic, PLAY! project
+    </div>
+    
+    <div class="clear"></div>
+    
+    <div id="license" class="grid_9">
+        <p>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a></p>
+    </div>
+    
+    <div id="footerlinks" class="grid_3">
+        <strong><p><a href="http://blog.play.whatsthuhubbub.nl/">Blog</a> | <a href="/contact/">Contact</a> | <a href="/about/">About</a></p></strong>
+    </div>
+
+    <div class="clear"></div>
 </div>
 
-<div id="content" class="mainblock">
-    {% block content %}{% endblock %}
-</div>
 
 {% block footer %}
 <div id="footer" class="mainblock">
-    <a href="http://blog.play.whatsthuhubbub.nl/">Blog</a> | <a href="/contact/">Contact</a> | <a href="/about/">About</a>
-</div>
+    
 {% endblock %}
 
 
