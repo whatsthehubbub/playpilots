@@ -21,7 +21,9 @@
     <img id="photo" src="" style="width: 300px; height: 200px;"></p>
     
     <p>Logo:
-    <img id="logo" src="{{ festival.logo.url }}" style="width: 200px;"></p>
+    {% if festival.logo %}
+        <img id="logo" src="{{ festival.logo.url }}" style="width: 200px;"></p>
+    {% endif %}
     
     <h2>Activiteiten</h2>
     
