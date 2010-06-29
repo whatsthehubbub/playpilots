@@ -4,14 +4,12 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from ebi.metagame.models import Maker, Festival, Game, Player
-from services import feed_first_entry
 
 def index(request):
     games = Game.objects.all()
     
     return render_to_response('metagame/index.html', {
-        'games': games,
-        'blogentry': feed_first_entry('http://ebi.posterous.com/rss.xml')
+        'games': games
     }, context_instance=RequestContext(request))
 
 

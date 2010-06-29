@@ -21,6 +21,18 @@
         body {
             background-image: url({{ MEDIA_URL }}image/grid.png);
         }
+        
+        .container_12 {
+            background-color: #f5f5f5;
+        }
+        
+        #footergraphic {
+            
+        }
+        
+        .footerlinks A {
+            text-decoration: none;
+        }
     </style>
     
 	{% block extrahead %}{% endblock %}
@@ -38,7 +50,7 @@
     </div>
 
     <div id="checkin" class="grid_2">
-        Cehck in
+        <a href="/login/">Check in</a> or Register
     </div>
 
     <div class="clear"></div>
