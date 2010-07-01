@@ -1,0 +1,20 @@
+{% extends "metagame/base.html" %}
+
+{% block extrahead %}
+    <title>Games</title>
+{% endblock %}
+
+{% block content %}
+<div id="game_list">
+    {% for game in games %}
+        <div id="game_{{ game.id }}" class="game">
+            <h1>{{ game.name }}</h1>
+            <p>door <a href="/maker/{{ game.maker.slug }}/">{{ game.maker.name }}</a></p>
+
+            <p>voor <a href="/festival/{{ game.festival.slug }}/">{{ game.festival.name }}</a></p>
+            
+            <p><a href="/game/{{ game.slug }}">meer</a></p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

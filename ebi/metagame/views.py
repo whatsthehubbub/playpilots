@@ -27,6 +27,10 @@ def player_detail(request, id):
         'player': player
     }, context_instance=RequestContext(request))
 
+def game_list(request):
+    return render_to_response('metagame/game_list.html', {
+        'games': Game.objects.all().order_by('start')
+    }, context_instance=RequestContext(request))
 
 def game_detail(request, slug):
     game = get_object_or_404(Game, slug=slug)
@@ -34,7 +38,6 @@ def game_detail(request, slug):
     return render_to_response('metagame/game_detail.html', {
         'game': game
     }, context_instance=RequestContext(request))
-    
 
 def maker_detail(request, slug):
     maker = get_object_or_404(Maker, slug=slug)
@@ -43,6 +46,11 @@ def maker_detail(request, slug):
         'maker': maker
     }, context_instance=RequestContext(request))
         
+def festival_list(request):
+    return render_to_response('metagame/festival_list.html', {
+        'festivals': Festival.objects.all().order_by('start')
+    }, context_instance=RequestContext(request))
+
 def festival_detail(request, slug):
     festival = get_object_or_404(Festival, slug=slug)
     

@@ -19,16 +19,13 @@ urlpatterns += patterns('ebi.metagame.views',
 	(r'^players/(?P<id>\d+)/$', 'player_detail'),
 	
 	(r'^game/(?P<slug>\S+?)/$', 'game_detail'),
+	(r'^games/$', 'game_list'),
+	
 	(r'^maker/(?P<slug>\S+?)/$', 'maker_detail'),
+	
 	(r'^festival/(?P<slug>\S+?)/$', 'festival_detail'),
+	(r'^festivals/$', 'festival_list'),
 )
-
-
-# Created flat pages for this
-# urlpatterns += patterns('django.views.generic.simple',
-  # (r'^about/$', 'direct_to_template', {'template': 'metagame/about.html'}),
-  # (r'^contact/$', 'direct_to_template', {'template': 'metagame/contact.html'}),
-# )
 
 
 urlpatterns += patterns('',
