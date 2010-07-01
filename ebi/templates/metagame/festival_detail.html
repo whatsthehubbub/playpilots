@@ -6,10 +6,8 @@
 
 {% block content %}
     <h1>{{ festival.name }}</h1>
-    
-    <p>festivalinfo</p>
-    
-    <p>festivalblurb</p>
+        
+    <p>description: {{ festival.description }}</p>
     
     <p>{{ festival.start }} - {{ festival.end }}</p>
     
@@ -18,7 +16,7 @@
     <p>link naar gekoppelde <a href="/game/{{ festival.first_game.slug }}/">{{ festival.first_game.name }}</a></p>
     
     <p>Photo:
-    <img id="photo" src="" style="width: 300px; height: 200px;"></p>
+    <img id="photo" src="{{ festival.photo }}" style="width: 300px; height: 200px;"></p>
     
     <p>Logo:
     {% if festival.logo %}

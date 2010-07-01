@@ -19,8 +19,7 @@
         <button onclick="alert('doe nou niet!');">KNOP OM OP TE KLIKKEN</button>
     </div>
 
-    <p>datum begin<br>
-    datum eind</p>
+    <p>{{ game.start }} - {{ game.end }}</p>
 
     <h1>{{ game.name }}</h1>
 
@@ -28,7 +27,7 @@
 
     <p>voor <a href="/festival/{{ game.festival.slug }}/">{{ game.festival.name }}</a></p>
 
-    <p>[ blurb wat is het ]</p>
+    <p>description: {{ game.description }}</p>
 
     <p>spelers<br>
     wie hebben dit gespeeld, lijst van <a href="/players/">spelers</a><br>
