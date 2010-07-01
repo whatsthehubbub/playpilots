@@ -5,5 +5,5 @@
 {% endblock %}
 
 {% block content %}
-    <p>{{ flatpage.content }}</p>
+    <p>{{ flatpage.content|safe|linebreaks }}</p>
 {% endblock %}
