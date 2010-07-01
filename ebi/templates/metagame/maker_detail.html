@@ -7,11 +7,11 @@
 {% block content %}
     <h1>{{ maker.name }}</h1>
     
-    <p>blurb maker informatio</p>
+    <p>description: {{ maker.description }}</p>
     
     <p>link naar <a href="{{ maker.link }}">externe site</a></p>
     
-    <img id="logo" src="" style="width: 300px; height; 200px;">
+    <img id="logo" src="{{ maker.logo }}" style="width: 300px; height; 200px;">
     
     <p>lijst van blog entries van deze makers, import van externe RSS</p>
     
