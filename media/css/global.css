@@ -20,7 +20,7 @@ img { display: block; }
 
 /* @group body */
 body {
-    font-family: Lucida Grande;
+    font-family: Lucida Grande, Helvetica, sans-serif;
     font-size: 14px;
     line-height: 22px;
     
@@ -124,7 +124,7 @@ em, i { font-style: italic; }
 
 /* @group headings */
 h1, h2, h3, h4, h5, h6 { 
-    font-family: "proxima-nova-extra-condensed-1","proxima-nova-extra-condensed-2", Arial;
+    font-family: "proxima-nova-1", "proxima-nova-2", Arial;
     text-transform: uppercase;
     font-weight: 900;
 }
