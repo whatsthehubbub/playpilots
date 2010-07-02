@@ -20,12 +20,14 @@
     <style type="text/css" media="screen">
         body {
             background-image: url({{ MEDIA_URL }}image/grid.png);
-            background-position: center center;
-            background-repeat: no-repeat;
+            
+            background-repeat: repeat-y;
+            
         }
         
         .container_12 {
-            background-color: #f5f5f5;
+            /* background-color: #f5f5f5;
+            */
         }
         
         #logo {
@@ -102,11 +104,11 @@
 <body>
 
 <div class="container_12">
-    <div id="logo" class="grid_2">
+    <div id="logo" class="grid_2" style="background-color: grey;">
         <p><a href="/">The Gam Pan</a></p>
     </div>
 
-    <div id="menu" class="grid_8">
+    <div id="menu" class="grid_8" style="background-color: grey;">
         <ol>
             <li><a href="/" class="current">Home</a></li>
             <li><a href="/games/">Games</a></li>
@@ -116,7 +118,7 @@
         </ol>
     </div>
 
-    <div id="checkin" class="grid_2">
+    <div id="checkin" class="grid_2" style="background-color: grey;">
         <a href="/login/">Check in</a> or Register
     </div>
 
