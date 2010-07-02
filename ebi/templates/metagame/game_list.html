@@ -9,11 +9,11 @@
     {% for game in games %}
         <div id="game_{{ game.id }}" class="game">
             <h1>{{ game.name }}</h1>
-            <p>door <a href="/maker/{{ game.maker.slug }}/">{{ game.maker.name }}</a></p>
+            <p>door <a href="/makers/{{ game.maker.slug }}/">{{ game.maker.name }}</a></p>
 
-            <p>voor <a href="/festival/{{ game.festival.slug }}/">{{ game.festival.name }}</a></p>
+            <p>voor <a href="/festivals/{{ game.festival.slug }}/">{{ game.festival.name }}</a></p>
             
-            <p><a href="/game/{{ game.slug }}">meer</a></p>
+            <p><a href="/games/{{ game.slug }}">meer</a></p>
         </div>
     {% endfor %}
 </div>

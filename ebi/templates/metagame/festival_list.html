@@ -10,10 +10,10 @@
         <div id="festival_{{ festival.id }}" class="festival">
             <h1>{{ festival.name }}</h1>
             
-            <p>met <a href="/game/{{ festival.first_game.slug }}/">{{ festival.first_game.name }}</a></p>
-            <p>door <a href="/maker/{{ festival.first_game.maker.slug }}/">{{ festival.first_game.maker.name }}</a></p>
+            <p>met <a href="/games/{{ festival.first_game.slug }}/">{{ festival.first_game.name }}</a></p>
+            <p>door <a href="/makers/{{ festival.first_game.maker.slug }}/">{{ festival.first_game.maker.name }}</a></p>
             
-            <p><a href="/festival/{{ festival.slug }}">meer</a></p>
+            <p><a href="/festivals/{{ festival.slug }}">meer</a></p>
         </div>
     {% endfor %}
 </div>
