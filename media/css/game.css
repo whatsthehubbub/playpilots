@@ -1,3 +1,7 @@
+#game_id {
+    overflow: hidden;
+}
+
 #side {
     width: 200px;
     height: 150px;

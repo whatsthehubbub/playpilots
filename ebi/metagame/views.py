@@ -9,7 +9,8 @@ def index(request):
     games = Game.objects.all()
     
     return render_to_response('metagame/index.html', {
-        'games': games
+        'games': games,
+        'current': 'home'
     }, context_instance=RequestContext(request))
 
 
@@ -29,31 +30,42 @@ def player_detail(request, id):
 
 def game_list(request):
     return render_to_response('metagame/game_list.html', {
-        'games': Game.objects.all().order_by('start')
+        'games': Game.objects.all().order_by('start'),
+        'current': 'games'
     }, context_instance=RequestContext(request))
 
 def game_detail(request, slug):
     game = get_object_or_404(Game, slug=slug)
     
     return render_to_response('metagame/game_detail.html', {
-        'game': game
+        'game': game,
+        'current': 'games'
+    }, context_instance=RequestContext(request))
+
+def maker_list(request):
+    return render_to_response('metagame/maker_list.html', {
+        'makers': Maker.objects.all(),
+        'current': 'makers'
     }, context_instance=RequestContext(request))
 
 def maker_detail(request, slug):
     maker = get_object_or_404(Maker, slug=slug)
     
     return render_to_response('metagame/maker_detail.html', {
-        'maker': maker
+        'maker': maker,
+        'current': 'makers'
     }, context_instance=RequestContext(request))
         
 def festival_list(request):
     return render_to_response('metagame/festival_list.html', {
-        'festivals': Festival.objects.all().order_by('start')
+        'festivals': Festival.objects.all().order_by('start'),
+        'current': 'festivals'
     }, context_instance=RequestContext(request))
 
 def festival_detail(request, slug):
     festival = get_object_or_404(Festival, slug=slug)
     
     return render_to_response('metagame/festival_detail.html', {
-        'festival': festival
+        'festival': festival,
+        'current': 'festivals'
     }, context_instance=RequestContext(request))

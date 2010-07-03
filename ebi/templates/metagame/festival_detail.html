@@ -1,8 +1,10 @@
-{% extends "metagame/base.html" %}
+{% extends "metagame/base2.html" %}
 
 {% block extrahead %}
     <title>{{ festival.name }}</title>
 {% endblock %}
+
+{% block intro %}{% endblock %}
 
 {% block content %}
     <h1>{{ festival.name }}</h1>
@@ -27,3 +29,5 @@
     
     <p>Hier de activiteiten voor het festival. Wat precies?</p>
 {% endblock %}
+
+{% block activityfooter %}{% endblock %}

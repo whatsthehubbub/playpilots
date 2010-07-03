@@ -1,8 +1,10 @@
-{% extends "metagame/base.html" %}
+{% extends "metagame/base2.html" %}
 
 {% block extrahead %}
     <title>Games</title>
 {% endblock %}
+
+{% block intro %}{% endblock %}
 
 {% block content %}
 <div id="game_list">
@@ -10,7 +12,6 @@
         <div id="game_{{ game.id }}" class="game">
             <h1>{{ game.name }}</h1>
             <p>door <a href="/makers/{{ game.maker.slug }}/">{{ game.maker.name }}</a></p>
-
             <p>voor <a href="/festivals/{{ game.festival.slug }}/">{{ game.festival.name }}</a></p>
             
             <p><a href="/games/{{ game.slug }}">meer</a></p>
@@ -18,3 +19,5 @@
     {% endfor %}
 </div>
 {% endblock %}
+
+{% block activityfooter %}{% endblock %}

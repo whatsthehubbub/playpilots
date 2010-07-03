@@ -1,19 +1,22 @@
 {% extends "metagame/base2.html" %}
 
 {% block extrahead %}
-    <title>Festivals</title>
+    <title>Makers</title>
 {% endblock %}
 
 {% block content %}
-<div id="festival_list">
-    {% for festival in festivals %}
-        <div id="festival_{{ festival.id }}" class="festival">
-            <h1>{{ festival.name }}</h1>
-            
+<div id="maker_list">
+    {% for maker in makers %}
+        <div id="maker_{{ maker.id }}" class="maker">
+            <h1>{{ maker.name }}</h1>
+
+            {% comment %}
+            TODO FIXME
             <p>met <a href="/games/{{ festival.first_game.slug }}/">{{ festival.first_game.name }}</a></p>
             <p>door <a href="/makers/{{ festival.first_game.maker.slug }}/">{{ festival.first_game.maker.name }}</a></p>
+            {% endcomment %}
             
-            <p><a href="/festivals/{{ festival.slug }}">meer</a></p>
+            <p><a href="/makers/{{ maker.slug }}">meer</a></p>
         </div>
     {% endfor %}
 </div>

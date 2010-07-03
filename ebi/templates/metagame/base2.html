@@ -20,6 +20,10 @@
             width: 1020px;
         }
         
+        #header {
+            overflow: hidden;
+        }
+        
         #logo {
             height: 50px;
             width: 130px;
@@ -140,6 +144,8 @@
             padding: 5px;
             
             background-color: #d9d9d9;
+            
+            overflow: hidden;
         }
         
         #footercolofon A {
@@ -163,23 +169,23 @@
 
     <div id="menu">
         <ol>
-            <li><a href="/" class="current">Home</a></li>
-            <li><a href="/games/">Games</a></li>
-            <li><a href="/festivals/">Festivals</a></li>
-            <li><a href="/makers/">Makers</a></li>
-            <li><a href="/about/">About</a></li>
+            <li><a href="/" class="{% ifequal current "home" %}current{% endifequal %}">Home</a></li>
+            <li><a href="/games/" class="{% ifequal current "games" %}current{% endifequal %}">Games</a></li>
+            <li><a href="/festivals/" class="{% ifequal current "festivals" %}current{% endifequal %}">Festivals</a></li>
+            <li><a href="/makers/" class="{% ifequal current "makers" %}current{% endifequal %}">Makers</a></li>
+            <li><a href="/about/" class="{{ current|default:"current" }}">About</a></li>
         </ol>
     </div>
-    
-    <div style="clear: both;">&nbsp;</div>
 </div>
 
+{% block intro %}
 <div id="splash" class="mainblock" style="background-image: url({{ MEDIA_URL}}image/splash.png); background-position: center center; height: 299px;">
 </div>
+{% endblock %}
 
-
+{% block tagline %}
 <div id="temptagline" class="mainblock" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
-
+{% endblock %}
 
 <div id="content" class="mainblock">
     {% block content %}
@@ -187,6 +193,7 @@
     {% endblock %}
 </div>
 
+{% block activityfooter %}
 <div id="activityfooter" class="mainblock" style="overflow: hidden;">
     {% include "metagame/activity_fragment.html" %}
     
@@ -198,6 +205,7 @@
         <p>{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }} {{ blogentry.summary|striptags|truncatewords:32 }} <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
     </div>
 </div>
+{% endblock %}
     
 <div id="footergraphic" class="mainblock">
     footer graphic, PLAY! project
@@ -206,17 +214,9 @@
 <div id="footercolofon" class="mainblock">
     <div style="float: right"><a href="/about/">About</a> | <a href="http://ebi.posterous.com/">Blog</a> | <a href="/contact/">Contact</a></div>
             
-    <p>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a>
+    <div>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</div>
 </div>
 
-
-{% block footer %}
-<div id="footer" class="mainblock">
-    
-{% endblock %}
-
-
-<div id="notes">{% block notes %}{% endblock %}</div>
 
 </body>
 </html>
