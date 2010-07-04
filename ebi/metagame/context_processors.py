@@ -8,7 +8,7 @@ def base(request):
     site = Site.objects.get_current()
     
     # Cache all this stuff aggressively
-    CACHE_DURATION = 60*15
+    CACHE_DURATION = 60*60
 
     blogentry = cache.get('blogentry')
     if not blogentry:

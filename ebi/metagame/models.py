@@ -26,7 +26,10 @@ class Maker(models.Model):
         return '/maker/%s' % self.slug
         
     def first_game(self):
-        return self.games.all()[0]
+        if self.games.all():
+            return self.games.all()[0]
+        else:
+            return None
     
 
 class Festival(models.Model):
@@ -54,7 +57,10 @@ class Festival(models.Model):
         return '/maker/%s' % self.slug
         
     def first_game(self):
-        return self.games.all()[0]
+        if self.games.all():
+            return self.games.all()[0]
+        else:
+            return None
     
 
 class Game(models.Model):
