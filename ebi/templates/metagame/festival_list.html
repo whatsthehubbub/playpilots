@@ -5,6 +5,10 @@
     
     <style type="text/css" media="screen">
         
+        #content {
+            background-color: #f5f5f5;
+        }
+        
         #festival_list {
             padding-top: 20px;
             
@@ -18,14 +22,18 @@
             
             margin-left: 20px;
             
-            border: thin solid black;
+            background-color: white;
+            
+            border-top: 4px solid #ddd;
         }
         
-        .festival IMG.main {
+        .festival .mainimage {
             float: left;
             
             width: 140px;
             height: 200px;
+            
+            background-position: center center;
         }
         
         .festival .date {
@@ -41,7 +49,7 @@
 <div id="festival_list">
     {% for festival in festivals %}
         <div id="festival_{{ festival.id }}" class="festival">
-            <img class="main" src="{{ festival.photo }}" alt="Main image for festival {{ festival.name }}">
+            <div class="mainimage" style="{% if festival.photo %}background-image: url({{ festival.photo.url }});{% endif %}"></div>
             
             <h5>{{ festival.name }}</h5>
             
