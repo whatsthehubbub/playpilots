@@ -2,19 +2,56 @@
 
 {% block extrahead %}
     <title>Festivals</title>
+    
+    <style type="text/css" media="screen">
+        
+        #festival_list {
+            padding-top: 20px;
+            
+            overflow: auto;
+        }
+        
+        .festival {
+            float: left;
+            width: 300px;
+            height: 200px;
+            
+            margin-left: 20px;
+            
+            border: thin solid black;
+        }
+        
+        .festival IMG.main {
+            float: left;
+            
+            width: 140px;
+            height: 200px;
+        }
+        
+        .festival .date {
+            font-weight: bold;
+        }
+        
+    </style>
 {% endblock %}
+
+{% block tagline %}{% endblock %}
 
 {% block content %}
 <div id="festival_list">
     {% for festival in festivals %}
         <div id="festival_{{ festival.id }}" class="festival">
-            <h1>{{ festival.name }}</h1>
+            <img class="main" src="{{ festival.photo }}" alt="Main image for festival {{ festival.name }}">
             
-            <p>met <a href="/games/{{ festival.first_game.slug }}/">{{ festival.first_game.name }}</a></p>
-            <p>door <a href="/makers/{{ festival.first_game.maker.slug }}/">{{ festival.first_game.maker.name }}</a></p>
+            <h5>{{ festival.name }}</h5>
             
-            <p><a href="/festivals/{{ festival.slug }}">meer</a></p>
+            <p class="date">{{ festival.start|date:"d M Y" }}</p>
+            
+            <p><a href="/festivals/{{ festival.slug }}">{{ festival.description|truncatewords:10}}</a></p>
         </div>
     {% endfor %}
 </div>
 {% endblock %}
+
+
+{% block activityfooter %}{% endblock %}
