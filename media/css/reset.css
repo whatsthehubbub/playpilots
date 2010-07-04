@@ -8,6 +8,10 @@ OL, UL, LI {
     padding: 0;
 }
 
+P {
+    margin: 0 0 1em 0;
+}
+
 H1, H2, H3, H4, H5, H6 {
     margin: 0;
     padding: 0;
