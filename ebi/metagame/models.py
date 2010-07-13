@@ -49,6 +49,10 @@ class Festival(models.Model):
     # Probably want to attach more than one photo ? TODO
     photo = models.ImageField(upload_to='festival_photos', blank=True)
     logo = models.ImageField(upload_to='festival_logos', blank=True)
+    
+    # TODO add fields
+    # location = models.CharField(max_length=255, help_text="A geo-codable address")
+    # TODO just cache the geocode results
 
     def __unicode__(self):
         return self.name

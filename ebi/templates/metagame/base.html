@@ -10,33 +10,63 @@
 	<script type="text/javascript" src="http://use.typekit.com/usl0osf.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	
-	{% comment %}
 	<link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8">
-	<link rel="stylesheet" href="/static/css/layout.css" type="text/css" media="screen" charset="utf-8">
-	{% endcomment %}
+	<link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen" charset="utf-8">
 	
-	<link rel="stylesheet" href="{{ MEDIA_URL }}css/global.css" type="text/css" media="screen" charset="utf-8">
-
-    <style type="text/css" media="screen">
-        body {
-            background-image: url({{ MEDIA_URL }}image/grid.png);
-            
-            background-repeat: repeat-y;
-            background-position: center top;
-            
+    <style type="text/css" media="screen">        
+        .mainblock {
+            margin: auto;
+            width: 1020px;
         }
         
-        .container_12 {
-            /* background-color: #f5f5f5;
-            */
+        #header {
+            overflow: hidden;
         }
         
         #logo {
             height: 50px;
+            width: 130px;
+            
+            float: left;
+            
+            margin-left: 30px;
+        }
+        
+        #checkin {
+            float: right;
+            
+            background-color: #f30;
+            
+            height: 50px;
+            width: 120px;
+            
+            margin-right: 30px;
+            
+            color: white;
+            
+            padding: 10px;
+        }
+        
+        #checkin A {
+            color: white;
+        }
+        #checkin A:visited {
+            color: white;
+        }
+        
+        #menu {
+            margin-left: 20px;
+            
+            float: left;
+            
+            font-size: 18px;
+            font-family: "proxima-nova-1", "proxima-nova-2", Arial;
         }
         
         #menu OL {
             list-style-type: none;
+            
+            padding-top: 20px;
         }
         
         #menu LI {
@@ -45,14 +75,20 @@
         
         #menu LI A {
             display: inline-block;
-            padding: 5px;
-            margin-left: 10px;
             text-decoration: none;
+            
+            color: #bababa;
+            margin-right: 40px;
+        }
+        
+        #menu LI A:visited {
+            color: #bababa;
         }
         
         #menu LI A.current {
+            border-bottom: 2px solid #f30;
             color: #f30;
-            text-decoration: underline;
+            
             font-weight: bolder;
         }
         
@@ -60,6 +96,19 @@
             background-color: #262A33;
             
             color: #f6e9d7;
+        }
+        
+        #activity {
+            float: left;
+            
+            width: 600px;
+        }
+        
+        #blog {
+            float: left;
+            
+            margin-left: 20px;
+            width: 300px;
         }
         
         #footergraphic {
@@ -71,6 +120,8 @@
             -moz-border-radius-topright: 5px;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
+            
+            border-bottom: none;
             
             height: 50px;
             padding: 5px;
@@ -92,6 +143,8 @@
             padding: 5px;
             
             background-color: #d9d9d9;
+            
+            overflow: hidden;
         }
         
         #footercolofon A {
@@ -99,87 +152,83 @@
         }
     </style>
     
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-17333125-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    
 	{% block extrahead %}{% endblock %}
 </head>
 
 <body>
 
-<div class="container_12">
-    <div id="logo" class="grid_2" style="background-color: grey;">
+<div id="header" class="mainblock">
+    <div id="checkin">
+        <a href="/login/">Check in</a> or <a href="/register/">Register</a>
+    </div>
+
+    <div id="logo">
         <p><a href="/">The Gam Pan</a></p>
     </div>
 
-    <div id="menu" class="grid_8" style="background-color: grey;">
+    <div id="menu">
         <ol>
-            <li><a href="/" class="current">Home</a></li>
-            <li><a href="/games/">Games</a></li>
-            <li><a href="/festivals/">Festivals</a></li>
-            <li><a href="/about/">About</a></li>
-            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/" class="{% ifequal current "home" %}current{% endifequal %}">Home</a></li>
+            <li><a href="/games/" class="{% ifequal current "games" %}current{% endifequal %}">Games</a></li>
+            <li><a href="/festivals/" class="{% ifequal current "festivals" %}current{% endifequal %}">Festivals</a></li>
+            <li><a href="/makers/" class="{% ifequal current "makers" %}current{% endifequal %}">Makers</a></li>
+            <li><a href="/about/" class="{{ current|default:"current" }}">About</a></li>
+            <li><a href="http://ebi.posterous.com/">Blog</a></li>
         </ol>
     </div>
+</div>
 
-    <div id="checkin" class="grid_2" style="background-color: grey;">
-        <a href="/login/">Check in</a> or Register
-    </div>
+{% block intro %}
+<div id="splash" class="mainblock" style="background-image: url({{ MEDIA_URL}}image/splash.png); background-position: center center; height: 299px;">
+</div>
+{% endblock %}
 
-    <div class="clear"></div>
+{% block tagline %}
+<div id="temptagline" class="mainblock" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
+{% endblock %}
+
+<div id="content" class="mainblock">
+    {% block content %}
+        EVENTS: A next level play experience! About &rdquo;
+    {% endblock %}
+</div>
+
+{% block activityfooter %}
+<div id="activityfooter" class="mainblock" style="overflow: hidden;">
+    {% include "metagame/activity_fragment.html" %}
     
-    <div id="splash" class="grid_12">
-        splash, next up, etc.
-    </div>
-    
-    <div class="clear"></div>
-
-    <div id="temptagline" class="grid_12" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
-
-    <div class="clear"></div>
-
-    <div id="tagline" class="grid_9 prefix_1 suffix_2">
-        {% block content %}
-            EVENTS: A next level play experience! About &rdquo;
-        {% endblock %}
-    </div>
-
-    <div class="clear"></div>
-    
-    <div id="activity" class="grid_8">
-        {% include "metagame/activity_fragment.html" %}
-    </div>
-    
-    <div id="blog" class="grid_4">
+    <div id="blog">
         <h3>Blog</h3>
         
         <h4>{{ blogentry.title }}</h4>
         
         <p>{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }} {{ blogentry.summary|striptags|truncatewords:32 }} <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
     </div>
-
-    <div class="clear"></div>
+</div>
+{% endblock %}
     
-    <div id="footergraphic" class="grid_12">
-        footer graphic, PLAY! project
-    </div>
+<div id="footergraphic" class="mainblock">
+    footer graphic, PLAY! project, Utrecht
+</div>
     
-    <div class="clear"></div>
-    
-    <div id="footercolofon" class="grid_12">
-        <div style="float: right"><a href="/about/">About</a> | <a href="http://ebi.posterous.com/">Blog</a> | <a href="/contact/">Contact</a></div>
-                
-        <p>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a>
-    </div>
-
-    <div class="clear"></div>
+<div id="footercolofon" class="mainblock">
+    <div style="float: right"><a href="/about/">About</a> | <a href="http://ebi.posterous.com/">Blog</a> | <a href="/contact/">Contact</a></div>
+            
+    <div>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</div>
 </div>
 
-
-{% block footer %}
-<div id="footer" class="mainblock">
-    
-{% endblock %}
-
-
-<div id="notes">{% block notes %}{% endblock %}</div>
 
 </body>
 </html>
