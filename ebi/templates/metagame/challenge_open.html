@@ -1,0 +1,81 @@
+{% extends "metagame/base.html" %}
+
+{% block extrahead %}
+    
+    <script type="text/javascript" charset="utf-8">
+        var moves = {};
+        {% for culture in cultures %}
+            moves['{{ culture.name }}'] = [];
+
+            {% for move in culture.move_set.all %}
+                moves['{{ culture.name }}'].push([{{ move.id }}, '{{ move.name }}']);
+            {% endfor %}
+        {% endfor %}
+        
+        function fillMoves() {
+            var culture = $('#culture option:selected').text();
+            
+            var html = '';
+            
+            for (var counter in moves[culture]) {
+                var move = moves[culture][counter];
+                html += '<option value="' + move[0] + '">' + move[1] + '</option>';
+            }
+            
+            $('#move').html(html);
+        }
+        
+        $(document).ready(function() {
+            fillMoves();
+            
+            $('#culture').change(function() {
+                fillMoves();
+            });
+        });
+    </script>
+    
+{% endblock %}
+
+{% block content %}
+
+    <p>Uitdaging op {{ round.created }}</p>
+
+    <h2>Uitdager</h2>
+    
+    <a href="/players/{{ round.challenger.id }}/">{{ round.challenger }}</a> ({{ round.challenger.rating }})<br>
+    Cultuur: {{ round.challenge_move.culture }}<br>
+    Actie: {{ round.challenge_move.name }}<br>
+    Boodschap: {{ round.challenge_message }}
+    
+    <h2>Uitgedaagde</h2>
+    
+    <a href="/players/{{ round.target.id }}/">{{ round.target }}</a> ({{ round.target.rating }})<br>
+    
+    {% ifequal user.username round.target.user.username %}
+        
+        <form method="POST" action="/challenge/resolve/">
+        <input type="hidden" name="round_id" value="{{ round.id }}">
+        
+        <p>Kies je cultuur om de uitdaging te beantwoorden: <select id="culture" name="culture">
+            {% for culture in cultures %}
+                <option value="{{ culture.id }}">{{ culture.name }}</option>
+            {% endfor %}
+        </select></p>
+        <p>Kies je bijbehorende actie: <select id="move" name="move"></select></p>
+        en laat optioneel nog een boodschap achter <input name="message" id="message">
+        <p><button type="submit">Beantwoord de uitdaging en verdedig je eer</button></p>
+        
+        </form>
+    {% else %}
+        {% ifequal user.username round.challenger.user.username  %}
+            <p>stuur een herinnering naar {{ round.target.user }} over jouw uitdaging</p>
+        {% else %}
+            << nog geen cultuur >><br>
+            << nog geen actie >><br>
+        {% endifequal %}
+    {% endifequal %}
+    
+    {% if not user.is_authenticated %}
+        <p>Ben jij: <a href="/players/{{ round.target.id }}/">{{ round.target }}</a>, <a href="/login/">log dan in</a> om deze uitdaging aan te gaan.</p>
+    {% endif %}    
+{% endblock %}

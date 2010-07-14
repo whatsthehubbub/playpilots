@@ -1,0 +1,11 @@
+{% extends "metagame/base.html" %}
+
+
+{% block content %}
+    <form method="POST" action="/register">
+    {{ form.as_p }}
+    
+    <input type="submit" value="Registreer">
+    
+    </form>
+{% endblock %}

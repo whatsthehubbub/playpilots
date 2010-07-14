@@ -5,9 +5,12 @@
 {% endblock %}
 
 {% block content %}
+
+    <ol>
     {% for player in players %}
-        {{ player.twitterName }}
+        <li>{{ player.rating }} - <a href="/players/{{ player.id }}/">{{ player.user.username }} (dominant on: {{ player.culture }})</a></li>
     {% empty %}
         <p>No players yet.</p>
     {% endfor %}
+    </ol>
 {% endblock %}

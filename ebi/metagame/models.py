@@ -50,9 +50,7 @@ class Festival(models.Model):
     photo = models.ImageField(upload_to='festival_photos', blank=True)
     logo = models.ImageField(upload_to='festival_logos', blank=True)
     
-    # TODO add fields
-    # location = models.CharField(max_length=255, help_text="A geo-codable address")
-    # TODO just cache the geocode results
+    location = models.CharField(max_length=255, help_text="A geo-codable address")
 
     def __unicode__(self):
         return self.name
@@ -101,11 +99,84 @@ class Player(models.Model):
     # Player profile class
     user = models.ForeignKey(User, unique=True)
     
-    # TODO rename to twitter_name
-    twitterName = models.CharField(max_length=255, blank=True)
+    twitter_name = models.CharField(max_length=255, blank=True)
+    
+    avatar = models.ImageField(upload_to="player_avatars", blank=True)
+    
+    created = models.DateTimeField(auto_now_add=True)
+    
+    rating = models.IntegerField(blank=True, null=True, default=100)
+    culture = models.ForeignKey('Culture', null=True, blank=True)
     
     def __unicode__(self):
         return self.user.username
         
     def get_absolute_url(self):
         return '/players/%d/' % self.user.id
+        
+        
+# GAME BASED MODELS
+
+class Culture(models.Model):
+    name = models.CharField(max_length=255, blank=True)
+    
+    description = models.TextField(blank=True)
+    
+    image = models.ImageField(upload_to="culture_images", blank=True)
+    
+    win_phrase = models.CharField(max_length=255, blank=True)
+    
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __unicode__(self):
+        return self.name
+    
+    
+class Move(models.Model):
+    culture = models.ForeignKey(Culture)
+    
+    name = models.CharField(max_length=255, blank=True)
+    
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __unicode__(self):
+        return '%s: %s' % (self.culture.name, self.name)
+    
+    
+class SpecificWinPhrase(models.Model):
+    winner = models.ForeignKey(Culture, related_name="winnerphrase")
+    loser = models.ForeignKey(Culture, related_name="loserphrase")
+    
+    phrase = models.CharField(max_length=255, blank=True)
+    
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __unicode__(self):
+        return '%s x %s -> %s' % (self.winner.name, self.loser.name, self.phrase)
+        
+    
+class Round(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    challenger = models.ForeignKey(Player, related_name='challenged_round')
+    challenge_move = models.ForeignKey(Move, related_name='challenged_move')
+    challenge_message = models.CharField(max_length=255, blank=True)
+    
+    # If this move is still open
+    open = models.BooleanField(default=True)
+    
+    target = models.ForeignKey(Player, blank=True, null=True, related_name='targeted_round')
+    target_text = models.CharField(max_length=255, blank=True)
+    
+    responded = models.DateTimeField(blank=True, null=True)
+    response_move = models.ForeignKey(Move, blank=True, null=True, related_name='responded_move')
+    response_message = models.CharField(max_length=255, blank=True)
+    
+    # TODO add winner loser, old rating, new rating
+    
+    def __unicode__(self):
+        return '%s with %s' % (self.challenger.user.username, self.challenge_move.name)

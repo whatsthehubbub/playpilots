@@ -3,7 +3,15 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
-from ebi.metagame.models import Maker, Festival, Game, Player
+from django.contrib.auth import logout, login
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+
+from django import forms
+
+from ebi.metagame.models import Maker, Festival, Game, Player, Culture, Move, Round
+
+import datetime, random, math, json
 
 def index(request):
     games = Game.objects.all()
@@ -15,7 +23,7 @@ def index(request):
 
 
 def player_list(request):
-    players = Player.objects.all()
+    players = Player.objects.all().order_by('-rating')
     
     return render_to_response('metagame/player_list.html', {
         'players': players
@@ -24,9 +32,59 @@ def player_list(request):
 def player_detail(request, id):
     player = get_object_or_404(Player, id=id)
     
+    # TODO if player does not exist create (here or on registration)
+    
     return render_to_response('metagame/player_detail.html', {
         'player': player
     }, context_instance=RequestContext(request))
+    
+def user_detail(request, username):
+    user = get_object_or_404(User, username=username)
+    
+    # from django.contrib.auth.models import SiteProfileNotAvailable
+    
+    try:
+        player = user.get_profile()
+    except Player.DoesNotExist:
+        player = Player(user=user)
+        player.save()
+        
+    return HttpResponseRedirect('/players/%d/' % player.id)
+
+
+def register(request):    
+    class RegisterForm(forms.Form):
+        username = forms.CharField()
+        email = forms.EmailField()
+        password = forms.CharField(widget=forms.PasswordInput)
+        
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        
+        # Check for username duplication
+        
+        # Create user
+        user = Users.object.create_user(form.cleaned_data['username'], form.cleaned_data['email'], form.cleaned_data['password'])
+        
+        login(request, user)
+        
+        send_mail('Account voor Play Pilots aangemaakt!', 'Bericht', 'alper@whatsthehubbub.nl', form.cleaned_data['email'])
+        
+        if form.is_valid():
+            return HttpResponse('/players/%s/' % user.username)
+    else:
+        form = RegisterForm()
+        
+    return render_to_response('registration/register.html', {
+        'form': form
+    }, context_instance=RequestContext(request))
+    
+    
+def logout_view(request):
+    logout(request)
+    
+    return HttpResponseRedirect('/')
+    
 
 def game_list(request):
     return render_to_response('metagame/game_list.html', {
@@ -69,3 +127,112 @@ def festival_detail(request, slug):
         'festival': festival,
         'current': 'festivals'
     }, context_instance=RequestContext(request))
+    
+def challenge(request):
+    if request.method == 'POST':
+        # Trying to store a challenge
+        
+        challenger = request.user.get_profile()
+        
+        culture_id = request.POST.get('culture', None)
+        culture = Culture.objects.get(id=culture_id)
+        
+        move_id = request.POST.get('move', None)
+        move = Move.objects.get(id=move_id)
+        
+        message = request.POST.get('message', '')
+        
+        target_id = request.POST.get('target', None)
+        target = Player.objects.get(id=target_id)
+        
+        # Create Round object
+        round = Round(challenger=challenger, challenge_move=move, challenge_message=message, target=target)
+        round.save()
+        
+        # TODO Send out message about challenge
+        
+        return HttpResponseRedirect('/players/%s/' % request.user.username)
+    else:
+        playerid = request.GET.get('target', None)
+
+        target = get_object_or_404(Player, id=playerid)
+    
+        cultures = Culture.objects.all().order_by('name')
+    
+        return render_to_response('metagame/challenge.html', {
+            'target': target,
+            'cultures': cultures
+        }, context_instance=RequestContext(request))
+        
+def challenge_resolve(request):
+    if request.method == 'POST':
+        round_id = int(request.POST.get('round_id', None))
+        r = Round.objects.get(id=round_id)
+        
+        r.open = False
+        r.responded = datetime.datetime.now()
+        
+        move_id = int(request.POST.get('move', None))
+        r.response_move = Move.objects.get(id=move_id)
+        
+        r.response_message = request.POST.get('message', '')
+        
+        r.save()
+        
+        # TODO determine winner / loser and update ratings accordingly
+        
+        # Also TODO update dominant style
+        
+        winner_attack_bonus = 0
+        winner_style_penalty = 0
+        
+        if random.random() < 0.5:
+            winner = r.challenger
+            winner_attack_bonus = 10
+            
+            loser = r.target
+        else:
+            winner = r.target
+            loser = r.challenger
+        
+        difference = abs(winner.rating - loser.rating)
+        
+        if winner.rating > loser.rating:
+            winner.rating += 10
+            loser.rating -= 10
+        elif winner.rating < loser.rating:
+            winner.rating += difference + 10
+            loser.rating -= difference - 10
+            
+        winner.rating = winner.rating + winner_attack_bonus - winner_style_penalty
+            
+        winner.save()
+        loser.save()
+        
+        result = {
+            'winner': {
+                'username': winner.user.username,
+                'rating': winner.rating
+            },
+            'loser': {
+                'username': loser.user.username,
+                'rating': loser.rating
+            }
+        }
+        
+        return HttpResponse(json.dumps(result), mimetype="text/plain")
+
+def challenge_detail(request, id):
+    r = get_object_or_404(Round, id=id)
+    
+    if r.open:
+        cultures = Culture.objects.all().order_by('name')
+    
+        return render_to_response('metagame/challenge_open.html', {
+            'round': r,
+            'cultures': cultures
+        }, context_instance=RequestContext(request))
+    else:
+        return render_to_response('metagame/challenge_closed.html', {
+            'round': r
+        }, context_instance=RequestContext(request))

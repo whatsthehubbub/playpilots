@@ -17,6 +17,7 @@ urlpatterns += patterns('ebi.metagame.views',
 	
 	(r'^players/$', 'player_list'),
 	(r'^players/(?P<id>\d+)/$', 'player_detail'),
+	(r'^players/(?P<username>\S+?)/$', 'user_detail'),
 	
 	(r'^games/(?P<slug>\S+?)/$', 'game_detail'),
 	(r'^games/$', 'game_list'),
@@ -26,6 +27,14 @@ urlpatterns += patterns('ebi.metagame.views',
 	
 	(r'^festivals/(?P<slug>\S+?)/$', 'festival_detail'),
 	(r'^festivals/$', 'festival_list'),
+	
+	(r'^register/$', 'register'),
+	(r'^logout/$', 'logout_view'),
+	
+	(r'^challenge/$', 'challenge'),
+	(r'^challenge/resolve/$', 'challenge_resolve'),
+	(r'^challenge/(?P<id>\d+)/$', 'challenge_detail'),
+	(r'^c/(?P<id>\d+)/$', 'challenge_detail'),
 )
 
 

@@ -5,15 +5,35 @@
 {% endblock %}
 
 {% block content %}
-    
-    <h1>speler naam</h1>
+    <h1>{{ player.user.first_name }}</h1>
     
     <img src="" id="photo" style="width: 100px; height: 120px;">
     
-    <h2>Games</h2>
+    <h3>Games</h3>
     
-    spelletjes die hij speelt
+    <p>dominante cultuur {{ player.culture }}</p>
     
-    <p><a href="/games/x/">spel nu aan het spelen</a></p>
+    <p>rating {{ player.rating }}</p>
+    
+    {% ifnotequal player.user.username user.username  %}
+        <form method="GET" action="/challenge/">
+            <input type="hidden" name="target" value="{{ player.id }}">
+            <button type="submit">Daag {{ player.user.first_name }} nu uit</button>
+        </form>
+    {% endifnotequal %}
+    
+    <h3>Lopende uitdagingen</h3>
+    
+    <h4>Naar</h4>
+    
+    {% for round in player.challenged_round.all %}
+        <a href="/players/{{ round.target.id }}/">{{ round.target }}</a> met {{ round.challenge_move }} (<a href="/challenge/{{ round.id }}/">bekijk</a>)<br>
+    {% endfor %}
+    
+    <h4>Van</h4>
+    
+    {% for round in player.targeted_round.all %}
+        door <a href="/players/{{ round.challenger.id }}/">{{ round.challenger }}</a> met {{ round.challenge_move.name }} {% if round.open %}(<a href="/c/{{ round.id }}">beantwoord</a>){% endif %} <br>
+    {% endfor %}
     
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.core.cache import cache
 from django.contrib.sites.models import Site
+from django.contrib.auth.models import User
 
 from services import feed_first_entry
 
@@ -15,7 +16,10 @@ def base(request):
         blogentry = feed_first_entry('http://ebi.posterous.com/rss.xml')
         cache.set('blogentry', blogentry, CACHE_DURATION)
 
+    users = User.objects.all()
+
     return {
         'SITE_DOMAIN': 'http://' + site.domain,
-        'blogentry': blogentry
+        'blogentry': blogentry,
+        'users': users
     }

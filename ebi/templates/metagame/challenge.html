@@ -1,0 +1,70 @@
+{% extends "metagame/base.html" %}
+
+{% block extrahead %}
+    
+    <script type="text/javascript" charset="utf-8">
+        
+        var moves = {};
+        {% for culture in cultures %}
+            moves['{{ culture.name }}'] = [];
+
+            {% for move in culture.move_set.all %}
+                moves['{{ culture.name }}'].push([{{ move.id }}, '{{ move.name }}']);
+            {% endfor %}
+        {% endfor %}
+        
+        function fillMoves() {
+            var culture = $('#culture option:selected').text();
+            
+            var html = '';
+            
+            for (var counter in moves[culture]) {
+                var move = moves[culture][counter];
+                html += '<option value="' + move[0] + '">' + move[1] + '</option>';
+            }
+            
+            $('#move').html(html);
+        }
+        
+        $(document).ready(function() {
+            fillMoves();
+            
+            $('#culture').change(function() {
+                fillMoves();
+            });
+        });
+    </script> 
+{% endblock %}
+
+{% block content %}
+    <form method="POST" action="/challenge/">
+    
+    <p>Challenger: 
+    
+    {{ user.username }} - {{ user.get_profile }}
+    
+    <p>Kies <label for="culture">je cultuur</label>:
+        <select id="culture" name="culture">
+            {% for culture in cultures %}
+                <option value="{{ culture.id }}">{{ culture.name }}</option>
+            {% endfor %}
+        </select>
+        en <label for="move">je beweging</label>:
+        <select id="move" name="move">
+            
+        </select>
+        
+        <br>Laat nog <label for="message">een boodschap</label> achter voor je tegenstander: <input name="message" id="message">
+    </p>
+    
+    <p>Target: 
+    
+    <input type="hidden" name="target" value="{{ target.id }}">
+    {{ target.user.username }} ({{ target.rating }}) - {{ target.culture }}
+    
+    
+    <p><button type="submit">Daag uit!</button></p>
+    
+    </form>
+    
+{% endblock %}

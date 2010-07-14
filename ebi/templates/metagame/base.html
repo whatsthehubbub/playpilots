@@ -171,7 +171,11 @@
 
 <div id="header" class="mainblock">
     <div id="checkin">
-        <a href="/login/">Check in</a> or <a href="/register/">Register</a>
+        {% if not user.is_authenticated %}
+            <a href="/login/">Check in</a> or <a href="/register/">Register</a>
+        {% else %}
+            <a href="/players/{{ user.username }}/">{{ user.username }}</a> (<a href="/logout/">log uit</a>)
+        {% endif %}
     </div>
 
     <div id="logo">
@@ -211,9 +215,9 @@
         <h3>Recente activiteit</h3>
 
         <ol>
-            <li style="float: left; width: 150px;"><img src="https://asset1.37img.com/missing/avatar.png?r=3"> Bernhard heeft zich aangemeld</li>
-            <li style="float: left; width: 150px;"><img src="https://asset1.37img.com/missing/avatar.png?r=3"> Simon is ingecheckt voor het NFF.</li>
-            <li style="float: left; width: 150px;"><img src="https://asset1.37img.com/e01543200262bf213a1c63a1224816fbc5a03ed8/avatar.png?r=3"> Kars heeft een nieuw stempel in zijn paspoort</li>
+            {% for user in users %}
+                <li style="float: left; width: 150px;"><a href="/players/{{ user.id }}/"><img src="https://asset1.37img.com/missing/avatar.png?r=3"> {{ user.first_name }} heeft zich aangemeld</a></li>
+            {% endfor %}
         </ol>
     </div>
     
