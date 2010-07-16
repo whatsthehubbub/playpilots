@@ -219,10 +219,10 @@ def challenge_resolve(request):
             winner = r.target
             loser = r.challenger
             
-        print 'winner', winner, winner.rating
-        print 'loser', loser, loser.rating
+        # print 'winner', winner, winner.rating
+        # print 'loser', loser, loser.rating
         
-        print 'bonus', winner_attack_bonus
+        # print 'bonus', winner_attack_bonus
     
         difference = abs(winner.rating - loser.rating)
     
