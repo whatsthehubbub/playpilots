@@ -144,6 +144,9 @@ def challenge(request):
         
         challenger = request.user.get_profile()
         
+        challenger.rating += 10
+        challenger.save()
+        
         culture_id = request.POST.get('culture', None)
         culture = Culture.objects.get(id=culture_id)
         
@@ -160,7 +163,7 @@ def challenge(request):
         r.save()
         
         # One to the target
-        send_mail('[Play pilots] Uitgedaagd door %s!' % challenger.user.username,
+        send_mail('Je bent uitgedaagd door %s' % challenger.user.username,
             '''Hoi %(target)s,
 
 Je bent uitgedaagd voor een duel door %(challenger)s.
@@ -253,7 +256,7 @@ def challenge_resolve(request):
         }
         
         # One to the winner
-        send_mail('WINNAAR! Je hebt gewonnen van %s!' % loser.user.username, 
+        send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.user.username, 
             '''Hoi %(winner)s,
 
 Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
@@ -271,7 +274,7 @@ Uw gezagvoerder''' % {
             [winner.user.email])
 
         # One to the l0ser
-        send_mail('Loser! Je hebt verloren van %s!' % winner.user.username,
+        send_mail('Helaas! Je hebt verloren van %s!' % winner.user.username,
             '''Hoi %(loser)s,
 
 Helaas! Je hebt het duel met %(winner)s verloren.

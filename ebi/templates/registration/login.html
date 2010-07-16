@@ -1,4 +1,6 @@
 
+<img src="{{ MEDIA_URL }}image/logo.png">
+
 <form action="/login/" method="post">
 {% csrf_token %}
 {{ form.as_p }}
