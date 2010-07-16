@@ -25,6 +25,20 @@
             $('#move').html(html);
         }
         
+        var result = null;
+        function showResult() {            
+            var winText = 'Je hebt verloren!';
+            
+            if (result['winner']['username'] == '{{ user.username }}') {
+                winText = 'Je hebt gewonnen!'
+            }
+            
+            $('#result').html('<h1>' + winText + '</h1>Het resultaat is: <br>winnaar: ' +  result['winner']['username'] + ' nieuwe rating: ' + result['winner']['rating'] + '<br>loser: ' + result['loser']['username'] + ' nieuwe rating: ' + result['loser']['rating']);
+            $('#result').slideDown();
+            
+            $('#loader').slideUp();
+        }
+        
         $(document).ready(function() {
             fillMoves();
             
@@ -33,17 +47,12 @@
             });
             
             $('#resolve_form').submit(function() {
+                $('#loader').slideDown();
+                
                 $.post('/challenge/resolve/', $('#resolve_form').serialize(), function(data) {
-                    var result = data;
+                    result = data;
                     
-                    var winText = 'Je hebt verloren!';
-                    
-                    if (result['winner']['username'] == '{{ user.username }}') {
-                        winText = 'Je hebt gewonnen!'
-                    }
-                    
-                    $('#result').html('<h1>' + winText + '</h1>Het resultaat is: <br>winnaar: ' +  result['winner']['username'] + ' nieuwe rating: ' + result['winner']['rating'] + '<br>loser: ' + result['loser']['username'] + ' nieuwe rating: ' + result['loser']['rating']);
-                    $('#result').slideDown();
+                    setTimeout('showResult();', 2000);
                     
                 }, 'json');
                 
@@ -92,6 +101,8 @@
             << nog geen actie >><br>
         {% endifequal %}
     {% endifequal %}
+    
+    <img src="{{ MEDIA_URL }}image/puppy_roll.gif" id="loader" style="display: none;">
     
     <p id="result"></p>
     
