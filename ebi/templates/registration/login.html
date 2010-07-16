@@ -1,8 +1,15 @@
 
 <img src="{{ MEDIA_URL }}image/logo.png">
 
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
 <form action="/login/" method="post">
 {% csrf_token %}
 {{ form.as_p }}
+
+<input type="hidden" name="next" value="{{ next }}">
+
 <input type="submit" value="Submit" />
 </form>
