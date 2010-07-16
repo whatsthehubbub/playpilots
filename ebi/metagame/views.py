@@ -194,67 +194,66 @@ je vriendelijke piloten''' % (challenger.user.username, target.user.username, ro
         
 def challenge_resolve(request):
     if request.method == 'POST':
-        try:
-            round_id = int(request.POST.get('round_id', None))
-            r = Round.objects.get(id=round_id)
+        round_id = int(request.POST.get('round_id', None))
+        r = Round.objects.get(id=round_id)
+    
+        r.open = False
+        r.responded = datetime.datetime.now()
+    
+        move_id = int(request.POST.get('move', None))
+        r.response_move = Move.objects.get(id=move_id)
+    
+        r.response_message = request.POST.get('message', '')
+    
+        # Also TODO update dominant style
+    
+        winner_attack_bonus = 0
+        winner_style_penalty = 0
+    
+        if random.random() < 0.5:
+            winner = r.challenger
+            winner_attack_bonus = 10
         
-            r.open = False
-            r.responded = datetime.datetime.now()
-        
-            move_id = int(request.POST.get('move', None))
-            r.response_move = Move.objects.get(id=move_id)
-        
-            r.response_message = request.POST.get('message', '')
-        
-            # Also TODO update dominant style
-        
-            winner_attack_bonus = 0
-            winner_style_penalty = 0
-        
-            if random.random() < 0.5:
-                winner = r.challenger
-                winner_attack_bonus = 10
+            loser = r.target
+        else:
+            winner = r.target
+            loser = r.challenger
             
-                loser = r.target
-            else:
-                winner = r.target
-                loser = r.challenger
-                
-            print 'winner', winner, winner.rating
-            print 'loser', loser, loser.rating
-            
-            print 'bonus', winner_attack_bonus
+        print 'winner', winner, winner.rating
+        print 'loser', loser, loser.rating
         
-            difference = abs(winner.rating - loser.rating)
+        print 'bonus', winner_attack_bonus
+    
+        difference = abs(winner.rating - loser.rating)
+    
+        if winner.rating > loser.rating:
+            winner.rating += 10
+            loser.rating -= 10
+        elif winner.rating < loser.rating:
+            winner.rating += difference + 10
+            loser.rating -= difference - 10
         
-            if winner.rating > loser.rating:
-                winner.rating += 10
-                loser.rating -= 10
-            elif winner.rating < loser.rating:
-                winner.rating += difference + 10
-                loser.rating -= difference - 10
-            
-            winner.rating = winner.rating + winner_attack_bonus + winner_style_penalty
-            
-            r.save()
-            
-            # Also save winner and loser in the round objcet? TODO
-            winner.save()
-            loser.save()
+        winner.rating = winner.rating + winner_attack_bonus + winner_style_penalty
         
-            result = {
-                'winner': {
-                    'username': winner.user.username,
-                    'rating': winner.rating
-                },
-                'loser': {
-                    'username': loser.user.username,
-                    'rating': loser.rating
-                }
+        r.save()
+        
+        # Also save winner and loser in the round objcet? TODO
+        winner.save()
+        loser.save()
+    
+        result = {
+            'winner': {
+                'username': winner.user.username,
+                'rating': winner.rating
+            },
+            'loser': {
+                'username': loser.user.username,
+                'rating': loser.rating
             }
-            
-            # One to the winner
-            send_mail('Je hebt gewonnen van %s!' % winner.user.username, '''Hoi %s,
+        }
+        
+        # One to the winner
+        send_mail('Je hebt gewonnen van %s!' % winner.user.username, '''Hoi %s,
 je hebt het duel met %s gewonnen!
 
 Ga naar http://playpilots.nl/c/%d/ om de uitslag te zien!
@@ -263,8 +262,8 @@ Groeten,
 
 je vriendelijke piloten''' % (winner.user.username, loser.user.username, round.id), 'alper@whatsthehubbub.nl', [winner.user.email])
 
-            # One to the l0ser
-            send_mail('Loser! Je hebt verloren van %s!' % loser.user.username, '''Hoi %s,
+        # One to the l0ser
+        send_mail('Loser! Je hebt verloren van %s!' % loser.user.username, '''Hoi %s,
 je hebt het duel met %s verloren!
 
 Ga naar: http://playpilots.nl/c/%d/ om de uitslag te zien.
@@ -272,10 +271,9 @@ Ga naar: http://playpilots.nl/c/%d/ om de uitslag te zien.
 Groeten,
 
 je vriendelijke piloten''' % (loser.user.username, winner.user.username, round.id), 'alper@whatsthehubbub.nl', [loser.user.email])
-        
-            return HttpResponse(json.dumps(result), mimetype="text/json")
-        except:
-            pass # TODO log
+    
+        return HttpResponse(json.dumps(result), mimetype="text/json")
+
 
 def challenge_detail(request, id):
     r = get_object_or_404(Round, id=id)
