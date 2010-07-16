@@ -260,7 +260,7 @@ Ga naar http://playpilots.nl/c/%d/ om de uitslag te zien!
 
 Groeten,
 
-je vriendelijke piloten''' % (winner.user.username, loser.user.username, round.id), 'alper@whatsthehubbub.nl', [winner.user.email])
+je vriendelijke piloten''' % (winner.user.username, loser.user.username, r.id), 'alper@whatsthehubbub.nl', [winner.user.email])
 
         # One to the l0ser
         send_mail('Loser! Je hebt verloren van %s!' % loser.user.username, '''Hoi %s,
@@ -270,7 +270,7 @@ Ga naar: http://playpilots.nl/c/%d/ om de uitslag te zien.
 
 Groeten,
 
-je vriendelijke piloten''' % (loser.user.username, winner.user.username, round.id), 'alper@whatsthehubbub.nl', [loser.user.email])
+je vriendelijke piloten''' % (loser.user.username, winner.user.username, r.id), 'alper@whatsthehubbub.nl', [loser.user.email])
     
         return HttpResponse(json.dumps(result), mimetype="text/json")
 
