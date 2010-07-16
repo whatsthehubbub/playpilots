@@ -169,61 +169,66 @@ def challenge(request):
         
 def challenge_resolve(request):
     if request.method == 'POST':
-        round_id = int(request.POST.get('round_id', None))
-        r = Round.objects.get(id=round_id)
+        try:
+            round_id = int(request.POST.get('round_id', None))
+            r = Round.objects.get(id=round_id)
         
-        r.open = False
-        r.responded = datetime.datetime.now()
+            r.open = False
+            r.responded = datetime.datetime.now()
         
-        move_id = int(request.POST.get('move', None))
-        r.response_move = Move.objects.get(id=move_id)
+            move_id = int(request.POST.get('move', None))
+            r.response_move = Move.objects.get(id=move_id)
         
-        r.response_message = request.POST.get('message', '')
+            r.response_message = request.POST.get('message', '')
         
-        r.save()
+            # Also TODO update dominant style
         
-        # TODO determine winner / loser and update ratings accordingly
+            winner_attack_bonus = 0
+            winner_style_penalty = 0
         
-        # Also TODO update dominant style
-        
-        winner_attack_bonus = 0
-        winner_style_penalty = 0
-        
-        if random.random() < 0.5:
-            winner = r.challenger
-            winner_attack_bonus = 10
+            if random.random() < 0.5:
+                winner = r.challenger
+                winner_attack_bonus = 10
             
-            loser = r.target
-        else:
-            winner = r.target
-            loser = r.challenger
-        
-        difference = abs(winner.rating - loser.rating)
-        
-        if winner.rating > loser.rating:
-            winner.rating += 10
-            loser.rating -= 10
-        elif winner.rating < loser.rating:
-            winner.rating += difference + 10
-            loser.rating -= difference - 10
+                loser = r.target
+            else:
+                winner = r.target
+                loser = r.challenger
+                
+            print 'winner', winner, winner.rating
+            print 'loser', loser, loser.rating
             
-        winner.rating = winner.rating + winner_attack_bonus - winner_style_penalty
-            
-        winner.save()
-        loser.save()
+            print 'bonus', winner_attack_bonus
         
-        result = {
-            'winner': {
-                'username': winner.user.username,
-                'rating': winner.rating
-            },
-            'loser': {
-                'username': loser.user.username,
-                'rating': loser.rating
+            difference = abs(winner.rating - loser.rating)
+        
+            if winner.rating > loser.rating:
+                winner.rating += 10
+                loser.rating -= 10
+            elif winner.rating < loser.rating:
+                winner.rating += difference + 10
+                loser.rating -= difference - 10
+            
+            winner.rating = winner.rating + winner_attack_bonus + winner_style_penalty
+            
+            r.save()
+            winner.save()
+            loser.save()
+        
+            result = {
+                'winner': {
+                    'username': winner.user.username,
+                    'rating': winner.rating
+                },
+                'loser': {
+                    'username': loser.user.username,
+                    'rating': loser.rating
+                }
             }
-        }
         
-        return HttpResponse(json.dumps(result), mimetype="text/plain")
+            return HttpResponse(json.dumps(result), mimetype="text/plain")
+        except:
+            pass # TODO log
 
 def challenge_detail(request, id):
     r = get_object_or_404(Round, id=id)
