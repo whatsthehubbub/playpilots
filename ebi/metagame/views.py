@@ -167,7 +167,7 @@ Ga naar http://playpilots.nl/c/%d/ om de uitdaging aan te gaan!
 
 Groeten,
 
-je vriendelijke piloten''' % (target.user.username, challenger.user.username, round.id), 'alper@whatsthehubbub.nl', [target.user.email])
+je vriendelijke piloten''' % (target.user.username, challenger.user.username, round.id), 'Your Captain Speaking <captain@playpilots.nl>', [target.user.email])
         
         # One to the challenger
         send_mail('Je hebt %s uitgedaagd!' % target.user.username, '''Hoi %s,
@@ -177,7 +177,7 @@ Hou de status van het duel en de eventuele uitkomst bij op de volgende pagina: h
 
 Groeten,
 
-je vriendelijke piloten''' % (challenger.user.username, target.user.username, round.id), 'alper@whatsthehubbub.nl', [challenger.user.email])
+je vriendelijke piloten''' % (challenger.user.username, target.user.username, round.id), 'Your Captain Speaking <captain@playpilots.nl>', [challenger.user.email])
         
         return HttpResponseRedirect('/players/%s/' % request.user.username)
     else:
@@ -262,7 +262,7 @@ Ga naar http://playpilots.nl/c/%d/ om de uitslag te zien!
 
 Groeten,
 
-je vriendelijke piloten''' % (winner.user.username, loser.user.username, r.id), 'alper@whatsthehubbub.nl', [winner.user.email])
+je vriendelijke piloten''' % (winner.user.username, loser.user.username, r.id), 'Your Captain Speaking <captain@playpilots.nl>', [winner.user.email])
 
         # One to the l0ser
         send_mail('Loser! Je hebt verloren van %s!' % winner.user.username, '''Hoi %s,
@@ -272,7 +272,7 @@ Ga naar: http://playpilots.nl/c/%d/ om de uitslag te zien.
 
 Groeten,
 
-je vriendelijke piloten''' % (loser.user.username, winner.user.username, r.id), 'alper@whatsthehubbub.nl', [loser.user.email])
+je vriendelijke piloten''' % (loser.user.username, winner.user.username, r.id), 'Your Captain Speaking <captain@playpilots.nl>', [loser.user.email])
     
         return HttpResponse(json.dumps(result), mimetype="text/json")
 
