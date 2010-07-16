@@ -207,22 +207,24 @@ def challenge_resolve(request):
     
         # Also TODO update dominant style
     
-        winner_attack_bonus = 0
-        winner_style_penalty = 0
+        winner_modifier = 0
     
         if random.random() < 0.5:
             winner = r.challenger
-            winner_attack_bonus = 10
+            winner_modifier += 10
         
             loser = r.target
         else:
             winner = r.target
             loser = r.challenger
+        
+        # Modify winner points if style penalty
+        if winner.culture and r.challenger==winner and winner.culture==r.challenge_move.culture:
+            winner_modifier -= 10
             
+        # TODO implement log
         # print 'winner', winner, winner.rating
         # print 'loser', loser, loser.rating
-        
-        # print 'bonus', winner_attack_bonus
     
         difference = abs(winner.rating - loser.rating)
     
@@ -233,7 +235,7 @@ def challenge_resolve(request):
             winner.rating += difference + 10
             loser.rating -= difference - 10
         
-        winner.rating = winner.rating + winner_attack_bonus + winner_style_penalty
+        winner.rating = winner.rating + winner_modifier
         
         r.save()
         
@@ -253,7 +255,7 @@ def challenge_resolve(request):
         }
         
         # One to the winner
-        send_mail('Je hebt gewonnen van %s!' % winner.user.username, '''Hoi %s,
+        send_mail('Je hebt gewonnen van %s!' % loser.user.username, '''Hoi %s,
 je hebt het duel met %s gewonnen!
 
 Ga naar http://playpilots.nl/c/%d/ om de uitslag te zien!
@@ -263,7 +265,7 @@ Groeten,
 je vriendelijke piloten''' % (winner.user.username, loser.user.username, r.id), 'alper@whatsthehubbub.nl', [winner.user.email])
 
         # One to the l0ser
-        send_mail('Loser! Je hebt verloren van %s!' % loser.user.username, '''Hoi %s,
+        send_mail('Loser! Je hebt verloren van %s!' % winner.user.username, '''Hoi %s,
 je hebt het duel met %s verloren!
 
 Ga naar: http://playpilots.nl/c/%d/ om de uitslag te zien.
