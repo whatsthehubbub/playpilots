@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 
 
 class Maker(models.Model):
@@ -93,6 +93,17 @@ class Game(models.Model):
         
     def get_absolute_url(self):
         return '/maker/%s' % self.slug
+
+
+
+# Creates player instances
+def user_post_save_callback(sender, instance, created, **kwargs):
+    if created:
+        try:
+            Player.objects.get(user=instance)
+        except Player.DoesNotExist:
+            Player.objects.create(user=instance)
+post_save.connect(user_post_save_callback, sender=User)
 
 
 class Player(models.Model):

@@ -37,6 +37,13 @@ def player_detail(request, id):
     
     # TODO if player does not exist create (here or on registration)
     
+    try:
+        player = Player.objects.get(id=id)
+    except Player.DoesNotExist:
+        pass
+    
+    
+    
     return render_to_response('metagame/player_detail.html', {
         'player': player
     }, context_instance=RequestContext(request))
@@ -170,7 +177,7 @@ Hou de status van het duel en de eventuele uitkomst bij op de volgende pagina: h
 
 Groeten,
 
-je vriendelijke piloten''' % (challenger.user.username, target.user.username, round.id), 'alper@whatsthehubbub.nl', [target.user.email])
+je vriendelijke piloten''' % (challenger.user.username, target.user.username, round.id), 'alper@whatsthehubbub.nl', [challenger.user.email])
         
         return HttpResponseRedirect('/players/%s/' % request.user.username)
     else:
