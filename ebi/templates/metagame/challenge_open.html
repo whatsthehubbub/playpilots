@@ -52,7 +52,7 @@
                 $.post('/challenge/resolve/', $('#resolve_form').serialize(), function(data) {
                     result = data;
                     
-                    setTimeout('showResult();', 2000);
+                    setTimeout('showResult();', 3000);
                     
                 }, 'json');
                 
@@ -102,7 +102,10 @@
         {% endifequal %}
     {% endifequal %}
     
-    <img src="{{ MEDIA_URL }}image/puppy_roll.gif" id="loader" style="display: none;">
+    <div id="loader">
+        Loading:
+        <img src="{{ MEDIA_URL }}image/puppy_roll.gif" style="display: none;">
+    </div>
     
     <p id="result"></p>
     
