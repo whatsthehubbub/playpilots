@@ -123,12 +123,16 @@
             
             border-bottom: none;
             
-            height: 50px;
+            height: 80px;
             padding: 5px;
             
             /* TODO guessed these colors and sizes */
             background-color: #d9d9d9;
             margin-top: 10px;
+        }
+        
+        #footergraphic IMG {
+            vertical-align: top;
         }
         
         #footercolofon {
@@ -234,7 +238,7 @@
 {% endblock %}
     
 <div id="footergraphic" class="mainblock">
-    footer graphic, PLAY! project, Utrecht
+    A Play project <img src="{{ MEDIA_URL }}image/footer_play.png"> Commissioned by <img src="{{ MEDIA_URL }}image/footer_utrecht.png"> and <img src="{{ MEDIA_URL }}image/footer_provincie.png"> Made by <img src="{{ MEDIA_URL }}image/footer_hubbub.png">
 </div>
     
 <div id="footercolofon" class="mainblock">
