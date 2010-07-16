@@ -83,7 +83,7 @@
                 <td class="name"><a href="/players/{{ player.id }}/">{{ player.user.username }}</a></td>
                 <td class="rating">{{ player.rating }}</td>
                 <td class="culture">{{ player.culture }}</td>
-                <td class="attack">POW</td>
+                <td class="attack"><a href="/challenge/?target={{ player.id }}">POW</a></td>
             </tr>
         {% endfor %}
     </table>

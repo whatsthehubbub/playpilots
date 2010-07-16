@@ -16,10 +16,10 @@ def base(request):
         blogentry = feed_first_entry('http://ebi.posterous.com/rss.xml')
         cache.set('blogentry', blogentry, CACHE_DURATION)
 
-    users = User.objects.all()
+    recent_users = User.objects.all().order_by('-last_login')
 
     return {
         'SITE_DOMAIN': 'http://' + site.domain,
         'blogentry': blogentry,
-        'users': users
+        'users': recent_users[:3]
     }

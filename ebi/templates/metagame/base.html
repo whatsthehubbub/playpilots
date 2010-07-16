@@ -216,7 +216,7 @@
 
         <ol>
             {% for user in users %}
-                <li style="float: left; width: 150px;"><a href="/players/{{ user.id }}/"><img src="https://asset1.37img.com/missing/avatar.png?r=3"> {{ user.first_name }} heeft zich aangemeld</a></li>
+                <li style="float: left; width: 150px;"><a href="/players/{{ user.get_profile.id }}/"><img src="https://asset1.37img.com/missing/avatar.png?r=3"> {{ user.username }} heeft zich aangemeld</a></li>
             {% endfor %}
         </ol>
     </div>
