@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 
 from django import forms
 
-from ebi.metagame.models import Maker, Festival, Game, Player, Culture, Move, Round
+from ebi.metagame.models import Maker, Festival, Game, Player, Culture, Move, Round, SpecificWinPhrase
 
 import datetime, random, math, json
 
@@ -144,11 +144,13 @@ def challenge(request):
         
         challenger = request.user.get_profile()
         
-        challenger.rating += 10
-        challenger.save()
-        
         culture_id = request.POST.get('culture', None)
         culture = Culture.objects.get(id=culture_id)
+        
+        # TODO change this to be your top culture of your last ten attacks
+        challenger.culture = culture
+        challenger.rating += 10
+        challenger.save()
         
         move_id = request.POST.get('move', None)
         move = Move.objects.get(id=move_id)
@@ -252,8 +254,25 @@ def challenge_resolve(request):
             'loser': {
                 'username': loser.user.username,
                 'rating': loser.rating
-            }
+            },
         }
+        
+        # TODO template this text based on a to be agreed upon variable
+        winphrase = ''
+        
+        try:
+            swp = SpecificWinPhrase.objects.get(winner=r.challenge_move.culture, loser=r.response_move.culture)
+            
+            winphrase = swp.winphrase
+        except SpecificWinPhrase.DoesNotExist:
+            if winner == r.challenger:
+                winculture = r.challenge_move.culture
+            else:
+                winculture = r.response_move.culture
+            winphrase = winculture.win_phrase
+            
+        if winphrase:
+            result['winphrase'] = winphrase
         
         # One to the winner
         send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.user.username, 
