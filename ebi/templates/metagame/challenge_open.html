@@ -36,7 +36,13 @@
                 $.post('/challenge/resolve/', $('#resolve_form').serialize(), function(data) {
                     var result = data;
                     
-                    $('#result').html('Het resultaat is: <br>winnaar: ' +  result['winner']['username'] + ' nieuwe rating: ' + result['winner']['rating'] + '<br>loser: ' + result['loser']['username'] + ' nieuwe rating: ' + result['loser']['rating']);
+                    var winText = 'Je hebt verloren!';
+                    
+                    if (result['winner']['username'] == '{{ user.username }}') {
+                        winText = 'Je hebt gewonnen!'
+                    }
+                    
+                    $('#result').html('<h1>' + winText + '</h1>Het resultaat is: <br>winnaar: ' +  result['winner']['username'] + ' nieuwe rating: ' + result['winner']['rating'] + '<br>loser: ' + result['loser']['username'] + ' nieuwe rating: ' + result['loser']['rating']);
                     $('#result').slideDown();
                     
                 }, 'json');
