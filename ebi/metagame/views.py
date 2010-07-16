@@ -152,7 +152,25 @@ def challenge(request):
         round = Round(challenger=challenger, challenge_move=move, challenge_message=message, target=target)
         round.save()
         
-        # TODO Send out message about challenge
+        # One to the target
+        send_mail('Je bent uitgedaagd door %s!' % challenger.user.username, '''Hoi %s,
+je bent uitgedaagd door %s tot een duel!
+
+Ga naar http://playpilots.nl/c/%d/ om de uitdaging aan te gaan!
+
+Groeten,
+
+je vriendelijke piloten''' % (target.user.username, challenger.user.username, round.id), 'alper@whatsthehubbub.nl', [target.user.email])
+        
+        # One to the challenger
+        send_mail('Je hebt %s uitgedaagd!' % target.user.username, '''Hoi %s,
+je hebt net %s uitgedaagd tot een duel!
+
+Hou de status van het duel en de eventuele uitkomst bij op de volgende pagina: http://playpilots.nl/c/%d/
+
+Groeten,
+
+je vriendelijke piloten''' % (challenger.user.username, target.user.username, round.id), 'alper@whatsthehubbub.nl', [target.user.email])
         
         return HttpResponseRedirect('/players/%s/' % request.user.username)
     else:
@@ -212,6 +230,8 @@ def challenge_resolve(request):
             winner.rating = winner.rating + winner_attack_bonus + winner_style_penalty
             
             r.save()
+            
+            # Also save winner and loser in the round objcet? TODO
             winner.save()
             loser.save()
         
@@ -225,6 +245,26 @@ def challenge_resolve(request):
                     'rating': loser.rating
                 }
             }
+            
+            # One to the winner
+            send_mail('Je hebt gewonnen van %s!' % winner.user.username, '''Hoi %s,
+je hebt het duel met %s gewonnen!
+
+Ga naar http://playpilots.nl/c/%d/ om de uitslag te zien!
+
+Groeten,
+
+je vriendelijke piloten''' % (winner.user.username, loser.user.username, round.id), 'alper@whatsthehubbub.nl', [target.user.email])
+
+            # One to the l0ser
+            send_mail('Loser! Je hebt verloren van %s!' % loser.user.username, '''Hoi %s,
+je hebt het duel met %s verloren!
+
+Ga naar: http://playpilots.nl/c/%d/ om de uitslag te zien.
+
+Groeten,
+
+je vriendelijke piloten''' % (loser.user.username, winner.user.username, round.id), 'alper@whatsthehubbub.nl', [target.user.email])
         
             return HttpResponse(json.dumps(result), mimetype="text/json")
         except:
