@@ -142,7 +142,7 @@ class Move(models.Model):
     updated = models.DateTimeField(auto_now=True)
     
     def __unicode__(self):
-        return '%s: %s' % (self.culture.name, self.name)
+        return self.name
     
     
 class SpecificWinPhrase(models.Model):

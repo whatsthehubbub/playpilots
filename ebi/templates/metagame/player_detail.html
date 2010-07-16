@@ -27,7 +27,9 @@
     <h4>Naar</h4>
     
     {% for round in player.challenged_round.all %}
-        <a href="/players/{{ round.target.id }}/">{{ round.target }}</a> met {{ round.challenge_move }} (<a href="/challenge/{{ round.id }}/">bekijk</a>)<br>
+        <a href="/players/{{ round.target.id }}/">{{ round.target }}</a> met {{ round.challenge_move }}
+        (<a href="/challenge/{{ round.id }}/">bekijk</a>)
+        <br>
     {% endfor %}
     
     <h4>Van</h4>

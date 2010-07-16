@@ -31,6 +31,18 @@
             $('#culture').change(function() {
                 fillMoves();
             });
+            
+            $('#resolve_form').submit(function() {
+                $.post('/challenge/resolve/', $('#resolve_form').serialize(), function(data) {
+                    var result = data;
+                    
+                    $('#result').html('Het resultaat is: <br>winnaar: ' +  result['winner']['username'] + ' nieuwe rating: ' + result['winner']['rating'] + '<br>loser: ' + result['loser']['username'] + ' nieuwe rating: ' + result['loser']['rating']);
+                    $('#result').slideDown();
+                    
+                }, 'json');
+                
+                return false;
+            });
         });
     </script>
     
@@ -53,7 +65,7 @@
     
     {% ifequal user.username round.target.user.username %}
         
-        <form method="POST" action="/challenge/resolve/">
+        <form method="POST" action="/challenge/resolve/" name="resolve_form" id="resolve_form">
         <input type="hidden" name="round_id" value="{{ round.id }}">
         
         <p>Kies je cultuur om de uitdaging te beantwoorden: <select id="culture" name="culture">
@@ -74,6 +86,8 @@
             << nog geen actie >><br>
         {% endifequal %}
     {% endifequal %}
+    
+    <p id="result"></p>
     
     {% if not user.is_authenticated %}
         <p>Ben jij: <a href="/players/{{ round.target.id }}/">{{ round.target }}</a>, <a href="/login/">log dan in</a> om deze uitdaging aan te gaan.</p>

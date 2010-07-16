@@ -23,12 +23,12 @@ admin.site.register(Player, PlayerAdmin)
 
 
 class CultureAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'win_phrase')
 admin.site.register(Culture, CultureAdmin)
 
 
 class MoveAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('culture', 'name')
 admin.site.register(Move, MoveAdmin)
 
 
@@ -38,5 +38,5 @@ admin.site.register(SpecificWinPhrase, SpecificWinPhraseAdmin)
 
 
 class RoundAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('created', 'open', 'challenger', 'challenge_move', 'target', 'responded', 'response_move')
 admin.site.register(Round, RoundAdmin)

@@ -226,7 +226,7 @@ def challenge_resolve(request):
                 }
             }
         
-            return HttpResponse(json.dumps(result), mimetype="text/plain")
+            return HttpResponse(json.dumps(result), mimetype="text/json")
         except:
             pass # TODO log
 
