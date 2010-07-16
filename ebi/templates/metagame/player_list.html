@@ -62,7 +62,7 @@
 {% block content %}
 
     <ul id="culturelist">
-        <li style="text-transform: uppercase;">Overall Ranking</li>
+        <li style="text-transform: uppercase; background-color: #333; color: white;">Overall Ranking</li>
         {% for culture in cultures %}
             <li>{{ culture.name }}</li>
         {% endfor %}
@@ -87,6 +87,4 @@
             </tr>
         {% endfor %}
     </table>
-    
-    <p>Load more</p>
 {% endblock %}
