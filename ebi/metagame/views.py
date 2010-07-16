@@ -156,28 +156,25 @@ def challenge(request):
         target = Player.objects.get(id=target_id)
         
         # Create Round object
-        round = Round(challenger=challenger, challenge_move=move, challenge_message=message, target=target)
-        round.save()
+        r = Round(challenger=challenger, challenge_move=move, challenge_message=message, target=target)
+        r.save()
         
         # One to the target
-        send_mail('Je bent uitgedaagd door %s!' % challenger.user.username, '''Hoi %s,
-je bent uitgedaagd door %s tot een duel!
+        send_mail('[Play pilots] Uitgedaagd door %s!' % challenger.user.username,
+            '''Hoi %(target)s,
 
-Ga naar http://playpilots.nl/c/%d/ om de uitdaging aan te gaan!
+Je bent uitgedaagd voor een duel door %(challenger)s.
 
-Groeten,
+Ga naar %(url)s om te duelleren!
 
-je vriendelijke piloten''' % (target.user.username, challenger.user.username, round.id), 'Your Captain Speaking <captain@playpilots.nl>', [target.user.email])
+Namens PLAY Pilots,
+
+Uw gezagvoerder''' % {'target': target.user.username, 
+                            'challenger': challenger.user.username, 
+                            'url': 'http://playpilots.nl/c/%d/' % r.id}, 
+            'Your Captain Speaking <captain@playpilots.nl>', 
+            [target.user.email])
         
-        # One to the challenger
-        send_mail('Je hebt %s uitgedaagd!' % target.user.username, '''Hoi %s,
-je hebt net %s uitgedaagd tot een duel!
-
-Hou de status van het duel en de eventuele uitkomst bij op de volgende pagina: http://playpilots.nl/c/%d/
-
-Groeten,
-
-je vriendelijke piloten''' % (challenger.user.username, target.user.username, round.id), 'Your Captain Speaking <captain@playpilots.nl>', [challenger.user.email])
         
         return HttpResponseRedirect('/players/%s/' % request.user.username)
     else:
@@ -227,6 +224,7 @@ def challenge_resolve(request):
         # print 'loser', loser, loser.rating
     
         difference = abs(winner.rating - loser.rating)
+        difference_mod = round(math.log(difference) * 5)
     
         if winner.rating > loser.rating:
             winner.rating += 10
@@ -255,24 +253,40 @@ def challenge_resolve(request):
         }
         
         # One to the winner
-        send_mail('Je hebt gewonnen van %s!' % loser.user.username, '''Hoi %s,
-je hebt het duel met %s gewonnen!
+        send_mail('WINNAAR! Je hebt gewonnen van %s!' % loser.user.username, 
+            '''Hoi %(winner)s,
 
-Ga naar http://playpilots.nl/c/%d/ om de uitslag te zien!
+Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
 
-Groeten,
+Ga naar %(url)s om de uitkomst te zien!
 
-je vriendelijke piloten''' % (winner.user.username, loser.user.username, r.id), 'Your Captain Speaking <captain@playpilots.nl>', [winner.user.email])
+Namens PLAY Pilots,
+
+Uw gezagvoerder''' % {
+            'winner': winner.user.username,
+            'loser': loser.user.username,
+            'url': 'http://playpilots.nl/c/%d/' % r.id 
+        }, 
+            'Your Captain Speaking <captain@playpilots.nl>', 
+            [winner.user.email])
 
         # One to the l0ser
-        send_mail('Loser! Je hebt verloren van %s!' % winner.user.username, '''Hoi %s,
-je hebt het duel met %s verloren!
+        send_mail('Loser! Je hebt verloren van %s!' % winner.user.username,
+            '''Hoi %(loser)s,
 
-Ga naar: http://playpilots.nl/c/%d/ om de uitslag te zien.
+Helaas! Je hebt het duel met %(winner)s verloren.
 
-Groeten,
+Ga naar %(url)s om de uitkomst te zien!
 
-je vriendelijke piloten''' % (loser.user.username, winner.user.username, r.id), 'Your Captain Speaking <captain@playpilots.nl>', [loser.user.email])
+Namens PLAY Pilots,
+
+Uw gezagvoerder''' % {
+                'loser': loser.user.username,
+                'winner': winner.user.username,
+                'url': 'http://playpilots.nl/c/%d/' % r.id
+            }, 
+            'Your Captain Speaking <captain@playpilots.nl>', 
+            [loser.user.email])
     
         return HttpResponse(json.dumps(result), mimetype="text/json")
 
