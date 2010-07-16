@@ -28,7 +28,8 @@
     
     {% for round in player.challenged_round.all %}
         <a href="/players/{{ round.target.id }}/">{{ round.target }}</a> met {{ round.challenge_move }}
-        (<a href="/challenge/{{ round.id }}/">bekijk</a>)
+        (<a href="/challenge/{{ round.id }}/">bekijk</a>)<br>
+        <b>Boodschap:</b> {{ round.challenge_message }}
         <br>
     {% endfor %}
     
@@ -36,6 +37,8 @@
     
     {% for round in player.targeted_round.all %}
         door <a href="/players/{{ round.challenger.id }}/">{{ round.challenger }}</a> met {{ round.challenge_move.name }} {% if round.open %}(<a href="/c/{{ round.id }}">beantwoord</a>){% endif %} <br>
+        <b>Boodschap:</b> {{ round.challenge_message }}
+        <br>
     {% endfor %}
     
 {% endblock %}
