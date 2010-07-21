@@ -4,6 +4,12 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save
 
 
+class Photo(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    
+    photo = models.ImageField(upload_to='game_photos', blank=True)
+    
+
 class Maker(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -16,14 +22,14 @@ class Maker(models.Model):
     link = models.URLField(verify_exists=False, blank=True)
     updatesFeed = models.URLField(verify_exists=False, blank=True)
     
-    photo = models.ImageField(upload_to='maker_photos', blank=True)
+    photos = models.ManyToManyField(Photo, blank=True)
     logo = models.ImageField(upload_to='maker_logos', blank=True)
     
     def __unicode__(self):
         return self.name
         
     def get_absolute_url(self):
-        return '/maker/%s' % self.slug
+        return '/makers/%s' % self.slug
         
     def first_game(self):
         if self.games.all():
@@ -47,7 +53,7 @@ class Festival(models.Model):
     end = models.DateTimeField(blank=True, null=True)
 
     # Probably want to attach more than one photo ? TODO
-    photo = models.ImageField(upload_to='festival_photos', blank=True)
+    photos = models.ManyToManyField(Photo, blank=True)
     logo = models.ImageField(upload_to='festival_logos', blank=True)
     
     location = models.CharField(max_length=255, help_text="A geo-codable address")
@@ -56,7 +62,7 @@ class Festival(models.Model):
         return self.name
         
     def get_absolute_url(self):
-        return '/maker/%s' % self.slug
+        return '/festivals/%s' % self.slug
         
     def first_game(self):
         if self.games.all():
@@ -77,26 +83,24 @@ class Game(models.Model):
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
     
-    # Probably want to attach more than one photo ? TODO
-    photo = models.ImageField(upload_to='game_photos', blank=True)
+    photos = models.ManyToManyField(Photo, blank=True)
     logo = models.ImageField(upload_to='game_logos', blank=True)
     
     maker = models.ForeignKey('Maker', related_name='games', blank=True, null=True)
 
     festival = models.ForeignKey('Festival', related_name='games', blank=True, null=True)
     
-    players = models.ManyToManyField('Player', related_name='games_played', blank=True)
-    interested = models.ManyToManyField('Player', related_name='games_interested', blank=True)
+    interested = models.ManyToManyField('Player', blank=True)
 
     def __unicode__(self):
         return self.name
         
     def get_absolute_url(self):
-        return '/maker/%s' % self.slug
+        return '/games/%s' % self.slug
 
 
 
-# Creates player instances
+# Creates player instances whenever you create a user
 def user_post_save_callback(sender, instance, created, **kwargs):
     if created:
         try:
@@ -117,7 +121,9 @@ class Player(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     
     rating = models.IntegerField(blank=True, null=True, default=100)
-    culture = models.ForeignKey('Culture', null=True, blank=True)
+    # culture = models.ForeignKey('Culture', null=True, blank=True)
+    
+    # game_set.all()
     
     def __unicode__(self):
         return self.user.username
@@ -128,6 +134,7 @@ class Player(models.Model):
         
 # GAME BASED MODELS
 
+'''
 class Culture(models.Model):
     name = models.CharField(max_length=255, blank=True)
     
@@ -191,3 +198,5 @@ class Round(models.Model):
     
     def __unicode__(self):
         return '%s with %s' % (self.challenger.user.username, self.challenge_move.name)
+        
+'''

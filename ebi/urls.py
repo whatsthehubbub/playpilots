@@ -15,10 +15,12 @@ urlpatterns = patterns('',
 urlpatterns += patterns('ebi.metagame.views',
     (r'^$', 'index'),
 	
+	(r'^users/(?P<username>\S+?)/$', 'user_detail'),
 	(r'^players/$', 'player_list'),
 	(r'^players/(?P<id>\d+)/$', 'player_detail'),
 	(r'^players/(?P<username>\S+?)/$', 'user_detail'),
 	
+	(r'^games/(?P<slug>\S+?)/interested/$', 'game_interest'),
 	(r'^games/(?P<slug>\S+?)/$', 'game_detail'),
 	(r'^games/$', 'game_list'),
 	

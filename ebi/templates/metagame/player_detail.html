@@ -22,6 +22,14 @@
         </form>
     {% endifnotequal %}
     
+    <h3>Actions</h3>
+        
+    <ul>
+    {% for action in actions %}
+        <li>{{ action.actor }} {{ action.verb }} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></li>
+    {% endfor %}
+    </ul>
+    
     <h3>Lopende uitdagingen</h3>
     
     <h4>Naar</h4>

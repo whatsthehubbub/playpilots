@@ -8,8 +8,14 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
 from django import forms
+from django.core.signals import request_finished
 
-from ebi.metagame.models import Maker, Festival, Game, Player, Culture, Move, Round, SpecificWinPhrase
+from ebi.metagame.models import Maker, Festival, Game, Player
+
+import actstream
+from actstream.models import Action, actor_stream
+
+# from ebi.metagame.models import Culture, Move, Round, SpecificWinPhrase
 
 import datetime, random, math, json
 
@@ -34,7 +40,7 @@ def player_list(request):
 
 def player_detail(request, id):
     player = get_object_or_404(Player, id=id)
-    
+
     # TODO if player does not exist create (here or on registration)
     
     try:
@@ -42,10 +48,12 @@ def player_detail(request, id):
     except Player.DoesNotExist:
         pass
     
+    actions = actor_stream(player.user)
     
     
     return render_to_response('metagame/player_detail.html', {
-        'player': player
+        'player': player,
+        'actions': actions
     }, context_instance=RequestContext(request))
     
 def user_detail(request, username):
@@ -78,6 +86,8 @@ def register(request):
         
         login(request, user)
         
+        actstream.action.send(user, verb='heeft net ingecheckt voor PLAY!')
+        
         send_mail('Account voor Play Pilots aangemaakt!', 'Bericht', 'alper@whatsthehubbub.nl', form.cleaned_data['email'])
         
         if form.is_valid():
@@ -88,9 +98,20 @@ def register(request):
     return render_to_response('registration/register.html', {
         'form': form
     }, context_instance=RequestContext(request))
-    
-    
+
+
+''' TODO catch the login view and do an action.send()
+def user_logged_in(sender, **kwargs):
+    # print sender
+    # print 'test request finished'
+    print sender.request_class.get_full_path(sender.request_class)
+    #print sender.request_class
+request_finished.connect(user_logged_in)
+'''
+
 def logout_view(request):
+    actstream.action.send(request.user, verb='is uitgelogd. Spater ouwe!')
+    
     logout(request)
     
     return HttpResponseRedirect('/')
@@ -105,10 +126,34 @@ def game_list(request):
 def game_detail(request, slug):
     game = get_object_or_404(Game, slug=slug)
     
+    interest = False
+    if request.user.get_profile() in game.interested.all():
+        interest = True
+    
     return render_to_response('metagame/game_detail.html', {
         'game': game,
-        'current': 'games'
+        'current': 'games',
+        'interest': interest
     }, context_instance=RequestContext(request))
+
+def game_interest(request, slug):
+    action = request.POST.get('action', 'add')
+    game = get_object_or_404(Game, slug=slug)
+    
+    if request.user.is_authenticated():
+        try:
+            player = request.user.get_profile()
+        except django.contrib.auth.models.SiteProfileNotAvailable:
+            pass
+            
+        game.interested.add(player)
+        
+        actstream.action.send(request.user, verb="doet mee met", target=game)
+        
+        return HttpResponse('1')
+        
+    return HttpResponse('0')
+    
             
 def challenge(request):
     if request.method == 'POST':

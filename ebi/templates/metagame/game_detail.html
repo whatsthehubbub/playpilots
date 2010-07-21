@@ -4,6 +4,23 @@
     <link rel="stylesheet" href="/static/css/game.css" type="text/css" media="screen" charset="utf-8">
     
     <title>Game {{ game.name }}</title>
+    
+    
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            
+            /*
+            $('#interest_form').ajaxForm({
+                dataType: 'json',
+                success: function(data) {
+                    
+                }
+            });
+            */
+            
+        });
+    </script>
+    
 {% endblock %}
 
 {% block intro %}{% endblock %}
@@ -17,8 +34,16 @@
         
         <p><a href="/makers/bla/">{{ game.maker.logo }} maker logo </a></p>
         <p><a href="/festivals/bla/">{{ game.festival.logo }} festival logo</a></p>
-
-        <button onclick="alert('doe nou niet!');">KNOP OM OP TE KLIKKEN</button>
+        
+        {% if interest %}
+            Je gaat naar het festival!
+        {% else %}
+            <form method="POST" action="/games/{{ game.slug }}/interested/" id="interest_form">
+                <button type="submit">KNOP OM OP TE KLIKKEN</button>
+            </form>
+        {% endif %}
+        
+        
     </div>
 
     <p>{{ game.start }} - {{ game.end }}</p>

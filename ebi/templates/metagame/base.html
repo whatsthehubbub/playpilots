@@ -6,6 +6,7 @@
 	<meta charset="utf-8">
 	
 	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js" charset="utf-8"></script>
 	
 	<script type="text/javascript" src="http://use.typekit.com/usl0osf.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
@@ -71,6 +72,8 @@
         
         #menu LI {
             float: left;
+            
+            text-transform: uppercase;
         }
         
         #menu LI A {
@@ -217,8 +220,8 @@
         <h3>Recente activiteit</h3>
 
         <ol>
-            {% for user in users %}
-                <li style="float: left; width: 150px;"><a href="/players/{{ user.get_profile.id }}/"><img src="https://asset1.37img.com/missing/avatar.png?r=3"> {{ user.username }} heeft zich aangemeld</a></li>
+            {% for action in actions %}
+                <li style="float: left; width: 150px;"><a href="{{ action.target.get_absolute_url }}"><img src="https://asset1.37img.com/missing/avatar.png?r=3">{{ action.actor }} {{ action.verb }} {% if action.target %}{{ action.target }}{% endif %}</a></li>
             {% endfor %}
         </ol>
         
