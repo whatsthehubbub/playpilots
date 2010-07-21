@@ -56,7 +56,7 @@ class Festival(models.Model):
     photos = models.ManyToManyField(Photo, blank=True)
     logo = models.ImageField(upload_to='festival_logos', blank=True)
     
-    location = models.CharField(max_length=255, help_text="A geo-codable address")
+    location = models.CharField(max_length=255, help_text="A geo-codable address", blank=True)
 
     def __unicode__(self):
         return self.name
@@ -97,6 +97,12 @@ class Game(models.Model):
         
     def get_absolute_url(self):
         return '/games/%s' % self.slug
+        
+    def get_first_photo(self):
+        if self.photos.all():
+            return self.photos.all()[0].photo.url
+        else:
+            return ''
 
 
 

@@ -20,6 +20,9 @@
             width: 1020px;
         }
         
+        #headerwrapper {
+        }
+        
         #header {
             overflow: hidden;
         }
@@ -99,6 +102,10 @@
             background-color: #262A33;
             
             color: #f6e9d7;
+        }
+        
+        #contentwrapper {
+            
         }
         
         #activity {
@@ -194,26 +201,28 @@
 
 <body>
 
-<div id="header" class="mainblock">
-    <div id="checkin">
-        {% if not user.is_authenticated %}
-            <a href="/login/">Check in</a> or <a href="/register/">Register</a>
-        {% else %}
-            <a href="/players/{{ user.username }}/">{{ user.username }}</a> (<a href="/logout/">log uit</a>)
-        {% endif %}
-    </div>
+<div id="headerwrapper">
+    <div id="header" class="mainblock">
+        <div id="checkin">
+            {% if not user.is_authenticated %}
+                <a href="/login/">Check in</a> or <a href="/register/">Register</a>
+            {% else %}
+                <a href="/players/{{ user.username }}/">{{ user.username }}</a> (<a href="/logout/">log uit</a>)
+            {% endif %}
+        </div>
 
-    <div id="logo">
-        <p><a href="/"><img src="{{ MEDIA_URL }}image/logo.png"></a></p>
-    </div>
+        <div id="logo">
+            <p><a href="/"><img src="{{ MEDIA_URL }}image/logo.png"></a></p>
+        </div>
 
-    <div id="menu">
-        <ol>
-            <li><a href="/" class="{% ifequal current "home" %}current{% endifequal %}">Home</a></li>
-            <li><a href="/games/" class="{% ifequal current "games" %}current{% endifequal %}">Games</a></li>
-            <li><a href="/about/" class="{{ current|default:"current" }}">About</a></li>
-            <li><a href="http://ebi.posterous.com/">Blog</a></li>
-        </ol>
+        <div id="menu">
+            <ol>
+                <li><a href="/" class="{% ifequal current "home" %}current{% endifequal %}">Home</a></li>
+                <li><a href="/games/" class="{% ifequal current "games" %}current{% endifequal %}">Games</a></li>
+                <li><a href="/about/" class="{{ current|default:"current" }}">About</a></li>
+                <li><a href="http://ebi.posterous.com/">Blog</a></li>
+            </ol>
+        </div>
     </div>
 </div>
 
@@ -226,9 +235,11 @@
 <div id="temptagline" class="mainblock" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
 {% endblock %}
 
-<div id="content" class="mainblock">
+<div id="contentwrapper">
     {% block content %}
+    <div id="content" class="mainblock">
         EVENTS: A next level play experience! About &rdquo;
+    </div>
     {% endblock %}
 </div>
 

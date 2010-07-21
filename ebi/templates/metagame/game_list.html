@@ -5,8 +5,14 @@
     
     <style type="text/css" media="screen">
         
-        #content {
-            background-color: #f5f5f5;
+        #games_wrapper {
+            border-top: 5px solid #bbb;
+            
+            border-bottom: 5px solid #ddd;
+            
+            background-color: #b7d1d0;
+            background-repeat: repeat-both;
+            background-image: url(/static/image/grain_overlay.png);
         }
         
         #game_list {
@@ -15,29 +21,72 @@
             overflow: auto;
         }
         
+        #game_intro {
+            margin-left: 20px;
+            color: white;
+            margin-bottom: 20px;
+            
+            width: 580px;
+        }
+        
+        #game_intro H2 {
+            display: inline;
+            color: white;
+        }
+        
         .game {
             float: left;
             width: 300px;
-            height: 200px;
+            height: 190px;
             
             margin-left: 20px;
             
-            background-color: white;
+            background-color: #262a33;
             
-            border-top: 4px solid #ddd;
+            color: white;
+        }
+        
+        .game A {
+            color: white;
         }
         
         .game .mainimage {
             float: left;
             
             width: 140px;
-            height: 200px;
+            height: 190px;
             
             background-position: center center;
         }
         
+        .gamecontent {
+            float: left;
+            padding: 10px;
+        }
+        
+        .game H3 {
+            color: white;
+        }
+        
         .game .date {
             font-weight: bold;
+        }
+        
+        .soon {
+            background-color: transparent;
+            background-image: url(/static/image/bg_soon.png);
+            background-repeat: repeat-both;
+        }
+        
+        .soon H3 {
+            color: black;
+        }
+        
+        #agenda_wrapper {
+            
+        }
+        
+        #agenda {
         }
         
     </style>
@@ -48,18 +97,33 @@
 {% block tagline %}{% endblock %}
 
 {% block content %}
-<div id="game_list">
-    {% for game in games %}
-        <div id="game_{{ game.id }}" class="game">
-            <div class="mainimage" style="{% if game.photo %}background-image: url({{ festival.photo.url }});{% endif %}"></div>
+<div id="games_wrapper">
+    <div id="game_list" class="mainblock">
+        
+        <div id="game_intro"><h2>Games</h2> lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem</div>
+        
+        {% for game in games %}
+            <div id="game_{{ game.id }}" class="game {% if not forloop.first %}soon{% endif %}">
+                <div class="mainimage" style="{% if game.get_first_photo %}background-image: url({{ game.get_first_photo }});{% endif %}"></div>
             
-            <h5>{{ game.name }}</h5>
+                <div class="gamecontent">
+                    <h3>{{ game.name }}</h3>
+                    
+                    <p>{{ game.start|date:"j b Y" }}<br>
+                        door {{ game.maker }}<br>
+                        op {{ game.festival }}</p>
             
-            <p class="date">{{ game.start|date:"d M Y" }}</p>
-            
-            <p><a href="/games/{{ game.slug }}">{{ game.description|truncatewords:10}}</a></p>
-        </div>
-    {% endfor %}
+                    <p><a href="{{ game.get_absolute_url }}">{{ game.description|truncatewords:10}} &raquo;</a></p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="agenda_wrapper">
+    <div id="agenda" class="mainblock">
+        <h4 style="margin-left: 20px;">Festivals op welke</h4>
+    </div>
 </div>
 {% endblock %}
 
