@@ -1,22 +1,190 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <link rel="stylesheet" href="/static/css/game.css" type="text/css" media="screen" charset="utf-8">
-    
     <title>Game {{ game.name }}</title>
     
+    <style type="text/css" media="screen">
+        #title_wrapper {
+            background-color: #262a33;
+            background-repeat: repeat;
+            background-image: url(/static/image/grain_overlay.png);
+            
+        }
+        
+        #title {
+            color: #ddd;
+        }
+        
+        #image_reel {
+            /* float: right; */
+            position: absolute;
+            
+            right: 100px;
+            top: 80px;
+            
+            width: 304px;
+            height: 230px;
+            
+            padding: 8px;
+            
+            background-image: url(/static/image/festivalpic_frame.png);
+            background-repeat: no-repeat;
+            
+            /* TODO also include the firefox custom properties */
+            -webkit-transition: -webkit-transform 2s ease-in;
+        }
+        
+        #image_reel IMG {
+            max-height: 214px;
+            max-width: 288px;
+        }
+        
+        #title {
+            padding-bottom: 10px;
+        }
+        
+        #title H1, #title H3 {
+            color: white;
+        }
+        
+        #game_wrapper {
+            background-color: #b7d1d0;
+            background-repeat: repeat;
+            background-image: url(/static/image/grain_overlay.png);
+        }
+        
+        #game {
+            padding-top: 20px;
+            
+            overflow: auto;
+        }
+        
+        #description_background {
+            width: 640px; /* not completely clear how wide this should be */
+            
+            
+            background-color: white;
+            background-repeat: repeat;
+            background-image: url(/static/image/bg_airmail.png);
+            
+            padding: 10px;
+            
+            margin-right: 0;
+        }
+        
+        #description {
+            background-color: white;
+            padding: 10px;
+            
+            overflow: auto;
+        }
+        
+        #description .description {
+            
+        }
+        
+        #description .description:first-letter {
+            font-size: 40px;
+
+            display: inline-block;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            float: left;
+        }
+        
+        #blog_posts {
+            float: right;
+            
+            width: 240px;
+            
+            height: 200px;
+        }
+        
+        .subgame {
+            float: left;
+            
+            width: 460px;
+            
+            margin-top: 40px;
+            
+            margin-bottom: 40px;
+        }
+        
+        .subgame IMG {
+            float: left;
+            
+            width: 160px;
+            height: 100px;
+            
+            margin-bottom: 60px;
+        }
+        
+        .subgame H3 {
+            color: white;
+        }
+        
+        .subgame .link A {
+            color: #f30;
+            text-decoration: none;
+        }
+        
+        .subgame .link A:visited {
+            color: #f30;
+        }
+        
+        #interest_wrapper {
+            border-bottom: 5px solid #ddd;
+        }
+        
+        #interest {
+            padding: 10px;
+            width: 1000px;
+            
+            border-left: thin solid #ddd;
+            border-right: thin solid #ddd;
+        }
+        
+        #interest H2, #interest H3 {
+            color: black;
+            display: inline-block;
+        }
+        
+        #interest H3 {
+            margin-left: 20px;
+        }
+        
+        #interest A {
+            color: #f30;
+        }
+        
+        #participants {
+            overflow: auto;
+        }
+        
+        .participant {
+            width: 140px;
+            height: 100px;
+            
+            padding: 10px;
+            
+            float: left;
+            
+            border: thin solid #ddd;
+        }
+    </style>
     
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
             
-            /*
+            $('#image_reel').css('-webkit-transform', 'rotate(-5deg)');
+            
             $('#interest_form').ajaxForm({
                 dataType: 'json',
                 success: function(data) {
-                    
                 }
             });
-            */
+            
             
         });
     </script>
@@ -25,16 +193,109 @@
 
 {% block intro %}{% endblock %}
 
+{% block tagline %}{% endblock %}
+
+
 {% block content %}
-<div id="game_id" class="game">
-    <div id="side">
-        <img src="" style="width: 200px; height: 200px;">
+<div id="title_wrapper">
+    <div id="title" class="mainblock">
+        <div id="image_reel">
+            <img src="{{ game.get_first_photo }}">
+        </div>
         
-        <p>flickr machine tag</p>
+        <p>&laquo; terug naar Games</p>
         
-        <p><a href="/makers/bla/">{{ game.maker.logo }} maker logo </a></p>
-        <p><a href="/festivals/bla/">{{ game.festival.logo }} festival logo</a></p>
+        <h1>Game: {{ game.name }}</h1>
         
+        <h3>van {{ game.maker }} voor {{ game.festival }}</h3>
+    </div>
+</div>
+
+<div id="game_wrapper">
+    <div id="game" class="mainblock">
+        
+        <div id="description_background">
+            <div id="description">
+                <div id="blog_posts">
+                    <b>Blog posts</b>
+                    
+                    <ol>
+                        <li>Wee1</li>
+                    </ol>
+                </div>
+                
+                <p class="description">{{ game.description }}</p>
+            </div>
+        </div>
+        
+        <div id="festival" class="subgame">
+            <img src="">
+            
+            <h3>{{ game.festival.name }}</h3>
+            
+            <p>{{ game.start|date:"j b Y"}}, {{ game.festival.location }}</p>
+            <p>{{ game.festival.description }}</p>
+            
+            <p class="link"><a href="{{ game.festival.link }}">{{ game.festival.link|slice:"7:" }}</a></p>
+        </div>
+        
+        <div id="maker" class="subgame">
+            <img src="">
+            
+            <h3>test {{ game.maker.name }}</h3>
+            
+            <p>{{ game.maker.description }}</p>
+            
+            <p class="link"><a href="{{ game.maker.link }}">{{ game.maker.link|slice:"7:" }}</a></p>
+        </div>
+    </div>
+</div>
+
+<div id="interest_wrapper">
+    <div id="interest" class="mainblock">
+        <h2>Wie zijn erbij?</h2> <h3>Je komt!</h3> <span>[<a href="">toch niet?</a>]</span>
+    </div>
+</div>
+
+<div id="participants_wrapper">
+    <div id="participants" class="mainblock">
+        <div class="participant">
+            part
+        </div>
+        
+        <div class="participant">
+            part
+        </div>    <div class="participant">
+                part
+            </div>    <div class="participant">
+                    part
+                </div>    <div class="participant">
+                        part
+                    </div>    <div class="participant">
+                            part
+                        </div>    <div class="participant">
+                                part
+                            </div>    <div class="participant">
+                                    part
+                                </div>    <div class="participant">
+                                        part
+                                    </div>    <div class="participant">
+                                            part
+                                        </div>    <div class="participant">
+                                                part
+                                            </div>    <div class="participant">
+                                                    part
+                                                </div>    <div class="participant">
+                                                        part
+                                                    </div>    <div class="participant">
+                                                            part
+                                                        </div>    <div class="participant">
+                                                                part
+                                                            </div>
+    </div>
+</div>
+
+<div id="game_id" class="game">        
         {% if interest %}
             Je gaat naar het festival!
         {% else %}
@@ -42,34 +303,6 @@
                 <button type="submit">KNOP OM OP TE KLIKKEN</button>
             </form>
         {% endif %}
-        
-        
-    </div>
-
-    <p>{{ game.start }} - {{ game.end }}</p>
-
-    <h1>{{ game.name }}</h1>
-
-    <p>door <a href="/makers/{{ game.maker.slug }}/">{{ game.maker.name }}</a></p>
-
-    <p>voor <a href="/festivals/{{ game.festival.slug }}/">{{ game.festival.name }}</a></p>
-
-    <p>description: {{ game.description }}</p>
-
-    <p>spelers<br>
-    wie hebben dit gespeeld, lijst van <a href="/players/">spelers</a><br>
-    wie wil dit spelen, lijst van <a href="/players/">spelers</a></p>
-    
-    <p><a href="">making of</a></p>
-    
-    <div id="activity">
-        <h2>game activity</h2>
-        
-        <ol>
-            <li>Alper heeft net een powerup gehaald</li>
-            <li>Kars heeft zich net aangemeld</li>
-        </ol>
-    </div>
 </div>
 {% endblock %}
 

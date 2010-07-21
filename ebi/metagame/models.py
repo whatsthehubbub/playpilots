@@ -22,6 +22,7 @@ class Maker(models.Model):
     link = models.URLField(verify_exists=False, blank=True)
     updatesFeed = models.URLField(verify_exists=False, blank=True)
     
+    # TODO maybe turn this into a foreign key again
     photos = models.ManyToManyField(Photo, blank=True)
     logo = models.ImageField(upload_to='maker_logos', blank=True)
     
@@ -52,7 +53,7 @@ class Festival(models.Model):
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
 
-    # Probably want to attach more than one photo ? TODO
+    # maybe turn this into a foreign key again
     photos = models.ManyToManyField(Photo, blank=True)
     logo = models.ImageField(upload_to='festival_logos', blank=True)
     
