@@ -114,7 +114,19 @@
             width: 300px;
         }
         
-        #footergraphic {
+        #footerwrapper {
+            background-color: #ddd;
+            
+            border-top: 5px solid #bbb;
+            
+            background-image: url(/static/image/grain_overlay.png);
+            background-repeat: repeat-both;
+            
+            padding-bottom: 5em;
+        }
+        
+        
+        #footerexplanation {
             border: thin solid grey;
             
             -webkit-border-top-left-radius: 5px;
@@ -130,8 +142,14 @@
             padding: 5px;
             
             /* TODO guessed these colors and sizes */
-            background-color: #d9d9d9;
             margin-top: 10px;
+        }
+        
+        #footergraphic {
+            border: thin solid grey;
+            padding: 5px;
+            
+            border-bottom: none;
         }
         
         #footergraphic IMG {
@@ -237,17 +255,22 @@
     </div>
 </div>
 {% endblock %}
-    
-<div id="footergraphic" class="mainblock">
-    A Play project <img src="{{ MEDIA_URL }}image/footer_play.png"> Commissioned by <img src="{{ MEDIA_URL }}image/footer_utrecht.png"> and <img src="{{ MEDIA_URL }}image/footer_provincie.png"> Made by <img src="{{ MEDIA_URL }}image/footer_hubbub.png">
-</div>
-    
-<div id="footercolofon" class="mainblock">
-    <div style="float: right"><a href="/about/">About</a> | <a href="http://ebi.posterous.com/">Blog</a> | <a href="/contact/">Contact</a></div>
-            
-    <div>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</div>
-</div>
 
+<div id="footerwrapper">
+    <div id="footerexplanation" class="mainblock">
+        <h4>PLAY</h4>
+    </div>
+    
+    <div id="footergraphic" class="mainblock">
+        A Play project <img src="{{ MEDIA_URL }}image/footer_play.png"> Commissioned by <img src="{{ MEDIA_URL }}image/footer_utrecht.png"> and <img src="{{ MEDIA_URL }}image/footer_provincie.png"> Made by <img src="{{ MEDIA_URL }}image/footer_hubbub.png">
+    </div>
+    
+    <div id="footercolofon" class="mainblock">
+        <div style="float: right"><a href="/about/">About</a> | <a href="http://ebi.posterous.com/">Blog</a> | <a href="/contact/">Contact</a></div>
+            
+        <div>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</div>
+    </div>
+</div>
 
 </body>
 </html>
