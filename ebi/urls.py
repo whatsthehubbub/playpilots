@@ -22,12 +22,6 @@ urlpatterns += patterns('ebi.metagame.views',
 	(r'^games/(?P<slug>\S+?)/$', 'game_detail'),
 	(r'^games/$', 'game_list'),
 	
-	(r'^makers/(?P<slug>\S+?)/$', 'maker_detail'),
-	(r'^makers/$', 'maker_list'),
-	
-	(r'^festivals/(?P<slug>\S+?)/$', 'festival_detail'),
-	(r'^festivals/$', 'festival_list'),
-	
 	(r'^register/$', 'register'),
 	(r'^logout/$', 'logout_view'),
 	

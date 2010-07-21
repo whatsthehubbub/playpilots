@@ -2,22 +2,66 @@
 
 {% block extrahead %}
     <title>Games</title>
+    
+    <style type="text/css" media="screen">
+        
+        #content {
+            background-color: #f5f5f5;
+        }
+        
+        #game_list {
+            padding-top: 20px;
+            
+            overflow: auto;
+        }
+        
+        .game {
+            float: left;
+            width: 300px;
+            height: 200px;
+            
+            margin-left: 20px;
+            
+            background-color: white;
+            
+            border-top: 4px solid #ddd;
+        }
+        
+        .game .mainimage {
+            float: left;
+            
+            width: 140px;
+            height: 200px;
+            
+            background-position: center center;
+        }
+        
+        .game .date {
+            font-weight: bold;
+        }
+        
+    </style>
 {% endblock %}
 
 {% block intro %}{% endblock %}
+
+{% block tagline %}{% endblock %}
 
 {% block content %}
 <div id="game_list">
     {% for game in games %}
         <div id="game_{{ game.id }}" class="game">
-            <h1>{{ game.name }}</h1>
-            <p>door <a href="/makers/{{ game.maker.slug }}/">{{ game.maker.name }}</a></p>
-            <p>voor <a href="/festivals/{{ game.festival.slug }}/">{{ game.festival.name }}</a></p>
+            <div class="mainimage" style="{% if game.photo %}background-image: url({{ festival.photo.url }});{% endif %}"></div>
             
-            <p><a href="/games/{{ game.slug }}">meer</a></p>
+            <h5>{{ game.name }}</h5>
+            
+            <p class="date">{{ game.start|date:"d M Y" }}</p>
+            
+            <p><a href="/games/{{ game.slug }}">{{ game.description|truncatewords:10}}</a></p>
         </div>
     {% endfor %}
 </div>
 {% endblock %}
+
 
 {% block activityfooter %}{% endblock %}
