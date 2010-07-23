@@ -40,11 +40,15 @@
         }
         
         #title {
-            padding-bottom: 10px;
         }
         
         #title H1, #title H3 {
             color: white;
+        }
+        
+        #title H3 {
+            /* Override line-height to make it fit better. */
+            line-height: 20px;
         }
         
         #game_wrapper {
@@ -199,11 +203,18 @@
 {% block content %}
 <div id="title_wrapper">
     <div id="title" class="mainblock">
+        
+        {% comment %}
+            TODO inline the styles below
+        {% endcomment %}
+        
+        <img src="{{ MEDIA_URL }}image/dots/dot-{{ '12345'|random }}.png" style="float: left; margin-left: -40px;">
+        
         <div id="image_reel">
             <img src="{{ game.get_first_photo }}">
         </div>
         
-        <p>&laquo; terug naar Games</p>
+        <p style="padding-top: 20px; margin-bottom: 0;">&laquo; terug naar Games</p>
         
         <h1>Game: {{ game.name }}</h1>
         
@@ -213,7 +224,6 @@
 
 <div id="game_wrapper">
     <div id="game" class="mainblock">
-        
         <div id="description_background">
             <div id="description">
                 <div id="blog_posts">
