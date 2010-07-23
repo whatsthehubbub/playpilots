@@ -4,6 +4,8 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
+import socialregistration.urls
+
 
 urlpatterns = patterns('',
     # Example:
@@ -11,6 +13,10 @@ urlpatterns = patterns('',
 
     (r'^admin/', include(admin.site.urls)),
 )
+
+# Include socialregistration url patterns
+urlpatterns += socialregistration.urls.urlpatterns
+
 
 urlpatterns += patterns('ebi.metagame.views',
     (r'^$', 'index'),
