@@ -41,8 +41,6 @@
             
             height: 220px;
             
-            margin-left: 20px;
-            
             background-color: #262a33;
             
             color: white;
@@ -81,6 +79,10 @@
             background-repeat: repeat;
         }
         
+        .space {
+            margin-left: 20px;
+        }
+        
         .soon H3 {
             color: black;
         }
@@ -106,7 +108,7 @@
         <div id="game_intro"><h2>Games</h2> lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem</div>
         
         {% for game in games %}
-            <div id="game_{{ game.id }}" class="game {% if not forloop.first %}soon{% endif %}">
+            <div id="game_{{ game.id }}" class="game {% if not forloop.first %}soon space{% endif %}">
                 <div class="mainimage" style="{% if game.get_first_photo %}background-image: url({{ game.get_first_photo }});{% endif %}"></div>
             
                 <div class="gamecontent">
