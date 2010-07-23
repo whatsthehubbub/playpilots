@@ -5,16 +5,16 @@
     <script type="text/javascript" charset="utf-8">
         
         var moves = {};
-        {% for culture in cultures %}
-            moves['{{ culture.name }}'] = [];
+        {% for style in styles %}
+            moves['{{ style.name }}'] = [];
 
-            {% for move in culture.move_set.all %}
-                moves['{{ culture.name }}'].push([{{ move.id }}, '{{ move.name }}']);
+            {% for move in style.move_set.all %}
+                moves['{{ style.name }}'].push([{{ move.id }}, '{{ move.name }}']);
             {% endfor %}
         {% endfor %}
         
         function fillMoves() {
-            var culture = $('#culture option:selected').text();
+            var culture = $('#style option:selected').text();
             
             var html = '';
             
@@ -29,24 +29,33 @@
         $(document).ready(function() {
             fillMoves();
             
-            $('#culture').change(function() {
+            $('#style').change(function() {
                 fillMoves();
+            });
+            
+            $('#challenge_form').ajaxForm({
+                dataType: 'json',
+                success: function(data) {
+                    var awesomeness = data['awesomeness'];
+                    
+                    $('#challenge_button').replaceWith('<p>Je beweging heeft de coolness: ' + awesomeness + '</p>');
+                }
             });
         });
     </script> 
 {% endblock %}
 
 {% block content %}
-    <form method="POST" action="/challenge/">
+    <form method="POST" action="/challenge/" id="challenge_form">
     
     <p>Challenger: 
     
     {{ user.username }} - {{ user.get_profile }}
     
-    <p>Kies <label for="culture">je cultuur</label>:
-        <select id="culture" name="culture">
-            {% for culture in cultures %}
-                <option value="{{ culture.id }}">{{ culture.name }}</option>
+    <p>Kies <label for="style">je cultuur</label>:
+        <select id="style" name="style">
+            {% for style in styles %}
+                <option value="{{ style.id }}">{{ style.name }}</option>
             {% endfor %}
         </select>
         en <label for="move">je beweging</label>:
@@ -63,7 +72,7 @@
     {{ target.user.username }} ({{ target.rating }}) - {{ target.culture }}
     
     
-    <p><button type="submit">Daag uit!</button></p>
+    <p><button type="submit" id="challenge_button">Daag uit!</button></p>
     
     </form>
     

@@ -31,9 +31,11 @@ urlpatterns += patterns('ebi.metagame.views',
 	(r'^games/$', 'game_list'),
 	
 	(r'^register/$', 'register'),
-	(r'^logout/$', 'logout_view'),
-	
-	(r'^challenge/$', 'challenge'),
+	(r'^logout/$', 'logout_view')
+)
+
+urlpatterns += patterns('ebi.battleroyale.views',
+    (r'^challenge/$', 'challenge'),
 	(r'^challenge/resolve/$', 'challenge_resolve'),
 	(r'^challenge/(?P<id>\d+)/$', 'challenge_detail'),
 	(r'^c/(?P<id>\d+)/$', 'challenge_detail'),

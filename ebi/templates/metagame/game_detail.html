@@ -269,39 +269,12 @@
 
 <div id="participants_wrapper">
     <div id="participants" class="mainblock">
-        <div class="participant">
-            part
-        </div>
         
-        <div class="participant">
-            part
-        </div>    <div class="participant">
-                part
-            </div>    <div class="participant">
-                    part
-                </div>    <div class="participant">
-                        part
-                    </div>    <div class="participant">
-                            part
-                        </div>    <div class="participant">
-                                part
-                            </div>    <div class="participant">
-                                    part
-                                </div>    <div class="participant">
-                                        part
-                                    </div>    <div class="participant">
-                                            part
-                                        </div>    <div class="participant">
-                                                part
-                                            </div>    <div class="participant">
-                                                    part
-                                                </div>    <div class="participant">
-                                                        part
-                                                    </div>    <div class="participant">
-                                                            part
-                                                        </div>    <div class="participant">
-                                                                part
-                                                            </div>
+        {% for player in game.interested.all %}
+            <div class="participant">
+                {{ player.user.username }}
+            </div>
+        {% endfor %}
     </div>
 </div>
 

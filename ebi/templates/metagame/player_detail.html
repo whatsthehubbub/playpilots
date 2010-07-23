@@ -34,18 +34,18 @@
     
     <h4>Naar</h4>
     
-    {% for round in player.challenged_round.all %}
-        <a href="/players/{{ round.target.id }}/">{{ round.target }}</a> met {{ round.challenge_move }}
-        (<a href="/challenge/{{ round.id }}/">bekijk</a>)<br>
-        <b>Boodschap:</b> {{ round.challenge_message }}
+    {% for duel in player.challenger_duel.all %}
+        <a href="/players/{{ duel.target.id }}/">{{ duel.target }}</a> met {{ duel.challenge_move }}
+        (<a href="/challenge/{{ duel.id }}/">bekijk</a>)<br>
+        <b>Boodschap:</b> {{ duel.challenge_message }}
         <br>
     {% endfor %}
     
     <h4>Van</h4>
     
-    {% for round in player.targeted_round.all %}
-        door <a href="/players/{{ round.challenger.id }}/">{{ round.challenger }}</a> met {{ round.challenge_move.name }} {% if round.open %}(<a href="/c/{{ round.id }}">beantwoord</a>){% else %}(bekijk TODO){% endif %} <br>
-        <b>Boodschap:</b> {{ round.challenge_message }}
+    {% for duel in player.responder_duel.all %}
+        door <a href="/players/{{ duel.challenger.id }}/">{{ duel.challenger }}</a> met {{ duel.challenge_move.name }} {% if duel.open %}(<a href="/c/{{ duel.id }}">beantwoord</a>){% else %}(bekijk TODO){% endif %} <br>
+        <b>Boodschap:</b> {{ duel.challenge_message }}
         <br>
     {% endfor %}
     
