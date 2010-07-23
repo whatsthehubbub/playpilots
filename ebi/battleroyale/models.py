@@ -88,3 +88,6 @@ class Duel(models.Model):
     
     def __unicode__(self):
         return '%s vs. %s' % (self.challenger.user.username, self.challenge_move.name)
+        
+    def get_absolute_url(self):
+        return '/c/%d/' % self.id

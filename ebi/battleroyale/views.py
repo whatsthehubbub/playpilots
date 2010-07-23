@@ -53,7 +53,7 @@ Namens PLAY Pilots,
 
 Uw gezagvoerder''' % {'target': target.user.username, 
                             'challenger': challenger.user.username, 
-                            'url': 'http://playpilots.nl/d/%d/' % d.id}, 
+                            'url': 'http://playpilots.nl/c/%d/' % d.id}, 
             'Your Captain Speaking <captain@playpilots.nl>', 
             [target.user.email])
         

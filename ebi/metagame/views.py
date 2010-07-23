@@ -146,6 +146,7 @@ def game_interest(request, slug):
         except django.contrib.auth.models.SiteProfileNotAvailable:
             pass
             
+        # TODO check if not already interested
         game.interested.add(player)
         
         actstream.action.send(request.user, verb="doet mee met", target=game)
