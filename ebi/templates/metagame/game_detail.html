@@ -272,7 +272,7 @@
         
         {% for player in game.interested.all %}
             <div class="participant">
-                {{ player.user.username }}
+                <a href="/players/{{ player.id }}/">{{ player.user.username }}</a>
             </div>
         {% endfor %}
     </div>
