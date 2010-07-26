@@ -20,6 +20,8 @@ from actstream.models import Action, actor_stream
 
 import datetime, random, math, json
 
+import logging
+
 def index(request):
     if request.user.is_anonymous():
         return render_to_response('metagame/index_splash.html', {
@@ -126,6 +128,9 @@ def logout_view(request):
     
 @login_required
 def game_list(request):
+    
+    logging.debug('test')
+    
     return render_to_response('metagame/game_list.html', {
         'games': Game.objects.all().order_by('-start'),
         'current': 'games'
