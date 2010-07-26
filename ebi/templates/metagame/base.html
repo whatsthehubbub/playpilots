@@ -104,6 +104,11 @@
             color: #f6e9d7;
         }
         
+        #taglinewrapper {
+            background-color: #b7d1d0;
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+        }
+        
         #contentwrapper {
             
         }
@@ -232,9 +237,11 @@
 </div>
 {% endblock %}
 
-{% block tagline %}
-<div id="temptagline" class="mainblock" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
-{% endblock %}
+<div id="taglinewrapper">
+    {% block tagline %}
+    <div id="tagline" class="mainblock" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
+    {% endblock %}
+</div>
 
 <div id="contentwrapper">
     {% block content %}

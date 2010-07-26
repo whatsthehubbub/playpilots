@@ -2,15 +2,58 @@
 
 {% block extrahead %}
     <title>{{ flatpage.title }}</title>
+    
+    <style type="text/css" media="screen">
+        #tagline {
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        
+        #tagline H1 {
+            color: #f5f5f5;
+            
+            text-shadow: #bbb 4px 4px 2px;
+        }
+        
+        #contentwrapper {
+            background-color: #f5f5f5;
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+        }
+        
+        #content H3 {
+            background-color: white;
+            
+            padding: 10px;
+            
+            margin-bottom: 20px;
+        }
+        
+        #text {
+            width: 460px;
+            margin-left: 160px;
+        }
+    </style>
+    
 {% endblock %}
 
 {% block intro %}{% endblock %}
 
+{% block tagline %}
+<div id="tagline" class="mainblock">
+    <h1>PLAY Pilots</h1>
+</div>
+{% endblock %}
+
 {% block content %}
-    <div style="margin-left: 160px; width: 460px; padding-top: 20px;">
-        <h3>Play Pilots is een pilotproject van PLAY, de plek voor speelse cultuur in utrecht. Play pilots verzorgt games en speelse ervaringen op en rond een aantal festivals in Utrecht</h3>
-       
-       <div>{{ flatpage.content|safe }}</div>
+    <div id="content" class="mainblock">
+        
+        <div id="text">
+            <h3>Play Pilots is een pilotproject van PLAY, de plek voor speelse cultuur in utrecht. Play pilots verzorgt games en speelse ervaringen op en rond een aantal festivals in Utrecht</h3>
+
+            <div>{{ flatpage.content|safe }}</div>
+        </div>
+        
+
     </div>
 {% endblock %}
 
