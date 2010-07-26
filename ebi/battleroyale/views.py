@@ -15,6 +15,10 @@ from actstream.models import Action, actor_stream
 
 import datetime, random, math, json
 
+def klassement(request):
+    return HttpResponse('1')
+    
+
 def challenge(request):
     if request.method == 'POST':
         # Trying to store a challenge
