@@ -2,115 +2,128 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>PLAY Pilots</title>
-    
+
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js" charset="utf-8"></script>
-    
+
 
     <script type="text/javascript" src="http://use.typekit.com/usl0osf.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-	
-	<link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8">
-	<link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen" charset="utf-8">
+
+    <link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen" charset="utf-8">
 
 
-<style type="text/css" media="screen">
-    
+    <style type="text/css" media="screen">
+
     BODY {
         background-color: #f5f5f5;
-        
+
         background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
-        
-        margin: 0;
-        padding: 0;
     }
-    
+
     #header_wrapper {
         border-bottom: thin solid #ddd;
     }
-    
+
     #header {
         margin: auto;
-        
-        width: 460px;
-        
-        height: 120px;
-        
+
+        width: 480px;
+
+        height: 130px;
+
         border-left: thin solid #ddd;
         border-right: thin solid #ddd;
     }
-    
+
     #content {
         margin: auto;
-        
-        width: 460px;
-        
+
+        width: 480px;
+
         height: 100%;
-        
+        margin-top: -1px;
+
         border-left: thin solid #ddd;
         border-right: thin solid #ddd;
     }
-    
+
     #logo {
         position: relative;
-        
-        left: -60px;
-        
-        margin-top: 40px;
+
+        left: -40px;
+
+        margin-top: 30px;
     }
-    
+
     #outer {
         background-color: white;
         background-image: url({{ MEDIA_URL }}image/bg_airmail.png);
-        
-        width: 100%;
-        height: 200px;
+        background-repeat: repeat-x;
+
+        width: 500px;
+
+        margin-left: -20px;
     }
-    
+
     #inner {
         position: relative;
         top: 10px;
-        
+
         padding: 20px;
-        
+
         background-color: white;
-        
-        height: 250px;
     }
     
-    button {
-        background-image: url({{ MEDIA_URL }}image/button_sprite.png);
-        background-size: 100%;
+    #bottom {
+        background-image: url({{ MEDIA_URL }}image/white_bevel.png);
         background-repeat: no-repeat;
-        background-position: 50% 0%;
-        
-        width: 200px;
-        height: 33px;
-        
+        background-position: center top;
+        height: 30px;
+    }
+
+
+    button {
         color: white;
-        
+
         border: none;
-        background-color: transparent;
-        
+
+        background-color: #ff3300;
+
         padding: 0;
+        margin: 10.5px 0;
     }
-    
+
     button:hover {
-        background-position: 50% 50%;
+        background-color: #e11600;
     }
-    
-    button H4 {
-        color: white;
-        
-        margin: 0;
-        padding: 0;
-    }
-    
+
+    button:active {
+    background-color: #262a33;
+}
+
+button p {
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin: 0 5px;
+}
+
+p {
+    margin:0;
+    color: #999;
+}
+
+h3 {
+    margin-bottom: 21px;
+}
+
 </style>
 
 </head>
 
 <div id="header_wrapper">
-    
+
     <div id="header">
         <img src="{{ MEDIA_URL }}image/logo.png" id="logo">
     </div>
@@ -118,16 +131,18 @@
 
 
 <div id="content">
-    
+
     <div id="outer">
         <div id="inner">
-            <h3>PLAY Pilots is een pilotproject van play, de plek voor speelse cultuur in Utrecht. PLAY Pilots verzorgt games en speelse ervaringen op en rond een aantal festivals in utrecht.</h3>
-            
+            <h3>PLAY Pilots verbindt muziek, film en speelse cultuur in Utrecht. Op Stekker Fest, het Nederlands Film Festival en Le Guess Who? kun je speciaal ontwikkelde live games spelen. En er is een online game om je eigen stijl te ontwikkelen.</h3>
+            <p>We zullen spoedig een eerste versie lanceren dus&hellip;</p>
+
             <form method="GET" action="http://twitter.com/playpilots">
-                <button><h4>Volg ons op Twitter</h4></button>
+                <button><p>Volg ons op Twitter &raquo;</p></button>
             </form>
-            <span>en blijf op de hoogte</span>
+            <p>&hellip;en blijf op de hoogte.</p>
         </div>
     </div>
-    
+    <div id="bottom">&nbsp;</div>
+
 </div>
