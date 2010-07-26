@@ -69,7 +69,8 @@ Uw gezagvoerder''' % {'target': target.user.username,
     
         return render_to_response('metagame/challenge.html', {
             'target': target,
-            'styles': styles
+            'styles': styles,
+            'current': 'klassement'
         }, context_instance=RequestContext(request))
         
 def challenge_resolve(request):

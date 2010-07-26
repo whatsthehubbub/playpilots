@@ -41,11 +41,203 @@
                     $('#challenge_button').replaceWith('<p>Je beweging heeft de coolness: ' + awesomeness + '</p>');
                 }
             });
+            
+            $('.stylerow').click(function() {
+                var i = this.id.split('_')[2];
+                
+                // TODO make this better and shit
+                $('#style_row_' + i).css('background-color', '#f30');
+                $('#style_detail_' + i).css('display', 'table-cell');
+            });
         });
-    </script> 
+    </script>
+    
+    <style type="text/css" media="screen">
+        #contentwrapper {
+            background-color: #f5f5f5;
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+        }
+        
+        #content {
+            padding-top: 20px;
+        }
+    
+        #player1 {
+            
+        }
+        
+        #player1 .you {
+            float: right;
+        }
+        
+        #vs {
+            float: right;
+            
+            position: relative;
+            right: -100px;
+            top: 40px;
+        }
+        
+        #player1 .headline {
+            background-color: #b7d1d0;
+        }
+        
+        #player2 {
+            border: thin solid #ddd;
+        }
+        
+        .player {
+            width: 460px;
+            
+            float: left;
+        }
+        
+        .player H5 {
+            margin-top: 10px;
+            color: #12151a;
+        }
+        
+        .headline H2 {
+            color: #f30;
+        }
+        
+        .headline {
+        }
+        
+        .name {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 40px;
+        }
+        
+        #player1 .styles {
+            border: 1px solid #ddd;
+            border-top: 5px solid #ddd;
+            
+            background-color: white;
+            
+            padding: 10px;
+        }
+        
+        .styles TABLE {
+            width: 100%;
+        }
+        
+        .styles TH {
+            color: #ddd;
+            text-align: left;
+            
+            font-size: 12px;
+        }
+        
+        TR.toprow {
+            border-bottom: thin solid #ddd;
+        }
+        
+        TD, TH {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        TD {
+            height: 30px;
+            vertical-align: middle;
+        }
+        
+        TR.odd {
+            background-color: #f5f5f5;
+        }
+        
+        TD.style_detail {
+            display: none;
+        }
+        
+        TR:hover {
+            background-color: #f30;
+        }
+        
+        TR:hover TD.style {
+            color: white;
+        }
+        
+        TD.style {
+            color: #f30;
+        }
+        
+        TD.rank {
+            width: 120px;
+        }
+        
+        TD.level {
+            width: 80px;
+        }
+        
+        TD.level {
+            vertical-align: middle;
+        }
+    </style>
 {% endblock %}
 
+
+{% block intro %}{% endblock %}
+
+{% block tagline %}{% endblock %}
+
+
 {% block content %}
+<div id="content" class="mainblock">
+    
+    <div id="player1" class="player">
+        <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
+        
+        <img id="vs" src="{{ MEDIA_URL }}image/vs_stars.png">
+        
+        <div class="headline">
+            <div class="name">
+                <h2>{{ user.username }}</h2>
+                <p>18 in het algemeen klassement</p>
+            </div>
+        </div>
+        
+        <h5>Jouw stijl</h5>
+        
+        <div class="styles">
+            <table>
+                <tr class="toprow">
+                    <th>Stijl</th>
+                    <th>Jouw positie</th>
+                    <th>Jouw niveau</th>
+                </tr>
+                
+                {% for style in styles %}
+                    <tr id="style_row_{{ style.id }}" class="stylerow {% cycle '' 'odd' %}">
+                        <td class="style">{{ style.name }}</td>
+                        <td class="rank">1</td>
+                        <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ forloop.counter }}.png"></td>
+                    </tr>
+                    <tr>
+                        <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">test</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    
+    
+    <div id="player2" class="player">
+        <div class="headline">
+            <div class="name">
+                <h2>{{ target.user.username }}</h2>
+                <p>18 in het algemeen klassement</p>
+            </div>
+        </div>
+        
+        <div class="style">
+            
+        </div>
+    </div>
+        
+    
     <form method="POST" action="/challenge/" id="challenge_form">
     
     <p>Challenger: 
@@ -75,5 +267,5 @@
     <p><button type="submit" id="challenge_button">Daag uit!</button></p>
     
     </form>
-    
+</div>
 {% endblock %}
