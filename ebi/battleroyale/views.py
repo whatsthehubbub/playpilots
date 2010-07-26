@@ -16,7 +16,9 @@ from actstream.models import Action, actor_stream
 import datetime, random, math, json
 
 def klassement(request):
-    return HttpResponse('1')
+    return render_to_response('metagame/klassement.html', {
+        'current': 'klassement'
+    }, context_instance=RequestContext(request))
     
 
 def challenge(request):
