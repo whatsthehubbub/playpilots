@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -20,14 +21,18 @@ from actstream.models import Action, actor_stream
 import datetime, random, math, json
 
 def index(request):
-    games = Game.objects.all()
+    if request.user.is_anonymous():
+        return render_to_response('metagame/index_splash.html', {
+        }, context_instance=RequestContext(request))
+    else:
+        games = Game.objects.all()
     
-    return render_to_response('metagame/index.html', {
-        'games': games,
-        'current': 'home'
-    }, context_instance=RequestContext(request))
+        return render_to_response('metagame/index.html', {
+            'games': games,
+            'current': 'home'
+        }, context_instance=RequestContext(request))
 
-
+@login_required
 def player_list(request):
     players = Player.objects.all().order_by('-rating')
     
@@ -38,6 +43,7 @@ def player_list(request):
         'cultures': cultures
     }, context_instance=RequestContext(request))
 
+@login_required
 def player_detail(request, id):
     player = get_object_or_404(Player, id=id)
 
@@ -56,6 +62,7 @@ def player_detail(request, id):
         'actions': actions
     }, context_instance=RequestContext(request))
     
+@login_required
 def user_detail(request, username):
     user = get_object_or_404(User, username=username)
     
@@ -69,7 +76,7 @@ def user_detail(request, username):
         
     return HttpResponseRedirect('/players/%d/' % player.id)
 
-
+@login_required
 def register(request):    
     class RegisterForm(forms.Form):
         username = forms.CharField()
@@ -109,6 +116,7 @@ def user_logged_in(sender, **kwargs):
 request_finished.connect(user_logged_in)
 '''
 
+@login_required
 def logout_view(request):
     actstream.action.send(request.user, verb='is uitgelogd. Spater ouwe!')
     
@@ -116,13 +124,14 @@ def logout_view(request):
     
     return HttpResponseRedirect('/')
     
-
+@login_required
 def game_list(request):
     return render_to_response('metagame/game_list.html', {
         'games': Game.objects.all().order_by('-start'),
         'current': 'games'
     }, context_instance=RequestContext(request))
 
+@login_required
 def game_detail(request, slug):
     game = get_object_or_404(Game, slug=slug)
     
@@ -136,6 +145,7 @@ def game_detail(request, slug):
         'interest': interest
     }, context_instance=RequestContext(request))
 
+@login_required
 def game_interest(request, slug):
     action = request.POST.get('action', 'add')
     game = get_object_or_404(Game, slug=slug)

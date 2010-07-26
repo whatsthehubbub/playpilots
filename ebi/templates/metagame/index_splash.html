@@ -1,0 +1,133 @@
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>PLAY Pilots</title>
+    
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js" charset="utf-8"></script>
+    
+
+    <script type="text/javascript" src="http://use.typekit.com/usl0osf.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	
+	<link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen" charset="utf-8">
+
+
+<style type="text/css" media="screen">
+    
+    BODY {
+        background-color: #f5f5f5;
+        
+        background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+        
+        margin: 0;
+        padding: 0;
+    }
+    
+    #header_wrapper {
+        border-bottom: thin solid #ddd;
+    }
+    
+    #header {
+        margin: auto;
+        
+        width: 460px;
+        
+        height: 120px;
+        
+        border-left: thin solid #ddd;
+        border-right: thin solid #ddd;
+    }
+    
+    #content {
+        margin: auto;
+        
+        width: 460px;
+        
+        height: 100%;
+        
+        border-left: thin solid #ddd;
+        border-right: thin solid #ddd;
+    }
+    
+    #logo {
+        position: relative;
+        
+        left: -60px;
+        
+        margin-top: 40px;
+    }
+    
+    #outer {
+        background-color: white;
+        background-image: url({{ MEDIA_URL }}image/bg_airmail.png);
+        
+        width: 100%;
+        height: 200px;
+    }
+    
+    #inner {
+        position: relative;
+        top: 10px;
+        
+        padding: 20px;
+        
+        background-color: white;
+        
+        height: 250px;
+    }
+    
+    button {
+        background-image: url({{ MEDIA_URL }}image/button_sprite.png);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: 50% 0%;
+        
+        width: 200px;
+        height: 33px;
+        
+        color: white;
+        
+        border: none;
+        background-color: transparent;
+        
+        padding: 0;
+    }
+    
+    button:hover {
+        background-position: 50% 33%;
+    }
+    
+    button H4 {
+        color: white;
+        
+        margin: 0;
+        padding: 0;
+    }
+    
+</style>
+
+</head>
+
+<div id="header_wrapper">
+    
+    <div id="header">
+        <img src="{{ MEDIA_URL }}image/logo.png" id="logo">
+    </div>
+</div>
+
+
+<div id="content">
+    
+    <div id="outer">
+        <div id="inner">
+            <h3>PLAY Pilots is een pilotproject van play, de plek voor speelse cultuur in Utrecht. PLAY Pilots verzorgt games en speelse ervaringen op en rond een aantal festivals in utrecht.</h3>
+            
+            <form method="GET" action="http://twitter.com/playpilots">
+                <button><h4>Volg ons op Twitter</h4></button>
+            </form>
+            <span>en blijf op de hoogte</span>
+        </div>
+    </div>
+    
+</div>
