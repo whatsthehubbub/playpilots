@@ -43,10 +43,15 @@
             });
             
             $('.stylerow').click(function() {
+                $('.style_detail').css('display', 'none');
+                $('TR.stylerow').css('background-color', 'white');
+                $('TR.stylerow:hover').css('background-color', '#f30');
+                
                 var i = this.id.split('_')[2];
                 
                 // TODO make this better and shit
                 $('#style_row_' + i).css('background-color', '#f30');
+                $('#style_row_' + i + ' TD.style').css('color', 'white');
                 $('#style_detail_' + i).css('display', 'table-cell');
             });
         });
@@ -148,18 +153,6 @@
             background-color: #f5f5f5;
         }
         
-        TD.style_detail {
-            display: none;
-        }
-        
-        TR:hover {
-            background-color: #f30;
-        }
-        
-        TR:hover TD.style {
-            color: white;
-        }
-        
         TD.style {
             color: #f30;
         }
@@ -174,6 +167,17 @@
         
         TD.level {
             vertical-align: middle;
+        }
+        
+        TD.style_detail {
+            display: none;
+            
+            background-color: #f6e9d7;
+        }
+        
+        TD.style_detail BUTTON {
+            float: right;
+            text-transform: uppercase;
         }
     </style>
 {% endblock %}
@@ -216,7 +220,10 @@
                         <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ forloop.counter }}.png"></td>
                     </tr>
                     <tr>
-                        <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">test</td>
+                        <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">
+                            test<br>
+                            <button class="door"><p class="door">Kiezen</p></button>
+                        </td>
                     </tr>
                 {% endfor %}
             </table>
@@ -269,3 +276,5 @@
     </form>
 </div>
 {% endblock %}
+
+{% block activityfooter %}{% endblock %}

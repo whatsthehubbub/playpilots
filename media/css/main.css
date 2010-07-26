@@ -44,3 +44,42 @@ p {
 	line-height: 21px;
 	margin: 0 0 21px 0;
 }
+
+
+/* Code for a sliding door button. */
+
+button.door {
+    cursor: hand;
+    color: white;
+
+    border: none;
+
+    background: transparent url(../image/button_right.png) no-repeat right top;
+    
+    padding: 0 10px 0 0;
+    margin: 10.5px 0;
+}
+
+button.door:hover {
+    background: transparent url(../image/button_right.png) no-repeat right center;
+}
+
+button.door:active {
+    background: transparent url(../image/button_right.png) no-repeat right bottom;
+}
+
+button.door p.door {
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding-left: 10px;
+    background: transparent url(../image/button_left.png) no-repeat left top;
+}
+
+button.door:hover p.door {
+    background: transparent url(../image/button_left.png) no-repeat left center;
+}
+
+button.door:active p.door {
+    background: transparent url(../image/button_left.png) no-repeat left bottom;
+}
