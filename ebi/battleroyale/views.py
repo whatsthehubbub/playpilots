@@ -16,7 +16,13 @@ from actstream.models import Action, actor_stream
 import datetime, random, math, json
 
 def klassement(request):
+    styles = Style.objects.all()
+    
+    players = Player.objects.all().order_by('-rating')
+    
     return render_to_response('metagame/klassement.html', {
+        'players': players,
+        'styles': styles,
         'current': 'klassement'
     }, context_instance=RequestContext(request))
     

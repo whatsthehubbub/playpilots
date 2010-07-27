@@ -3,6 +3,128 @@
 {% block extrahead %}
     <style type="text/css" media="screen">
         
+        #headwrapper {
+            border-top: 5px solid #bbb;
+            
+            background-color: #b7d1d0;
+            background-repeat: repeat;
+            background-image: url(/static/image/grain_overlay.png);
+        }
+        
+        #startduel {
+            float: right;
+        }
+        
+        #klassementhead {
+            color: #666;
+            
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        
+        #klassementexplanation {
+            width: 540px;
+        }
+        
+        #klassementhead H2 {
+            color: #666;
+        }
+        
+        #ranking {
+            overflow: auto;
+        }
+        
+        #stylepicker {
+            width: 240px;
+            background-color: white;
+            
+            padding-top: 10px;
+        }
+        
+        #styles {
+            float: left;
+            
+            margin: 10px;
+            
+            width: 220px;
+            
+            margin: 0;
+            padding: 0;
+        }
+        
+        #styles LI {
+            color: #f30;
+            
+            margin: 0;
+            padding: 5px;
+            
+            border: thin solid #ddd;
+        }
+        
+        #styles LI A {
+            text-decoration: none;
+            color: #f30;
+        }
+        
+        #styles .selected, #styles LI:hover {
+            text-transform: uppercase;
+            background-color: #12151a;
+            color: white;
+            font-weight: bold;
+            
+            border: thin solid #12151a;
+        }
+        
+        #styles LI:hover A {
+            color: white;
+        }
+        
+        #rank {
+            width: 700px;
+        }
+        
+        #rank #firstrow {
+            border-bottom: #bbb thin solid;
+        }
+        
+        #rank TH {
+            text-align: left;
+            font-size: 10px;
+            
+            color: #666;
+        }
+        
+        .player {
+            margin-top: 10px;
+        }
+        
+        .player TD {
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            
+            background-color: #bbb;
+            
+            height: 40px;
+        }
+        
+        TD.pow {
+            background-color: transparent;
+            text-align: center;
+        }
+        
+        TD.pow BUTTON {
+            width: 30px;
+            height: 30px;
+            
+            border: none;
+            background-color: transparent;
+            background-image: url({{ MEDIA_URL }}image/action_buttons_small.png);
+            background-position: center center;
+        }
+        TD.pow BUTTON:hover { background-position: center top; }
+        TD.pow BUTTON:active { background-position: center bottom; }
+        
     </style>
 {% endblock %}
 
@@ -10,6 +132,58 @@
 {% block tagline %}{% endblock %}
 
 {% block content %}
+<div id="headwrapper">
+    <div id="klassementhead" class="mainblock">
+        <img src="{{ MEDIA_URL }}image/start_duel.png" id="startduel">
+        <div id="klassementexplanation"><h2>Algemeen Klassement</h2> toont de posities van alle spelers, op basis van alle gespeelde duels. Bekijk ook de Stijlklassementen, die de top dogs en underdogs van elke subcultuur laten zien.</div>
+    </div>
+</div>
+
+<div id="rankwrapper">
+    <div id="ranking" class="mainblock">
+        
+        <div id="stylepicker">
+            <ul id="styles">
+                <li class="selected"><a href="/klassement">Alle stijlen</a></li>
+                {% for style in styles %}
+                    <li id="style_{{ style.id }}"><a href="/klassement?style={{ style.id }}">{{ style.name }}</a></li>
+                {% endfor %}
+                
+            </ul>
+        </div>
+        
+        <table id="rank">
+            
+            <tr id="firstrow">
+                <th>Positie</th>
+                <th>Speler</th>
+                <th>W</th>
+                <th>V</th>
+                <th>G</th>
+                <th>&nbsp;</th>
+            </tr>
+            
+            {% for player in players %}
+                <tr class="player">
+                    <td class="rank">{{ forloop.counter }}</td>
+                    <td class="info">{{ player.user.username }}</td>
+                    <td class="win">0</td>
+                    <td class="lose">1</td>
+                    <td class="tie">0</td>
+                    <td class="pow">
+                        <form method="GET" action="/challenge">
+                            <input type="hidden" name="target" value="{{ player.id }}">
+                            <button type="submit"></button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        
+        
+    </div>
+</div>
+
     
 {% endblock %}
 

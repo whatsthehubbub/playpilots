@@ -102,13 +102,16 @@ def facebook_login(request, template='socialregistration/facebook.html',
     View to handle the Facebook login
     """
     
+    # Facebook login didn't work
     if request.facebook.uid is None:
         extra_context.update(dict(error=FB_ERROR))
         return render_to_response(template, extra_context,
             context_instance=RequestContext(request))
 
+    # Facebook profile exists
     user = authenticate(uid=request.facebook.uid)
 
+    # Register new user
     if user is None:
         request.session['socialregistration_user'] = User()
         request.session['socialregistration_profile'] = FacebookProfile(uid=request.facebook.uid)
@@ -179,6 +182,10 @@ def twitter(request, account_inactive_template='socialregistration/account_inact
 
     user = authenticate(twitter_id=user_info['id'])
 
+    # name = user['name']
+    # avatar = user['profile_image_url']
+    # screen_name = user['screen_name']
+    
     if user is None:
         profile = TwitterProfile(twitter_id=user_info['id'])
         user = User()
