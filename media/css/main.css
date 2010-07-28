@@ -3,7 +3,7 @@ body {
 	font-size: 14px;
 	line-height: 21px;
 
-	color: #333333;
+	color: #333;
 	margin: 0;
 	padding: 0;
 }
@@ -45,6 +45,18 @@ p {
 	margin: 0 0 21px 0;
 }
 
+#content ul, ol {
+	margin-left: 20px;
+	margin-bottom: 21px;
+}
+
+#content ul li {
+	list-style-type: disc;
+}
+
+#content ol li {
+	list-style-type: decimal;
+}
 
 /* Code for a sliding door button. */
 
