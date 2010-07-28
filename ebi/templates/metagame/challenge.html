@@ -13,26 +13,17 @@
             {% endfor %}
         {% endfor %}
         
-        function fillMoves() {
-            var culture = $('#style option:selected').text();
+        function fillMoves(style) {
+            $('#moves').empty();
             
-            var html = '';
-            
-            for (var counter in moves[culture]) {
-                var move = moves[culture][counter];
-                html += '<option value="' + move[0] + '">' + move[1] + '</option>';
+            for (var counter in moves[style]) {
+                var move = moves[style][counter];
+                
+                $('#moves').append('<li id="move_' + move[0] + '">' + move[1] + '</li>');
             }
-            
-            $('#move').html(html);
         }
         
         $(document).ready(function() {
-            fillMoves();
-            
-            $('#style').change(function() {
-                fillMoves();
-            });
-            
             $('#challenge_form').ajaxForm({
                 dataType: 'json',
                 success: function(data) {
@@ -42,17 +33,48 @@
                 }
             });
             
+            $('.stylerow').mouseover(function() {
+                $('.stylerow').removeClass('hover');
+                
+                var i = this.id.split('_')[2];
+                $('#style_row_' + i).addClass('hover');
+            });
+            
+            $('.stylerow').mouseout(function() {
+                $('.stylerow').removeClass('hover');
+            });
+            
             $('.stylerow').click(function() {
-                $('.style_detail').css('display', 'none');
-                $('TR.stylerow').css('background-color', 'white');
-                $('TR.stylerow:hover').css('background-color', '#f30');
+                $('.stylerow').removeClass('active');
+                $('.style_detail').removeClass('active');
                 
                 var i = this.id.split('_')[2];
                 
-                // TODO make this better and shit, refactor this with classes for various element states
-                $('#style_row_' + i).css('background-color', '#f30');
-                $('#style_row_' + i + ' TD.style').css('color', 'white');
-                $('#style_detail_' + i).css('display', 'table-cell');
+                $('#style_row_' + i).addClass('active');
+                $('#style_detail_' + i).addClass('active');
+            });
+            
+            $('.choosestylebutton').click(function() {
+                // Display the style pick field and show the chosen style
+                var i = $(this).parent().attr('id').split('_')[2];
+                
+                var style = $('#style_row_' + i + ' TD.style').text();
+                
+                $('#stylechosen .stylename').html(style);
+                
+                $('#stylechoose').css('display', 'none');
+                $('#stylechosen').css('display', 'block');
+                $('#actionselect').css('display', 'block');
+                
+                // Also show the action choice field and fill the correct actions
+                
+                fillMoves(style);   
+            });
+            
+            $('#changestylelink').click(function() {
+                $('#stylechoose').css('display', 'block');
+                $('#stylechosen').css('display', 'none');
+                $('#actionselect').css('display', 'none');
             });
         });
     </script>
@@ -61,11 +83,12 @@
         #contentwrapper {
             background-color: #f5f5f5;
             background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+            
+            border-top: 5px solid #ddd;
         }
         
         #content {
             padding-top: 20px;
-            
             padding-bottom: 40px;
             
             overflow: auto;
@@ -128,18 +151,26 @@
         
         .styles TABLE {
             width: 95%;
-            margin: 10px;
+            margin: 10px auto;
         }
         
         .styles TH {
-            color: #ddd;
+            color: #bbb;
             text-align: left;
             
             font-size: 12px;
         }
         
         TR.toprow {
-            border-bottom: thin solid #ddd;
+            border-bottom: thin solid #bbb;
+        }
+        
+        TR.stylerow.hover, TR.stylerow.active {
+            background-color: #f30;
+        }
+        
+        TR.stylerow.hover TD, TR.stylerow.active TD {
+            color: white;
         }
         
         TD, TH {
@@ -152,7 +183,7 @@
             vertical-align: middle;
         }
         
-        TR.odd {
+        .odd {
             background-color: #f5f5f5;
         }
         
@@ -166,47 +197,76 @@
         
         TD.level {
             width: 80px;
-        }
-        
-        TD.level {
             vertical-align: middle;
         }
-        
+                
         TD.style_detail {
             display: none;
             
             background-color: #f6e9d7;
         }
+
+        TD.style_detail.active {
+            display: table-cell;
+        }
         
-        TD.style_detail BUTTON {
-            float: right;
+        #stylechosen {
+            display: none;
+            
+            padding: 10px 10px 0 10px;
+        }
+        
+        #stylechosen A {
+            text-decoration: none;
+            color: #f30;
+        }
+        
+        #stylechosen .stylename {
+            color: #f30;
             text-transform: uppercase;
+        } 
+        
+        #changestylelink {
+            float: right;
         }
         
-        DIV.actions {
-            border-bottom: 1px solid #ddd;
+        #actionselect {
+            padding: 10px;
+            
+            display: none;
         }
         
-        DIV.actions UL {
-            margin: 10px;
+        #actionselect UL LI {
+            list-style-type: none;
         }
         
         DIV.message {
             padding: 10px;
         }
         
-        #messagetext {
+        .message H5 {
+            color: #666;
+        }
+        
+        .messagetext {
             width: 98%;
             height: 5em;
         }
         
         BUTTON.bang {
-            background-image: url({{ MEDIA_URL }}image/action_buttons.png);
+            background-image: url({{ MEDIA_URL }}image/action_buttons_medium.png);
+            background-position: center center;
             border: none;
             background-color: transparent;
             
             width: 40px;
-            height: 36px;
+            height: 40px;
+        }
+        BUTTON.bang:hover {
+            background-position: center top;
+        }
+        BUTTON.bang:active {
+            background-position: center bottom;
         }
     </style>
 {% endblock %}
@@ -232,7 +292,7 @@
         
         <h5>Jouw stijl</h5>
         
-        <div class="styles choice">
+        <div id="stylechoose" class="styles choice">
             <table>
                 <tr class="toprow">
                     <th>Stijl</th>
@@ -249,30 +309,36 @@
                     <tr>
                         <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">
                             test<br>
-                            <button class="door"><p class="door">Kiezen</p></button>
+                            <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
                         </td>
                     </tr>
                 {% endfor %}
             </table>
         </div>
         
+        <div id="stylechosen" class="chosenstyle choice">
+            <a href="#" id="changestylelink">veranderen</a>
+            
+            <p class="stylename">teststyle</p>
+        </div>
+        
         <h5>Jouw actie</h5>
         
-        <div class="choice">
-            <div class="actions">
-                <ul>
-                    <li>Jij bestelt een Guillotine voor Lauda</li>
-                    <li>Jij bestelt een Guillotine voor Lauda</li>
-                    <li>Jij bestelt een Guillotine voor Lauda</li>
+        <div id="actionselect" class="choice">
+            <div>
+                <ul id="moves">
+                    <li class="move">Jij bestelt een Guillotine voor Lauda</li>
+                    <li class="move">Jij bestelt een Guillotine voor Lauda</li>
+                    <li class="move">Jij bestelt een Guillotine voor Lauda</li>
                 </ul>
             </div>
             
             <div class="message">
                 <h5>Jouw boodschap aan {{ target.user.username }}</h5>
                 
-                <textarea id="messagetext" name="messagetext"></textarea>
+                <textarea id="messagetext" class="messagetext" name="messagetext"></textarea>
                 
-                <button class="bang"></button>
+                <p style="text-align: center;"><button type="submit" class="bang"></button></p>
             </div>
         </div>
         
