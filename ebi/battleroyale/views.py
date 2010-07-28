@@ -15,6 +15,8 @@ from actstream.models import Action, actor_stream
 
 import datetime, random, math, json
 
+import logging
+
 def klassement(request):
     styles = Style.objects.all()
     
@@ -33,12 +35,13 @@ def challenge(request):
         
         challenger = request.user.get_profile()
         
-        style_id = request.POST.get('style', None)
-        style = Style.objects.get(id=style_id)
-        
         move_id = request.POST.get('move', None)
+        logging.debug('got move id: %s', move_id)
+        
         move = Move.objects.get(id=move_id)
+        
         message = request.POST.get('message', '')
+        logging.debug('got message: %s', message)
         
         target_id = request.POST.get('target', None)
         target = Player.objects.get(id=target_id)

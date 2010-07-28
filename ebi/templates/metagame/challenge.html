@@ -1,8 +1,11 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    
     <script type="text/javascript" charset="utf-8">
+        var targetUser = '{{ target.user.username }}';
+        var targetUserId = {{ target.user.id }};
+        var moveId = 0;
+        var message = '';
         
         var moves = {};
         {% for style in styles %}
@@ -13,13 +16,20 @@
             {% endfor %}
         {% endfor %}
         
+        function templateMove(move, name) {
+            return move.replace('X', name);
+        }
+        
         function fillMoves(style) {
             $('#moves').empty();
             
             for (var counter in moves[style]) {
                 var move = moves[style][counter];
                 
-                $('#moves').append('<li id="move_' + move[0] + '">' + move[1] + '</li>');
+                var extraclass = '';
+                if (counter == 0) extraclass = 'selected';
+                
+                $('#moves').append('<li id="move_' + move[0] + '" class="move ' + extraclass + '">' + templateMove(move[1], targetUser) + '</li>');
             }
         }
         
@@ -72,9 +82,48 @@
             });
             
             $('#changestylelink').click(function() {
+                $('.stylerow').removeClass('active');
+                $('.style_detail').removeClass('active');
+                
                 $('#stylechoose').css('display', 'block');
                 $('#stylechosen').css('display', 'none');
                 $('#actionselect').css('display', 'none');
+            });
+            
+            $('#moves LI').live('click', function() {
+                $('.move').removeClass('selected');
+                
+                var i = this.id.split('_')[1];
+                
+                $('#move_' + i).addClass('selected');
+                
+                // Store move id
+                moveId = parseInt(i);
+            });
+            
+            $('#makemovebutton').click(function() {
+                $('#changestylelink').remove();
+                
+                // Display progress
+                // TODO
+                
+                message = $('#messagetext').val();
+                
+                // Send move to server
+                $.post('/challenge/', {
+                    'target': targetUserId,
+                    'move': moveId,
+                    'message': message
+                }, function(data) {
+                    var awesomeness = data['awesomeness'];
+                    
+                    $('#actionselect').append('<img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png">');
+                }, 'json')
+                
+                // TODO also display move you made
+                
+                // Display result
+                $('#actionselect').html('je move');
             });
         });
     </script>
@@ -240,6 +289,20 @@
             list-style-type: none;
         }
         
+        #actionselect LI {
+            color: #f30;
+            padding: 5px;
+        }
+        
+        #actionselect LI.selected, #actionselect LI:hover {
+            background-color: #f30;
+            color: white;
+            
+            background-image: url({{ MEDIA_URL }}image/icon_check.png);
+            background-position: 95% center;
+            background-repeat: no-repeat;
+        }
+        
         DIV.message {
             padding: 10px;
         }
@@ -328,8 +391,6 @@
             <div>
                 <ul id="moves">
                     <li class="move">Jij bestelt een Guillotine voor Lauda</li>
-                    <li class="move">Jij bestelt een Guillotine voor Lauda</li>
-                    <li class="move">Jij bestelt een Guillotine voor Lauda</li>
                 </ul>
             </div>
             
@@ -338,7 +399,7 @@
                 
                 <textarea id="messagetext" class="messagetext" name="messagetext"></textarea>
                 
-                <p style="text-align: center;"><button type="submit" class="bang"></button></p>
+                <p style="text-align: center;"><button type="submit" id="makemovebutton" class="bang"></button></p>
             </div>
         </div>
         

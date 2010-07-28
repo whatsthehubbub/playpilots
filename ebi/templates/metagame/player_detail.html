@@ -177,7 +177,7 @@
             <h4>Inkomend</h4>
             
             <ol id="incoming_duels">
-                {% for duel in player.responder_duel.all %}
+                {% for duel in player.get_responder_duels %}
                     <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}">
                         <b><a href="/players/{{ duel.challenger.id }}/">{{ duel.challenger }}</a>
                         {{ duel.challenge_move.name }}
@@ -199,7 +199,7 @@
             <h4>Uitstaand</h4>
             
             <ol id="outgoing_duels">
-                {% for duel in player.challenger_duel.all %}
+                {% for duel in player.get_challenger_duels %}
                     <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}">
                         <b>JIJ
                         als <span class="style">{{ duel.challenge_move.style.name }}</span>
