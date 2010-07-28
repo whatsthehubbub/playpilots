@@ -104,7 +104,7 @@
 <div id="games_wrapper">
     <div id="game_list" class="mainblock">
         
-        <div id="game_intro"><h2>Games</h2> lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem</div>
+        <div id="game_intro"><h2>Games</h2> <p>PLAY Pilots daagt je uit! Dit jaar kun je op drie culturele festivals in Utrecht live games spelen. Lees alles over het wat, waar en wanneer.</p></div>
         
         {% for game in games %}
             <div id="game_{{ game.id }}" class="game {% if not forloop.first %}soon space{% endif %}">
@@ -113,9 +113,9 @@
                 <div class="gamecontent">
                     <h3>{{ game.name }}</h3>
                     
-                    <p>{{ game.start|date:"j b Y" }}<br>
-                        door {{ game.maker }}<br>
-                        op {{ game.festival }}</p>
+                    <p>door {{ game.maker }}<br>
+                        op {{ game.festival }}<br>
+                        {{ game.start|date:"j b Y" }}</p>
             
                     <p><a href="{{ game.get_absolute_url }}">{{ game.description|truncatewords:10}} &raquo;</a></p>
                 </div>
