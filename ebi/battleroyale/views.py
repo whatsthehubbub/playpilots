@@ -31,6 +31,7 @@ def klassement(request):
 
 def challenge(request):
     if request.method == 'POST':
+        logging.debug('challenge post')
         # Trying to store a challenge
         
         challenger = request.user.get_profile()
@@ -38,13 +39,13 @@ def challenge(request):
         move_id = request.POST.get('move', None)
         logging.debug('got move id: %s', move_id)
         
-        move = Move.objects.get(id=move_id)
+        move = Move.objects.get(id=int(move_id))
         
         message = request.POST.get('message', '')
         logging.debug('got message: %s', message)
         
         target_id = request.POST.get('target', None)
-        target = Player.objects.get(id=target_id)
+        target = Player.objects.get(id=int(target_id))
         
         # Calculate the awesomeness
         # TODO calculate the awesomeness based on player skill

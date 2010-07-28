@@ -27,7 +27,10 @@
                 var move = moves[style][counter];
                 
                 var extraclass = '';
-                if (counter == 0) extraclass = 'selected';
+                if (counter == 0) {
+                    moveId = move[0];
+                    extraclass = 'selected';
+                }
                 
                 $('#moves').append('<li id="move_' + move[0] + '" class="move ' + extraclass + '">' + templateMove(move[1], targetUser) + '</li>');
             }
