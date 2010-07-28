@@ -21,17 +21,18 @@
     }
 
     #headerwrapper {
+        background: #fff;
         height: 65px;
+        -webkit-box-shadow: 0 2px 2px #999;
+        -moz-box-shadow: 0 2px 2px #999;
+        position: relative;
+        z-index: 999;
     }
 
     #header {
-        overflow: hidden;
     }
 
     #logo {
-/*        height: 65px;*/
-/*        width: 140px;*/
-
         float: left;
     }
 
@@ -40,44 +41,77 @@
     }
 
     #checkin {
+        font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+        text-transform: uppercase;
+        text-shadow: 0px 1px 0 #000;        
+        
+        
         float: right;
 
-        background-color: #f30;
+        height: 65px;
+        width: 190px;
 
-        height: 45px;
-        width: 120px;
-
-        color: white;
-
-/*        padding: 10px;*/
+        color: #ddd;
+        background: transparent url({{ MEDIA_URL }}image/login_box_bg.png) no-repeat;
+        margin-right: -5px;
+    }
+    
+    #checkin img {
+        margin: 3px 0 0 5px;
+        float: left;
+        
     }
 
     #checkin A {
         color: white;
+        text-decoration: none;
     }
+    
     #checkin A:visited {
-        color: white;
+    }
+    
+    #checkin a:hover {
+        text-decoration: underline;
+    }
+    
+    #checkin #username, #checkin #login {
+        font-size: 16px;
+        
+        margin: 18px 27px 0 0;
+        
+        text-align: right;
+    }
+    
+    #checkin #logout, #checkin #register {
+        text-align: right;
+        margin: 0 27px 0 0;
+        font-size: 10px;
+    }
+    
+    #checkin #logout a {
+        padding: 0;
+        margin: 0;
     }
 
     #menu {
-        margin-left: 20px;
+        margin-left: 0;
 
         float: left;
 
         font-size: 18px;
+        
         font-family: "proxima-nova-1", "proxima-nova-2", Arial;
     }
 
     #menu OL {
-        list-style-type: none;
-
-        padding-top: 20px;
+        padding-top: 28px;
     }
 
     #menu LI {
         float: left;
 
         text-transform: uppercase;
+        list-style-type: none;
     }
 
     #menu LI A {
@@ -229,14 +263,17 @@ _gaq.push(['_trackPageview']);
         <div id="header" class="mainblock">
             <div id="checkin">
                 {% if not user.is_authenticated %}
-                <a href="/login/">Check in</a> or <a href="/register/">Register</a>
+                <div id="login"><a href="/login/">Log in</a></div>
+                <div id="register">of <a href="/register/">aanmelden</a> &raquo;</div>
                 {% else %}
-                <a href="/players/{{ user.username }}/">{{ user.username }}</a> (<a href="/logout/">log uit</a>)
+                <img src="{{ MEDIA_URL }}image/avatar_login_box.png">
+                <div id="username"><a href="/players/{{ user.username }}/">{{ user.username }}</a></div>
+                <div id="logout"><a href="/logout/" id="logout">log uit</a></div>
                 {% endif %}
             </div>
 
             <div id="logo">
-                <p><a href="/"><img src="{{ MEDIA_URL }}image/logo-small-header.png" alt="PLAY Pilots"></a></p>
+                <p><a href="/"><img src="{{ MEDIA_URL }}image/logo_playpilots.png" alt="PLAY Pilots"></a></p>
             </div>
 
             <div id="menu">
@@ -245,14 +282,14 @@ _gaq.push(['_trackPageview']);
                     <li><a href="/games/" class="{% ifequal current "games" %}current{% endifequal %}">Games</a></li>
                     <li><a href="/klassement/" class="{% ifequal current "klassement" %}current{% endifequal %}">Klassement</a></li>
                     <li><a href="/over/" class="{{ current|default:"current" }}">Over</a></li>
-                    <li><a href="http://ebi.posterous.com/">Blog</a></li>
+                    <li><a href="http://blog.playpilots.nl/">Blog</a></li>
                 </ol>
             </div>
         </div>
     </div>
 
-    <!-- <div id="splash" class="mainblock" style="background-image: url({{ MEDIA_URL}}image/splash.png); background-position: center center; height: 299px;"> -->
-    </div>
+    <!-- <div id="splash" class="mainblock" style="background-image: url({{ MEDIA_URL}}image/splash.png); background-position: center center; height: 299px;">
+    </div> -->
 
     <div id="taglinewrapper">
         {% block tagline %}
@@ -295,7 +332,7 @@ _gaq.push(['_trackPageview']);
     <div id="footerwrapper">
         <div id="footerexplanation" class="mainblock">
             <h4>Wat is PLAY Pilots?</h4>
-            <p>PLAY Pilots verbindt muziek, film en speelse cultuur in Utrecht. Op Stekker Fest, het Nederlands Film Festival en Le Guess Who? kun je speciaal ontwikkelde <a href="">live games</a> spelen. En er is een <a href="">online game</a> om je eigen stijl te ontwikkelen.</p>
+            <p>PLAY Pilots verbindt muziek, film en speelse cultuur in Utrecht. Op Stekker Fest, het Nederlands Film Festival en Le Guess Who? kun je speciaal ontwikkelde <a href="/games/">live games</a> spelen. En er is een <a href="/klassement/">online game</a> om je eigen stijl te ontwikkelen.</p>
         </div>
 
         <div id="footergraphic" class="mainblock">
@@ -305,7 +342,7 @@ _gaq.push(['_trackPageview']);
         <div id="footercolofon" class="mainblock">
             <div style="float: right"><a href="/over/">Over</a> | <a href="http://blog.playpilots.nl/">Blog</a> | <a href="/contact/">Contact</a></div>
 
-            <div>Deze site wordt aangeboden onder een <a href="http://creativecommons.org/licenses/by-nc/3.0/nl/">Creative Commons Naamsvermelding-NietCommercieel 3.0 Licentie</div>
+            <div>Deze site wordt aangeboden onder een <a href="http://creativecommons.org/licenses/by-nc/3.0/nl/">Creative Commons Naamsvermelding-NietCommercieel 3.0 Licentie</a></div>
             </div>
         </div>
 
