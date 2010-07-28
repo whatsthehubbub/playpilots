@@ -1,52 +1,234 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>PLAY! met {{ player.user.name }}</title>
+    <title>Profiel van {{ player.user.name }}</title>
+    
+    <style type="text/css" media="screen">
+        #contentwrapper {
+            background-color: #f5f5f5;
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+        }
+        
+        #player {
+            overflow: auto;
+        }
+    
+        /* TODO put in border between header and #player */
+    
+        #actions {
+            border-left: thin solid #ddd;
+            border-right: thin solid #ddd;
+            
+            width: 580px; /* 620px; */
+            padding: 20px;
+            
+            float: right;
+        }
+        
+        #profile {
+            margin-top: 20px;
+            
+            width: 300px;
+            float: left;
+        }
+        
+        #profile H4 {
+            border-bottom: thin solid #ddd;
+        }
+        
+        #details {
+            background-color: #f30;
+            padding: 20px;
+            
+            color: white;
+        }
+        
+        #details H2 {
+            color: white;
+        }
+        
+        #record, #levels, #festivals {
+            padding: 20px;
+            
+            background-color: white;
+        }
+        
+        #festivals A {
+            font-weight: bold;
+            text-decoration: none;
+            color: #f30;
+        }
+        
+        #incoming, #outgoing {
+            padding: 20px;
+            
+            border: thin solid #ddd;
+            
+            background-color: white;
+            
+            margin-bottom: 20px;
+        }
+        
+        #incoming A, #outgoing A {
+            color: #f30;
+            text-decoration: none;
+        }
+        
+        #incoming H4, #outgoing H4 {
+            color: #bbb;
+        }
+        
+        #incoming LI, #outgoing LI {
+            padding-bottom: 10px;
+        }
+        
+        #incoming LI.notlast, #outgoing LI.notlast {
+            border-bottom: thin solid #ddd;
+        }
+        
+        .duel BUTTON.door {
+            float: right;
+        }
+        
+        .duel .style {
+            text-transform: uppercase;
+        }
+        
+        .duel .view {
+            text-align: right;
+        }
+    </style>
+    
+    
 {% endblock %}
 
+{% block tagline %}{% endblock %}
+
 {% block content %}
-    <h1>{{ player.user.first_name }}</h1>
-    
-    <img src="" id="photo" style="width: 100px; height: 120px;">
-    
-    <h3>Games</h3>
-    
-    <p>dominante cultuur {{ player.culture }}</p>
-    
-    <p>rating {{ player.rating }}</p>
-    
-    {% ifnotequal player.user.username user.username  %}
-        <form method="GET" action="/challenge/">
-            <input type="hidden" name="target" value="{{ player.id }}">
-            <button type="submit">Daag {{ player.user.first_name }} nu uit</button>
-        </form>
-    {% endifnotequal %}
-    
-    <h3>Actions</h3>
+<div id="player" class="mainblock">
+    <div id="profile">
         
-    <ul>
-    {% for action in actions %}
-        <li>{{ action.actor }} {{ action.verb }} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></li>
-    {% endfor %}
-    </ul>
+        <div id="details">
+            <h2>{{ player.user.username }}</h2>
+            
+            <p>18 in het algemeen klassement</p>
+            
+            {% ifnotequal player.user.username user.username  %}
+                <form method="GET" action="/challenge/">
+                    <input type="hidden" name="target" value="{{ player.id }}">
+                    <button type="submit">Daag {{ player.user.first_name }} nu uit</button>
+                </form>
+            {% else %}
+                <p>Je kunt niet jezelf uitdagen.</p>
+            {% endifnotequal %}
+        </div>
+        
+        <div id="record">
+            <table>
+                <tr>
+                    <td>Gewonnen</td>
+                    <td>12</td>
+                </tr>
+                
+                <tr>
+                    <td>Verloren</td>
+                    <td>1</td>
+                </tr>
+                
+                <tr>
+                    <td>Gelijkspel</td>
+                    <td>13</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div id="levels">
+            <h4>Niveau's</h4>
+            
+            <table>
+                <tr>
+                    <td>Happy Camper</td>
+                    <td><img src="{{ MEDIA_URL }}image/level_1.png"></td>
+                    <td>142</td>
+                </tr>
+
+                <tr>
+                    <td>Barfly</td>
+                    <td><img src="{{ MEDIA_URL }}image/level_4.png"></td>
+                    <td>42</td>
+                </tr>                
+            </table>
+        </div>
+        
+        <div id="festivals">
+            <h4>Festivals</h4>
+            
+            {% for game in player.game_set.all %}
+                <a href="/games/{{ game.slug }}">{{ game.festival }}</a>
+            {% endfor %}
+        </div>
+    </div>
     
-    <h3>Lopende uitdagingen</h3>
-    
-    <h4>Naar</h4>
-    
-    {% for duel in player.challenger_duel.all %}
-        <a href="/players/{{ duel.target.id }}/">{{ duel.target }}</a> met {{ duel.challenge_move }}
-        (<a href="/challenge/{{ duel.id }}/">bekijk</a>)<br>
-        <b>Boodschap:</b> {{ duel.challenge_message }}
-        <br>
-    {% endfor %}
-    
-    <h4>Van</h4>
-    
-    {% for duel in player.responder_duel.all %}
-        door <a href="/players/{{ duel.challenger.id }}/">{{ duel.challenger }}</a> met {{ duel.challenge_move.name }} {% if duel.open %}(<a href="/c/{{ duel.id }}">beantwoord</a>){% else %}(bekijk TODO){% endif %} <br>
-        <b>Boodschap:</b> {{ duel.challenge_message }}
-        <br>
-    {% endfor %}
-    
+    <div id="actions">
+        
+        <h3>Lopende duels</h3>
+        
+        <div id="incoming">
+            <h4>Inkomend</h4>
+            
+            <ol id="incoming_duels">
+                {% for duel in player.responder_duel.all %}
+                    <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}">
+                        <b><a href="/players/{{ duel.challenger.id }}/">{{ duel.challenger }}</a>
+                        {{ duel.challenge_move.name }}
+                        en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
+                        <br>
+                        {{ duel.created|timesince }} geleden
+                        
+                        {% if duel.open %}
+                            <form method="GET" action="/c/{{ duel.id }}/">
+                                <button class="door"><p class="door">beantwoord</p></button>
+                            </form>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+        
+        <div id="outgoing">
+            <h4>Uitstaand</h4>
+            
+            <ol id="outgoing_duels">
+                {% for duel in player.challenger_duel.all %}
+                    <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}">
+                        <b>JIJ
+                        als <span class="style">{{ duel.challenge_move.style.name }}</span>
+                        {{ duel.challenge_move.name }}
+                        en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
+                        <br>
+                        {{ duel.created|timesince }} geleden
+                        <br>
+                        <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel &raquo;</a></p>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+        
+        <h4>Historie</h4>
+        
+    </div>
+
+    {% comment %}
+        TODO 
+        <h3>Actions</h3>
+
+        <ul>
+        {% for action in actions %}
+            <li>{{ action.actor }} {{ action.verb }} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></li>
+        {% endfor %}
+        </ul>
+    {% endcomment %}
+
 {% endblock %}
+
+{% block activityfooter %}{% endblock %}
