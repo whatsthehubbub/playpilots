@@ -3,289 +3,311 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	
-	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js" charset="utf-8"></script>
-	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js" charset="utf-8"></script>
-	
-	<script type="text/javascript" src="http://use.typekit.com/usl0osf.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-	
-	<link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8">
-	<link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen" charset="utf-8">
-	
-    <style type="text/css" media="screen">        
-        .mainblock {
-            margin: auto;
-            width: 940px;
-        }
-        
-        #headerwrapper {
-        }
-        
-        #header {
-            overflow: hidden;
-        }
-        
-        #logo {
-            height: 50px;
-            width: 140px;
-            
-            float: left;
-        }
-        
-        #logo IMG {
-            border: 0;
-        }
-        
-        #checkin {
-            float: right;
-            
-            background-color: #f30;
-            
-            height: 50px;
-            width: 120px;
-            
-            color: white;
-            
-            padding: 10px;
-        }
-        
-        #checkin A {
-            color: white;
-        }
-        #checkin A:visited {
-            color: white;
-        }
-        
-        #menu {
-            margin-left: 20px;
-            
-            float: left;
-            
-            font-size: 18px;
-            font-family: "proxima-nova-1", "proxima-nova-2", Arial;
-        }
-        
-        #menu OL {
-            list-style-type: none;
-            
-            padding-top: 20px;
-        }
-        
-        #menu LI {
-            float: left;
-            
-            text-transform: uppercase;
-        }
-        
-        #menu LI A {
-            display: inline-block;
-            text-decoration: none;
-            
-            color: #bababa;
-            margin-right: 40px;
-        }
-        
-        #menu LI A:visited {
-            color: #bababa;
-        }
-        
-        #menu LI A.current {
-            border-bottom: 2px solid #f30;
-            color: #f30;
-            
-            font-weight: bolder;
-        }
-        
-        #splash {
-            background-color: #262A33;
-            
-            color: #f6e9d7;
-        }
-        
-        #taglinewrapper {
-            background-color: #b7d1d0;
-            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
-        }
-        
-        #contentwrapper {
-            
-        }
-        
-        #activity {
-            float: left;
-            
-            width: 600px;
-        }
-        
-        #blog {
-            float: left;
-            
-            margin-left: 20px;
-            width: 300px;
-        }
-        
-        #footerwrapper {
-            background-color: #ddd;
-            
-            border-top: 5px solid #bbb;
-            
-            background-image: url(/static/image/grain_overlay.png);
-            background-repeat: repeat;
-            
-            padding-bottom: 5em;
-        }
-        
-        
-        #footerexplanation {
-            border: thin solid #bbb;
-            
-            -webkit-border-top-left-radius: 5px;
-            -webkit-border-top-right-radius: 5px;
-            -moz-border-radius-topleft: 5px;
-            -moz-border-radius-topright: 5px;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            
-            border-bottom: none;
-            
-            height: 80px;
-            padding: 5px;
-            
-            /* TODO guessed these colors and sizes */
-            margin-top: 10px;
-        }
-        
-        #footergraphic {
-            border: thin solid #bbb;
-            padding: 5px;
-            
-            border-bottom: none;
-        }
-        
-        #footergraphic IMG {
-            vertical-align: top;
-        }
-        
-        #footercolofon {
-            -webkit-border-bottom-right-radius: 5px;
-            -webkit-border-bottom-left-radius: 5px;
-            -moz-border-radius-bottomright: 5px;
-            -moz-border-radius-bottomleft: 5px;
-            border-bottom-right-radius: 5px;
-            border-bottom-left-radius: 5px;
-            
-            border: thin solid #bbb;
-            padding: 5px;
-            
-            background-color: #d9d9d9;
-            
-            overflow: hidden;
-        }
-        
-        #footercolofon A {
-            text-decoration: none;
-        }
-    </style>
-    
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-17333125-1']);
-      _gaq.push(['_trackPageview']);
+    <meta charset="utf-8">
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="http://use.typekit.com/usl0osf.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+    <link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen" charset="utf-8">
+
+    <style type="text/css" media="screen">        
+    .mainblock {
+        margin: auto;
+        width: 940px;
+    }
+
+    #headerwrapper {
+        height: 65px;
+    }
+
+    #header {
+        overflow: hidden;
+    }
+
+    #logo {
+/*        height: 65px;*/
+/*        width: 140px;*/
+
+        float: left;
+    }
+
+    #logo IMG {
+        border: 0;
+    }
+
+    #checkin {
+        float: right;
+
+        background-color: #f30;
+
+        height: 45px;
+        width: 120px;
+
+        color: white;
+
+/*        padding: 10px;*/
+    }
+
+    #checkin A {
+        color: white;
+    }
+    #checkin A:visited {
+        color: white;
+    }
+
+    #menu {
+        margin-left: 20px;
+
+        float: left;
+
+        font-size: 18px;
+        font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+    }
+
+    #menu OL {
+        list-style-type: none;
+
+        padding-top: 20px;
+    }
+
+    #menu LI {
+        float: left;
+
+        text-transform: uppercase;
+    }
+
+    #menu LI A {
+        display: inline-block;
+        text-decoration: none;
+
+        color: #bababa;
+        margin-right: 40px;
+    }
+
+    #menu LI A:visited {
+        color: #bababa;
+    }
+
+    #menu LI A.current {
+        border-bottom: 2px solid #f30;
+        color: #f30;
+
+        font-weight: bolder;
+    }
+
+    #splash {
+        background-color: #262A33;
+
+        color: #f6e9d7;
+    }
+
+    #taglinewrapper {
+        background-color: #b7d1d0;
+        background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+    }
+
+    #contentwrapper {
+
+    }
+
+    #activity {
+        float: left;
+
+        width: 600px;
+    }
+
+    #blog {
+        float: left;
+
+        margin-left: 20px;
+        width: 300px;
+    }
+
+    #footerwrapper {
+        font-size: 12px;
+        background-color: #ddd;
+        color: #999;
+        text-shadow: 0px 1px 0 #fff;
+
+
+        border-top: 5px solid #bbb;
+
+        background-image: url(/static/image/grain_overlay.png);
+        background-repeat: repeat;
+
+        padding: 25px 0 85px 0;
+    }
+
+    #footerwrapper a {
+        color: #666;
+    }
+
+    #footerwrapper a:hover {
+        text-decoration: underline;
+    }
+
+    #footerwrapper p {
+    }
+
+    #footerwrapper h4 {
+        color: #999;
+    }
+
+
+    #footerexplanation {
+        border: 1px solid #bbb;
+
+        -webkit-border-top-left-radius: 5px;
+        -webkit-border-top-right-radius: 5px;
+        -moz-border-radius-topleft: 5px;
+        -moz-border-radius-topright: 5px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+
+        border-bottom: none;
+
+        background-color: #ddd;
+
+        width: 910px;
+        height: 80px;
+        padding: 21px 15px 0 15px;
+    }
+
+    #footergraphic {
+        border: 1px solid #bbb;
+        padding: 21px 15px;
+        width: 910px;
+        border-bottom: none;
+    }
+
+    #footergraphic IMG {
+        vertical-align: top;
+    }
+
+    #footercolofon {
+        -webkit-border-bottom-right-radius: 5px;
+        -webkit-border-bottom-left-radius: 5px;
+        -moz-border-radius-bottomright: 5px;
+        -moz-border-radius-bottomleft: 5px;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+
+        border: 1px solid #bbb;
+
+        overflow: hidden;
+        padding: 21px 15px 21px 15px;
+        width: 910px;
+    }
+
+    #footercolofon A {
+        text-decoration: none;
+    }
+</style>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-17333125-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
     </script>
-    
-	{% block extrahead %}{% endblock %}
+
+    {% block extrahead %}{% endblock %}
 </head>
 
 <body>
 
-<div id="headerwrapper">
-    <div id="header" class="mainblock">
-        <div id="checkin">
-            {% if not user.is_authenticated %}
+    <div id="headerwrapper">
+        <div id="header" class="mainblock">
+            <div id="checkin">
+                {% if not user.is_authenticated %}
                 <a href="/login/">Check in</a> or <a href="/register/">Register</a>
-            {% else %}
+                {% else %}
                 <a href="/players/{{ user.username }}/">{{ user.username }}</a> (<a href="/logout/">log uit</a>)
-            {% endif %}
-        </div>
+                {% endif %}
+            </div>
 
-        <div id="logo">
-            <p><a href="/"><img src="{{ MEDIA_URL }}image/logo.png"></a></p>
-        </div>
+            <div id="logo">
+                <p><a href="/"><img src="{{ MEDIA_URL }}image/logo-small-header.png" alt="PLAY Pilots"></a></p>
+            </div>
 
-        <div id="menu">
+            <div id="menu">
+                <ol>
+                    <li><a href="/" class="{% ifequal current "home" %}current{% endifequal %}">Home</a></li>
+                    <li><a href="/games/" class="{% ifequal current "games" %}current{% endifequal %}">Games</a></li>
+                    <li><a href="/klassement/" class="{% ifequal current "klassement" %}current{% endifequal %}">Klassement</a></li>
+                    <li><a href="/over/" class="{{ current|default:"current" }}">Over</a></li>
+                    <li><a href="http://ebi.posterous.com/">Blog</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div id="splash" class="mainblock" style="background-image: url({{ MEDIA_URL}}image/splash.png); background-position: center center; height: 299px;"> -->
+    </div>
+
+    <div id="taglinewrapper">
+        {% block tagline %}
+        <div id="tagline" class="mainblock" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
+        {% endblock %}
+    </div>
+
+    <div id="contentwrapper">
+        {% block content %}
+        <div id="content" class="mainblock">
+            EVENTS: A next level play experience! About &rdquo;
+        </div>
+        {% endblock %}
+    </div>
+
+    {% block activityfooter %}
+    <div id="activityfooter" class="mainblock" style="overflow: hidden;">
+        <div id="activity">
+            <h3>Recente activiteit</h3>
+
             <ol>
-                <li><a href="/" class="{% ifequal current "home" %}current{% endifequal %}">Home</a></li>
-                <li><a href="/games/" class="{% ifequal current "games" %}current{% endifequal %}">Games</a></li>
-                <li><a href="/klassement/" class="{% ifequal current "klassement" %}current{% endifequal %}">Klassement</a></li>
-                <li><a href="/over/" class="{{ current|default:"current" }}">Over</a></li>
-                <li><a href="http://ebi.posterous.com/">Blog</a></li>
+                {% for action in actions %}
+                <li style="float: left; width: 150px;"><a href="{{ action.target.get_absolute_url }}"><img src="https://asset1.37img.com/missing/avatar.png?r=3">{{ action.actor }} {{ action.verb }} {% if action.target %}{{ action.target }}{% endif %}</a></li>
+                {% endfor %}
             </ol>
+
+            <a href="/players/">Ranglijst</a>
+        </div>
+
+        <div id="blog">
+            <h3>Blog</h3>
+
+            <h4>{{ blogentry.title }}</h4>
+
+            <p>{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }} {{ blogentry.summary|striptags|truncatewords:32 }} <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
         </div>
     </div>
-</div>
-
-
-<div id="taglinewrapper">
-    {% block tagline %}
-    <div id="tagline" class="mainblock" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
     {% endblock %}
-</div>
 
-<div id="contentwrapper">
-    {% block content %}
-    <div id="content" class="mainblock">
-        EVENTS: A next level play experience! About &rdquo;
-    </div>
-    {% endblock %}
-</div>
+    <div id="footerwrapper">
+        <div id="footerexplanation" class="mainblock">
+            <h4>Wat is PLAY Pilots?</h4>
+            <p>PLAY Pilots verbindt muziek, film en speelse cultuur in Utrecht. Op Stekker Fest, het Nederlands Film Festival en Le Guess Who? kun je speciaal ontwikkelde <a href="">live games</a> spelen. En er is een <a href="">online game</a> om je eigen stijl te ontwikkelen.</p>
+        </div>
 
-{% block activityfooter %}
-<div id="activityfooter" class="mainblock" style="overflow: hidden;">
-    <div id="activity">
-        <h3>Recente activiteit</h3>
+        <div id="footergraphic" class="mainblock">
+            Een project van <img src="{{ MEDIA_URL }}image/footer_play.png"> Mogelijk gemaakt door <img src="{{ MEDIA_URL }}image/footer_utrecht.png"> en <img src="{{ MEDIA_URL }}image/footer_provincie.png"> Gemaakt door <img src="{{ MEDIA_URL }}image/footer_hubbub.png">
+        </div>
 
-        <ol>
-            {% for action in actions %}
-                <li style="float: left; width: 150px;"><a href="{{ action.target.get_absolute_url }}"><img src="https://asset1.37img.com/missing/avatar.png?r=3">{{ action.actor }} {{ action.verb }} {% if action.target %}{{ action.target }}{% endif %}</a></li>
-            {% endfor %}
-        </ol>
-        
-        <a href="/players/">Ranglijst</a>
-    </div>
-    
-    <div id="blog">
-        <h3>Blog</h3>
-        
-        <h4>{{ blogentry.title }}</h4>
-        
-        <p>{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }} {{ blogentry.summary|striptags|truncatewords:32 }} <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
-    </div>
-</div>
-{% endblock %}
+        <div id="footercolofon" class="mainblock">
+            <div style="float: right"><a href="/over/">Over</a> | <a href="http://blog.playpilots.nl/">Blog</a> | <a href="/contact/">Contact</a></div>
 
-<div id="footerwrapper">
-    <div id="footerexplanation" class="mainblock">
-        <h4>PLAY</h4>
-    </div>
-    
-    <div id="footergraphic" class="mainblock">
-        A Play project <img src="{{ MEDIA_URL }}image/footer_play.png"> Commissioned by <img src="{{ MEDIA_URL }}image/footer_utrecht.png"> and <img src="{{ MEDIA_URL }}image/footer_provincie.png"> Made by <img src="{{ MEDIA_URL }}image/footer_hubbub.png">
-    </div>
-    
-    <div id="footercolofon" class="mainblock">
-        <div style="float: right"><a href="/about/">About</a> | <a href="http://ebi.posterous.com/">Blog</a> | <a href="/contact/">Contact</a></div>
-            
-        <div>Content on this site is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a></div>
-    </div>
-</div>
+            <div>Deze site wordt aangeboden onder een <a href="http://creativecommons.org/licenses/by-nc/3.0/nl/">Creative Commons Naamsvermelding-NietCommercieel 3.0 Licentie</div>
+            </div>
+        </div>
 
-</body>
-</html>
+    </body>
+    </html>

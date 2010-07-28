@@ -1,44 +1,77 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>{{ flatpage.title }}</title>
+    <title>{{ flatpage.title }} &bull; PLAY Pilots</title>
     
     <style type="text/css" media="screen">
+        body {
+            background: transparent url({{ MEDIA_URL }}image/grid.png) repeat-y center top;            
+        }
+        
+        a:link, a:visited {
+            text-decoration: none;
+            color: #f30;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        a:active {
+            color: #e11600;
+        }
+    
+        #taglinewrapper {
+            border-bottom: 2px solid #999;
+        }
+
         #tagline {
-            padding-top: 30px;
-            padding-bottom: 30px;
+            padding: 42px 0;
         }
         
         #tagline H1 {
-            color: #f5f5f5;
-            
-            text-shadow: #bbb 4px 4px 2px;
+            color: #f5f5f5;            
+            text-shadow: #999 0px 2px 0px;
         }
         
         #contentwrapper {
+            border-top: 5px solid #ddd;            
             background-color: #f5f5f5;
             background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
         }
         
+        #content {
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        } 
+        
         #content H3 {
-            background-color: white;
-            
-            padding: 10px;
-            
+            background-color: white;            
+            width: 480px;
+            margin: -21px 0 21px -30px;
             margin-bottom: 20px;
+            padding: 21px 10px;
+            color: #262a33;
+        }
+        
+        #content H4 {
         }
         
         #text {
             width: 460px;
-            margin-left: 160px;
-        }
+            margin-left: 150px;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            padding: 21px 10px;
+        }        
+        
     </style>
     
 {% endblock %}
 
 {% block tagline %}
 <div id="tagline" class="mainblock">
-    <h1>PLAY Pilots</h1>
+    <h1>{{ flatpage.title }}</h1>
 </div>
 {% endblock %}
 
@@ -47,8 +80,7 @@
         
         <div id="text">
             <div>{{ flatpage.content|safe }}</div>
-        </div>
-        
+        </div>        
 
     </div>
 {% endblock %}
