@@ -205,12 +205,12 @@ Uw gezagvoerder''' % {
 
 
 def challenge_detail(request, id):
-    r = get_object_or_404(Round, id=id)
+    r = get_object_or_404(Duel, id=id)
     
     if r.open:
-        cultures = Culture.objects.all().order_by('name')
+        cultures = Style.objects.all().order_by('name')
     
-        return render_to_response('metagame/challenge_open.html', {
+        return render_to_response('metagame/challenge.html', {
             'round': r,
             'cultures': cultures
         }, context_instance=RequestContext(request))
@@ -218,3 +218,6 @@ def challenge_detail(request, id):
         return render_to_response('metagame/challenge_closed.html', {
             'round': r
         }, context_instance=RequestContext(request))
+        
+def challenge_detail_redirect(request, id):
+    return HttpResponseRedirect('/challenge/%s/' % id)
