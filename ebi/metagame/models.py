@@ -131,10 +131,10 @@ class Player(models.Model):
     # game_set.all()
     
     def get_challenger_duels(self):
-        return self.challenger_duel.all().order_by('-created')
+        return self.challenger_duel.all().filter(open=True).order_by('-created')
         
     def get_responder_duels(self):
-        return self.responder_duel.all().order_by('-created')
+        return self.responder_duel.all().filter(open=True).order_by('-created')
     
     def __unicode__(self):
         return self.user.username

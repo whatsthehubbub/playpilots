@@ -180,7 +180,7 @@
                 {% for duel in player.get_responder_duels %}
                     <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}">
                         <b><a href="/players/{{ duel.challenger.id }}/">{{ duel.challenger }}</a>
-                        {{ duel.challenge_move.name }}
+                        {{ duel.get_challenge_move }}
                         en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
                         <br>
                         {{ duel.created|timesince }} geleden
@@ -203,7 +203,7 @@
                     <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}">
                         <b>JIJ
                         als <span class="style">{{ duel.challenge_move.style.name }}</span>
-                        {{ duel.challenge_move.name }}
+                        {{ duel.get_challenge_move }}
                         en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
                         <br>
                         {{ duel.created|timesince }} geleden
