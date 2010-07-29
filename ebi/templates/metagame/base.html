@@ -34,6 +34,9 @@
 
     #logo {
         float: left;
+        padding: 0;
+        margin: 0;
+        height: 65px;
     }
 
     #logo IMG {
@@ -178,6 +181,7 @@
 
     #footerwrapper a {
         color: #666;
+        text-decoration: none;
     }
 
     #footerwrapper a:hover {
@@ -263,12 +267,12 @@ _gaq.push(['_trackPageview']);
         <div id="header" class="mainblock">
             <div id="checkin">
                 {% if not user.is_authenticated %}
-                <div id="login"><a href="/login/">Log in</a></div>
-                <div id="register">of <a href="/register/">aanmelden</a> &raquo;</div>
+                <div id="login"><a href="/login/">Inloggen</a></div>
+                <div id="register">&hellip;of <a href="/register/">aanmelden</a> &raquo;</div>
                 {% else %}
                 <img src="{{ MEDIA_URL }}image/avatar_login_box.png">
                 <div id="username"><a href="/players/{{ user.username }}/">{{ user.username }}</a></div>
-                <div id="logout"><a href="/logout/" id="logout">log uit</a></div>
+                <div id="logout"><a href="/logout/" id="logout">uitloggen</a></div>
                 {% endif %}
             </div>
 
