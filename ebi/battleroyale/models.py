@@ -96,4 +96,4 @@ class Duel(models.Model):
         return self.challenge_move.name.replace('X', self.target.user.username)
         
     def get_response_move(self):
-        return self.response_move.replace('X', self.challenger.user.username)
+        return self.response_move.name.replace('X', self.challenger.user.username)
