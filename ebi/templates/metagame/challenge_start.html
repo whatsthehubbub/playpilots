@@ -4,8 +4,8 @@
     {{ block.super }}
     
     <script type="text/javascript" charset="utf-8">
-        var targetUser = '{{ target.user.username }}';
-        var targetUserId = {{ target.user.id }};
+        var targetUsername = '{{ target.user.username }}';
+        var targetPlayerId = {{ target.id }};
         
         var moveId = 0;
         var moveString = '';
@@ -35,12 +35,12 @@
                 if (counter == 0) {
                     // The first are selected by default, so we need to fill those in
                     moveId = move[0];
-                    moveString = templateMove(move[1], targetUser);
+                    moveString = templateMove(move[1], targetUsername);
 
                     extraclass = 'selected';
                 }
                 
-                $('#moves').append('<li id="move_' + move[0] + '" class="move ' + extraclass + '"><b>JIJ</b> ' + templateMove(move[1], targetUser) + '</li>');
+                $('#moves').append('<li id="move_' + move[0] + '" class="move ' + extraclass + '"><b>JIJ</b> ' + templateMove(move[1], targetUsername) + '</li>');
             }
         }
         
@@ -123,14 +123,14 @@
                 
                 // Send move to server
                 $.post('/challenge/create/', {
-                    'target': targetUserId,
+                    'target': targetPlayerId,
                     'move': moveId,
                     'message': message
                 }, function(data) {
                     var awesomeness = data['awesomeness'];
                     var awesomenessMessage = awesomenessMessages[awesomeness];
                     
-                    $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2><p>Kijken wat <span class="responder">' + targetUser + '</span> gaat doen</p></div>');
+                    $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2><p>Kijken wat <span class="responder">' + targetUsername + '</span> gaat doen</p></div>');
                 }, 'json');
                 
                 var totalMove = '<div class="finalmove"><b>JIJ ' + moveString;

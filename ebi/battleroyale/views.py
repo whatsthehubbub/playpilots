@@ -32,7 +32,7 @@ def klassement(request):
 def challenge(request):
     playerid = request.GET.get('target', None)
 
-    target = get_object_or_404(Player, id=playerid)
+    target = get_object_or_404(Player, id=int(playerid))
 
     styles = Style.objects.all().order_by('name')
 
