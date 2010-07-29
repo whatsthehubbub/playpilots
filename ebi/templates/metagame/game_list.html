@@ -9,10 +9,6 @@
         }
     
         #games_wrapper {
-/*            width: 940px;*/
-/*            margin: 0 auto;*/
-/*            border-top: 5px solid #bbb;*/
-            
             border-bottom: 5px solid #ddd;
             
             background-color: #b7d1d0;
@@ -21,18 +17,17 @@
         }
         
         #game_list {
-            background-color: yellow;
             margin: 0 auto;
             width: 940px;
-/*            padding-top: 20px;*/
+            padding: 0;
             
-            overflow: auto;
+            overflow: hidden;
             
             min-height: 300px;
         }
         
         #game_intro {
-            color: #666;
+            color: #262A33;
             padding: 21px 0;
             width: 620px;
             font-size: 12px;
@@ -40,24 +35,21 @@
         }
         
         #game_intro H2 {
-/*            padding: 0;*/
-/*            background: green;*/
-            color: #666;
+            color: #fff;
             
             display: inline;
-/*            color: white;*/
         }
         
         .game {
             float: left;
             width: 300px;
             
-            height: 190px;
+            height: 231px; /* genoeg voor 11 regels van 14px hoog */
             
-/*            background-color: #262a33;*/
-            background-color: green;
+            background-color: #262a33;
             
             color: white;
+            /* todo "meer" button */
         }
         
         .game A {
@@ -73,12 +65,20 @@
             background-position: center center;
         }
         
+        .soon .mainimage {
+            display: none;
+        }
+        
         .gamecontent {
-            background-color: red;
             float: left;
             padding: 21px 10px;
             width: 140px;
             margin: 0;
+        }
+        
+        .soon .gamecontent {
+            width: 100%;
+            color: #333;
         }
         
         .gamecontent p {
@@ -94,7 +94,6 @@
         }        
         
         .gamecontent a:hover {
-/*            text-decoration: underline;*/
         }        
         
         .game H3 {
@@ -120,10 +119,23 @@
         }
         
         #agenda_wrapper {
-            
+            /* todo doorlopende grijze streep */            
         }
         
         #agenda {
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        }
+        
+        #agenda h4 {
+            line-height: 42px;
+            font-size: 14px;
+            margin: 0 0 0 10px;
+        }
+        
+        #agenda img {
+            border-top: 1px solid #ddd;
+            
         }
         
     </style>
@@ -144,13 +156,13 @@
                 <div class="mainimage" style="{% if game.get_first_photo %}background-image: url({{ game.get_first_photo }});{% endif %}"></div>
             
                 <div class="gamecontent">
-                    <h3>{{ game.name }}</h3>
+                    <a href=""><h3>{{ game.name }}</h3></a>
                     
                     <p>door {{ game.maker }}<br>
                         op {{ game.festival }}<br>
                         {{ game.start|date:"j b Y" }}</p>
             
-                    <p><a href="{{ game.get_absolute_url }}">{{ game.description|truncatewords:10}}</a></p>
+                    {% if forloop.first %}<p><a href="{{ game.get_absolute_url }}">{{ game.description|truncatewords:10}}</a></p>{% else %}<p>Coming soon!</p>{% endif %}
                 </div>
             </div>
         {% endfor %}
@@ -159,7 +171,8 @@
 
 <div id="agenda_wrapper">
     <div id="agenda" class="mainblock">
-        <h4 style="margin-left: 20px;">Festivals op welke</h4>
+        <h4>Agenda</h4>
+        <img src="/static/image/festivals.png" alt="">
     </div>
 </div>
 {% endblock %}

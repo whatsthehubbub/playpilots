@@ -170,13 +170,12 @@
         color: #999;
         text-shadow: 0px 1px 0 #fff;
 
-
         border-top: 5px solid #bbb;
 
         background-image: url(/static/image/grain_overlay.png);
         background-repeat: repeat;
 
-        padding: 25px 0 85px 0;
+        padding: 25px 0 100px 0;
     }
 
     #footerwrapper a {
@@ -270,7 +269,7 @@ _gaq.push(['_trackPageview']);
                 <div id="login"><a href="/login/">Inloggen</a></div>
                 <div id="register">&hellip;of <a href="/register/">aanmelden</a> &raquo;</div>
                 {% else %}
-                <img src="{{ MEDIA_URL }}image/avatar_login_box.png">
+                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png">
                 <div id="username"><a href="/players/{{ user.username }}/">{{ user.username }}</a></div>
                 <div id="logout"><a href="/logout/" id="logout">uitloggen</a></div>
                 {% endif %}

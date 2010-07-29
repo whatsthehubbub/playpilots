@@ -4,6 +4,10 @@
     <title>Game {{ game.name }}</title>
     
     <style type="text/css" media="screen">
+        #taglinewrapper {
+            display: none;
+        }
+        
         #title_wrapper {
             background-color: #262a33;
             background-repeat: repeat;
@@ -176,6 +180,10 @@
             
             border: thin solid #ddd;
         }
+        
+        button.door {
+            cursor: hand;
+        }
     </style>
     
     <script type="text/javascript" charset="utf-8">
@@ -213,11 +221,15 @@
             <img src="{{ game.get_first_photo }}">
         </div>
         
-        <p style="padding-top: 20px; margin-bottom: 0;">&laquo; terug naar Games</p>
+        <h3>Game</h3>
         
-        <h1>Game: {{ game.name }}</h1>
+        <h1>{{ game.name }}</h1>
         
         <h3>door {{ game.maker }} voor {{ game.festival }}</h3>
+        
+        <form method="GET" action="http://leapfrog.nl/">
+            <button class="door"><p class="door">Ik ben er bij!</p></button>
+        </form>
     </div>
 </div>
 
