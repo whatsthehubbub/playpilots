@@ -87,7 +87,13 @@ class Duel(models.Model):
     result = models.TextField(blank=True)
     
     def __unicode__(self):
-        return '%s vs. %s' % (self.challenger.user.username, self.challenge_move.name)
+        return '%s with %s' % (self.challenger.user.username, self.challenge_move.name)
         
     def get_absolute_url(self):
         return '/c/%d/' % self.id
+        
+    def get_challenge_move(self):
+        return self.challenge_move.name.replace('X', self.target.user.username)
+        
+    def get_response_move(self):
+        return self.response_move.replace('X', self.challenger.user.username)

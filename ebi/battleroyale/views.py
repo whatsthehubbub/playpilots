@@ -30,33 +30,65 @@ def klassement(request):
     
 
 def challenge(request):
+    playerid = request.GET.get('target', None)
+
+    target = get_object_or_404(Player, id=playerid)
+
+    styles = Style.objects.all().order_by('name')
+
+    return render_to_response('metagame/challenge_start.html', {
+        'target': target,
+        'styles': styles,
+        'current': 'klassement'
+    }, context_instance=RequestContext(request))
+
+
+def challenge_detail(request, id):
+    d = get_object_or_404(Duel, id=id)
+
+    if d.open:
+        styles = Style.objects.all().order_by('name')
+
+        return render_to_response('metagame/challenge_open.html', {
+            'duel': d,
+            'styles': styles,
+            'current': 'klassement'
+        }, context_instance=RequestContext(request))
+    else:
+        return render_to_response('metagame/challenge_closed.html', {
+            'duel': d,
+            'current': 'klassement'
+        }, context_instance=RequestContext(request))
+
+
+def challenge_create(request):
     if request.method == 'POST':
         logging.debug('challenge post')
         # Trying to store a challenge
-        
+
         challenger = request.user.get_profile()
-        
+
         move_id = request.POST.get('move', None)
         logging.debug('got move id: %s', move_id)
-        
+
         move = Move.objects.get(id=int(move_id))
-        
+
         message = request.POST.get('message', '')
         logging.debug('got message: %s', message)
-        
+
         target_id = request.POST.get('target', None)
         target = Player.objects.get(id=int(target_id))
-        
+
         # Calculate the awesomeness
         # TODO calculate the awesomeness based on player skill
         awesomeness = random.randint(1, 5)
-        
+
         # Create Round object
         d = Duel(challenger=challenger, challenge_move=move, challenge_message=message, challenge_awesomeness=awesomeness, target=target)
         d.save()
-        
+
         actstream.action.send(request.user, verb='heeft net gebruiker uitgedaagd voor een duel', target=d)
-        
+
         # One to the target
         send_mail('Je bent uitgedaagd door %s' % challenger.user.username,
             '''Hoi %(target)s,
@@ -72,103 +104,34 @@ Uw gezagvoerder''' % {'target': target.user.username,
                             'url': 'http://playpilots.nl/c/%d/' % d.id}, 
             'Your Captain Speaking <captain@playpilots.nl>', 
             [target.user.email])
-        
+
         return HttpResponse(json.dumps({
             'awesomeness': awesomeness
         }), mimetype='text/json')
-    else:
-        playerid = request.GET.get('target', None)
 
-        target = get_object_or_404(Player, id=playerid)
-    
-        styles = Style.objects.all().order_by('name')
-    
-        return render_to_response('metagame/challenge.html', {
-            'target': target,
-            'styles': styles,
-            'current': 'klassement'
-        }, context_instance=RequestContext(request))
-        
 def challenge_resolve(request):
     if request.method == 'POST':
-        round_id = int(request.POST.get('round_id', None))
-        r = Round.objects.get(id=round_id)
+        duel_id = int(request.POST.get('duel', None))
+        d = Duel.objects.get(id=duel_id)
     
-        r.open = False
-        r.responded = datetime.datetime.now()
+        d.open = False
+        d.responded = datetime.datetime.now()
     
         move_id = int(request.POST.get('move', None))
-        r.response_move = Move.objects.get(id=move_id)
+        d.response_move = Move.objects.get(id=move_id)
     
-        r.response_message = request.POST.get('message', '')
+        d.response_message = request.POST.get('message', '')
     
-        # Also TODO update dominant style
-    
-        winner_modifier = 0
-    
-        if random.random() < 0.5:
-            winner = r.challenger
-            winner_modifier += 10
+        d.response_awesomeness = random.randint(1, 5)
         
-            loser = r.target
-        else:
-            winner = r.target
-            loser = r.challenger
-        
-        # Modify winner points if style penalty
-        if winner.culture and r.challenger==winner and winner.culture==r.challenge_move.culture:
-            winner_modifier -= 10
-            
-        # TODO implement log
-        # print 'winner', winner, winner.rating
-        # print 'loser', loser, loser.rating
-    
-        difference = abs(winner.rating - loser.rating)
-        difference_mod = round(math.log(difference) * 5)
-    
-        if winner.rating > loser.rating:
-            winner.rating += 10
-            loser.rating -= 10
-        elif winner.rating < loser.rating:
-            winner.rating += difference + 10
-            loser.rating -= difference - 10
-        
-        winner.rating = winner.rating + winner_modifier
-        
-        r.save()
-        
-        # Also save winner and loser in the round objcet? TODO
-        winner.save()
-        loser.save()
+        d.save()
     
         result = {
-            'winner': {
-                'username': winner.user.username,
-                'rating': winner.rating
-            },
-            'loser': {
-                'username': loser.user.username,
-                'rating': loser.rating
-            },
+            'awesomeness': d.response_awesomeness
         }
         
-        # TODO template this text based on a to be agreed upon variable
-        winphrase = ''
-        
-        try:
-            swp = SpecificWinPhrase.objects.get(winner=r.challenge_move.culture, loser=r.response_move.culture)
-            
-            winphrase = swp.winphrase
-        except SpecificWinPhrase.DoesNotExist:
-            if winner == r.challenger:
-                winculture = r.challenge_move.culture
-            else:
-                winculture = r.response_move.culture
-            winphrase = winculture.win_phrase
-            
-        if winphrase:
-            result['winphrase'] = winphrase
-        
+        # TODO handle winner and loser
+        """
         # One to the winner
         send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.user.username, 
             '''Hoi %(winner)s,
@@ -204,24 +167,9 @@ Uw gezagvoerder''' % {
             }, 
             'Your Captain Speaking <captain@playpilots.nl>', 
             [loser.user.email])
-    
+        """
+        
         return HttpResponse(json.dumps(result), mimetype="text/json")
-
-
-def challenge_detail(request, id):
-    r = get_object_or_404(Duel, id=id)
-    
-    if r.open:
-        cultures = Style.objects.all().order_by('name')
-    
-        return render_to_response('metagame/challenge.html', {
-            'round': r,
-            'cultures': cultures
-        }, context_instance=RequestContext(request))
-    else:
-        return render_to_response('metagame/challenge_closed.html', {
-            'round': r
-        }, context_instance=RequestContext(request))
         
 def challenge_detail_redirect(request, id):
     return HttpResponseRedirect('/challenge/%s/' % id)

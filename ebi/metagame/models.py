@@ -97,7 +97,7 @@ class Game(models.Model):
         return self.name
         
     def get_absolute_url(self):
-        return '/games/%s' % self.slug
+        return '/games/%s/' % self.slug
         
     def get_first_photo(self):
         if self.photos.all():

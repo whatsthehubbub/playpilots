@@ -38,6 +38,7 @@ urlpatterns += patterns('ebi.battleroyale.views',
     (r'^klassement/$', 'klassement'),
 
     (r'^challenge/$', 'challenge'),
+    (r'^challenge/create/$', 'challenge_create'),
 	(r'^challenge/resolve/$', 'challenge_resolve'),
 	(r'^challenge/(?P<id>\d+)/$', 'challenge_detail'),
 	(r'^c/(?P<id>\d+)/$', 'challenge_detail_redirect'),

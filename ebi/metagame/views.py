@@ -20,8 +20,11 @@ from actstream.models import Action, actor_stream
 
 import datetime, random, math, json
 
+from django.views.decorators.cache import cache_page
+
 import logging
 
+# @cache_page
 def index(request):
     if request.user.is_anonymous():
         return render_to_response('metagame/index_splash.html', {
@@ -127,16 +130,15 @@ def logout_view(request):
     return HttpResponseRedirect('/')
     
 @login_required
+# @cache_page
 def game_list(request):
-    
-    logging.debug('test')
-    
     return render_to_response('metagame/game_list.html', {
         'games': Game.objects.all().order_by('-start'),
         'current': 'games'
     }, context_instance=RequestContext(request))
 
 @login_required
+# @cache_page
 def game_detail(request, slug):
     game = get_object_or_404(Game, slug=slug)
     

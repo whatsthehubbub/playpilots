@@ -1,0 +1,252 @@
+{% extends "metagame/challenge_base.html" %}
+
+{% block extrahead %}
+    {{ block.super }}
+    
+    <script type="text/javascript" charset="utf-8">
+        var targetUser = '{{ target.user.username }}';
+        var targetUserId = {{ target.user.id }};
+        
+        var moveId = 0;
+        var moveString = '';
+        var message = '';
+        
+        // Prefill moves
+        var moves = {};
+        {% for style in styles %}
+            moves['{{ style.name }}'] = [];
+
+            {% for move in style.move_set.all %}
+                moves['{{ style.name }}'].push([{{ move.id }}, '{{ move.name }}']);
+            {% endfor %}
+        {% endfor %}
+        
+        function templateMove(move, name) {
+            return move.replace('X', '<b>' + name + '</b>');
+        }
+        
+        function fillMoves(style) {
+            $('#moves').empty();
+            
+            for (var counter in moves[style]) {
+                var move = moves[style][counter];
+                
+                var extraclass = '';
+                if (counter == 0) {
+                    // The first are selected by default, so we need to fill those in
+                    moveId = move[0];
+                    moveString = templateMove(move[1], targetUser);
+
+                    extraclass = 'selected';
+                }
+                
+                $('#moves').append('<li id="move_' + move[0] + '" class="move ' + extraclass + '"><b>JIJ</b> ' + templateMove(move[1], targetUser) + '</li>');
+            }
+        }
+        
+        $(document).ready(function() {
+            $('#challenge_form').ajaxForm({
+                dataType: 'json',
+                success: function(data) {
+                    var awesomeness = data['awesomeness'];
+                    
+                    $('#challenge_button').replaceWith('<p>Je beweging heeft de coolness: ' + awesomeness + '</p>');
+                }
+            });
+            
+            $('.stylerow').mouseover(function() {
+                $('.stylerow').removeClass('hover');
+                
+                var i = this.id.split('_')[2];
+                $('#style_row_' + i).addClass('hover');
+            });
+            
+            $('.stylerow').mouseout(function() {
+                $('.stylerow').removeClass('hover');
+            });
+            
+            $('.stylerow').click(function() {
+                $('.stylerow').removeClass('active');
+                $('.style_detail').removeClass('active');
+                
+                var i = this.id.split('_')[2];
+                
+                $('#style_row_' + i).addClass('active');
+                $('#style_detail_' + i).addClass('active');
+            });
+            
+            $('.choosestylebutton').click(function() {
+                // Display the style pick field and show the chosen style
+                var i = $(this).parent().attr('id').split('_')[2];
+                
+                var style = $('#style_row_' + i + ' TD.style').text();
+                
+                $('#stylechosen1 .stylename').html(style);
+                
+                $('#stylechooser').css('display', 'none');
+                $('#stylechosen1').css('display', 'block');
+                $('#action').css('display', 'block');
+                
+                // Also show the action choice field and fill the correct actions
+                
+                fillMoves(style);
+            });
+            
+            $('#changestylelink').click(function() {
+                $('.stylerow').removeClass('active');
+                $('.style_detail').removeClass('active');
+                
+                $('#stylechooser').css('display', 'block');
+                $('#stylechosen1').css('display', 'none');
+                $('#action').css('display', 'none');
+            });
+            
+            $('#moves LI').live('click', function() {
+                $('.move').removeClass('selected');
+                
+                var i = this.id.split('_')[1];
+                
+                $('#move_' + i).addClass('selected');
+                
+                // Store move id
+                moveId = parseInt(i);
+                moveString = $('#move_' + i).text();
+            });
+            
+            $('#makemovebutton').click(function() {
+                $('#changestylelink').remove();
+                
+                // Display progress
+                // TODO
+                
+                message = $('#messagetext').val();
+                
+                // Send move to server
+                $.post('/challenge/create/', {
+                    'target': targetUserId,
+                    'move': moveId,
+                    'message': message
+                }, function(data) {
+                    var awesomeness = data['awesomeness'];
+                    var awesomenessMessage = awesomenessMessages[awesomeness];
+                    
+                    $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2><p>Kijken wat <span class="responder">' + targetUser + '</span> gaat doen</p></div>');
+                }, 'json');
+                
+                var totalMove = '<div class="finalmove"><b>JIJ ' + moveString;
+                if (message == '') {
+                    totalMove += ' zonder iets te zeggen.</b>';
+                } else {
+                    totalMove += ' en zegt:</b> &ldquo;' + message + '&rdquo;';
+                }
+                totalMove += '</div>';
+                
+                $('#actionselect').html(totalMove);
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+<div id="content" class="mainblock">
+    
+    <div id="headline">
+        <div class="player1">
+            <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
+
+            <img id="vs" style="right: -100px;" src="{{ MEDIA_URL }}image/vs_stars.png">
+
+            <div class="player">
+                <h2>{{ user.username }}</h2>
+                <p>18 in het algemeen klassement</p>
+            </div>
+        </div>
+        
+        <div class="player2">
+            <div class="player">
+                {% if duel %}
+                    <h2>{{ duel.target.user.username }}</h2>
+                    <p>18 in het algemeen klassement</p>
+                {% else %}
+                    <h2>{{ target.user.username }}</h2>
+                    <p>18 in het algemeen klassement</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div id="style">
+        <div class="headingbox">
+            <h5>Jouw stijl</h5>
+        </div>
+        
+        <div class="box">
+            <div id="styleplayer1" class="player1">
+                <div id="stylechooser" class="choice">
+                    <table>
+                        <tr class="toprow">
+                            <th>Stijl</th>
+                            <th>Jouw positie</th>
+                            <th>Jouw niveau</th>
+                        </tr>
+
+                        {% for style in styles %}
+                            <tr id="style_row_{{ style.id }}" class="stylerow {% cycle '' 'odd' %}">
+                                <td class="style">{{ style.name }}</td>
+                                <td class="rank">1</td>
+                                <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ forloop.counter }}.png"></td>
+                            </tr>
+                            <tr>
+                                <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">
+                                    test<br>
+                                    <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
+                <div id="stylechosen1" class="{% if not duel %}choice{% endif %} stylechosen">
+                    <a href="#" id="changestylelink">veranderen</a>
+
+                    <p class="stylename">{{ duel.challenge_move.style.name }}</p>
+                </div>
+            </div>
+
+            <div id="styleplayer2" class="player2">
+                <div>We zullen zien wat {{ target.user.username }} voor stijl gaat kiezen.</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="action">
+        <div class="headingbox">
+            <h5>Jouw actie</h5>
+        </div>
+        
+        <div class="box">
+            <div id="actionplayer1" class="player1 {% if not duel %}choice{% endif %}">
+                <div id="actionselect">
+                    <ul id="moves">
+                        <li class="move">Jij bestelt een Guillotine voor Lauda</li>
+                    </ul>
+
+                    <div class="message">
+                        <h5>Jouw boodschap aan {{ target.user.username }}</h5>
+
+                        <textarea id="messagetext" class="messagetext" name="messagetext"></textarea>
+
+                        <p style="text-align: center;"><button type="submit" id="makemovebutton" class="bang"></button></p>
+                    </div>
+                </div>
+            </div>
+        
+            <div id="actionplayer2" class="player2">
+                <p>We wachten op de actie van {{ target.user.username }}.</p>
+            </div>
+        </div>
+        
+    </div>
+
+</div>
+{% endblock %}

@@ -2,8 +2,20 @@
 
 {% block extrahead %}
     <script type="text/javascript" charset="utf-8">
-        var targetUser = '{{ target.user.username }}';
-        var targetUserId = {{ target.user.id }};
+        
+        // By naming the various elements either balbla1 or blabla2 we can easily choose one
+        var player = 0; // This means that neither side is active on the page.
+        
+        {% if not duel %}
+            var targetUser = '{{ target.user.username }}';
+            var targetUserId = {{ target.user.id }};
+            
+            player = 1; // This means the left player is active
+        {% else %}
+        
+            player = 2; // This means the right player is active
+        {% endif %}
+        
         var moveId = 0;
         var moveString = '';
         var message = '';
@@ -78,10 +90,10 @@
                 
                 var style = $('#style_row_' + i + ' TD.style').text();
                 
-                $('#stylechosen .stylename').html(style);
+                $('#stylechosen' + player + ' .stylename').html(style);
                 
                 $('#stylechooser').css('display', 'none');
-                $('#stylechosen').css('display', 'block');
+                $('#stylechosen' + player).css('display', 'block');
                 $('#action').css('display', 'block');
                 
                 // Also show the action choice field and fill the correct actions
@@ -94,7 +106,7 @@
                 $('.style_detail').removeClass('active');
                 
                 $('#stylechooser').css('display', 'block');
-                $('#stylechosen').css('display', 'none');
+                $('#stylechosen' + player).css('display', 'none');
                 $('#action').css('display', 'none');
             });
             
@@ -119,7 +131,7 @@
                 message = $('#messagetext').val();
                 
                 // Send move to server
-                $.post('/challenge/', {
+                $.post('/challenge/create/', {
                     'target': targetUserId,
                     'move': moveId,
                     'message': message
@@ -184,11 +196,17 @@
         }
         
         .player2 {
-            width: 460px;
+            width: 475px; /* needs to be 460 + 20gutter */
             float: left;
         }
         
+        .headingbox {
+            overflow: auto;
+        }
+        
         H5 {
+            width: 460px;
+            float: left;
             margin-top: 10px;
             color: #12151a;
         }
@@ -198,8 +216,11 @@
             overflow: hidden;
         }
         
-        .choice {
+        .player1 .choice {
             border-right: 1px solid #ddd;
+        }
+        
+        .choice {
             border-top: 5px solid #ddd;
             
             background-color: white;
@@ -230,7 +251,7 @@
             height: 85px;
         }
 
-        .player1 .you {
+        .you {
             float: right;
         }
         
@@ -248,8 +269,8 @@
             float: right;
             
             position: relative;
-            right: -100px;
-            top: 40px;
+            right: -50px;
+            top: 30px;
         }
 
         .name {
@@ -325,21 +346,31 @@
         }
         
         /* Box to store the style that was chosen in. */
-        #stylechosen {
+        #stylechosen1 {
             display: none;
+            {% if duel %}
+                display: block;
+            {% endif %}
+        }
+        
+        #stylechosen2 {
+            display: none;
+        }
+        
+        .stylechosen {
             padding: 5px 5px 0 5px;
         }
         
-        #stylechosen A {
+        .stylechosen A {
             text-decoration: none;
             color: #f30;
         }
         
-        #stylechosen P {
+        .stylechosen P {
             margin: 0;
         }
         
-        #stylechosen .stylename {
+        .stylechosen .stylename {
             color: #f30;
             text-transform: uppercase;
         }
@@ -349,7 +380,6 @@
         }
         
         /* Styles for choosing the action. */
-        
         #action {
             overflow: auto;
             display: none;
@@ -439,92 +469,182 @@
     
     <div id="headline">
         <div class="player1">
-            <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
+            {% if not duel %}
+                <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
+            {% endif %}
 
             <img id="vs" src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
-                <h2>{{ user.username }}</h2>
-                <p>18 in het algemeen klassement</p>
+                {% if duel %}
+                    <h2>{{ duel.challenger.user.username }}</h2>
+                    <p>4 in het algemeen klassement</p>
+                {% else %}
+                    <h2>{{ user.username }}</h2>
+                    <p>18 in het algemeen klassement</p>
+                {% endif %}
             </div>
         </div>
         
         <div class="player2">
+            {% if duel and duel.target.user == user %}
+                <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
+            {% endif %}
+            
             <div class="player">
-                <h2>{{ target.user.username }}</h2>
-                <p>18 in het algemeen klassement</p>
+                {% if duel %}
+                    <h2>{{ duel.target.user.username }}</h2>
+                    <p>18 in het algemeen klassement</p>
+                {% else %}
+                    <h2>{{ target.user.username }}</h2>
+                    <p>18 in het algemeen klassement</p>
+                {% endif %}
             </div>
         </div>
     </div>
     
     <div id="style">
-        <h5>Jouw stijl</h5>
+        <div class="headingbox">
+            {% if duel %}
+                <h5>Stijl</h5>
+            {% endif %}
+
+            <h5>Jouw stijl</h5>
+        </div>
         
         <div class="box">
             <div id="styleplayer1" class="player1">
-                <div id="stylechooser" class="choice">
-                    <table>
-                        <tr class="toprow">
-                            <th>Stijl</th>
-                            <th>Jouw positie</th>
-                            <th>Jouw niveau</th>
-                        </tr>
-
-                        {% for style in styles %}
-                            <tr id="style_row_{{ style.id }}" class="stylerow {% cycle '' 'odd' %}">
-                                <td class="style">{{ style.name }}</td>
-                                <td class="rank">1</td>
-                                <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ forloop.counter }}.png"></td>
+                {% if not duel %}
+                    <div id="stylechooser" class="choice">
+                        <table>
+                            <tr class="toprow">
+                                <th>Stijl</th>
+                                <th>Jouw positie</th>
+                                <th>Jouw niveau</th>
                             </tr>
-                            <tr>
-                                <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">
-                                    test<br>
-                                    <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
 
-                <div id="stylechosen" class="choice">
-                    <a href="#" id="changestylelink">veranderen</a>
+                            {% for style in styles %}
+                                <tr id="style_row_{{ style.id }}" class="stylerow {% cycle '' 'odd' %}">
+                                    <td class="style">{{ style.name }}</td>
+                                    <td class="rank">1</td>
+                                    <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ forloop.counter }}.png"></td>
+                                </tr>
+                                <tr>
+                                    <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">
+                                        test<br>
+                                        <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
 
-                    <p class="stylename">teststyle</p>
+                <div id="stylechosen1" class="{% if not duel %}choice{% endif %} stylechosen">
+                    {% if not duel %}
+                        <a href="#" id="changestylelink">veranderen</a>                        
+                    {% endif %}
+
+                    <p class="stylename">{{ duel.challenge_move.style.name }}</p>
                 </div>
             </div>
         
             <div id="styleplayer2" class="player2">
-            
-                <!-- spacer heading for the other side, about to be filled in for some cases -->
-                <h5>&nbsp;</h5>
-            
-                <div>We zullen zien wat {{ target.user.username }} voor stijl gaat kiezen.</div>
+                {% if not duel %}
+                    <div>We zullen zien wat {{ target.user.username }} voor stijl gaat kiezen.</div>
+                {% else %}
+                    <div id="stylechooser" class="choice">
+                        <table>
+                            <tr class="toprow">
+                                <th>Stijl</th>
+                                <th>Jouw positie</th>
+                                <th>Jouw niveau</th>
+                            </tr>
+
+                            {% for style in styles %}
+                                <tr id="style_row_{{ style.id }}" class="stylerow {% cycle '' 'odd' %}">
+                                    <td class="style">{{ style.name }}</td>
+                                    <td class="rank">1</td>
+                                    <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ forloop.counter }}.png"></td>
+                                </tr>
+                                <tr>
+                                    <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">
+                                        test<br>
+                                        <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+                
+                <div id="stylechosen2" class="choice stylechosen">
+                    {% if duel.open %}
+                        <a href="#" id="changestylelink">veranderen</a>                        
+                    {% endif %}
+
+                    <p class="stylename">test style 2</p>
+                </div>
             </div>
         </div>
     </div>
     
     <div id="action">
-        <h5>Jouw actie</h5>
+        <div class="headingbox">
+            {% if duel %}
+                <h5>Actie</h5>
+            {% endif %}
+
+            <h5>Jouw actie</h5>
+        </div>
         
         <div class="box">
-            <div id="actionselect" class="player1 choice">
-                <div>
-                    <ul id="moves">
-                        <li class="move">Jij bestelt een Guillotine voor Lauda</li>
-                    </ul>
-                </div>
-            
-                <div class="message">
-                    <h5>Jouw boodschap aan {{ target.user.username }}</h5>
-                
-                    <textarea id="messagetext" class="messagetext" name="messagetext"></textarea>
-                
-                    <p style="text-align: center;"><button type="submit" id="makemovebutton" class="bang"></button></p>
-                </div>
+            <div id="actionplayer1" class="player1 {% if not duel %}choice{% endif %}">
+                {% if not duel %}
+                    <div id="actionselect">
+                        <ul id="moves">
+                            <li class="move">Jij bestelt een Guillotine voor Lauda</li>
+                        </ul>
+
+                        <div class="message">
+                            <h5>Jouw boodschap aan {{ target.user.username }}</h5>
+
+                            <textarea id="messagetext" class="messagetext" name="messagetext"></textarea>
+
+                            <p style="text-align: center;"><button type="submit" id="makemovebutton" class="bang"></button></p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="finalmove">
+                        <b>{{ duel.challenger.user.username }}
+                        {{ duel.challenge_move.name }}
+                        {% if duel.challenge_message %}
+                            en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
+                        {% else %}
+                            zonder iets te zeggen.</b>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
         
             <div id="actionplayer2" class="player2">
-                We wachten op de actie van {{ target.user.username }}.
+                {% if not duel %}
+                    <p>We wachten op de actie van {{ target.user.username }}.</p>
+                {% else %}
+                    <div id="actionselect">
+                        <ul id="moves">
+                            <li class="move">Jij bestelt een Guillotine voor Lauda</li>
+                        </ul>
+
+                        <div class="message">
+                            <h5>Jouw boodschap aan {{ target.user.username }}</h5>
+
+                            <textarea id="messagetext" class="messagetext" name="messagetext"></textarea>
+
+                            <p style="text-align: center;"><button type="submit" id="makemovebutton" class="bang"></button></p>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
         

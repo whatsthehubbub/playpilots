@@ -168,10 +168,12 @@
                     <td class="lose">1</td>
                     <td class="tie">0</td>
                     <td class="pow">
-                        <form method="GET" action="/challenge">
-                            <input type="hidden" name="target" value="{{ player.id }}">
-                            <button type="submit"></button>
-                        </form>
+                        {% ifnotequal player.user.username user.username %}
+                            <form method="GET" action="/challenge">
+                                <input type="hidden" name="target" value="{{ player.id }}">
+                                <button type="submit"></button>
+                            </form>                            
+                        {% endifnotequal %}
                     </td>
                 </tr>
             {% endfor %}

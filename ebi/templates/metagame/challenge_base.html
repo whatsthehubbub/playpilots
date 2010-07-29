@@ -1,0 +1,311 @@
+{% extends "metagame/base.html" %}
+
+{% block extrahead %}
+    <script type="text/javascript" charset="utf-8">
+        var awesomenessMessages = {
+            1: 'Die actie was veel te houterig. Fail!',
+            2: 'Die actie was nog wat aarzelend. Matig!',
+            3: 'Die actie was behoorlijk goed. Okee!',
+            4: 'Die actie was uit het boekje. Cool!',
+            5: 'Die actie was intimiderend, overweldigend.'};
+    </script>
+
+    <style type="text/css" media="screen">
+        #contentwrapper {
+            background-color: #f5f5f5;
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+            
+            border-top: 5px solid #ddd;
+        }
+        
+        #content {
+            padding-top: 20px;
+            padding-bottom: 40px;
+            
+            overflow: auto;
+        }
+        
+        /* Generic styles for players. */
+        .player1 {
+            width: 460px;
+            float: left;
+        }
+        
+        .player2 {
+            width: 475px; /* needs to be 460 + 20gutter */
+            float: left;
+        }
+        
+        .headingbox {
+            overflow: auto;
+        }
+        
+        H5 {
+            width: 460px;
+            float: left;
+            margin-top: 10px;
+            color: #12151a;
+        }
+        
+        .box {
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+        
+        .player1 .choice {
+            border-right: 1px solid #ddd;
+        }
+        
+        .choice {
+            border-top: 5px solid #ddd;
+            
+            background-color: white;
+        }
+        
+        .move B {
+            text-transform: uppercase;
+        }
+        
+        /* First bar with names and information. */
+        
+        #headline {
+            overflow: hidden;
+        }
+        
+        #headline H2 {
+            color: #f30;
+        }
+        
+        #headline .player1 {
+            background-image: url({{ MEDIA_URL }}image/action_bg_blue.png);
+            background-repeat: no-repeat;
+            
+            height: 85px;
+        }
+        
+        #headline .player2 {
+            background-image: url({{ MEDIA_URL }}image/action_bg_outline.png);
+            background-repeat: no-repeat;
+            background-position: right center;
+            
+            height: 85px;
+        }
+
+        .player1 .you {
+            float: right;
+        }
+        
+        .player2 .you {
+            float: left;
+        }
+        
+        
+        .player1 .player {
+            margin-top: 20px;
+            margin-left: 40px;
+        }
+        
+        .player2 .player {
+            margin-top: 20px;
+            margin-left: 80px;
+        }
+        
+        #vs {
+            float: right;
+            
+            position: relative;
+            right: -50px;
+            top: 30px;
+        }
+
+        .name {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 40px;
+        }
+        
+        /* Second block to pick and display styles for players. */
+        #style {
+            margin-top: 10px;
+        }
+
+        #stylechooser TABLE {
+            width: 95%;
+            margin: 10px auto;
+        }
+        
+        #stylechooser TH {
+            color: #bbb;
+            text-align: left;
+            
+            font-size: 12px;
+        }
+        
+        TR.toprow {
+            border-bottom: thin solid #ddd;
+        }
+        
+        TR.stylerow.hover, TR.stylerow.active {
+            background-color: #f30;
+        }
+        
+        TR.stylerow.hover TD, TR.stylerow.active TD {
+            color: white;
+        }
+        
+        TD, TH {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        TD {
+            height: 30px;
+            vertical-align: middle;
+        }
+        
+        TR.odd {
+            background-color: #f5f5f5;
+        }
+        
+        TD.style {
+            color: #f30;
+        }
+        
+        TD.rank {
+            width: 120px;
+        }
+        
+        TD.level {
+            width: 80px;
+            vertical-align: middle;
+        }
+                
+        TD.style_detail {
+            display: none;
+            
+            background-color: #f6e9d7;
+        }
+
+        TD.style_detail.active {
+            display: table-cell;
+        }
+        
+        /* Box to store the style that was chosen in. */
+        #stylechosen1 {
+            display: none;
+        }
+        
+        #stylechosen2 {
+            display: none;
+        }
+        
+        .stylechosen {
+            padding: 5px 5px 0 5px;
+        }
+        
+        .stylechosen A {
+            text-decoration: none;
+            color: #f30;
+        }
+        
+        .stylechosen P {
+            margin: 0;
+        }
+        
+        .stylechosen .stylename {
+            color: #f30;
+            text-transform: uppercase;
+        }
+        
+        #changestylelink {
+            float: right;
+        }
+        
+        /* Styles for choosing the action. */
+        #action {
+            overflow: auto;
+            display: none;
+            
+            margin-top: 10px;
+        }
+        
+        #actionselect {
+            padding: 10px;
+            width: 440px;
+        }
+        
+        #actionselect UL LI {
+            list-style-type: none;
+        }
+        
+        #actionselect LI {
+            color: #f30;
+            padding: 5px;
+        }
+        
+        #actionselect LI.selected, #actionselect LI:hover {
+            background-color: #f30;
+            color: white;
+            
+            background-image: url({{ MEDIA_URL }}image/icon_check.png);
+            background-position: 95% center;
+            background-repeat: no-repeat;
+        }
+        
+        DIV.message {
+            padding: 10px;
+        }
+        
+        .message H5 {
+            color: #666;
+        }
+        
+        .messagetext {
+            width: 98%;
+            height: 5em;
+        }
+        
+        BUTTON.bang {
+            background-image: url({{ MEDIA_URL }}image/action_buttons_medium.png);
+            background-position: center center;
+            border: none;
+            background-color: transparent;
+            
+            width: 40px;
+            height: 40px;
+        }
+        BUTTON.bang:hover {
+            background-position: center top;
+        }
+        BUTTON.bang:active {
+            background-position: center bottom;
+        }
+        
+        .finalmove {
+            padding: 10px;
+            height: 3em;
+        }
+        
+        .result {
+            border-top: thin solid #ddd;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .result H2 {
+            color: #666;
+        }
+        
+        .result .responder {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+
+{% block tagline %}{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block activityfooter %}{% endblock %}

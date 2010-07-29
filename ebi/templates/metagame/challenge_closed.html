@@ -1,0 +1,113 @@
+{% extends "metagame/challenge_base.html" %}
+
+{% block extrahead %}
+    {{ block.super }}
+    
+    <style type="text/css" media="screen">
+        #stylechosen1, #stylechosen2 {
+            display: block;
+        }
+        
+        #action {
+            display: block;
+        }
+    </style>
+    
+{% endblock %}
+
+{% block content %}
+<div id="content" class="mainblock">
+    
+    <div id="headline">
+        <div class="player1">
+            {% ifequal duel.challenger.user user %}
+                <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
+            {% endifequal %}
+            
+            <img id="vs" src="{{ MEDIA_URL }}image/vs_stars.png">
+
+            <div class="player">
+                <h2>{{ duel.challenger.user.username }}</h2>
+                <p>4 in het algemeen klassement</p>
+            </div>
+        </div>
+        
+        <div class="player2">
+            {% ifequal duel.target.user user %}
+                <img class="you" src="{{ MEDIA_URL }}image/tag_jij_mirrored.png">
+            {% endifequal %}
+            
+            <div class="player">
+                <h2>{{ duel.target.user.username }}</h2>
+                <p>18 in het algemeen klassement</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="style">
+        <div class="headingbox">
+            <h5>Stijl</h5>
+
+            <h5>Stijl</h5>
+        </div>
+        
+        <div class="box">
+            <div id="styleplayer1" class="player1">
+                <div id="stylechosen1" class="stylechosen">
+                    <p class="stylename">{{ duel.challenge_move.style.name }}</p>
+                </div>
+            </div>
+        
+            <div id="styleplayer2" class="player2">
+                <div id="stylechosen2" class="stylechosen">
+                    <p class="stylename">{{ duel.response_move.style.name }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="action">
+        <div class="headingbox">
+            <h5>Actie</h5>
+
+            <h5>Reactie</h5>
+        </div>
+        
+        <div class="box">
+            <div id="actionplayer1" class="player1">
+                <div class="finalmove">
+                    <b>{{ duel.challenger.user.username }}
+                    {{ duel.get_challenge_move }}
+                    {% if duel.challenge_message %}
+                        en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
+                    {% else %}
+                        zonder iets te zeggen.</b>
+                    {% endif %}
+                </div>
+                
+                <div class="result"><img src="{{ MEDIA_URL }}image/stars_{{ duel.challenge_awesomeness }}.png"><br>
+                    <h2><script type="text/javascript">document.write(awesomenessMessages[{{ duel.challenge_awesomeness }}]);</script></h2>
+                </div>
+            </div>
+        
+            <div id="actionplayer2" class="player2">
+                <div class="finalmove">
+                    <b>{{ duel.target.user.username }}
+                    {{ duel.get_response_move }}
+                    {% if duel.response_message %}
+                        en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
+                    {% else %}
+                        zonder iets te zeggen.</b>
+                    {% endif %}
+                </div>
+                
+                <div class="result"><img src="{{ MEDIA_URL }}image/stars_{{ duel.challenge_awesomeness }}.png"><br>
+                    <h2><script type="text/javascript">document.write(awesomenessMessages[{{ duel.challenge_awesomeness }}]);</script></h2>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+</div>
+{% endblock %}
