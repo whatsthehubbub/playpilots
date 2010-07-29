@@ -5,8 +5,10 @@
         var targetUser = '{{ target.user.username }}';
         var targetUserId = {{ target.user.id }};
         var moveId = 0;
+        var moveString = '';
         var message = '';
         
+        // Prefill moves
         var moves = {};
         {% for style in styles %}
             moves['{{ style.name }}'] = [];
@@ -28,7 +30,10 @@
                 
                 var extraclass = '';
                 if (counter == 0) {
+                    // The first are selected by default, so we need to fill those in
                     moveId = move[0];
+                    moveString = templateMove(move[1], targetUser);
+
                     extraclass = 'selected';
                 }
                 
@@ -75,22 +80,22 @@
                 
                 $('#stylechosen .stylename').html(style);
                 
-                $('#stylechoose').css('display', 'none');
+                $('#stylechooser').css('display', 'none');
                 $('#stylechosen').css('display', 'block');
-                $('#actionselect').css('display', 'block');
+                $('#action').css('display', 'block');
                 
                 // Also show the action choice field and fill the correct actions
                 
-                fillMoves(style);   
+                fillMoves(style);
             });
             
             $('#changestylelink').click(function() {
                 $('.stylerow').removeClass('active');
                 $('.style_detail').removeClass('active');
                 
-                $('#stylechoose').css('display', 'block');
+                $('#stylechooser').css('display', 'block');
                 $('#stylechosen').css('display', 'none');
-                $('#actionselect').css('display', 'none');
+                $('#action').css('display', 'none');
             });
             
             $('#moves LI').live('click', function() {
@@ -102,6 +107,7 @@
                 
                 // Store move id
                 moveId = parseInt(i);
+                moveString = $('#move_' + i).text();
             });
             
             $('#makemovebutton').click(function() {
@@ -120,13 +126,38 @@
                 }, function(data) {
                     var awesomeness = data['awesomeness'];
                     
-                    $('#actionselect').append('<img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png">');
-                }, 'json')
+                    var awesomenessMessage = '';
+                    
+                    switch(awesomeness) {
+                        case 1:
+                            awesomenessMessage = ' Je actie was veel te houterig. Fail!';
+                            break;
+                        case 2:
+                            awesomenessMessage = 'Je actie was nog wat aarzelend. Matig!';
+                            break;
+                        case 3:
+                            awesomenessMessage = 'Je actie was behoorlijk goed. Okee!';
+                            break;
+                        case 4:
+                            awesomenessMessage = 'Je actie was uit het boekje. Cool!';
+                            break;
+                        case 5:
+                            awesomenessMessage = 'Je actie was intimiderend, overweldigend. Gruwelijk!';
+                            break;
+                    }
+                    
+                    $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2><p>Kijken wat <span class="responder">' + targetUser + '</span> gaat doen</p></div>');
+                }, 'json');
                 
-                // TODO also display move you made
+                var totalMove = '<div class="finalmove"><b>JIJ ' + moveString;
+                if (message == '') {
+                    totalMove += ' zonder iets te zeggen.</b>';
+                } else {
+                    totalMove += ' en zegt:</b> &ldquo;' + message + '&rdquo;';
+                }
+                totalMove += '</div>';
                 
-                // Display result
-                $('#actionselect').html('je move');
+                $('#actionselect').html(totalMove);
             });
         });
     </script>
@@ -145,13 +176,72 @@
             
             overflow: auto;
         }
-    
-        #player1 {
-            
+        
+        /* Generic styles for players. */
+        .player1 {
+            width: 460px;
+            float: left;
         }
         
-        #player1 .you {
+        .player2 {
+            width: 460px;
+            float: left;
+        }
+        
+        H5 {
+            margin-top: 10px;
+            color: #12151a;
+        }
+        
+        .box {
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+        
+        .choice {
+            border-right: 1px solid #ddd;
+            border-top: 5px solid #ddd;
+            
+            background-color: white;
+        }
+        
+        /* First bar with names and information. */
+        
+        #headline {
+            overflow: hidden;
+        }
+        
+        #headline H2 {
+            color: #f30;
+        }
+        
+        #headline .player1 {
+            background-image: url({{ MEDIA_URL }}image/action_bg_blue.png);
+            background-repeat: no-repeat;
+            
+            height: 85px;
+        }
+        
+        #headline .player2 {
+            background-image: url({{ MEDIA_URL }}image/action_bg_outline.png);
+            background-repeat: no-repeat;
+            background-position: right center;
+            
+            height: 85px;
+        }
+
+        .player1 .you {
             float: right;
+        }
+        
+        .player1 .player {
+            margin-top: 20px;
+            margin-left: 40px;
+        }
+        
+        .player2 .player {
+            margin-top: 20px;
+            margin-left: 80px;
         }
         
         #vs {
@@ -161,52 +251,24 @@
             right: -100px;
             top: 40px;
         }
-        
-        #player1 .headline {
-            background-color: #b7d1d0;
-        }
-        
-        #player2 {
-            border: thin solid #ddd;
-        }
-        
-        .player {
-            width: 460px;
-            
-            float: left;
-        }
-        
-        .player H5 {
-            margin-top: 10px;
-            color: #12151a;
-        }
-        
-        .headline H2 {
-            color: #f30;
-        }
-        
-        .headline {
-        }
-        
+
         .name {
             padding-top: 20px;
             padding-bottom: 20px;
             padding-left: 40px;
         }
         
-        #player1 .choice {
-            border: 1px solid #ddd;
-            border-top: 5px solid #ddd;
-            
-            background-color: white;
+        /* Second block to pick and display styles for players. */
+        #style {
+            margin-top: 10px;
         }
-        
-        .styles TABLE {
+
+        #stylechooser TABLE {
             width: 95%;
             margin: 10px auto;
         }
         
-        .styles TH {
+        #stylechooser TH {
             color: #bbb;
             text-align: left;
             
@@ -214,7 +276,7 @@
         }
         
         TR.toprow {
-            border-bottom: thin solid #bbb;
+            border-bottom: thin solid #ddd;
         }
         
         TR.stylerow.hover, TR.stylerow.active {
@@ -235,7 +297,7 @@
             vertical-align: middle;
         }
         
-        .odd {
+        TR.odd {
             background-color: #f5f5f5;
         }
         
@@ -262,10 +324,10 @@
             display: table-cell;
         }
         
+        /* Box to store the style that was chosen in. */
         #stylechosen {
             display: none;
-            
-            padding: 10px 10px 0 10px;
+            padding: 5px 5px 0 5px;
         }
         
         #stylechosen A {
@@ -273,19 +335,31 @@
             color: #f30;
         }
         
+        #stylechosen P {
+            margin: 0;
+        }
+        
         #stylechosen .stylename {
             color: #f30;
             text-transform: uppercase;
-        } 
+        }
         
         #changestylelink {
             float: right;
         }
         
+        /* Styles for choosing the action. */
+        
+        #action {
+            overflow: auto;
+            display: none;
+            
+            margin-top: 10px;
+        }
+        
         #actionselect {
             padding: 10px;
-            
-            display: none;
+            width: 440px;
         }
         
         #actionselect UL LI {
@@ -334,6 +408,25 @@
         BUTTON.bang:active {
             background-position: center bottom;
         }
+        
+        .finalmove {
+            padding: 10px;
+        }
+        
+        .result {
+            border-top: thin solid #ddd;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .result H2 {
+            color: #666;
+        }
+        
+        .result .responder {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
     </style>
 {% endblock %}
 
@@ -344,114 +437,99 @@
 {% block content %}
 <div id="content" class="mainblock">
     
-    <div id="player1" class="player">
-        <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
-        
-        <img id="vs" src="{{ MEDIA_URL }}image/vs_stars.png">
-        
-        <div class="headline">
-            <div class="name">
+    <div id="headline">
+        <div class="player1">
+            <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
+
+            <img id="vs" src="{{ MEDIA_URL }}image/vs_stars.png">
+
+            <div class="player">
                 <h2>{{ user.username }}</h2>
                 <p>18 in het algemeen klassement</p>
             </div>
         </div>
         
-        <h5>Jouw stijl</h5>
-        
-        <div id="stylechoose" class="styles choice">
-            <table>
-                <tr class="toprow">
-                    <th>Stijl</th>
-                    <th>Jouw positie</th>
-                    <th>Jouw niveau</th>
-                </tr>
-                
-                {% for style in styles %}
-                    <tr id="style_row_{{ style.id }}" class="stylerow {% cycle '' 'odd' %}">
-                        <td class="style">{{ style.name }}</td>
-                        <td class="rank">1</td>
-                        <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ forloop.counter }}.png"></td>
-                    </tr>
-                    <tr>
-                        <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">
-                            test<br>
-                            <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-        
-        <div id="stylechosen" class="chosenstyle choice">
-            <a href="#" id="changestylelink">veranderen</a>
-            
-            <p class="stylename">teststyle</p>
-        </div>
-        
-        <h5>Jouw actie</h5>
-        
-        <div id="actionselect" class="choice">
-            <div>
-                <ul id="moves">
-                    <li class="move">Jij bestelt een Guillotine voor Lauda</li>
-                </ul>
-            </div>
-            
-            <div class="message">
-                <h5>Jouw boodschap aan {{ target.user.username }}</h5>
-                
-                <textarea id="messagetext" class="messagetext" name="messagetext"></textarea>
-                
-                <p style="text-align: center;"><button type="submit" id="makemovebutton" class="bang"></button></p>
-            </div>
-        </div>
-        
-    </div>
-    
-    
-    <div id="player2" class="player">
-        <div class="headline">
-            <div class="name">
+        <div class="player2">
+            <div class="player">
                 <h2>{{ target.user.username }}</h2>
                 <p>18 in het algemeen klassement</p>
             </div>
         </div>
+    </div>
+    
+    <div id="style">
+        <h5>Jouw stijl</h5>
         
-        <div class="style">
+        <div class="box">
+            <div id="styleplayer1" class="player1">
+                <div id="stylechooser" class="choice">
+                    <table>
+                        <tr class="toprow">
+                            <th>Stijl</th>
+                            <th>Jouw positie</th>
+                            <th>Jouw niveau</th>
+                        </tr>
+
+                        {% for style in styles %}
+                            <tr id="style_row_{{ style.id }}" class="stylerow {% cycle '' 'odd' %}">
+                                <td class="style">{{ style.name }}</td>
+                                <td class="rank">1</td>
+                                <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ forloop.counter }}.png"></td>
+                            </tr>
+                            <tr>
+                                <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">
+                                    test<br>
+                                    <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
+                <div id="stylechosen" class="choice">
+                    <a href="#" id="changestylelink">veranderen</a>
+
+                    <p class="stylename">teststyle</p>
+                </div>
+            </div>
+        
+            <div id="styleplayer2" class="player2">
             
+                <!-- spacer heading for the other side, about to be filled in for some cases -->
+                <h5>&nbsp;</h5>
+            
+                <div>We zullen zien wat {{ target.user.username }} voor stijl gaat kiezen.</div>
+            </div>
         </div>
     </div>
+    
+    <div id="action">
+        <h5>Jouw actie</h5>
         
-    
-    <form method="POST" action="/challenge/" id="challenge_form">
-    
-    <p>Challenger: 
-    
-    {{ user.username }} - {{ user.get_profile }}
-    
-    <p>Kies <label for="style">je cultuur</label>:
-        <select id="style" name="style">
-            {% for style in styles %}
-                <option value="{{ style.id }}">{{ style.name }}</option>
-            {% endfor %}
-        </select>
-        en <label for="move">je beweging</label>:
-        <select id="move" name="move">
+        <div class="box">
+            <div id="actionselect" class="player1 choice">
+                <div>
+                    <ul id="moves">
+                        <li class="move">Jij bestelt een Guillotine voor Lauda</li>
+                    </ul>
+                </div>
             
-        </select>
+                <div class="message">
+                    <h5>Jouw boodschap aan {{ target.user.username }}</h5>
+                
+                    <textarea id="messagetext" class="messagetext" name="messagetext"></textarea>
+                
+                    <p style="text-align: center;"><button type="submit" id="makemovebutton" class="bang"></button></p>
+                </div>
+            </div>
         
-        <br>Laat nog <label for="message">een boodschap</label> achter voor je tegenstander: <input name="message" id="message">
-    </p>
-    
-    <p>Target: 
-    
-    <input type="hidden" name="target" value="{{ target.id }}">
-    {{ target.user.username }} ({{ target.rating }}) - {{ target.culture }}
-    
-    
-    <p><button type="submit" id="challenge_button">Daag uit!</button></p>
-    
-    </form>
+            <div id="actionplayer2" class="player2">
+                We wachten op de actie van {{ target.user.username }}.
+            </div>
+        </div>
+        
+    </div>
+
 </div>
 {% endblock %}
 
