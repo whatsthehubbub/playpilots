@@ -1,30 +1,63 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>Game {{ game.name }}</title>
+    <title>{{ game.name }} door {{ game.maker.name}} voor {{ game.festival.name }} &bull; PLAY Pilots</title>
     
     <style type="text/css" media="screen">
+        body {
+            background: transparent url(/static/image/grid.png) repeat-y center top;
+        }
+        
         #taglinewrapper {
             display: none;
         }
         
         #title_wrapper {
+            height: 105px;
             background-color: #262a33;
             background-repeat: repeat;
             background-image: url(/static/image/grain_overlay.png);
-            
         }
         
         #title {
             color: #ddd;
+/*            padding: 21px 0;*/
+        }
+        
+        #title h2 {
+            color: #fff;
+            font-size: 14px;
+            padding-top: 10.5px;
+        }
+        
+        #title h1 {
+            color: #fff;
+        }
+        
+        #title h3 {
+            color: #fff;
+            font-size: 14px;
+/*            float: left;*/
+/*            display: inline;*/
+        }
+        
+        #title form {
+/*            background: yellow;*/
+            margin-top: -31.5px;
+            text-align: right;
+            width: 620px;
+        }
+        
+        #title button {
+/*            float: left;*/
         }
         
         #image_reel {
             /* float: right; */
             position: absolute;
-            
-            right: 100px;
-            top: 130px;
+                        
+            right: 40px;
+            top: 103px;
             
             width: 304px;
             height: 230px;
@@ -35,7 +68,7 @@
             background-repeat: no-repeat;
             
             /* TODO also include the firefox custom properties */
-            -webkit-transition: -webkit-transform 2s ease-in;
+/*            -webkit-transition: -webkit-transform 2s ease-in;*/
         }
         
         #image_reel IMG {
@@ -43,33 +76,27 @@
             max-width: 288px;
         }
         
-        #title {
-        }
-        
-        #title H1, #title H3 {
-            color: white;
-        }
-        
-        #title H3 {
-            /* Override line-height to make it fit better. */
-            line-height: 20px;
-        }
-        
         #game_wrapper {
             background-color: #b7d1d0;
+            padding: 0;
+            margin: 0;
             background-repeat: repeat;
             background-image: url(/static/image/grain_overlay.png);
+            overflow: auto;
         }
         
         #game {
             padding-top: 20px;
             
             overflow: auto;
+/*            overflow: hidden;*/
+/*            width: 100%;*/
+/*            margin: 0 auto;*/
+
         }
         
         #description_background {
-            width: 640px; /* not completely clear how wide this should be */
-            
+            width: 630px; /* not completely clear how wide this should be */  
             
             background-color: white;
             background-repeat: repeat;
@@ -88,48 +115,89 @@
         }
         
         #description .description {
-            
+            width: 360px;
+            padding-right: 10px;
+            border-right: 1px solid #ddd;    
+            margin: 0;        
         }
         
         #description .description:first-letter {
-            font-size: 40px;
-
+        	font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+        	text-transform: uppercase;
+        	font-weight: 900;
+            font-size: 44px;
             display: inline-block;
-            margin-top: 10px;
-            margin-left: 10px;
-            margin-right: 10px;
+            margin: 10px 10px 0 0;
             float: left;
         }
         
         #blog_posts {
+            font-weight: bold;
+/*            background: purple;*/
             float: right;
             
-            width: 240px;
+            width: 230px;
             
-            height: 200px;
+/*            height: 200px;*/
         }
         
+        #blog_posts p {
+            margin: 0;
+        }
+        
+        #blog_posts ol {
+            margin: 0 0 0 20px;
+/*            padding: 0;*/
+            color: #bbb;
+        }
+        
+        #blog_posts li {
+            list-style-type: disc;            
+        }
+        
+        #blog_posts a {
+            color: #f30;
+            font-weight: normal;
+            text-decoration: none;
+        }
+        
+        #blog_posts a:hover {
+            text-decoration: underline;
+        }        
+        
         .subgame {
+/*            background-color: yellow;*/
             float: left;
-            
             width: 460px;
-            
-            margin-top: 40px;
-            
-            margin-bottom: 40px;
+            margin: 40px 0 0 0;
+/*            padding: 10px;*/
+/*            margin-right: 20px;*/
+/*            margin-bottom: 20px;*/
+        }
+        
+        .space {
+            margin-right: 20px;
         }
         
         .subgame IMG {
             float: left;
             
-            width: 160px;
-            height: 100px;
+            width: 120px;
+            height: 90px;
             
-            margin-bottom: 60px;
+            margin: 0 10px 20px 0;
+/*            margin-right: 10px;*/
+            padding-bottom: 5px;
+            background: transparent url(/static/image/logo_shadow.png) no-repeat center bottom;
         }
         
         .subgame H3 {
             color: white;
+            text-shadow: 0 1px 0px #000;
+        }
+        
+        .subgame p.meta {
+            font-weight: bold;
         }
         
         .subgame .link A {
@@ -181,9 +249,6 @@
             border: thin solid #ddd;
         }
         
-        button.door {
-            cursor: hand;
-        }
     </style>
     
     <script type="text/javascript" charset="utf-8">
@@ -221,12 +286,12 @@
             <img src="{{ game.get_first_photo }}">
         </div>
         
-        <h3>Game</h3>
+        <h2>Game</h2>
         
         <h1>{{ game.name }}</h1>
         
         <h3>door {{ game.maker }} voor {{ game.festival }}</h3>
-        
+        <!-- TODO handje op button verschijnt niet -->
         <form method="GET" action="http://leapfrog.nl/">
             <button class="door"><p class="door">Ik ben er bij!</p></button>
         </form>
@@ -238,10 +303,11 @@
         <div id="description_background">
             <div id="description">
                 <div id="blog_posts">
-                    <b>Blog posts</b>
-                    
+                    <p>Blog posts</p>
                     <ol>
-                        <li>Wee1</li>
+                        <li><a href="">Week 1</a></li>
+                        <li><a href="">Week 2</a></li>
+                        <li><a href="">Week 3</a></li>
                     </ol>
                 </div>
                 
@@ -249,19 +315,19 @@
             </div>
         </div>
         
-        <div id="festival" class="subgame">
-            <img src="">
+        <div id="festival" class="subgame space">
+            <img src="{{ MEDIA_URL }}image/placeholder-160-90.png" alt=" ">
             
             <h3>{{ game.festival.name }}</h3>
             
-            <p>{{ game.start|date:"j b Y"}}, {{ game.festival.location }}</p>
+            <p class="meta">{{ game.start|date:"j b Y"}}, {{ game.festival.location }}</p>
             <p>{{ game.festival.description }}</p>
             
             <p class="link"><a href="{{ game.festival.link }}">{{ game.festival.link|slice:"7:" }}</a></p>
         </div>
         
         <div id="maker" class="subgame">
-            <img src="">
+            <img src="{{ MEDIA_URL }}image/placeholder-160-90.png" alt=" ">
             
             <h3>{{ game.maker.name }}</h3>
             
