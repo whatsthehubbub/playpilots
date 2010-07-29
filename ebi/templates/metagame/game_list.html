@@ -156,7 +156,9 @@
                 <div class="mainimage" style="{% if game.get_first_photo %}background-image: url({{ game.get_first_photo }});{% endif %}"></div>
             
                 <div class="gamecontent">
-                    <a href=""><h3>{{ game.name }}</h3></a>
+                    {% if forloop.first %}<a href="/games/{{ game.slug }}/">{% endif %}
+                        <h3>{{ game.name }}</h3>
+                    {% if forloop.first %}</a>{% endif %}
                     
                     <p>door {{ game.maker }}<br>
                         op {{ game.festival }}<br>
