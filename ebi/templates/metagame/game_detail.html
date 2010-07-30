@@ -4,8 +4,10 @@
     <title>{{ game.name }} door {{ game.maker.name}} voor {{ game.festival.name }} &bull; PLAY Pilots</title>
     
     <style type="text/css" media="screen">
+        html {
+/*            background: transparent url({{ MEDIA_URL }}image/grid.png) repeat-y center top;*/
+        }
         body {
-            background: transparent url(/static/image/grid.png) repeat-y center top;
         }
         
         #taglinewrapper {
@@ -16,12 +18,11 @@
             height: 105px;
             background-color: #262a33;
             background-repeat: repeat;
-            background-image: url(/static/image/grain_overlay.png);
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
         }
         
         #title {
             color: #ddd;
-/*            padding: 21px 0;*/
         }
         
         #title h2 {
@@ -37,23 +38,18 @@
         #title h3 {
             color: #fff;
             font-size: 14px;
-/*            float: left;*/
-/*            display: inline;*/
         }
         
         #title form {
-/*            background: yellow;*/
             margin-top: -31.5px;
             text-align: right;
             width: 620px;
         }
         
         #title button {
-/*            float: left;*/
         }
         
         #image_reel {
-            /* float: right; */
             position: absolute;
                         
             right: 40px;
@@ -64,11 +60,8 @@
             
             padding: 8px;
             
-            background-image: url(/static/image/festivalpic_frame.png);
+            background-image: url({{ MEDIA_URL }}image/festivalpic_frame.png);
             background-repeat: no-repeat;
-            
-            /* TODO also include the firefox custom properties */
-/*            -webkit-transition: -webkit-transform 2s ease-in;*/
         }
         
         #image_reel IMG {
@@ -81,7 +74,7 @@
             padding: 0;
             margin: 0;
             background-repeat: repeat;
-            background-image: url(/static/image/grain_overlay.png);
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
             overflow: auto;
         }
         
@@ -89,18 +82,13 @@
             padding-top: 20px;
             
             overflow: auto;
-/*            overflow: hidden;*/
-/*            width: 100%;*/
-/*            margin: 0 auto;*/
-
         }
         
         #description_background {
-            width: 630px; /* not completely clear how wide this should be */  
-            
+            width: 630px;             
             background-color: white;
             background-repeat: repeat;
-            background-image: url(/static/image/bg_airmail.png);
+            background-image: url({{ MEDIA_URL }}image/bg_airmail.png);
             
             padding: 10px;
             
@@ -133,12 +121,9 @@
         
         #blog_posts {
             font-weight: bold;
-/*            background: purple;*/
             float: right;
             
             width: 230px;
-            
-/*            height: 200px;*/
         }
         
         #blog_posts p {
@@ -147,7 +132,6 @@
         
         #blog_posts ol {
             margin: 0 0 0 20px;
-/*            padding: 0;*/
             color: #bbb;
         }
         
@@ -166,13 +150,9 @@
         }        
         
         .subgame {
-/*            background-color: yellow;*/
             float: left;
             width: 460px;
             margin: 40px 0 0 0;
-/*            padding: 10px;*/
-/*            margin-right: 20px;*/
-/*            margin-bottom: 20px;*/
         }
         
         .space {
@@ -186,9 +166,8 @@
             height: 90px;
             
             margin: 0 10px 20px 0;
-/*            margin-right: 10px;*/
             padding-bottom: 5px;
-            background: transparent url(/static/image/logo_shadow.png) no-repeat center bottom;
+            background: transparent url({{ MEDIA_URL }}image/logo_shadow.png) no-repeat center bottom;
         }
         
         .subgame H3 {
@@ -209,44 +188,119 @@
             color: #f30;
         }
         
+        .subgame .link A:hover {
+            text-decoration: underline;
+        }
+        
         #interest_wrapper {
             border-bottom: 5px solid #ddd;
+            overflow: auto;
+            width: 100%;
+            background: white;
         }
         
         #interest {
-            padding: 10px;
-            width: 920px; /* to account for padding */
+            overflow: auto;
+            width: 918px; /* to account for padding & border */
+            padding: 0 10px;
             
-            border-left: thin solid #ddd;
-            border-right: thin solid #ddd;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
         }
         
-        #interest H2, #interest H3 {
-            color: black;
-            display: inline-block;
+        #interest H2, #interest H3, #interest span {
+            line-height: 42px;
+            color: #262a33;
+            float: left;
+            margin: 0;
+        }
+        
+        #interest H2 {
+            margin: 0 20px 0 0;
         }
         
         #interest H3 {
-            margin-left: 20px;
+            margin: 0 10px 0 0;
+        }
+        
+        #interest span {
+            color: #bbb;
+            font-size: 12px;
         }
         
         #interest A {
             color: #f30;
         }
         
+        #participants_wrapper {
+            background: white;
+            margin-bottom: -1px;
+background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png);
+
+        }
+        
         #participants {
             overflow: auto;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            width: 938px;       
         }
         
         .participant {
-            width: 134px;
-            height: 100px;
+            overflow: hidden;
+            width: 167px;
+            height: 59px;
+            margin-bottom: 1px;
             
             padding: 10px;
             
             float: left;
             
-            border: thin solid #ddd;
+            border-right: 1px solid #ddd;
+            font-size: 10px;
+        }
+        
+        .last {
+            border-right: 0;
+            width: 166px;
+        }
+        
+        .participant a {
+            text-decoration: none;            
+        }
+        
+
+        .participant .rank {
+            color: white;
+            background: transparent url({{ MEDIA_URL }}image/ranking_bar_bg.png) no-repeat center center;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            font-size: 10px;
+            padding: 0 2px;
+            line-height: 21px;
+            float: left;
+            margin: 0 0 0 -50px;
+        }
+        
+        .participant img {
+            width: 40px;
+            height: 40px;
+            float: left;
+            margin: 10px 0 0 10px;
+        }
+        
+        .participant span {
+            font-weight: bold;
+            color: #666;
+            float: left;
+            margin: 10px 0 0 10px;
+        }
+
+        .participant a:hover span {
+            color: #f30;
+        }
+        
+        #footerwrapper {
         }
         
     </style>
@@ -348,14 +402,22 @@
     <div id="participants" class="mainblock">
         
         {% for player in game.interested.all %}
-            <div class="participant">
-                <a href="/players/{{ player.id }}/">{{ player.user.username }}</a>
+            <div class="participant
+            {% if forloop.counter|divisibleby:"5" %}
+             last
+            {% endif %}
+            ">
+                <a href="/players/{{ player.id }}/">
+                    <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
+                    <div class="rank">999</div>
+                    <span>{{ player.user.username }}</span>
+                </a>
             </div>
         {% endfor %}
     </div>
 </div>
 
-<div id="game_id" class="game">        
+<!-- <div id="game_id" class="game">        
         {% if interest %}
             Je gaat naar het festival!
         {% else %}
@@ -363,7 +425,7 @@
                 <button type="submit">KNOP OM OP TE KLIKKEN</button>
             </form>
         {% endif %}
-</div>
+</div> -->
 {% endblock %}
 
 {% block activityfooter %}{% endblock %}

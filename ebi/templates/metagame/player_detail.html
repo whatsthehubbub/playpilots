@@ -1,7 +1,7 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>Profiel van {{ player.user.name }}</title>
+    <title>Profiel van {{ player.user.username }} &bull; PLAY Pilots</title>
     
     <style type="text/css" media="screen">
         #contentwrapper {
@@ -37,14 +37,57 @@
         }
         
         #details {
-            background-color: #f30;
-            padding: 20px;
+            background-color: #b7d1d0;
+            
+            padding: 30px 20px 20px 20px;
             
             color: white;
         }
         
+        #details img#profile_badge_tag {
+            position: relative;
+            top: -50px;
+            left: 50px;
+        }
+        
+        #details img.buddy-icon {
+            width: 40px;
+            height: 40px;
+            float: left;
+        }
+        
         #details H2 {
             color: white;
+            text-shadow: black 0px 1px 0px;
+            margin: -50px 0 0 50px;
+        }
+        
+        #details p.rank {
+            font-size: 12px;
+            margin: 0 0 0 50px;
+            color: #333;
+        }
+        
+        #details p.rank span {
+            color: white;
+            background: transparent url({{ MEDIA_URL }}image/ranking_bar_bg.png) no-repeat center center;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            font-size: 10px;
+            padding: 0 2px;
+            display: inline-block;
+            line-height: 21px;
+            margin: 0 2px 0 0;        
+            
+        }
+        
+        #details form {
+            text-align: right;
+            margin-bottom: 0;
+        }
+        
+        #details button {
+            margin-bottom: 0;
         }
         
         #record, #levels, #festivals {
@@ -109,17 +152,19 @@
     <div id="profile">
         
         <div id="details">
+            <img id="profile_badge_tag" src="{{ MEDIA_URL }}image/profile_badge_tag.png" alt="">
+            <img class="buddy-icon" src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
+            
             <h2>{{ player.user.username }}</h2>
             
-            <p>18 in het algemeen klassement</p>
+            <p class="rank"><span>18</span> in het algemeen klassement</p>
             
             {% ifnotequal player.user.username user.username  %}
                 <form method="GET" action="/challenge/">
                     <input type="hidden" name="target" value="{{ player.id }}">
-                    <button type="submit">Daag {{ player.user.first_name }} nu uit</button>
+                    
+                    <button class="door"><p class="door">Daag {{ player.user.first_name }} nu uit</p></button>
                 </form>
-            {% else %}
-                <p>Je kunt niet jezelf uitdagen.</p>
             {% endifnotequal %}
         </div>
         

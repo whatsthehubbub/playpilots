@@ -1,3 +1,7 @@
+html {
+	background: #ddd url(../image/grain_overlay.png) repeat;
+}
+
 body {
 	font-family: Lucida Grande, Helvetica, sans-serif;
 	font-size: 14px;

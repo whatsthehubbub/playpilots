@@ -1,15 +1,394 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>Home &bull; PLAY Pilots</title>
-    
-    <style type="text/css" media="screen">
-        #activity LI {
-            float: left;
-            width: 100px;
-        }
-    </style>
+<title>Home &bull; PLAY Pilots</title>
+
+<style type="text/css" media="screen">
+	#activity LI {
+		float: left;
+		width: 100px;
+	}
+	
+	#intro_wrapper {
+        background: #b7d1d0 url({{ MEDIA_URL }}image/grain_overlay.png) repeat;
+	}
+	
+	#intro {
+		text-align: center;
+		background: url({{ MEDIA_URL }}image/home_tagline_bg.png) no-repeat;
+	}
+	
+	#intro h2 {
+		padding: 21px 0;
+		color: #fff;
+		text-shadow: #666 0 1px 0;
+	}
+	
+	#intro h2 span {
+		color: #262a33;
+		text-shadow: #f5f5f5 0 1px 0;
+	}
+	
+	.airmail {
+		background: #fff url({{ MEDIA_URL }}image/bg_airmail.png) repeat;
+	}
+	
+	#intro_wrapper .airmail {
+		height: 10px;
+	}
+	
+	#billboard_wrapper {
+		background: #262a33 url({{ MEDIA_URL }}image/grain_overlay.png) repeat;
+		overflow: hidden;
+	}
+	
+	#billboard_wrapper h2 {
+		color: #b7d1d0;
+		text-shadow: #000 0 1px 0;
+	}
+	
+	#billboard_wrapper p {
+		font-size: 12px;
+		font-weight: bold;
+		color: #fff;
+		width: 380px;
+		text-shadow: #000 0 1px 0;
+	}
+	
+	#billboard #livegames {
+		width: 460px;
+		float: left;
+		background: url({{ MEDIA_URL }}image/schedule_bg_city.png) no-repeat right bottom;
+		padding-bottom: 42px;
+	}
+	
+	#livegames #schedule {
+		height: 220px;
+		margin-bottom: 21px;
+		background: url({{ MEDIA_URL }}image/schedule_frame_bg.png) no-repeat;
+	}
+	
+	#schedule a {
+		color: #fff;
+		text-decoration: none;
+	}
+	
+	#schedule a:hover {
+		color: #ff3300;
+	}
+	
+	#schedule .nextevent {
+		position: relative;
+		width: 340px;
+		height: 30px;
+		top: 30px;
+		left: 20px;
+	}
+	
+	#schedule .nextfestival {
+		position: relative;
+		text-transform: uppercase;
+		width: 250px;
+		height: 30px;
+		top: 50px;
+		left: 20px;
+	}
+	
+	#schedule .nextdays {
+		position: relative;
+		text-align: center;
+		width: 30px;
+		height: 30px;
+		top: -1px;
+		left: 300px;
+	}
+	
+	#schedule .nexthours {
+		position: relative;
+		text-align: center;
+		width: 30px;
+		height: 30px;
+		top: -52px;
+		left: 340px;
+	}
+	
+	#schedule .upcoming1 {
+		position: relative;
+		text-transform: uppercase;
+		width: 230px;
+		height: 30px;
+		top: -43px;
+		left: 20px;
+	}
+	
+	#schedule .upcoming1state {
+		position: relative;
+		text-align: center;
+		text-transform: uppercase;
+		color: #ccc;
+		width: 100px;
+		height: 30px;
+		top: -94px;
+		left: 270px;
+	}
+	
+	#schedule .upcoming2 {
+		position: relative;
+		text-transform: uppercase;
+		width: 230px;
+		height: 30px;
+		top: -105px;
+		left: 20px;
+	}
+	
+	#schedule .upcoming2state {
+		position: relative;
+		text-align: center;
+		text-transform: uppercase;
+		color: #ccc;
+		width: 100px;
+		height: 30px;
+		top: -156px;
+		left: 270px;
+	}
+	
+	#billboard #onlinebattle {
+		width: 460px;
+		padding-bottom: 42px;
+		float: right;
+	}
+	
+	#onlinebattle #teaser{
+		height: 220px;
+		margin-bottom: 21px;
+		background: url({{ MEDIA_URL }}image/online_battle_visual.png) no-repeat center 50px;
+	}
+	
+	a.button {
+		text-decoration: none;
+		background: url({{ MEDIA_URL }}image/button_arrow.png) no-repeat top right;
+		float: left;
+	}
+	
+	a.button:hover {
+		text-decoration: none;
+		background: url({{ MEDIA_URL }}image/button_arrow.png) no-repeat bottom right;
+		float: left;
+	}
+	
+	a.button h4 {
+		color: #fff;
+		background-color: #ff3300;
+		float: left;
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-right: 10px;
+	}
+	
+	a:hover.button h4 {
+		color: #ff3300;
+		background-color: #fff;
+	}
+	
+	a:active.button h4 {
+		color: #333;
+	}
+	
+	#activity_wrapper {
+		background-color: #fff;
+		border-top: 5px solid #ddd;
+		overflow: hidden;
+	}
+	
+	#activity_wrapper h2 {
+		color: #262a33;
+		margin: 11px 0 10px 10px;
+	}
+	
+	#activities #stream {
+		width: 618px;
+		border-left: 1px solid #ddd;
+		border-right: 1px solid #ddd;
+		float: left;
+	}
+	
+	#activities #stream #participants {
+		border-top: 5px solid #ddd;
+		background-color: blue;
+	}
+	
+	#participants p {
+		font-size: 12px;
+	}
+	
+	#participants a {
+		text-decoration: none;
+	}
+	
+	#participants .participant a .name {
+		color: #666;
+	}
+	
+	#participants .participant a:hover .name {
+		color: #ff3300;
+	}
+	
+	#participants .participant {
+		width: 153px;
+		border-right: 1px solid #ddd;
+		float: left;
+	}
+	
+	#participants .participant.last {
+		border-right: none;
+	}
+	
+	#participants .participant .avatar {
+		margin-top: 10px;
+	}
+	
+	#participants .participant .name {
+		margin: 10px 10px 0 0;
+		width: 105px;
+		color: #666;
+		line-height: 16px;
+		font-weight: bold;
+		float: right;
+	}
+	
+	#participants .activity a {
+		color: #ff3300;
+	}
+	
+	#participants .activity a:hover {
+		text-decoration: underline;
+	}
+	
+	#participants .participant .activity {
+		margin: 10px;
+		height: 119px;
+		float: left;
+	}
+	
+	#activities #blog {
+		width: 298px;
+		height: 231px;
+		border-left: 1px solid #ddd;
+		border-right: 1px solid #ddd;
+		float: right;
+	}
+	
+	#activities #blog a.title {
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+	
+	#activities #blog a {
+		color: #ff3300;
+		text-decoration: none;
+	}
+	
+	#activities #blog a:hover {
+		text-decoration: underline;
+	}
+	
+	#activities #blog .date {
+		color: #666;
+	}
+	
+	#blog #post {
+		border-top: 5px solid #ddd;
+	}
+	
+	#blog #post p {
+		margin: 20px 21px;
+	}
+	
+</style>
 {% endblock %}
 
-{% block content %}    
+{% block tagline %}
+{% endblock %}
+
+{% block content %}
+<div id="intro_wrapper">
+	<div id="intro" class="mainblock">
+		<h2><span>PLAY Pilots</span> verbindt muziek,<br /> film en speelse cultuur in Utrecht.</h2>
+    </div>
+<div class="airmail"></div>
+</div>
+
+<div id="billboard_wrapper">
+	<div id="billboard" class="mainblock">
+		<div id="livegames">
+			<div id="schedule">
+				<h2 class="nextevent"><a href="">Wip 'n' Kip</a></h2>
+				<p class="nextfestival"><a href="">Stekker Fest</a></p>
+				<p class="nextdays">22</p>
+				<p class="nexthours">08</p>
+				<p class="upcoming1"><a href="">Nederlands Film Festival</a></p>
+				<p class="upcoming1state">binnenkort</p>
+				<p class="upcoming2"><a href="">Le Guess Who</a></p>
+				<p class="upcoming2state">binnenkort</p>
+			</div>
+			<h2>Live games in Utrecht</h2>
+			<p>PLAY Pilots nodigt je uit om live games te spelen op Utrechtse festivals. Mis het niet!</p>
+			<a href="" class="button"><h4>Bekijk alle games</h4></a>
+		</div>
+		<div id="onlinebattle">
+			<div id="teaser">
+			</div>
+			<h2>Ontwikkel je stijl & skills</h2>
+			<p>PLAY Pilots presenteren een online battle van subculturen. Voor fans vaan muziek, films en games.</p>
+			<a href="" class="button"><h4>Meld je aan en speel</h4></a>
+		</div>
+    </div>
+</div>
+
+<div id="activity_wrapper">
+	<div id="activities" class="mainblock">
+		<div id="stream">
+			<h2>activiteiten</h2>
+			<div id="participants">
+				<div class="participant">
+					<a href="">
+						<img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" class="avatar" alt="">
+						<p class="name">James Bond</p>
+					</a>
+					<p class="activity">Gaat het <a href="">Nederlands Film Festival</a> bezoeken</p>
+				</div>
+				<div class="participant">
+					<a href="">
+						<img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" class="avatar" alt="">
+						<p class="name">The Long Double Seven</p>
+					</a>
+					<p class="activity">Gaat het <a href="">Nederlands Film Festival</a> bezoeken</p>
+				</div>
+				<div class="participant">
+					<a href="">
+						<img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" class="avatar" alt="">
+						<p class="name">James Bond</p>
+					</a>
+					<p class="activity">Gaat het <a href="">Nederlands Film Festival</a> bezoeken</p>
+				</div>
+				<div class="participant last">
+					<a href="">
+						<img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" class="avatar" alt="">
+						<p class="name">James Bond</p>
+					</a>
+					<p class="activity">Gaat het <a href="">Nederlands Film Festival</a> bezoeken</p>
+				</div>
+			</div>
+		</div>
+		<div id="blog">
+			<h2>blog</h2>
+			<div id="post">
+				<p><a href="" class="title">INVENTING LOREM</a><br /><span class="date">JUN 14, 2010</span> - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua con elit, sed do eiusmod... <a href="">more »</a></p>
+		</div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block activityfooter %}
 {% endblock %}
