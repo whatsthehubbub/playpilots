@@ -79,32 +79,17 @@ def challenge_create(request):
         target_id = request.POST.get('target', None)
         target = Player.objects.get(id=int(target_id))
 
-        # Calculate the awesomeness
-        # TODO calculate the awesomeness based on player skill
-        awesomeness = random.randint(1, 5)
-
         # Create Round object
-        d = Duel(challenger=challenger, challenge_move=move, challenge_message=message, challenge_awesomeness=awesomeness, target=target)
+        d = Duel(challenger=challenger, challenge_move=move, challenge_message=message, target=target)
+
+        awesomeness = d.get_challenge_awesomeness()
+        d.challenge_awesomeness = awesomeness
         d.save()
 
-        actstream.action.send(request.user, verb='heeft net gebruiker uitgedaagd voor een duel', target=d)
+        actstream.action.send(request.user, verb='heeft net %s uitgedaagd voor een duel' % target.user.username, target=d)
 
-        # One to the target
-        send_mail('Je bent uitgedaagd door %s' % challenger.user.username,
-            '''Hoi %(target)s,
-
-Je bent uitgedaagd voor een duel door %(challenger)s.
-
-Ga naar %(url)s om te duelleren!
-
-Namens PLAY Pilots,
-
-Uw gezagvoerder''' % {'target': target.user.username, 
-                            'challenger': challenger.user.username, 
-                            'url': 'http://playpilots.nl/c/%d/' % d.id}, 
-            'Your Captain Speaking <captain@playpilots.nl>', 
-            [target.user.email])
-
+        d.send_target_message()
+        
         return HttpResponse(json.dumps({
             'awesomeness': awesomeness
         }), mimetype='text/json')
@@ -121,53 +106,19 @@ def challenge_resolve(request):
         d.response_move = Move.objects.get(id=move_id)
     
         d.response_message = request.POST.get('message', '')
-    
-        d.response_awesomeness = random.randint(1, 5)
+        d.response_awesomeness = d.get_response_awesomeness()
         
         d.save()
     
+        # TODO send back specific winphrase too
+        
         result = {
             'awesomeness': d.response_awesomeness
         }
         
         # TODO handle winner and loser
-        """
-        # One to the winner
-        send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.user.username, 
-            '''Hoi %(winner)s,
-
-Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
-
-Ga naar %(url)s om de uitkomst te zien!
-
-Namens PLAY Pilots,
-
-Uw gezagvoerder''' % {
-            'winner': winner.user.username,
-            'loser': loser.user.username,
-            'url': 'http://playpilots.nl/c/%d/' % r.id 
-        }, 
-            'Your Captain Speaking <captain@playpilots.nl>', 
-            [winner.user.email])
-
-        # One to the l0ser
-        send_mail('Helaas! Je hebt verloren van %s!' % winner.user.username,
-            '''Hoi %(loser)s,
-
-Helaas! Je hebt het duel met %(winner)s verloren.
-
-Ga naar %(url)s om de uitkomst te zien!
-
-Namens PLAY Pilots,
-
-Uw gezagvoerder''' % {
-                'loser': loser.user.username,
-                'winner': winner.user.username,
-                'url': 'http://playpilots.nl/c/%d/' % r.id
-            }, 
-            'Your Captain Speaking <captain@playpilots.nl>', 
-            [loser.user.email])
-        """
+        
+        d.send_winner_loser_messages()
         
         return HttpResponse(json.dumps(result), mimetype="text/json")
         
