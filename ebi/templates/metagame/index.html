@@ -277,7 +277,7 @@
 		border-right: 1px solid #ddd;
 		float: right;
 		
-		padding-bottom: 20px;
+		padding-bottom: 10px;
 	}
 	
 	#activities #blog a.title {
@@ -366,7 +366,7 @@
 		<div id="blog">
 			<h2>blog</h2>
 			<div id="post">
-				<p><a href="" class="title">{{ blogentry.title }}</a><br /><span class="date">{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }}</span> - {{ blogentry.summary|striptags|truncatewords:32 }}  <a href="{{ blogentry.link }}" target="_blank">more »</a></p>
+				<p><a href="" class="title">{{ blogentry.title }}</a><br /><span class="date">{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }}</span> - {{ blogentry.summary|striptags|truncatewords:25 }}  <a href="{{ blogentry.link }}" target="_blank">more »</a></p>
 		</div>
     </div>
 </div>
