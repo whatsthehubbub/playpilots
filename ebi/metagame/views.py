@@ -61,7 +61,8 @@ def player_detail(request, id):
     
     return render_to_response('metagame/player_detail.html', {
         'player': player,
-        'skills': skills
+        'skills': skills,
+        'current': 'klassement'
     }, context_instance=RequestContext(request))
     
 @login_required
