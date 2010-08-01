@@ -137,7 +137,6 @@ def game_list(request):
     }, context_instance=RequestContext(request))
 
 @login_required
-# @cache_page
 def game_detail(request, slug):
     game = get_object_or_404(Game, slug=slug)
     
@@ -155,7 +154,7 @@ def game_detail(request, slug):
         'game': game,
         'current': 'games',
         'interest': interest,
-        'feed': feedEntries
+        'feed': feedEntries[:3]
     }, context_instance=RequestContext(request))
 
 @login_required
