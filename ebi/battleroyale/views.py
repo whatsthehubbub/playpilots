@@ -81,6 +81,9 @@ def challenge_create(request):
 
         # Create Round object
         d = Duel(challenger=challenger, challenge_move=move, challenge_message=message, target=target)
+        
+        d.challenger_oldrank = challenger.get_rank()
+        d.responder_oldrank = target.get_rank()
 
         awesomeness = d.get_challenge_awesomeness()
         d.challenge_awesomeness = awesomeness
@@ -107,16 +110,87 @@ def challenge_resolve(request):
     
         d.response_message = request.POST.get('message', '')
         d.response_awesomeness = d.get_response_awesomeness()
-        
         d.save()
-    
-        # TODO send back specific winphrase too
         
         result = {
             'awesomeness': d.response_awesomeness
         }
         
-        # TODO handle winner and loser
+        if d.is_tie():
+            players = [d.challenger, d.target]
+            
+            d.challenger.rating += 1
+            d.target.rating += 1
+            
+            d.challenger_rating = d.challenger.rating
+            d.repsonder_rating = d.target.rating
+            
+            phrase = 'Helaas, gelijkspel. Probeer het nog eens!'            
+            result['phrase'] = phrase
+            
+            d.challenger.save()
+            d.target.save()
+            
+            try:
+                sw = Skill.objects.get(player=d.challenger, style=d.challenge_move.style)
+                sw.progress('T')
+                d.challenger_skilllevel = sw.level
+                
+                sl = Skill.objects.get(player=d.target, style=d.response_move.style)
+                sl.progress('T')
+                d.responder_skilllevel = sl.level
+            except Skill.DoesNotExist:
+                logging.error('Skills do not exist')
+        else:
+            winner = d.get_winner()
+            winner_style = d.get_winner_style()
+            loser = d.get_loser()
+            loser_style = d.get_loser_style()
+            
+            result['winner'] = winner.user.username
+            result['loser'] = loser.user.username
+            
+            try:
+                winPhrase = WinPhrase.objects.get(style=winner_style)
+                result['phrase'] = winPhrase.phrase
+            except: 
+                result['phrase'] = 'Generic win phrase.'
+            
+            try:
+                sw = Skill.objects.get(player=winner, style=winner_style)
+                sw.progress('W')
+                
+                sl = Skill.objects.get(player=loser, style=loser_style)
+                sl.progress('L')
+                
+                # Fill in the current levels of both players
+            except Skill.DoesNotExist:
+                logging.error('Skills do not exist')
+                
+            # Update rating for both players
+            # TODO for now naive rating update
+            winner.rating += 3
+            loser.rating -= 1
+            winner.save()
+            loser.save()
+            
+            if d.challenger == winner:
+                d.challenger_skilllevel = sw.level
+                d.responder_skilllevel = sl.level
+                
+                d.challenger_rating = winner.rating
+                d.responder_rating = loser.rating
+            else:
+                d.challenger_skilllevel = sl.level
+                d.responder_skilllevel = sw.level
+                
+                d.challenger_rating = loser.rating
+                d.responder_rating = winner.rating
+            
+            d.challenger_newrank = d.challenger.get_rank()
+            d.responder_newrank = d.target.get_rank()
+        
+        d.save()
         
         d.send_winner_loser_messages()
         

@@ -90,6 +90,14 @@
             
             height: 85px;
         }
+        
+        #headline .winner {
+            background-image: url({{ MEDIA_URL }}image/action_bg_yellow.png);
+        }
+        
+        #badgewinner {
+            float: right;
+        }
 
         .player1 .you {
             float: right;
@@ -283,7 +291,7 @@
         
         .finalmove {
             padding: 10px;
-            height: 3em;
+            height: 4em;
         }
         
         .result {
@@ -299,6 +307,30 @@
         .result .responder {
             text-transform: uppercase;
             font-weight: bold;
+        }
+        
+        #resultstats .box {
+            padding: 20px;
+        }
+        
+        #resultstats H2 {
+            text-align: center;
+            
+            color: #12151a;
+        }
+        
+        #resultstats H2 .player {
+            color: #f30;
+        }
+        
+        #resultstats TABLE {
+            width: 90%;
+            margin: auto;
+        }
+        
+        #resultstats TH {
+            text-align: left;
+            text-transform: uppercase;
         }
     </style>
 {% endblock %}

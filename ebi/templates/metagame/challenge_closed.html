@@ -19,7 +19,7 @@
 <div id="content" class="mainblock">
     
     <div id="headline">
-        <div class="player1">
+        <div class="player1{% ifequal duel.get_winner duel.challenger %} winner{% endifequal %}">
             {% ifequal duel.challenger.user user %}
                 <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
             {% endifequal %}
@@ -27,17 +27,25 @@
             <img id="vs" src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
+                {% ifequal duel.get_winner duel.challenger %}
+                    <img src="{{ MEDIA_URL }}image/badge_winner.png" id="badgewinner">
+                {% endifequal %}
+                
                 <h2>{{ duel.challenger.user.username }}</h2>
                 <p>4 in het algemeen klassement</p>
             </div>
         </div>
         
-        <div class="player2">
+        <div class="player2{% ifequal duel.get_winner duel.target %} winner{% endifequal %}">
             {% ifequal duel.target.user user %}
                 <img class="you" src="{{ MEDIA_URL }}image/tag_jij_mirrored.png">
             {% endifequal %}
             
             <div class="player">
+                {% ifequal duel.get_winner duel.target %}
+                    <img src="{{ MEDIA_URL }}image/badge_winner.png" id="badgewinner">
+                {% endifequal %}
+                
                 <h2>{{ duel.target.user.username }}</h2>
                 <p>18 in het algemeen klassement</p>
             </div>
@@ -107,6 +115,85 @@
             </div>
         </div>
         
+    </div>
+    
+    <div id="resultstats">
+        <div class="headingbox">
+            <h5>Uitkomst</h5>
+        </div>
+        
+        <div class="box">
+            <h2><span class="player">
+                {% if not duel.is_tie %}
+                    {{ duel.get_winner }}</span> wint van <span class="player">{{ duel.get_loser }}</span> en 
+                {% endif %}
+
+                {{ duel.get_result_phrase }}</h2>
+            <table>
+                <tr>
+                    <th colspan="2">
+                        {% if not duel.is_tie %}
+                            {% ifequal duel.get_winner duel.challenger %}
+                                Gewonnen!
+                            {% else %}
+                                Jij hebt verloren&hellip;
+                            {% endifequal %}
+                        {% endif %}
+                    </th>
+                    <th colspan="2">
+                        {% if not duel.is_tie %}
+                            {% ifequal duel.get_winner duel.target %}
+                                Gewonnen!
+                            {% else %}
+                                Jij hebt verloren&hellip;
+                            {% endifequal %}
+                        {% endif %}
+                    </th>
+                </tr>
+                
+                <tr class="skill">
+                    <td></td>
+                    <td>{{ duel.challenger.user.username }} met score {{ duel.challenger.rating }}
+                        {% if duel.challenger_oldrank == duel.challenger_newrank %}
+                            blijft op rang {{ duel.challenger_newrank }}
+                        {% else %}
+                            en 
+                            {% if duel.challenger_oldrank < duel.challenger_newrank %}
+                                daalt
+                            {% endif %}
+                            {% if duel.challenger_oldrank > duel.challenger_newrank %}
+                                stijgt
+                            {% endif %}
+                            van rang {{ duel.challenger_oldrank }} naar {{ duel.challenger_newrank }}
+                        {% endif %}
+                        </td>
+                    <td></td>
+                    <td>
+                        {{ duel.target.user.username }} met score {{ duel.target.rating }}
+                        {% if duel.responder_oldrank == duel.responder_newrank %}
+                            blijft op rang {{ duel.responder_newrank }}
+                        {% else %}
+                            en
+                            {% if duel.responder_oldrank < duel.responder_newrank %}
+                                daalt
+                            {% endif %}
+                            {% if duel.responder_oldrank > duel.responder_newrank %}
+                                stijgt
+                            {% endif %}
+                            van rang {{ duel.responder_oldrank }} naar {{ duel.responder_newrank }}
+                        {% endif %}
+                    </td>
+                </tr>
+                
+                <tr class="rating">
+                    <td><img src="{{ MEDIA_URL }}image/level_{{ duel.challenger_skilllevel }}.png"></td>
+                    <td>{{ duel.challenger.user.username }} is nu op niveau {{ duel.challenger_skilllevel }} als {{ duel.challenge_move.style }}</td>
+                    
+                    <td><img src="{{ MEDIA_URL }}image/level_{{ duel.responder_skilllevel }}.png"></td>
+                    <td>{{ duel.target.user.username }} is nu op niveau {{ duel.responder_skilllevel }} als {{ duel.response_move.style}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 
 </div>

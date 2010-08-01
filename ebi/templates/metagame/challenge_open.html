@@ -129,7 +129,11 @@
                     var awesomeness = data['awesomeness'];
                     var awesomenessMessage = awesomenessMessages[awesomeness];
                     
-                    $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2></div>');
+                    // $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2></div>');
+                    
+                    // Show the closed version directly
+                    refreshPage();
+                    
                 }, 'json');
                 
                 var totalMove = '<div class="finalmove"><b>' + moveString;
@@ -143,6 +147,10 @@
                 $('#actionselect').html(totalMove);
             });
         });
+        
+        function refreshPage() {
+            window.location.reload();
+        }
     </script>
     
     <style type="text/css" media="screen">

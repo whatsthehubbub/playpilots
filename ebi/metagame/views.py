@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-
+from django.core.cache import cache
 from django import forms
 from django.core.signals import request_finished
 
@@ -15,8 +15,7 @@ from ebi.metagame.models import Maker, Festival, Game, Player
 
 import actstream
 from actstream.models import Action, actor_stream
-
-# from ebi.metagame.models import Culture, Move, Round, SpecificWinPhrase
+from services import feed_entries
 
 import datetime, random, math, json
 
@@ -142,6 +141,12 @@ def game_list(request):
 def game_detail(request, slug):
     game = get_object_or_404(Game, slug=slug)
     
+    feedURL = game.maker.updatesFeed
+    feedEntries = cache.get(feedURL)
+    if not feedEntries:
+        feedEntries = feed_entries(feedURL)
+        cache.set(feedURL, feedEntries, 60*60*24)
+    
     interest = False
     if request.user.get_profile() in game.interested.all():
         interest = True
@@ -149,7 +154,8 @@ def game_detail(request, slug):
     return render_to_response('metagame/game_detail.html', {
         'game': game,
         'current': 'games',
-        'interest': interest
+        'interest': interest,
+        'feed': feedEntries
     }, context_instance=RequestContext(request))
 
 @login_required

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.mail import send_mail
+from django.db.models import Q
 
 from ebi.metagame.models import Player
 
@@ -38,11 +39,32 @@ class Skill(models.Model):
     level = models.IntegerField(default=1)
     experience = models.IntegerField(default=0)
     
-    # TODO
-    # playcount = models.IntegerField(default=0)
-    
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    
+    def get_play_count(self):
+        '''Returns the number of times this player/skill combination have played.'''
+        return Duel.objects.all().filter(open=False).filter((Q(challenger=self.player) & Q(challenge_move__style=self.style)) | (Q(target=self.player) & Q(response_move__style=self.style))).count()
+        
+    def progress(self, record):
+        old_exp = self.experience
+        
+        if record=='W':
+            self.experience += 3
+        elif record=='L':
+            self.experience += 1
+        elif record=='T':
+            self.experience += 2
+            
+        self.save()
+        
+        # TODO also calculate level up for new experience
+        
+        return (old_exp, self.experience)
+        
+    def balance(self):
+        '''TODO for later, balances out this players records with all the rest.'''
+        pass
     
     def __unicode__(self):
         return '%d' % self.level
@@ -90,8 +112,16 @@ class Duel(models.Model):
     response_message = models.CharField(max_length=255, blank=True)
     response_awesomeness = models.IntegerField(blank=True, null=True)
     
-    # Blob to store the result in
-    result = models.TextField(blank=True)
+    # Need to save snapshot states for the various player stats
+    challenger_skilllevel = models.IntegerField(blank=True, null=True)
+    challenger_oldrank = models.IntegerField(blank=True, null=True)
+    challenger_newrank = models.IntegerField(blank=True, null=True)
+    challenger_rating = models.IntegerField(blank=True, null=True)
+    
+    responder_skilllevel = models.IntegerField(blank=True, null=True)
+    responder_oldrank = models.IntegerField(blank=True, null=True)
+    responder_newrank = models.IntegerField(blank=True, null=True)
+    responder_rating = models.IntegerField(blank=True, null=True)
     
     def __unicode__(self):
         return '%s with %s' % (self.challenger.user.username, self.challenge_move.name)
@@ -147,11 +177,38 @@ class Duel(models.Model):
         elif self.responder_won():
             return self.target
             
+    def get_winner_style(self):
+        if self.challenger_won():
+            return self.challenge_move.style
+        elif self.responder_won():
+            return self.response_move.style
+            
     def get_loser(self):
         if self.challenger_won():
             return self.target
         elif self.responder_won():
             return self.challenger
+    
+    def get_loser_style(self):
+        if self.challenger_won():
+            return self.response_move.style
+        elif self.responder_won():
+            return self.challenge_move.style
+    
+    def get_result_phrase(self):
+        if self.is_tie():
+            return 'tie'
+        else:
+            style = self.get_winner_style()
+            
+            phrase = 'default win phrase'
+            try:
+                w = WinPhrase.objects.get(style=style)
+                phrase = w.phrase
+            except WinPhrase.DoesNotExist:
+                pass
+                
+            return phrase
     
     def send_target_message(self):
         # TODO this also assumes e-mail as communications medium
@@ -208,7 +265,7 @@ Namens PLAY Pilots,
 Uw gezagvoerder''' % {
                     'loser': loser.user.username,
                     'winner': winner.user.username,
-                    'url': 'http://playpilots.nl/c/%d/' % r.id
+                    'url': 'http://playpilots.nl/c/%d/' % self.id
                 }, 
                 'Your Captain Speaking <captain@playpilots.nl>', 
                 [loser.user.email])

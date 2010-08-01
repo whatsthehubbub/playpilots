@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 from django.contrib.auth.models import User
 
 from django.db.models.signals import pre_save, post_save
@@ -126,15 +127,35 @@ class Player(models.Model):
     
     created = models.DateTimeField(auto_now_add=True)
     
-    rating = models.IntegerField(blank=True, null=True, default=100)
+    rating = models.IntegerField(blank=True, null=True, default=0)
     
     # game_set.all()
     
+    def get_rank(self):
+        players = Player.objects.all().order_by('-rating')
+        
+        # TODO this won't scale, but for now it works
+        # Swap in later for http://www.artfulsoftware.com/infotree/queries.php?&bw=1024#460
+        rank = 1
+        for player in players:
+            if player == self:
+                return rank
+            rank += 1
+    
     def get_challenger_duels(self):
-        return self.challenger_duel.all().filter(open=True).order_by('-created')
+        return self.challenger_duel.all().filter(open=True).order_by('created')
         
     def get_responder_duels(self):
-        return self.responder_duel.all().filter(open=True).order_by('-created')
+        return self.responder_duel.all().filter(open=True).order_by('created')
+        
+    def get_win_count(self):
+        return self.challenger_duel.filter(challenge_awesomeness__gt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__gt=F('challenge_awesomeness')).count()
+        
+    def get_loss_count(self):
+        return self.challenger_duel.filter(challenge_awesomeness__lt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__lt=F('challenge_awesomeness')).count()
+    
+    def get_tie_count(self):
+        return self.challenger_duel.filter(challenge_awesomeness=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness=F('challenge_awesomeness')).count()
     
     def __unicode__(self):
         return self.user.username
