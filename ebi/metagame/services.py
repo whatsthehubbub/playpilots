@@ -9,9 +9,10 @@ def feed_first_entry(url):
     return {}
     
 def feed_entries(url):
-    parsed = feedparser.parse(url)
+    if url:
+        parsed = feedparser.parse(url)
     
-    if len(parsed['entries']) > 0:
-        return parsed['entries']
+        if len(parsed['entries']) > 0:
+            return parsed['entries']
     
-    return {}
+    return []
