@@ -330,8 +330,6 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
     </script>
 {% endblock %}
 
-{% block tagline %}{% endblock %}
-
 
 {% block content %}
 <div id="title_wrapper">
@@ -430,16 +428,4 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
         {% endfor %}
     </div>
 </div>
-
-<!-- <div id="game_id" class="game">        
-        {% if interest %}
-            Je gaat naar het festival!
-        {% else %}
-            <form method="POST" action="/games/{{ game.slug }}/interested/" id="interest_form">
-                <button type="submit">KNOP OM OP TE KLIKKEN</button>
-            </form>
-        {% endif %}
-</div> -->
 {% endblock %}
-
-{% block activityfooter %}{% endblock %}

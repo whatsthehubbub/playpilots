@@ -259,7 +259,6 @@ _gaq.push(['_trackPageview']);
 </head>
 
 <body>
-
     <div id="headerwrapper">
         <div id="header" class="mainblock">
             <div id="checkin">
@@ -289,16 +288,6 @@ _gaq.push(['_trackPageview']);
         </div>
     </div>
 
-    <!-- <div id="splash" class="mainblock" style="background-image: url({{ MEDIA_URL}}image/splash.png); background-position: center center; height: 299px;">
-    </div>
--->
-
-    <div id="taglinewrapper">
-        {% block tagline %}
-        <div id="tagline" class="mainblock" style="background-image: url({{ MEDIA_URL }}image/events_image.png); height: 118px;"></div>
-        {% endblock %}
-    </div>
-
     <div id="contentwrapper">
         {% block content %}
         <div id="content" class="mainblock">
@@ -306,30 +295,6 @@ _gaq.push(['_trackPageview']);
         </div>
         {% endblock %}
     </div>
-
-    {% block activityfooter %}
-    <div id="activityfooter" class="mainblock" style="overflow: hidden;">
-        <div id="activity">
-            <h3>Recente activiteit</h3>
-
-            <ol>
-                {% for action in actions %}
-                <li style="float: left; width: 150px;"><a href="{{ action.target.get_absolute_url }}"><img src="https://asset1.37img.com/missing/avatar.png?r=3">{{ action.actor }} {{ action.verb }} {% if action.target %}{{ action.target }}{% endif %}</a></li>
-                {% endfor %}
-            </ol>
-
-            <a href="/players/">Ranglijst</a>
-        </div>
-
-        <div id="blog">
-            <h3>Blog</h3>
-
-            <h4>{{ blogentry.title }}</h4>
-
-            <p>{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }} {{ blogentry.summary|striptags|truncatewords:32 }} <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
-        </div>
-    </div>
-    {% endblock %}
 
     <div id="footerwrapper">
         <div id="footerexplanation" class="mainblock">

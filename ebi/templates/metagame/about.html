@@ -65,11 +65,11 @@
     
 {% endblock %}
 
-{% block tagline %}
-<div id="tagline" class="mainblock">
-    <h1>{{ flatpage.title }}</h1>
+<div id="taglinewrapper">
+    <div id="tagline" class="mainblock">
+        <h1>{{ flatpage.title }}</h1>
+    </div>
 </div>
-{% endblock %}
 
 {% block content %}
     <div id="content" class="mainblock">
@@ -80,5 +80,3 @@
 
     </div>
 {% endblock %}
-
-{% block activityfooter %}{% endblock %}
