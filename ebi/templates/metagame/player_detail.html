@@ -256,7 +256,7 @@
 {% block tagline %}{% endblock %}
 
 {% block content %}
-<div id="player" class="mainblock{% ifequal player.user.username user.username  %} you{% endifequal%}">
+<div id="player" class="mainblock{% ifequal player.user user %} you{% endifequal%}">
     <div id="profile">
         
         <div id="details">
@@ -267,7 +267,7 @@
             
             <p class="rank"><span>{{ player.get_rank|stringformat:".3d" }}</span> in het algemeen klassement</p>
             
-            {% ifnotequal player.user.username user.username  %}
+            {% ifnotequal player.user user %}
                 <form method="GET" action="/challenge/">
                     <input type="hidden" name="target" value="{{ player.id }}">
                     
@@ -343,11 +343,11 @@
 
                         <span class="timestamp">{{ duel.created|timesince }} geleden</span>
                         
-                        {% if duel.open %}
+                        {% ifequal user.get_profile duel.target %}
                             <form method="GET" action="/c/{{ duel.id }}/">
                                 <button class="door"><p class="door">beantwoord</p></button>
                             </form>
-                        {% endif %}
+                        {% endifequal %}
                     </li>
                     {% empty %}
                     <li>Niks, nada, noppes. Ze durven niet!</li>

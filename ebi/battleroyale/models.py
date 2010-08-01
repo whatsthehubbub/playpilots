@@ -124,7 +124,7 @@ class Duel(models.Model):
     responder_rating = models.IntegerField(blank=True, null=True)
     
     def __unicode__(self):
-        return '%s with %s' % (self.challenger.user.username, self.challenge_move.name)
+        return '%s' % self.challenge_move.name
         
     def get_absolute_url(self):
         return '/c/%d/' % self.id

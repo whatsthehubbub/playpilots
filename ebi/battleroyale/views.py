@@ -11,7 +11,7 @@ from ebi.metagame.models import Player
 from battleroyale.models import *
 
 import actstream
-from actstream.models import Action, actor_stream
+from actstream.models import Action
 
 import datetime, random, math, json
 
@@ -80,7 +80,7 @@ def challenge_create(request):
         target = Player.objects.get(id=int(target_id))
 
         # Create Round object
-        d = Duel(challenger=challenger, challenge_move=move, challenge_message=message, target=target)
+        d = Duel.objects.create(challenger=challenger, challenge_move=move, challenge_message=message, target=target)
         
         d.challenger_oldrank = challenger.get_rank()
         d.responder_oldrank = target.get_rank()
@@ -141,6 +141,8 @@ def challenge_resolve(request):
                 d.responder_skilllevel = sl.level
             except Skill.DoesNotExist:
                 logging.error('Skills do not exist')
+                
+            actstream.action.send(d.target.user, verb='heeft net gelijkgespeeld met %s in duel' % d.challenger.user.username, target=d)
         else:
             winner = d.get_winner()
             winner_style = d.get_winner_style()
@@ -191,6 +193,8 @@ def challenge_resolve(request):
             d.responder_newrank = d.target.get_rank()
         
         d.save()
+        
+        actstream.action.send(d.get_winner, verb='heeft net gewonnen van %s in' % d.get_loser.user.username, target=d)
         
         d.send_winner_loser_messages()
         
