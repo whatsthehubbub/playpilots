@@ -183,6 +183,13 @@ class Duel(models.Model):
         elif self.responder_won():
             return self.response_move.style
             
+    def get_win_phrase(self):
+        w = WinPhrase.objects.filter(style=self.get_winner_style()).order_by('?')
+        if w:
+            return w[0].phrase
+                    
+        return ''
+            
     def get_loser(self):
         if self.challenger_won():
             return self.target

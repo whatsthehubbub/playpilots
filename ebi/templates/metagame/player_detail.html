@@ -265,7 +265,7 @@
             
             <h2>{{ player.user.username }}</h2>
             
-            <p class="rank"><span>018</span> in het algemeen klassement</p>
+            <p class="rank"><span>{{ player.get_rank|stringformat:".3d" }}</span> in het algemeen klassement</p>
             
             {% ifnotequal player.user.username user.username  %}
                 <form method="GET" action="/challenge/">
@@ -282,17 +282,17 @@
             <table>
                 <tr class="odd">
                     <td>Gewonnen</td>
-                    <td>12</td>
+                    <td>{{ player.get_win_count }}</td>
                 </tr>
                 
                 <tr class="even">
                     <td>Verloren</td>
-                    <td>01</td>
+                    <td>{{ player.get_loss_count }}</td>
                 </tr>
                 
                 <tr class="odd">
                     <td>Gelijkspel</td>
-                    <td>13</td>
+                    <td>{{ player.get_tie_count }}</td>
                 </tr>
             </table>
         </div>
@@ -301,21 +301,17 @@
             <h4>Stijlen</h4>
             
             <table>
-                <tr class="odd">
-                    <td class="style">Happy Camper</td>
-                    <td><img src="{{ MEDIA_URL }}image/level_1.png"></td>
-                    <td class="rank"><span>142</span></td>
-                </tr>
-                <tr class="even">
-                    <td class="style">Barfly</td>
-                    <td><img src="{{ MEDIA_URL }}image/level_4.png"></td>
-                    <td class="rank"><span>042</span></td>
-                </tr>
-                <tr class="odd">
-                    <td class="style">Nouvelle Vaag</td>
-                    <td><img src="{{ MEDIA_URL }}image/level_3.png"></td>
-                    <td class="rank"><span>002</span></td>
-                </tr>                
+                {% for skill in skills %}
+                    <tr class="{% cycle 'odd' 'even' %}">
+                        <td class="style">{{ skill.style.name }}</td>
+                        <td><img src="{{ MEDIA_URL }}image/level_{{ skill.level }}.png"></td>
+                        
+                        <!--
+                            TODO think of a decent way to calculate rank per style
+                        --> 
+                        <td class="rank"><span>{{ skill.experience }}</span></td>
+                    </tr>
+                {% endfor %}             
             </table>
         </div>
         
@@ -339,8 +335,12 @@
                     <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}">
                         <span class="style">{{ duel.challenge_move.style.name }}</span>
                         <span class="username"><a href="/players/{{ duel.challenger.id }}/">{{ duel.challenger }}</a></span>
-                        <span class="move">{{ duel.get_challenge_move }}</span> <!-- TODO in de message <span class="username"></span> om de naam van de uitgedaagde zetten -->
-                        en zegt: <span class="message">&ldquo;{{ duel.challenge_message }}&rdquo;</span>
+                        <span class="move">{{ duel.get_challenge_move }}</span>
+                        
+                        {% if duel.challenge_message %}
+                            en zegt: <span class="message">&ldquo;{{ duel.challenge_message }}&rdquo;</span>
+                        {% endif %}
+
                         <span class="timestamp">{{ duel.created|timesince }} geleden</span>
                         
                         {% if duel.open %}
@@ -362,8 +362,12 @@
                 {% for duel in player.get_challenger_duels %}
                     <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}"><span class="style">{{ duel.challenge_move.style.name }}</span>
                         <span class="username">{{ player.user.first_name }}</span>
-                        <span class="move">{{ duel.get_challenge_move }}</span> <!-- TODO in de message <span class="username"></span> om de naam van de uitgedaagde zetten -->
-                        en zegt: <span class="message">&ldquo;{{ duel.challenge_message }}&rdquo;</span>
+                        <span class="move">{{ duel.get_challenge_move }}</span>
+                        
+                        {% if duel.challenge_message %}
+                            en zegt: <span class="message">&ldquo;{{ duel.challenge_message }}&rdquo;</span>
+                        {% endif %}
+                        
                         <span class="timestamp">{{ duel.created|timesince }} geleden</span>
                         <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel</a> &raquo;</p>
                     </li>
@@ -375,10 +379,15 @@
         
         <div id="history">
             <h4>Historie</h4>
+            
             <ol>
-                <li class="notlast duel"><span class="style">Happy Camper</span> <span class="username">{{ player.user.first_name }}</span> wint van <span class="username"><a href="">Simon</a></span> en steekt een dikke sigaar op. "I love it when a plan comes together!" <span class="timestamp">1 dag, 20 uur geleden</span> <p class="view"><a href="">Bekijk duel</a> &raquo;</p></li>                
-                <li class="notlast duel"><span class="style">Mr DJ</span> <span class="username">{{ player.user.first_name }}</span> wint van <span class="username"><a href="">Bernard</a></span> en het dak gaat eraf in Tivoli. <span class="timestamp">1 dag, 20 uur geleden</span> <p class="view"><a href="">Bekijk duel</a> &raquo;</p></li>
-                <li class="duel"><span class="style">Mens Erger Je Niet</span> <span class="username">{{ player.user.first_name }}</span> wint van <span class="username"><a href="">Karel</a></span> en int smalend de huur van een hotel op het Neude. <span class="timestamp">1 dag, 20 uur geleden</span> <p class="view"><a href="">Bekijk duel</a> &raquo;</p></li>
+                {% for duel in player.get_finished_duels %}
+                    <li class="notlast duel"><span class="style">{{ duel.get_winner_style }}</span> <span class="username">{{ duel.get_winner }}</span> wint van <span class="username"><a href="">{{ duel.get_loser }}</a></span>
+                        {% if duel.get_win_phrase %}
+                            en {{ duel.get_win_phrase }}
+                        {% endif %}
+                        <span class="timestamp">{{ duel.responded|timesince }}</span> <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel</a> &raquo;</p></li>  
+                {% endfor %}
             </ol>
         </div>
         

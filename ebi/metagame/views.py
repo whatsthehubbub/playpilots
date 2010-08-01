@@ -12,6 +12,7 @@ from django import forms
 from django.core.signals import request_finished
 
 from ebi.metagame.models import Maker, Festival, Game, Player
+from ebi.battleroyale.models import Skill
 
 import actstream
 from actstream.models import Action, actor_stream
@@ -50,20 +51,17 @@ def player_list(request):
 @login_required
 def player_detail(request, id):
     player = get_object_or_404(Player, id=id)
-
-    # TODO if player does not exist create (here or on registration)
     
     try:
         player = Player.objects.get(id=id)
     except Player.DoesNotExist:
         pass
     
-    actions = actor_stream(player.user)
-    
+    skills = Skill.objects.all().filter(player=player).order_by('style__name')
     
     return render_to_response('metagame/player_detail.html', {
         'player': player,
-        'actions': actions
+        'skills': skills
     }, context_instance=RequestContext(request))
     
 @login_required

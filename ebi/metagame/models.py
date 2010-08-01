@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import F
+from django.db.models import F, Q
 from django.contrib.auth.models import User
 
 from django.db.models.signals import pre_save, post_save
@@ -147,6 +147,10 @@ class Player(models.Model):
         
     def get_responder_duels(self):
         return self.responder_duel.all().filter(open=True).order_by('created')
+        
+    def get_finished_duels(self):
+        from battleroyale.models import Duel
+        return Duel.objects.all().filter(open=False).filter(Q(challenger=self) | Q(target=self)).order_by('created')
         
     def get_win_count(self):
         return self.challenger_duel.filter(challenge_awesomeness__gt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__gt=F('challenge_awesomeness')).count()
