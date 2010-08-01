@@ -30,11 +30,17 @@ def index(request):
         return render_to_response('metagame/index_splash.html', {
         }, context_instance=RequestContext(request))
     else:
-        games = Game.objects.all()
+        blogentry = cache.get('blogentry')
+        if not blogentry:
+            blogentry = feed_first_entry('http://ebi.posterous.com/rss.xml')
+            cache.set('blogentry', blogentry, 60*60*2)
+    
+        actions = Action.objects.all().order_by('-timestamp')
     
         return render_to_response('metagame/index.html', {
-            'games': games,
-            'current': 'home'
+            'current': 'home',
+            'blogentry': blogentry,
+            'actions': actions[:4]
         }, context_instance=RequestContext(request))
 
 @login_required
