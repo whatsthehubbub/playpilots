@@ -242,10 +242,12 @@
             {% for player in players %}
                 <tr class="player{% if forloop.counter < 4  %} top3{% endif %}{% ifequal player.user.username user.username %} you{% endifequal %}">
                     <td class="rank">{{ forloop.counter }}</td>
+
                     <td class="info"><img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt=" "> {{ player.user.username }}</td>
-                    <td class="win">00</td>
-                    <td class="lose">01</td>
-                    <td class="tie">00</td>
+                    <td class="win">{{ player.get_win_count }}</td>
+                    <td class="lose">{{ player.get_loss_count }}</td>
+                    <td class="tie">{{ player.get_tie_count }}</td>
+                    
                     <td class="pow">
                         {% ifnotequal player.user.username user.username %}
                             <form method="GET" action="/challenge">
