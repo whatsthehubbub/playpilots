@@ -58,7 +58,25 @@ class Skill(models.Model):
             
         self.save()
         
-        # TODO also calculate level up for new experience
+        # TODO balance experience in the future using total experience for the group
+        if self.level==1:
+            if self.experience >= 10:
+                self.level += 1
+        elif self.level==2:
+            if self.experience >= 25:
+                self.level += 1
+        elif self.level==3:
+            if self.experience >= 50:
+                self.level += 1
+        elif self.level==4:
+            if self.experience >= 125:
+                self.level += 1
+        elif self.level==5:
+            pass # No higher levels yet
+            
+            
+        self.save()
+        
         
         return (old_exp, self.experience)
         

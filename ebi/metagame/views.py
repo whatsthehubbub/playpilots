@@ -16,7 +16,7 @@ from ebi.battleroyale.models import Skill
 
 import actstream
 from actstream.models import Action, actor_stream
-from services import feed_entries
+from services import feed_entries, feed_first_entry
 
 import datetime, random, math, json
 

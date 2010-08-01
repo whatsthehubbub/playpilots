@@ -116,14 +116,57 @@ def challenge_resolve(request):
             'awesomeness': d.response_awesomeness
         }
         
+        # Simplified ELO table
+        # Source: http://www.chesselo.com/probabil.html
+        def getWinProb(diff):
+            '''Returns the win probability for the stronger player. The probability for the weaker player is 1-prob.'''
+            if diff == 0:
+                return 0.5
+            elif diff < 25:
+                return 0.53
+            elif diff < 50:
+                return 0.57
+            elif diff < 100:
+                return 0.64
+            elif diff < 150:
+                return 0.70
+            elif diff < 200:
+                return 0.76
+            elif diff < 250:
+                return 0.81
+            elif diff < 300:
+                return 0.85
+            elif diff < 350:
+                return 0.89
+            elif diff < 400:
+                return 0.92
+            elif diff < 450:
+                return 0.94
+            elif diff < 500:
+                return 0.96
+            elif diff < 735:
+                return 0.99
+            else:
+                return 1.00
+        Kfactor = 10
+        
         if d.is_tie():
             players = [d.challenger, d.target]
             
-            d.challenger.rating += 1
-            d.target.rating += 1
+            difference = abs(d.challenger.rating-d.target.rating)
+            prob = getWinProb(difference)
+            if d.challenger.rating > d.target.rating:
+                stronger = d.challenger
+                weaker = d.target
+            else:
+                stronger = d.target
+                weaker = d.challenger
+            
+            stronger.rating += Kfactor * (0.5-prob)
+            weaker.rating += Kfactor * (0.5-(1-prob))
             
             d.challenger_rating = d.challenger.rating
-            d.repsonder_rating = d.target.rating
+            d.responder_rating = d.target.rating
             
             phrase = 'Helaas, gelijkspel. Probeer het nog eens!'            
             result['phrase'] = phrase
@@ -168,11 +211,18 @@ def challenge_resolve(request):
                 # Fill in the current levels of both players
             except Skill.DoesNotExist:
                 logging.error('Skills do not exist')
-                
-            # Update rating for both players
-            # TODO for now naive rating update
-            winner.rating += 3
-            loser.rating -= 1
+            
+            
+            difference = abs(winner.rating-loser.rating)
+            prob = getWinProb(difference)
+
+            # Reverse probability if the winner had a lower rating (they were the underdog)
+            if winner.rating < loser.rating:
+                prob = 1-prob
+
+            winner.rating += Kfactor * (1-prob)
+            loser.rating += Kfactor * (0-(1-prob))
+            
             winner.save()
             loser.save()
             
