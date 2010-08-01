@@ -47,17 +47,6 @@ def index(request):
         }, context_instance=RequestContext(request))
 
 @login_required
-def player_list(request):
-    players = Player.objects.all().order_by('-rating')
-    
-    cultures = Culture.objects.all().order_by('name')
-    
-    return render_to_response('metagame/player_list.html', {
-        'players': players,
-        'cultures': cultures
-    }, context_instance=RequestContext(request))
-
-@login_required
 def player_detail(request, id):
     player = get_object_or_404(Player, id=id)
     

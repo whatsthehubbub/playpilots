@@ -22,7 +22,6 @@ urlpatterns += patterns('ebi.metagame.views',
     (r'^$', 'index'),
 	
 	(r'^users/(?P<username>\S+?)/$', 'user_detail'),
-	(r'^players/$', 'player_list'),
 	(r'^players/(?P<id>\d+)/$', 'player_detail'),
 	(r'^players/(?P<username>\S+?)/$', 'user_detail'),
 	
@@ -32,6 +31,10 @@ urlpatterns += patterns('ebi.metagame.views',
 	
 	(r'^register/$', 'register'),
 	(r'^logout/$', 'logout_view')
+)
+
+urlpatterns += patterns('django.views.generic.simple',
+    (r'^players/$', 'redirect_to', {'url': '/klassement/'}),
 )
 
 urlpatterns += patterns('ebi.battleroyale.views',
