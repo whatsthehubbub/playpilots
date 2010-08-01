@@ -308,21 +308,27 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
     
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-            
             $('#image_reel').css('-webkit-transform', 'rotate(-5deg)');
+            $('#image_reel').css('-moz-transform', 'rotate(-5deg)');
             
             $('#interest_form').ajaxForm({
                 dataType: 'json',
                 success: function(data) {
+                    $('#interest_form').html('<button class="door"><p class="door">Je bent erbij!</p></button>');
                 }
             });
             
-            
+            $('.notparticipatelink').click(function() {
+                $.post('/games/{{ game.slug }}/interested/', 
+                    {'action': 'remove'}, function(data) {
+                        window.location.reload();
+                    });
+                    
+                return false;
+            });
         });
     </script>
-    
 {% endblock %}
-
 
 {% block tagline %}{% endblock %}
 
@@ -346,10 +352,13 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
         <h1>{{ game.name }}</h1>
         
         <h3>door {{ game.maker }} voor {{ game.festival }}</h3>
-        <!-- TODO handje op button verschijnt niet -->
-        <form method="GET" action="http://leapfrog.nl/">
-            <button class="door"><p class="door">Ik ben er bij!</p></button>
-        </form>
+        
+        {% if not user.get_profile in game.interested.all %}
+            <!-- TODO handje op button verschijnt niet -->
+            <form method="GET" action="/games/{{ game.slug }}/interested/" id="interest_form">
+                <button class="door"><p class="door">Ik ben erbij!</p></button>
+            </form>
+        {% endif %}
     </div>
 </div>
 
@@ -395,7 +404,11 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
 
 <div id="interest_wrapper">
     <div id="interest" class="mainblock">
-        <h2>Wie zijn erbij?</h2> <h3>Je komt!</h3> <span>[<a href="">toch niet?</a>]</span>
+        <h2>Wie zijn erbij?</h2> 
+        
+        {% if user.get_profile in game.interested.all %}
+            <h3 id="jekomt">Je komt!</h3> <span id="tochniet">[<a href="#" class="notparticipatelink">toch niet?</a>]</span>
+        {% endif %}
     </div>
 </div>
 
@@ -410,7 +423,7 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
             ">
                 <a href="/players/{{ player.id }}/">
                     <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
-                    <div class="rank">999</div>
+                    <div class="rank">{{ player.get_rank }}</div>
                     <span>{{ player.user.username }}</span>
                 </a>
             </div>

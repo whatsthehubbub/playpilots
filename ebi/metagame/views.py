@@ -167,12 +167,14 @@ def game_interest(request, slug):
             player = request.user.get_profile()
         except django.contrib.auth.models.SiteProfileNotAvailable:
             pass
-            
-        # TODO check if not already interested
-        game.interested.add(player)
         
-        actstream.action.send(request.user, verb="doet mee met", target=game)
+        if action == 'add':
+            game.interested.add(player)
+            actstream.action.send(request.user, verb="doet mee met", target=game)
+        elif action == 'remove':
+            game.interested.remove(player)
+            actstream.action.send(request.user, verb='doet niet meer mee met', target=game)
         
-        return HttpResponse('1')
+        return HttpResponse(json.dumps({'success': 1}))
         
-    return HttpResponse('0')
+    return HttpResponse(json.dumps({'success': 0}))
