@@ -354,11 +354,11 @@
 			<div id="participants">
 			    {% for action in actions %}
 			        <div class="participant {% if forloop.last %}last{% endif %}">
-    					<a href="/users/{{ action.actor.username }}/">
+    					<a href="/users/{{ action.actor.user.username }}/">
     						<img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" class="avatar" alt="">
-    						<p class="name">{{ action.actor.username }}</p>
+    						<p class="name">{{ action.actor.user.username }}</p>
     					</a>
-    					<p class="activity">{{ action.verb }}
+    					<p class="activity">{{ action.actor.user.username }} {{ action.verb }}
     					    <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></p>
     				</div>
 			    {% endfor %}

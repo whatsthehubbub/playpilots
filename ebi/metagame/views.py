@@ -105,7 +105,7 @@ def register(request):
         
         login(request, user)
         
-        actstream.action.send(user, verb='heeft net ingecheckt voor PLAY!')
+        actstream.action.send(user.get_profile(), verb='heeft net ingecheckt voor PLAY!')
         
         send_mail('Account voor Play Pilots aangemaakt!', 'Bericht', 'alper@whatsthehubbub.nl', form.cleaned_data['email'])
         
@@ -178,10 +178,10 @@ def game_interest(request, slug):
         
         if action == 'add':
             game.interested.add(player)
-            actstream.action.send(request.user, verb="doet mee met", target=game)
+            actstream.action.send(player, verb="doet mee met", target=game)
         elif action == 'remove':
             game.interested.remove(player)
-            actstream.action.send(request.user, verb='doet niet meer mee met', target=game)
+            actstream.action.send(player, verb='doet niet meer mee met', target=game)
         
         return HttpResponse(json.dumps({'success': 1}))
         

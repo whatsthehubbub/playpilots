@@ -169,6 +169,22 @@ class Player(models.Model):
         from battleroyale.models import Duel
         return Duel.objects.all().filter(open=False).filter(Q(challenger=self) | Q(target=self)).order_by('created')
         
+    def get_skills(self):
+        from battleroyale.models import Skill, Style
+        
+        styles = Style.objects.all()
+        
+        for style in styles:
+            # Create all the skills for this player
+            try:
+                s = Skill.objects.get(player=self, style=style)
+            except Skill.DoesNotExist:
+                s = Skill.objects.create(player=self, style=style)
+                
+        skills = Skill.objects.filter(player=self).order_by('style__name')
+        
+        return skills
+        
     def get_win_count(self):
         return self.challenger_duel.filter(challenge_awesomeness__gt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__gt=F('challenge_awesomeness')).count()
         

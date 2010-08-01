@@ -49,40 +49,43 @@ class Skill(models.Model):
     def progress(self, record):
         old_exp = self.experience
         
+        '''
         if record=='W':
             self.experience += 3
         elif record=='L':
             self.experience += 1
         elif record=='T':
             self.experience += 2
-            
-        self.save()
+        '''
+        
+        self.experience += 1
         
         # TODO balance experience in the future using total experience for the group
         if self.level==1:
-            if self.experience >= 10:
-                self.level += 1
-        elif self.level==2:
             if self.experience >= 25:
                 self.level += 1
-        elif self.level==3:
+        elif self.level==2:
             if self.experience >= 50:
                 self.level += 1
+        elif self.level==3:
+            if self.experience >= 100:
+                self.level += 1
         elif self.level==4:
-            if self.experience >= 125:
+            if self.experience >= 200:
                 self.level += 1
         elif self.level==5:
             pass # No higher levels yet
             
-            
         self.save()
         
-        
         return (old_exp, self.experience)
+
         
-    def balance(self):
-        '''TODO for later, balances out this players records with all the rest.'''
-        pass
+    def get_probability_text(self):
+        if self.level==1:
+            return 'Je begint pas net als %s; de kans dat je wint is klein.' % self.style.name
+             
+        return ''
     
     def __unicode__(self):
         return '%d' % self.level
@@ -140,6 +143,8 @@ class Duel(models.Model):
     responder_oldrank = models.IntegerField(blank=True, null=True)
     responder_newrank = models.IntegerField(blank=True, null=True)
     responder_rating = models.IntegerField(blank=True, null=True)
+    
+    # TODO add oldrating and newrating instead of rating?
     
     def __unicode__(self):
         return '%s' % self.challenge_move.name

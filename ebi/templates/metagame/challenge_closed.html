@@ -32,7 +32,7 @@
                 {% endifequal %}
                 
                 <h2>{{ duel.challenger.user.username }}</h2>
-                <p>4 in het algemeen klassement</p>
+                <p>{{ duel.challenger_newrank }} in het algemeen klassement</p>
             </div>
         </div>
         
@@ -47,7 +47,7 @@
                 {% endifequal %}
                 
                 <h2>{{ duel.target.user.username }}</h2>
-                <p>18 in het algemeen klassement</p>
+                <p>{{ duel.responder_newrank }} in het algemeen klassement</p>
             </div>
         </div>
     </div>

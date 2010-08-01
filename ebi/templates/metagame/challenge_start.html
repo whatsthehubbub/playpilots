@@ -158,19 +158,14 @@
 
             <div class="player">
                 <h2>{{ user.username }}</h2>
-                <p>18 in het algemeen klassement</p>
+                <p>{{ user.get_profile.get_rank }} in het algemeen klassement</p>
             </div>
         </div>
         
         <div class="player2">
             <div class="player">
-                {% if duel %}
-                    <h2>{{ duel.target.user.username }}</h2>
-                    <p>18 in het algemeen klassement</p>
-                {% else %}
-                    <h2>{{ target.user.username }}</h2>
-                    <p>18 in het algemeen klassement</p>
-                {% endif %}
+                <h2>{{ target.user.username }}</h2>
+                <p>{{ target.get_rank }} in het algemeen klassement</p>
             </div>
         </div>
     </div>
@@ -186,19 +181,19 @@
                     <table>
                         <tr class="toprow">
                             <th>Stijl</th>
-                            <th>Jouw positie</th>
+                            <th>Jouw ervaring</th>
                             <th>Jouw niveau</th>
                         </tr>
 
-                        {% for style in styles %}
-                            <tr id="style_row_{{ style.id }}" class="stylerow {% cycle '' 'odd' %}">
-                                <td class="style">{{ style.name }}</td>
-                                <td class="rank">1</td>
-                                <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ forloop.counter }}.png"></td>
+                        {% for skill in user.get_profile.get_skills %}
+                            <tr id="style_row_{{ skill.style.id }}" class="stylerow {% cycle '' 'odd' %}">
+                                <td class="style">{{ skill.style.name }}</td>
+                                <td class="rank">{{ skill.experience }}</td>
+                                <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ skill.level }}.png"></td>
                             </tr>
                             <tr>
-                                <td id="style_detail_{{ style.id }}" class="style_detail" colspan="3">
-                                    test<br>
+                                <td id="style_detail_{{ skill.style.id }}" class="style_detail" colspan="3">
+                                    {{ skill.get_probability_text }}<br>
                                     <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
                                 </td>
                             </tr>

@@ -89,7 +89,7 @@ def challenge_create(request):
         d.challenge_awesomeness = awesomeness
         d.save()
 
-        actstream.action.send(request.user, verb='heeft net %s uitgedaagd voor een duel' % target.user.username, target=d)
+        actstream.action.send(challenger, verb='heeft net %s uitgedaagd voor een duel' % target.user.username, target=d)
 
         d.send_target_message()
         
@@ -185,7 +185,7 @@ def challenge_resolve(request):
             except Skill.DoesNotExist:
                 logging.error('Skills do not exist')
                 
-            actstream.action.send(d.target.user, verb='heeft net gelijkgespeeld met %s in duel' % d.challenger.user.username, target=d)
+            actstream.action.send(d.target, verb='heeft net gelijkgespeeld met %s in duel' % d.challenger.user.username, target=d)
         else:
             winner = d.get_winner()
             winner_style = d.get_winner_style()
@@ -220,8 +220,8 @@ def challenge_resolve(request):
             if winner.rating < loser.rating:
                 prob = 1-prob
 
-            winner.rating += Kfactor * (1-prob)
-            loser.rating += Kfactor * (0-(1-prob))
+            winner.rating += round(Kfactor * (1-prob))
+            loser.rating += round(Kfactor * (0-(1-prob)))
             
             winner.save()
             loser.save()
@@ -244,7 +244,7 @@ def challenge_resolve(request):
         
         d.save()
         
-        actstream.action.send(d.get_winner, verb='heeft net gewonnen van %s in' % d.get_loser.user.username, target=d)
+        actstream.action.send(winner, verb='heeft net gewonnen van %s in' % loser.user.username, target=d)
         
         d.send_winner_loser_messages()
         
