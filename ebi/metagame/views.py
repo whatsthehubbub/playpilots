@@ -37,10 +37,13 @@ def index(request):
     
         actions = Action.objects.all().order_by('-timestamp')
     
+        nextgame = Game.objects.filter(start__gt=datetime.datetime.now()).order_by('start')[0]
+        
         return render_to_response('metagame/index.html', {
             'current': 'home',
             'blogentry': blogentry,
-            'actions': actions[:4]
+            'actions': actions[:4],
+            'nextgame': nextgame
         }, context_instance=RequestContext(request))
 
 @login_required

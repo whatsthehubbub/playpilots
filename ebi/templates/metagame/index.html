@@ -324,10 +324,10 @@
 	<div id="billboard" class="mainblock">
 		<div id="livegames">
 			<div id="schedule">
-				<h2 class="nextevent"><a href="">Wip 'n' Kip</a></h2>
-				<p class="nextfestival"><a href="">Stekker Fest</a></p>
-				<p class="nextdays">22</p>
-				<p class="nexthours">08</p>
+				<h2 class="nextevent"><a href="{{ nextgame.get_absolute_url }}">{{ nextgame.name }}</a></h2>
+				<p class="nextfestival"><a href="{{ nextgame.festival.link }}" target="_blank">{{ nextgame.festival.name }}</a></p>
+				<p class="nextdays">{{ nextgame.get_days_till }}</p>
+				<p class="nexthours">{{ nextgame.get_hours_till }}</p>
 				<p class="upcoming1"><a href="">Nederlands Film Festival</a></p>
 				<p class="upcoming1state">binnenkort</p>
 				<p class="upcoming2"><a href="">Le Guess Who</a></p>

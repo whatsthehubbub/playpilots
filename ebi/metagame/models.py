@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from django.db.models.signals import pre_save, post_save
 
+import datetime
 
 class Photo(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -105,6 +106,22 @@ class Game(models.Model):
             return self.photos.all()[0].photo.url
         else:
             return ''
+            
+    def get_days_till(self):
+        delta = self.start - datetime.datetime.now()
+        
+        if delta.days > 0:
+            return delta.days
+        else:
+            return 0
+        
+    def get_hours_till(self):
+        delta = self.start - datetime.datetime.now()
+        
+        if delta.seconds > 0:
+            return delta.seconds / 60 / 60
+        else:
+            return 0
 
 
 # Creates player instances whenever you create a user
