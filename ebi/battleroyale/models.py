@@ -29,7 +29,7 @@ class Style(models.Model):
         
 
 class Skill(models.Model):
-    player = models.ForeignKey(Player)
+    player = models.ForeignKey(Player, related_name="skills")
     style = models.ForeignKey(Style)
     
     level = models.IntegerField(default=1)
@@ -41,7 +41,7 @@ class Skill(models.Model):
     def get_play_count(self):
         '''Returns the number of times this player/skill combination have played.'''
         return Duel.objects.all().filter(open=False).filter((Q(challenger=self.player) & Q(challenge_move__style=self.style)) | (Q(target=self.player) & Q(response_move__style=self.style))).count()
-        
+    
     def progress(self):
         old_exp = self.experience
         

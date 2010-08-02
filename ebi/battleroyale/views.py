@@ -31,7 +31,12 @@ def klassement(request):
         styleid = int(request.GET.get('style'))
         
         c['currentStyle'] = Style.objects.get(id=styleid)
-        c['skills'] = Skill.objects.filter(style=c['currentStyle']).order_by('-level').order_by('experience')
+        
+        skills = []
+        for count in range(5, 0, -1):
+            skills.append((count, Player.objects.filter(skills__style=c['currentStyle'], skills__level=count).order_by('skills__experience')))
+        
+        c['skills'] = skills
         
         return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
     
