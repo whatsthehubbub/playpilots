@@ -162,7 +162,7 @@ class Player(models.Model):
         except TwitterProfile.DoesNotExist:
             pass
             
-        return os.path.join(settings.MEDIA_URL, 'image/tag_jij.png')
+        return os.path.join(settings.MEDIA_URL, 'image/buddy-icon-login-box.png')
     
     def get_rank(self):
         players = Player.objects.all().order_by('-rating')
