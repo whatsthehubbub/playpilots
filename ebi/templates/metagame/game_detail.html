@@ -411,13 +411,9 @@
     <div id="participants" class="mainblock">
         
         {% for player in game.interested.all %}
-            <div class="participant
-            {% if forloop.counter|divisibleby:"5" %}
-             last
-            {% endif %}
-            ">
+            <div class="participant {% if forloop.counter|divisibleby:"5" %}last{% endif %}">
                 <a href="/players/{{ player.id }}/">
-                    <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
+                    <img src="{{ player.get_avatar_url }}" alt="">
                     <div class="rank">{{ player.get_rank|stringformat:".2d" }}</div>
                     <span>{{ player.user.username }}</span>
                 </a>
