@@ -3,9 +3,10 @@ from django.db.models import F, Q
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save
 
+from django.conf import settings
 from socialregistration.models import TwitterProfile
 
-import datetime
+import datetime, os
 
 class Photo(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -161,7 +162,7 @@ class Player(models.Model):
         except TwitterProfile.DoesNotExist:
             pass
             
-        return ''
+        return os.path.join(settings.MEDIA_URL, 'image/tag_jij.png')
     
     def get_rank(self):
         players = Player.objects.all().order_by('-rating')
