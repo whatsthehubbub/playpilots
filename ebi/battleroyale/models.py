@@ -18,18 +18,24 @@ class Style(models.Model):
     
     def __unicode__(self):
         return self.name
+        
+    def get_action_phrases(self):
+        return self.actionphrase_set.filter(action=True).order_by('style__name')
+        
+    def get_reaction_phrases(self):
+        return self.actionphrase_set.filter(action=False).order_by('style__name')
     
     
-class Move(models.Model):
-    style = models.ForeignKey(Style)
-    
-    name = models.CharField(max_length=255, blank=True)
-    
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return self.name
+# class Move(models.Model):
+#     style = models.ForeignKey(Style)
+#     
+#     name = models.CharField(max_length=255, blank=True)
+#     
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+# 
+#     def __unicode__(self):
+#         return self.name
         
 
 class Skill(models.Model):
@@ -118,7 +124,7 @@ class Duel(models.Model):
     updated = models.DateTimeField(auto_now=True)
     
     challenger = models.ForeignKey(Player, related_name='challenger_duel')
-    challenge_move = models.ForeignKey(Move, related_name='challenger_move')
+    challenge_move = models.ForeignKey(ActionPhrase, related_name='challenger_move')
     challenge_message = models.CharField(max_length=255, blank=True)
     challenge_awesomeness = models.IntegerField(blank=True, null=True)
     
@@ -129,34 +135,36 @@ class Duel(models.Model):
     target_text = models.CharField(max_length=255, blank=True)
     
     responded = models.DateTimeField(blank=True, null=True)
-    response_move = models.ForeignKey(Move, blank=True, null=True, related_name='responder_move')
+    response_move = models.ForeignKey(ActionPhrase, blank=True, null=True, related_name='responder_move')
     response_message = models.CharField(max_length=255, blank=True)
     response_awesomeness = models.IntegerField(blank=True, null=True)
+    
+    win_phrase = models.ForeignKey(WinPhrase, blank=True, null=True)
     
     # Need to save snapshot states for the various player stats
     challenger_skilllevel = models.IntegerField(blank=True, null=True)
     challenger_oldrank = models.IntegerField(blank=True, null=True)
     challenger_newrank = models.IntegerField(blank=True, null=True)
-    challenger_rating = models.IntegerField(blank=True, null=True)
+    challenger_oldrating = models.IntegerField(blank=True, null=True)
+    challenger_newrating = models.IntegerField(blank=True, null=True)
     
     responder_skilllevel = models.IntegerField(blank=True, null=True)
     responder_oldrank = models.IntegerField(blank=True, null=True)
     responder_newrank = models.IntegerField(blank=True, null=True)
-    responder_rating = models.IntegerField(blank=True, null=True)
-    
-    # TODO add oldrating and newrating instead of rating?
+    responder_oldrating = models.IntegerField(blank=True, null=True)
+    responder_newrating = models.IntegerField(blank=True, null=True)
     
     def __unicode__(self):
-        return '%s' % self.challenge_move.name
+        return '%s' % self.challenge_move.phrase
         
     def get_absolute_url(self):
         return '/c/%d/' % self.id
         
     def get_challenge_move(self):
-        return self.challenge_move.name.replace('X', self.target.user.username)
+        return self.challenge_move.phrase.replace('X', self.target.user.username.capitalize())
         
     def get_response_move(self):
-        return self.response_move.name.replace('X', self.challenger.user.username)
+        return self.response_move.phrase.replace('X', self.challenger.user.username.capitalize())
     
     def get_challenge_awesomeness(self):
         return self.get_awesomeness(self.challenger, self.challenge_move.style)
@@ -207,9 +215,8 @@ class Duel(models.Model):
             return self.response_move.style
             
     def get_win_phrase(self):
-        w = WinPhrase.objects.filter(style=self.get_winner_style()).order_by('?')
-        if w:
-            return w[0].phrase
+        if self.win_phrase:
+            return self.win_phrase.phrase.replace('X', self.get_loser().user.username.capitalize())
                     
         return ''
             
@@ -225,9 +232,10 @@ class Duel(models.Model):
         elif self.responder_won():
             return self.challenge_move.style
     
+    # TODO probably is not being used
     def get_result_phrase(self):
         if self.is_tie():
-            return 'tie'
+            return '%s en %s zijn aan elkaar gewaagd, maar de jury komt er niet uit. Het duel blijft onbeslist.' % (self.challenger.user.username.capitalize(), self.target.user.username.capitalize())
         else:
             style = self.get_winner_style()
             

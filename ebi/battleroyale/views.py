@@ -63,15 +63,12 @@ def challenge_detail(request, id):
 
 def challenge_create(request):
     if request.method == 'POST':
-        logging.debug('challenge post')
-        # Trying to store a challenge
-
         challenger = request.user.get_profile()
 
-        move_id = request.POST.get('move', None)
-        logging.debug('got move id: %s', move_id)
+        action_id = request.POST.get('action', None)
+        logging.debug('got move id: %s', action_id)
 
-        move = Move.objects.get(id=int(move_id))
+        action = ActionPhrase.objects.get(id=int(action_id))
 
         message = request.POST.get('message', '')
         logging.debug('got message: %s', message)
@@ -80,7 +77,10 @@ def challenge_create(request):
         target = Player.objects.get(id=int(target_id))
 
         # Create Round object
-        d = Duel.objects.create(challenger=challenger, challenge_move=move, challenge_message=message, target=target)
+        d = Duel.objects.create(challenger=challenger, 
+                            challenge_move=action, 
+                            challenge_message=message, 
+                            target=target)
         
         d.challenger_oldrank = challenger.get_rank()
         d.responder_oldrank = target.get_rank()
@@ -105,8 +105,8 @@ def challenge_resolve(request):
         d.open = False
         d.responded = datetime.datetime.now()
     
-        move_id = int(request.POST.get('move', None))
-        d.response_move = Move.objects.get(id=move_id)
+        action_id = int(request.POST.get('action', None))
+        d.response_move = ActionPhrase.objects.get(id=action_id)
     
         d.response_message = request.POST.get('message', '')
         d.response_awesomeness = d.get_response_awesomeness()
@@ -153,6 +153,9 @@ def challenge_resolve(request):
         if d.is_tie():
             players = [d.challenger, d.target]
             
+            d.challenger_oldrating = d.challenger.rating
+            d.responder_oldrating = d.target.rating
+            
             difference = abs(d.challenger.rating-d.target.rating)
             prob = getWinProb(difference)
             if d.challenger.rating > d.target.rating:
@@ -165,8 +168,8 @@ def challenge_resolve(request):
             stronger.rating += Kfactor * (0.5-prob)
             weaker.rating += Kfactor * (0.5-(1-prob))
             
-            d.challenger_rating = d.challenger.rating
-            d.responder_rating = d.target.rating
+            d.challenger_newrating = d.challenger.rating
+            d.responder_newrating = d.target.rating
             
             phrase = 'Helaas, gelijkspel. Probeer het nog eens!'            
             result['phrase'] = phrase
@@ -195,10 +198,14 @@ def challenge_resolve(request):
             result['winner'] = winner.user.username
             result['loser'] = loser.user.username
             
+            d.challenger_oldrating = d.challenger.rating
+            d.responder_oldrating = d.target.rating
+            
             try:
-                winPhrase = WinPhrase.objects.get(style=winner_style)
-                result['phrase'] = winPhrase.phrase
-            except: 
+                # Get a random win phrase
+                d.win_phrase = WinPhrase.objects.filter(style=winner_style).order_by('?')[0]
+                result['phrase'] = self.get_win_phrase()
+            except:
                 result['phrase'] = 'Generic win phrase.'
             
             try:
@@ -230,21 +237,21 @@ def challenge_resolve(request):
                 d.challenger_skilllevel = sw.level
                 d.responder_skilllevel = sl.level
                 
-                d.challenger_rating = winner.rating
-                d.responder_rating = loser.rating
+                d.challenger_newrating = winner.rating
+                d.responder_newrating = loser.rating
             else:
                 d.challenger_skilllevel = sl.level
                 d.responder_skilllevel = sw.level
                 
-                d.challenger_rating = loser.rating
-                d.responder_rating = winner.rating
+                d.challenger_newrating = loser.rating
+                d.responder_newrating = winner.rating
             
             d.challenger_newrank = d.challenger.get_rank()
             d.responder_newrank = d.target.get_rank()
+            
+            actstream.action.send(winner, verb='heeft net gewonnen van %s in' % loser.user.username, target=d)
         
         d.save()
-        
-        actstream.action.send(winner, verb='heeft net gewonnen van %s in' % loser.user.username, target=d)
         
         d.send_winner_loser_messages()
         

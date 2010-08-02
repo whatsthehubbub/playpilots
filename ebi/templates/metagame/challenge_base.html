@@ -8,6 +8,14 @@
             3: 'Die actie was behoorlijk goed. Okee!',
             4: 'Die actie was uit het boekje. Cool!',
             5: 'Die actie was intimiderend, overweldigend.'};
+            
+        function refreshPage() {
+            window.location.reload();
+        }
+        
+        function templateAction(action, name) {
+            return action.replace('X', '<b>' + name + '</b>');
+        }
     </script>
 
     <style type="text/css" media="screen">

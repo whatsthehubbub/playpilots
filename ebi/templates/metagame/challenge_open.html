@@ -4,42 +4,40 @@
     {{ block.super }}
     
     <script type="text/javascript" charset="utf-8">
-        var moveId = 0;
-        var moveString = '';
+        var actionId = 0;
+        var actionString = '';
         var message = '';
         
         var targetUser = '{{ duel.challenger.user.username }}';
         
-        // Prefill moves
-        var moves = {};
+        var actionSent = false;
+        
+        // Prefill actions
+        var actions = {};
         {% for style in styles %}
-            moves['{{ style.name }}'] = [];
+            actions['{{ style.name }}'] = [];
 
-            {% for move in style.move_set.all %}
-                moves['{{ style.name }}'].push([{{ move.id }}, '{{ move.name }}']);
+            {% for action in style.get_reaction_phrases %}
+                actions['{{ style.name }}'].push([{{ action.id }}, '{{ action.phrase }}']);
             {% endfor %}
         {% endfor %}
-        
-        function templateMove(move, name) {
-            return move.replace('X', '<b>' + name + '</b>');
-        }
         
         function fillMoves(style) {
             $('#moves').empty();
             
-            for (var counter in moves[style]) {
-                var move = moves[style][counter];
+            for (var counter in actions[style]) {
+                var action = actions[style][counter];
                 
                 var extraclass = '';
                 if (counter == 0) {
                     // The first are selected by default, so we need to fill those in
-                    moveId = move[0];
-                    moveString = templateMove(move[1], targetUser);
+                    actionId = action[0];
+                    actionString = templateAction(action[1], targetUser);
 
                     extraclass = 'selected';
                 }
                 
-                $('#moves').append('<li id="move_' + move[0] + '" class="move ' + extraclass + '"><b>JIJ</b> ' + templateMove(move[1], targetUser) + '</li>');
+                $('#moves').append('<li id="move_' + action[0] + '" class="move ' + extraclass + '"><b>JIJ</b> ' + templateAction(action[1], targetUser) + '</li>');
             }
         }
         
@@ -108,8 +106,8 @@
                 $('#move_' + i).addClass('selected');
                 
                 // Store move id
-                moveId = parseInt(i);
-                moveString = $('#move_' + i).text();
+                actionId = parseInt(i);
+                actionString = $('#move_' + i).text();
             });
             
             $('#makemovebutton').click(function() {
@@ -120,10 +118,13 @@
                 
                 message = $('#messagetext').val();
                 
+                if (actionSent) return;
+                actionSent = true;
+                
                 // Send move to server
                 $.post('/challenge/resolve/', {
                     'duel': {{ duel.id }},
-                    'move': moveId,
+                    'action': actionId,
                     'message': message
                 }, function(data) {
                     var awesomeness = data['awesomeness'];
@@ -136,9 +137,8 @@
                     
                 }, 'json');
                 
-                var totalMove = '<div class="finalmove"><b>' + moveString;
+                var totalMove = '<div class="finalmove"><b>' + actionString;
                 if (message == '') {
-                    totalMove += ' zonder iets te zeggen.</b>';
                 } else {
                     totalMove += ' en zegt:</b> &ldquo;' + message + '&rdquo;';
                 }
@@ -147,10 +147,6 @@
                 $('#actionselect').html(totalMove);
             });
         });
-        
-        function refreshPage() {
-            window.location.reload();
-        }
     </script>
     
     <style type="text/css" media="screen">

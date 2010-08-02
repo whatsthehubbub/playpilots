@@ -5,9 +5,9 @@ class StyleAdmin(admin.ModelAdmin):
     list_display = ('name',)
 admin.site.register(Style, StyleAdmin)
 
-class MoveAdmin(admin.ModelAdmin):
-    list_display = ('style', 'name')
-admin.site.register(Move, MoveAdmin)
+# class MoveAdmin(admin.ModelAdmin):
+#     list_display = ('style', 'name')
+# admin.site.register(Move, MoveAdmin)
 
 class SkillAdmin(admin.ModelAdmin):
     list_display = ('player', 'style', 'level', 'experience')

@@ -307,7 +307,7 @@
                         <!--
                             TODO think of a decent way to calculate rank per style
                         --> 
-                        <td class="rank"><span>{{ skill.experience }}</span></td>
+                        <td class="rank"><span>{{ skill.experience|stringformat:".3d" }}</span></td>
                     </tr>
                 {% endfor %}             
             </table>
@@ -380,9 +380,9 @@
             
             <ol>
                 {% for duel in player.get_finished_duels %}
-                    <li class="notlast duel"><span class="style">{{ duel.get_winner_style }}</span> <span class="username">{{ duel.get_winner }}</span> wint van <span class="username"><a href="">{{ duel.get_loser }}</a></span>
+                    <li class="notlast duel"><span class="style">{{ duel.get_winner_style }}</span> <span class="username">{{ duel.get_winner }}</span>
                         {% if duel.get_win_phrase %}
-                            en {{ duel.get_win_phrase }}
+                            {{ duel.get_win_phrase }}
                         {% endif %}
                         <span class="timestamp">{{ duel.responded|timesince }}</span> <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel</a> &raquo;</p></li>  
                 {% endfor %}

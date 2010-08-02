@@ -7,40 +7,36 @@
         var targetUsername = '{{ target.user.username }}';
         var targetPlayerId = {{ target.id }};
         
-        var moveId = 0;
-        var moveString = '';
+        var actiontId = 0;
+        var actionString = '';
         var message = '';
         
-        // Prefill moves
-        var moves = {};
+        // Prefill actions
+        var actions = {};
         {% for style in styles %}
-            moves['{{ style.name }}'] = [];
+            actions['{{ style.name }}'] = [];
 
-            {% for move in style.move_set.all %}
-                moves['{{ style.name }}'].push([{{ move.id }}, '{{ move.name }}']);
+            {% for action in style.get_action_phrases %}
+                actions['{{ style.name }}'].push([{{ action.id }}, '{{ action.phrase }}']);
             {% endfor %}
         {% endfor %}
-        
-        function templateMove(move, name) {
-            return move.replace('X', '<b>' + name + '</b>');
-        }
         
         function fillMoves(style) {
             $('#moves').empty();
             
-            for (var counter in moves[style]) {
-                var move = moves[style][counter];
+            for (var counter in actions[style]) {
+                var action = actions[style][counter];
                 
                 var extraclass = '';
                 if (counter == 0) {
                     // The first are selected by default, so we need to fill those in
-                    moveId = move[0];
-                    moveString = templateMove(move[1], targetUsername);
+                    actionId = action[0];
+                    actionString = templateAction(action[1], targetUsername);
 
                     extraclass = 'selected';
                 }
                 
-                $('#moves').append('<li id="move_' + move[0] + '" class="move ' + extraclass + '"><b>JIJ</b> ' + templateMove(move[1], targetUsername) + '</li>');
+                $('#moves').append('<li id="move_' + action[0] + '" class="move ' + extraclass + '"><b>{{ user.username }}</b> ' + templateAction(action[1], targetUsername) + '</li>');
             }
         }
         
@@ -109,22 +105,19 @@
                 $('#move_' + i).addClass('selected');
                 
                 // Store move id
-                moveId = parseInt(i);
-                moveString = $('#move_' + i).text();
+                actionId = parseInt(i);
+                actionString = $('#move_' + i).text();
             });
             
             $('#makemovebutton').click(function() {
                 $('#changestylelink').remove();
-                
-                // Display progress
-                // TODO
                 
                 message = $('#messagetext').val();
                 
                 // Send move to server
                 $.post('/challenge/create/', {
                     'target': targetPlayerId,
-                    'move': moveId,
+                    'action': actionId,
                     'message': message
                 }, function(data) {
                     var awesomeness = data['awesomeness'];
@@ -133,11 +126,10 @@
                     $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2><p>Kijken wat <span class="responder">' + targetUsername + '</span> gaat doen</p></div>');
                 }, 'json');
                 
-                var totalMove = '<div class="finalmove"><b>' + moveString;
+                var totalMove = '<div class="finalmove"><b>' + actionString;
                 if (message == '') {
-                    totalMove += ' zonder iets te zeggen.</b>';
                 } else {
-                    totalMove += ' en zegt:</b> &ldquo;' + message + '&rdquo;';
+                    totalMove += '{{ user.username }} zegt:</b> &ldquo;' + message + '&rdquo;';
                 }
                 totalMove += '</div>';
                 

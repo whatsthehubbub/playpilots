@@ -84,12 +84,11 @@
         <div class="box">
             <div id="actionplayer1" class="player1">
                 <div class="finalmove">
-                    <b>{{ duel.challenger.user.username }}
+                    <b>{{ duel.challenger.user.username|capfirst }}
                     {{ duel.get_challenge_move }}
                     {% if duel.challenge_message %}
-                        en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
+                        {{ duel.challenger.user.username|capfirst }} zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
                     {% else %}
-                        zonder iets te zeggen.</b>
                     {% endif %}
                 </div>
                 
@@ -100,12 +99,11 @@
         
             <div id="actionplayer2" class="player2">
                 <div class="finalmove">
-                    <b>{{ duel.target.user.username }}
+                    <b>{{ duel.target.user.username|capfirst }}
                     {{ duel.get_response_move }}
                     {% if duel.response_message %}
-                        en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
+                        {{ duel.target.user.username|capfirst }} zegt:</b> &ldquo;{{ duel.response_message }}&rdquo;
                     {% else %}
-                        zonder iets te zeggen.</b>
                     {% endif %}
                 </div>
                 
@@ -128,7 +126,7 @@
                     {{ duel.get_winner }}</span> wint van <span class="player">{{ duel.get_loser }}</span> en 
                 {% endif %}
 
-                {{ duel.get_result_phrase }}</h2>
+                {{ duel.get_win_phrase }}</h2>
             <table>
                 <tr>
                     <th colspan="2">
@@ -153,9 +151,9 @@
                 
                 <tr class="skill">
                     <td></td>
-                    <td>{{ duel.challenger.user.username }} met score {{ duel.challenger.rating }}
+                    <td>{{ duel.challenger.user.username }} gaat van score {{ duel.challenger_oldrating }} naar {{ duel.challenger_newrating}}
                         {% if duel.challenger_oldrank == duel.challenger_newrank %}
-                            blijft op rang {{ duel.challenger_newrank }}
+                            en blijft op rang {{ duel.challenger_newrank }}
                         {% else %}
                             en 
                             {% if duel.challenger_oldrank < duel.challenger_newrank %}
@@ -169,7 +167,7 @@
                         </td>
                     <td></td>
                     <td>
-                        {{ duel.target.user.username }} met score {{ duel.target.rating }}
+                        {{ duel.target.user.username }} gaat van score {{ duel.responder_oldrating }} naar {{ duel.responder_newrating }},
                         {% if duel.responder_oldrank == duel.responder_newrank %}
                             blijft op rang {{ duel.responder_newrank }}
                         {% else %}
