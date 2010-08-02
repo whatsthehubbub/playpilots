@@ -4,11 +4,7 @@
 <title>Home &bull; PLAY Pilots</title>
 
 <style type="text/css" media="screen">
-	#activity LI {
-		float: left;
-		width: 100px;
-	}
-	
+
 	#intro_wrapper {
         background: #b7d1d0 url({{ MEDIA_URL }}image/grain_overlay.png) repeat;
 	}
@@ -195,26 +191,25 @@
 	}
 	
 	#activity_wrapper {
-		background-color: #fff;
+		background: #fff url({{ MEDIA_URL }}image/border_bg_home.png) repeat-y center center;
 		border-top: 5px solid #ddd;
 		overflow: hidden;
 	}
 	
 	#activity_wrapper h2 {
 		color: #262a33;
-		margin: 11px 0 10px 10px;
+		padding: 10px 0 10px 10px;
+		margin: 0 1px;
+		background-color: #fff;
 	}
 	
 	#activities #stream {
-		width: 618px;
-		border-left: 1px solid #ddd;
-		border-right: 1px solid #ddd;
+		width: 620px;
 		float: left;
 	}
 	
 	#activities #stream #participants {
 		border-top: 5px solid #ddd;
-		background-color: blue;
 	}
 	
 	#participants p {
@@ -234,22 +229,18 @@
 	}
 	
 	#participants .participant {
-		width: 153px;
-		border-right: 1px solid #ddd;
+		width: 154px;
 		float: left;
-	}
-	
-	#participants .participant.last {
-		border-right: none;
 	}
 	
 	#participants .participant .avatar {
 		margin-top: 10px;
+		margin-left: 10px;
 	}
 	
 	#participants .participant .name {
 		margin: 10px 10px 0 0;
-		width: 105px;
+		width: 95px;
 		color: #666;
 		line-height: 16px;
 		font-weight: bold;
