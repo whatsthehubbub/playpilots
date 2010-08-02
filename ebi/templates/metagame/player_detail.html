@@ -11,17 +11,18 @@
             background-color: #f5f5f5;
             background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
         }
+
+		.mainblock {
+			background-image: url({{ MEDIA_URL }}image/border_bg_profile.png);
+		}
         
         #player {
             overflow: auto;
         }
     
         #actions {
-            border-left: thin solid #ddd;
-            border-right: thin solid #ddd;
-            
-            width: 578px; /* 620px; */
-            padding: 20px;
+            width: 620px; /* 620px; */
+/*            padding: 20px;*/
             
             float: right;
         }
@@ -31,6 +32,9 @@
             
             width: 300px;
             float: left;
+            background: transparent url({{ MEDIA_URL }}image/profile-box-bottom-shadow.png) no-repeat center bottom;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
         
         #profile H4 {
@@ -40,21 +44,18 @@
         
         #details {
             background-color: #b7d1d0;
-            
-            padding: 30px 20px 20px 20px;
-            
+            padding: 40px 20px 20px 20px;
             color: #fff;
             border-bottom: 5px solid #ddd;
         }
         
         .you #details {
-            background-color: #f30;
-/*            color: #fff;*/
+            background: #f30 url({{ MEDIA_URL }}image/profile-box-bg-you.png) no-repeat center 10px;
         }
         
         #details img#profile_badge_tag {
             position: relative;
-            top: -50px;
+            top: -60px;
             left: 50px;
         }
         
@@ -140,9 +141,8 @@
         
         #record, #levels, #festivals {
             padding: 10px 20px;
-            margin-bottom: 20px ;
-            
-            background-color: white;
+            background: #fff;
+/*            margin-bottom: 20px ;*/
         }
         
         #festivals p a {
@@ -159,8 +159,8 @@
         /* TODO schaduw onderaan linker kolom */
         
         #actions h3 img {
-            margin-top: -1px;
-            margin-left: -2px;
+            margin-top: 19px;
+            margin-left: 18px;
             margin-bottom: 20px;            
         }
         
@@ -169,7 +169,7 @@
             
             background-color: white;
             
-            margin-bottom: 20px;
+            margin: 0 20px 20px 20px;            
         }
         
         #incoming A, #outgoing A, #history A {
@@ -181,11 +181,11 @@
             text-decoration: underline;
         }
         
-        #incoming H4, #outgoing H4 {
+        #incoming h4, #outgoing h4 {
             color: #bbb;
-            margin: -10.5px 0 10.5px 18px;
-            background-color: #fff;
-            padding: 0 2px;
+            margin: -10px 0 10px 15px;
+            background: #f5f5f5 url({{ MEDIA_URL }}image/grain_overlay.png);
+            padding: 0 5px;
             float: left;
         }
         
@@ -240,6 +240,12 @@
             text-align: right;
             margin: -21px 0 0 0;
             font-weight: normal;
+        }
+        
+        #history {
+            border-top: 1px solid #ddd;
+            padding: 10px 20px;
+            
         }
         
         #history ol {
@@ -376,7 +382,7 @@
                         <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel</a> &raquo;</p>
                     </li>
                     {% empty %}
-                    <li>Nog niemand uitgedaagd. Een beetje bang misschien? Ga naar het <a href="/klassement/">klassement</a>.</li>
+                    <li>Momenteel niemand uitgedaagd. Een beetje bang misschien? Ga naar het <a href="/klassement/">klassement</a> en kies je doelwit.</li>
                 {% endfor %}
             </ol>
         </div>

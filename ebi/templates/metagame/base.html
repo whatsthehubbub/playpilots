@@ -69,8 +69,8 @@
         margin: 3px 0 0 5px;
         float: left;
         
-        height: 40px;
-        width: 40px;
+        height: 30px;
+        width: 30px;
         
     }
 
@@ -109,7 +109,8 @@
         margin-left: 0;
         float: left;
         font-size: 18px;
-        font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+        font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Arial;
+		font-weight: 600;
     }
 
     #menu OL {
@@ -118,7 +119,6 @@
 
     #menu LI {
         float: left;
-
         text-transform: uppercase;
         list-style-type: none;
     }
@@ -126,7 +126,6 @@
     #menu LI A {
         display: inline-block;
         text-decoration: none;
-
         color: #bababa;
         margin-right: 40px;
     }
@@ -136,10 +135,10 @@
     }
 
     #menu LI A.current {
-        border-bottom: 2px solid #f30;
+		font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+        font-weight: 800;
+		border-bottom: 2px solid #f30;
         color: #f30;
-
-        font-weight: bolder;
     }
 
     #splash {
@@ -217,9 +216,12 @@
         background-color: #ddd;
 
         width: 920px;
-        height: 80px;
-        padding: 10px 10px 0px 10px;
+        padding: 10px;
     }
+
+	#footerexplanation p {
+		width: 690px;
+	}
 
     #footergraphic {
         border: 1px solid #bbb;
@@ -304,7 +306,13 @@ _gaq.push(['_trackPageview']);
             </div>
         </div>
     </div>
-
+	
+	
+	<div id="taglinewrapper">
+	{% block tagline %}
+	{% endblock %}
+	</div>
+	
     <div id="contentwrapper">
         {% block content %}
         <div id="content" class="mainblock">
@@ -324,7 +332,7 @@ _gaq.push(['_trackPageview']);
         </div>
 
         <div id="footercolofon" class="mainblock">
-            <div style="float: right"><a href="/over/">Over</a> | <a href="http://blog.playpilots.nl/">Blog</a></div>
+            <div style="float: right"><a href="/over/">Over</a> | <a href="http://blog.playpilots.nl/">Blog</a> | <a href="http://twitter.com/playpilots">Twitter</a></div>
 
             <div>Deze site wordt aangeboden onder een <a href="http://creativecommons.org/licenses/by-nc/3.0/nl/">Creative Commons Naamsvermelding-NietCommercieel 3.0 Licentie</a></div>
             </div>

@@ -1,33 +1,26 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>Games &bull; PLAY Pilots</title>
-    
-    <style type="text/css" media="screen">
-        #content_wrapper {
-            
-        }
-    
-        #games_wrapper {
-            border-bottom: 5px solid #ddd;
-            
-            background-color: #b7d1d0;
-            background-repeat: repeat;
-            background-image: url(/static/image/grain_overlay.png);
-        }
-        
-        #game_list {
-            margin: 0 auto;
-            width: 940px;
-            padding: 0;
-            
+	<title>Games &bull; PLAY Pilots</title>
+	
+	<style type="text/css" media="screen">
+		#games_wrapper {
+			border-bottom: 5px solid #ddd;
+			background-color: #b7d1d0;
+			background-repeat: repeat;
+			background-image: url(/static/image/grain_overlay.png);
+		}
+		
+		#game_list {
+			margin: 0 auto;
+			width: 940px;
+			padding: 0;
             overflow: hidden;
-            
-            min-height: 300px;
+			min-height: 300px;
         }
         
         #game_intro {
-            color: #262A33;
+            color: #666;
             padding: 21px 0;
             width: 620px;
             font-size: 12px;
@@ -36,7 +29,7 @@
         
         #game_intro H2 {
             color: #fff;
-            
+			text-shadow: #666 0px 1px 0px;
             display: inline;
         }
         
@@ -49,11 +42,18 @@
             background-color: #262a33;
             
             color: white;
-            /* todo "meer" button */
         }
         
-        .game A {
-            color: white;
+        #game_list a {
+            text-decoration: none;
+        }
+        
+        #game_list a:hover div.game {
+            background: #f30;
+        }
+
+        #game_list a:hover h3, #game_list a:hover p {
+            color: #fff;
         }
         
         .game .mainimage {
@@ -86,25 +86,21 @@
             font-weight: bold;            
         }
         
-        .gamecontent a {
-/*            color: #f30;*/
+        .gamecontent {
             color: #b9b9b9;
             text-decoration: none;
             font-weight: normal;
         }        
         
-        .gamecontent a:hover {
-        }        
-        
-        .game H3 {
+        .game H3, .game p.metadata {
             color: white;
-        }
+        }        
         
         .game .date {
             font-weight: bold;
         }
         
-        .soon {
+        .soon {            
             background-color: transparent;
             background-image: url(/static/image/bg_soon.png);
             background-repeat: repeat;
@@ -114,8 +110,8 @@
             margin-left: 20px;
         }
         
-        .soon H3 {
-            color: black;
+        .soon H3, .soon p.metadata {
+            color: #333;
         }
         
         #agenda_wrapper {
@@ -151,21 +147,21 @@
             <h2>3 festivals, 3 games</h2> PLAY Pilots daagt je uit! Dit jaar kun je op drie culturele festivals in Utrecht live games spelen. Lees alles over het wat, waar en wanneer.</div>
         
         {% for game in games %}
+        {% if forloop.first %}<a href="/games/{{ game.slug }}/">{% endif %}
             <div id="game_{{ game.id }}" class="game {% if not forloop.first %}soon space{% endif %}">
                 <div class="mainimage" style="{% if game.get_first_photo %}background-image: url({{ game.get_first_photo }});{% endif %}"></div>
             
                 <div class="gamecontent">
-                    {% if forloop.first %}<a href="/games/{{ game.slug }}/">{% endif %}
-                        <h3>{{ game.name }}</h3>
-                    {% if forloop.first %}</a>{% endif %}
+                    <h3>{{ game.name }}</h3>
                     
-                    <p>door {{ game.maker }}<br>
+                    <p class="metadata">door {{ game.maker }}<br>
                         op {{ game.festival }}<br>
                         {{ game.start|date:"j b Y" }}</p>
             
-                    {% if forloop.first %}<p><a href="{{ game.get_absolute_url }}">{{ game.description|truncatewords:10}}</a></p>{% else %}<p>Coming soon!</p>{% endif %}
+                    {% if forloop.first %}<p>{{ game.description|truncatewords:10}}</p>{% else %}<p>Coming soon!</p>{% endif %}
                 </div>
             </div>
+            {% if forloop.first %}</a>{% endif %}
         {% endfor %}
     </div>
 </div>

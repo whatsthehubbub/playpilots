@@ -16,14 +16,12 @@
         }
         
         #title_wrapper {
-            height: 105px;
-            background-color: #262a33;
-            background-repeat: repeat;
-            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+            background: #262a33 url({{ MEDIA_URL }}image/grain_overlay.png) repeat;
         }
         
         #title {
             color: #ddd;
+			overflow: hidden;
         }
         
         #title h2 {
@@ -46,34 +44,38 @@
             text-align: right;
             width: 620px;
         }
+
+		#title #game_mapdot {
+			float: left;
+			width: 70px;
+			height: 105px;
+			background: url({{ MEDIA_URL }}image/dots/dot-{{ '12345'|random }}.png);
+		}
+		
+		#title #game_info {
+			float: left;
+		}
         
-        #title button {
-        }
-        
-        #image_reel {
-            position: absolute;
-                        
-            right: 40px;
-            top: 103px;
-            
+        #game_image {
+			float: right;
             width: 304px;
             height: 230px;
-            
             padding: 8px;
             
             background-image: url({{ MEDIA_URL }}image/festivalpic_frame.png);
             background-repeat: no-repeat;
         }
         
-        #image_reel IMG {
+        #game_image img {
             max-height: 214px;
             max-width: 288px;
         }
         
         #game_wrapper {
+			clear: both;
             background-color: #b7d1d0;
             padding: 0;
-            margin: 0;
+            margin-top: -140px;
             background-repeat: repeat;
             background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
             overflow: auto;
@@ -98,7 +100,7 @@
         
         #description {
             background-color: white;
-            padding: 10px;
+			padding: 10px 10px 21px;
             
             overflow: auto;
         }
@@ -121,10 +123,12 @@
         }
         
         #blog_posts {
+			font-size: 12px;
+			line-height: 18px;
             font-weight: bold;
             float: right;
-            
-            width: 230px;
+            width: 220px;
+			margin-right: 10px;
         }
         
         #blog_posts p {
@@ -166,7 +170,7 @@
             width: 120px;
             height: 90px;
             
-            margin: 0 10px 20px 0;
+            margin: 0 10px 10px 0;
             padding-bottom: 5px;
             background: transparent url({{ MEDIA_URL }}image/logo_shadow.png) no-repeat center bottom;
         }
@@ -234,17 +238,16 @@
         }
         
         #participants_wrapper {
-            background: white;
-            margin-bottom: -1px;
-background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png);
-
+            background-color: #fff;
         }
         
         #participants {
             overflow: auto;
             border-left: 1px solid #ddd;
             border-right: 1px solid #ddd;
-            width: 938px;       
+            width: 938px;
+			margin-bottom: -1px;
+			background: #fff url({{ MEDIA_URL}}image/horizontal-line-participants-game.png);
         }
         
         .participant {
@@ -258,7 +261,7 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
             float: left;
             
             border-right: 1px solid #ddd;
-            font-size: 10px;
+            font-size: 12px;
         }
         
         .last {
@@ -280,7 +283,7 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
             padding: 0 2px;
             line-height: 21px;
             float: left;
-            margin: 0 0 0 -50px;
+            margin: -1px 0 0 -50px;
         }
         
         .participant img {
@@ -308,8 +311,8 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
     
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-            $('#image_reel').css('-webkit-transform', 'rotate(-5deg)');
-            $('#image_reel').css('-moz-transform', 'rotate(-5deg)');
+            $('#game_image').css('-webkit-transform', 'rotate(-5deg)');
+            $('#game_image').css('-moz-transform', 'rotate(-5deg)');
             
             $('#interest_form').ajaxForm({
                 dataType: 'json',
@@ -334,29 +337,16 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
 {% block content %}
 <div id="title_wrapper">
     <div id="title" class="mainblock">
-        
-        {% comment %}
-            TODO inline the styles below
-        {% endcomment %}
-        
-        <img src="{{ MEDIA_URL }}image/dots/dot-{{ '12345'|random }}.png" style="float: left; margin-left: -40px;">
-        
-        <div id="image_reel">
-            <img src="{{ game.get_first_photo }}">
+		<div id="game_mapdot">
         </div>
-        
-        <h2>Game</h2>
-        
-        <h1>{{ game.name }}</h1>
-        
-        <h3>door {{ game.maker }} voor {{ game.festival }}</h3>
-        
-        {% if not user.get_profile in game.interested.all %}
-            <!-- TODO handje op button verschijnt niet -->
-            <form method="GET" action="/games/{{ game.slug }}/interested/" id="interest_form">
-                <button class="door"><p class="door">Ik ben erbij!</p></button>
-            </form>
-        {% endif %}
+		<div id="game_info">
+        	<h2>Game</h2>
+        	<h1>{{ game.name }}</h1>
+        	<h3>door {{ game.maker }} voor {{ game.festival }}</h3>
+		</div>
+		<div id="game_image">
+			<img src="{{ game.get_first_photo }}">
+		</div>
     </div>
 </div>
 
@@ -378,7 +368,7 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
         </div>
         
         <div id="festival" class="subgame space">
-            <img src="{{ MEDIA_URL }}image/placeholder-160-90.png" alt=" ">
+            <img src="{{ MEDIA_URL }}/{{game.festival.logo}}" alt=" ">
             
             <h3>{{ game.festival.name }}</h3>
             
@@ -389,7 +379,7 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
         </div>
         
         <div id="maker" class="subgame">
-            <img src="{{ MEDIA_URL }}image/placeholder-160-90.png" alt=" ">
+            <img src="{{ MEDIA_URL }}/{{game.maker.logo}}" alt="">
             
             <h3>{{ game.maker.name }}</h3>
             
@@ -403,7 +393,14 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
 <div id="interest_wrapper">
     <div id="interest" class="mainblock">
         <h2>Wie zijn erbij?</h2> 
-        
+
+		{% if not user.get_profile in game.interested.all %}
+            <!-- TODO handje op button verschijnt niet -->
+            <form method="GET" action="/games/{{ game.slug }}/interested/" id="interest_form">
+                <button class="door"><p class="door">Ik ben erbij!</p></button>
+            </form>
+        {% endif %}        
+
         {% if user.get_profile in game.interested.all %}
             <h3 id="jekomt">Je komt!</h3> <span id="tochniet">[<a href="#" class="notparticipatelink">toch niet?</a>]</span>
         {% endif %}
@@ -421,7 +418,7 @@ background: white url({{ MEDIA_URL}}image/horizontal-line-participants-game.png)
             ">
                 <a href="/players/{{ player.id }}/">
                     <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
-                    <div class="rank">{{ player.get_rank }}</div>
+                    <div class="rank">{{ player.get_rank|stringformat:".2d" }}</div>
                     <span>{{ player.user.username }}</span>
                 </a>
             </div>
