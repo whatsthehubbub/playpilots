@@ -4,53 +4,60 @@
     <title>Klassement &bull; PLAY Pilots</title>
 
     <style type="text/css" media="screen">
-        body {
-/*            background: white url({{ MEDIA_URL }}image/grid.png) repeat-y center top;*/
-        }
-        
+
         #contentwrapper {
         } 
         
-        #headwrapper {            
-            background: #b7d1d0 url({{ MEDIA_URL }}image/grain_overlay.png);
-            border-bottom: 2px solid #999;
-        }
-        
+        #headwrapper {
+			position: relative;
+			background: #b7d1d0 url({{ MEDIA_URL }}image/grain_overlay.png);
+			border-bottom: 2px solid #999;
+		}
+		
         #startduel {
             float: right;
             margin-right: 20px;
         }
         
         #klassementhead {
+			position: relative;
+			z-index: 1;
             color: #666;
-            
             padding-top: 20px;
             padding-bottom: 20px;
         }
         
         #klassementexplanation {
+			position: relative;
+			z-index: 4;
             width: 540px;
             font-weight: bold;
             font-size: 12px;
         }
         
         #klassementhead H2 {
-            color: #666;
+            color: #fff;
+			text-shadow: #666 0px 1px 0px;
             display: inline;
         }
         
         #rankwrapper {
+			position: relative;
             border-top: 5px solid #ddd;
             background: #f5f5f5 url({{ MEDIA_URL }}image/grain_overlay.png);
+			padding-bottom: 42px;
         }
         
         #ranking {
-            overflow: auto;
+			position: relative;
+            overflow: hidden;
+			margin-top: -110px;
         }
         
         #stylepicker {
             width: 240px;
-            overflow: auto;
+			margin-top: 110px;
+            overflow: hidden;
             float: left;
         }
         
@@ -71,7 +78,10 @@
             margin: 0;
             padding: 5px;
             
-            border: thin solid #ddd;
+			border-left: 1px solid #ddd;
+			border-bottom: 1px solid #ddd;
+			border-right: 1px solid #ddd;
+			border-top: 1px none #ddd;
         }
         
         #styles LI A {
@@ -80,125 +90,185 @@
         }
         
         #styles .selected, #styles LI:hover {
-            text-transform: uppercase;
-            background-color: #12151a;
-            font-weight: bold;
-            
-            border: thin solid #12151a;
+			text-transform: uppercase;
+			background-color: #262a33;
+			font-weight: bold;
+			border-left: 1px solid #262a33;
+			border-bottom: 1px solid #262a33;
+			border-right: 1px solid #262a33;
+			border-top: 1px none #262a33;
         }
         
         #styles .selected A, #styles LI:hover A {
             color: white;
         }
+
+		/* #styleimage {
+			float: right;
+			position: absolute;
+			top: 0;
+			z-index: 2;
+			width: 100px;
+			height: 100px;
+			background-color: yellow;
+		} */
         
         #tablewrapper {
-            overflow: auto;
+			position: relative;
+            overflow: hidden;
             background: #b7d1d0 url({{ MEDIA_URL }}image/grain_overlay.png);
-            
-            margin: -7px 0 40px 0;
-            margin-top: 0; /* TODO de boel 7 pixels naarboven trekken en laten overlappen met de dubbele border, maar hoe?! */
             width: 700px;
             float: right;
             border-bottom: 5px solid #ddd;
         }
 
+		#illustr_container {
+			padding-top: 90px;
+			position: relative;
+			{% if currentStyle and currentStyle.image %}
+				background: transparent url({{currentStyle.image.url}}) no-repeat right top;
+			{% else %}
+				background:
+			{% endif %}
+		}
+		
+		table a {
+			color: #fff;
+			text-decoration: none;
+		}
+
         table#rank {
+			position: relative;
+			z-index: 3;
             width: 700px;
             border-bottom: 2px solid #999;
             border-collapse: separate;
             border-spacing: 10px;            
         }
-        
-        #rank #firstrow {
-            border-bottom: 1px solid #f00;
-        }
-        
-        #rank TH {
+                
+        #rank th {
             text-align: left;
             font-size: 10px;
-            
             color: #666;
+			border-bottom: 1px solid #666;
         }
         
         tr.player {
             height: 30px;
         }
         
-        .player TD {      
-            vertical-align: middle;
-                  
-            border-radius: 5px;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
-            
-            background: transparent url(http://playpilots.nl/static/image/ranking_bar_bg.png) repeat-x 50% 50%;            
-            font-size: 18px;
-            color: #fff;
+        .player td {
+			border-radius: 5px;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			background: transparent url({{ MEDIA_URL }}image/ranking_bar_bg.png) repeat-x 50% 50%;
+			vertical-align: middle;
+			font-size: 18px;
+			line-height: 18px;
+			margin: 4px 0 0;
+			padding: 0;
+			color: #f5f5f5;
         }
-        
-        .top3 td {
-            height: 40px;
-            font-size: 28px;
+
+		.player td img {
+			float: left;
+		}
+
+		.player {
+			text-transform: uppercase;
+		}
+		
+        .topplayers td {
+			height: 40px;
         }
-        
+		
         td.rank {
             width: 60px;
             text-align: center;
         }
         
-        td.info {
-            background: #333;
-            text-transform: uppercase;            
-        }
-        
-        tr.you td.info {
-            background: #333 url({{ MEDIA_URL }}image/tag_jij.png) no-repeat top right;
-        }
-        
-        td.info img {
+		td.info img {
+			float: left;
             width: 30px;
             height: 30px;
-            display: inline;
-            vertical-align: middle;
         }
+
+		td.info span {
+			float: left;
+			margin-top: 6px;
+			margin-left: 10px;
+		}
+		
+		.topplayers td.info span {
+			font-size: 21px;
+			font-weight: bold;
+			margin-top: 10px;
+		}
         
-        .top3 td.info img {
+        .topplayers td.info img {
             width: 40px;
             height: 40px;
         }
+
+		td.info img.jijtag {
+			float: right;
+			width: 50px;
+			height: 30px;
+		}
         
         td.win, td.lose, td.tie {
             width: 40px;
             text-align: center;
-            
         }
+
+		td.win p, td.lose p, td.tie p {
+			margin: 0 auto;
+		}
         
-        TD.pow {
+        td.pow {
             background: transparent;
             text-align: center;
             width: 40px;
         }
-        
+
         td.pow form {
-            float: left;
-            overflow: auto;
-            width: 100%;
+            overflow: hidden;
+			margin: -4px auto;
+			padding: 0;
+            width: 30px;
+			height: 34px;
+        }
+
+        .topplayers td.pow form {
+            width: 40px;
+			height: 44px;
+        }
+
+		.topplayers td.pow button {
+            width: 40px;
+            height: 40px;
+            margin: 0;
+            padding: 0;
+            
+            border: none;
+            background-color: transparent;
+            background-image: url({{ MEDIA_URL }}image/action_buttons_medium.png);
+            background-position: center center;
         }
         
-        TD.pow BUTTON {
+        td.pow button {
             width: 30px;
             height: 30px;
             margin: 0;
             padding: 0;
-            float: left;
             
             border: none;
             background-color: transparent;
             background-image: url({{ MEDIA_URL }}image/action_buttons_small.png);
             background-position: center center;
         }
-        TD.pow BUTTON:hover { background-position: center top; }
-        TD.pow BUTTON:active { background-position: center bottom; }
+        td.pow button:hover { background-position: center top; }
+        td.pow button:active { background-position: center bottom; }
         
     </style>
 {% endblock %}
@@ -207,46 +277,48 @@
 {% block content %}
 <div id="headwrapper">
     <div id="klassementhead" class="mainblock">
-        <img src="{{ MEDIA_URL }}image/start_duel.png" id="startduel">
         <div id="klassementexplanation"><h2>Algemeen Klassement</h2> toont de posities van alle spelers, op basis van alle gespeelde duels. Bekijk ook de Stijlklassementen, die de top dogs en underdogs van elke subcultuur laten zien.</div>
     </div>
 </div>
 
 <div id="rankwrapper">
+	
     <div id="ranking" class="mainblock">
-        
+
         <div id="stylepicker">
             <ul id="styles">
-                <li class="selected"><a href="/klassement">Alle stijlen</a></li>
+                <li class="{% if not currentStyle %}selected{% endif %}"><a href="/klassement">Alle stijlen</a></li>
                 {% for style in styles %}
-                    <li id="style_{{ style.id }}"><a href="/klassement?style={{ style.id }}">{{ style.name }}</a></li>
+                    <li id="style_{{ style.id }}" class="{% ifequal style.name currentStyle.name %}selected{% endifequal %}"><a href="/klassement?style={{ style.id }}">{{ style.name }}</a></li>
                 {% endfor %}
             </ul>
         </div>
         
         <div id="tablewrapper">
-        
+		<div id="illustr_container">
+
         <table id="rank">
             
             <tr id="firstrow">
                 <th>Positie</th>
                 <th>Speler</th>
-                <th>W</th>
-                <th>V</th>
-                <th>G</th>
-                <th>&nbsp;</th>
+                <th>Win</th>
+                <th>Tie</th>
+                <th>Loss</th>
             </tr>
             
             {% if players %}
                 {% for player in players %}
-                    <tr class="player{% if forloop.counter < 4  %} top3{% endif %}{% ifequal player.user.username user.username %} you{% endifequal %}">
+                    <tr class="player{% if forloop.counter < 4  %} topplayers{% endif %}">
                         <td class="rank">{{ forloop.counter }}</td>
-
-                        <td class="info"><img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt=" "> {{ player.user.username }}</td>
+                        <td class="info">
+							<a href=""><img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="" />
+							<a href=""><span class="userame">{{ player.user.username }}</span></a>
+							{% ifequal player.user.username user.username %}<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />{% endifequal %}
+						</td>
                         <td class="win">{{ player.get_win_count }}</td>
                         <td class="lose">{{ player.get_loss_count }}</td>
                         <td class="tie">{{ player.get_tie_count }}</td>
-
                         <td class="pow">
                             {% ifnotequal player.user.username user.username %}
                                 <form method="GET" action="/challenge">
@@ -262,10 +334,14 @@
             {% if skills %}
                 {% for skill in skills %}
                     {% with skill.player as player %}
-                        <tr class="player{% if forloop.counter < 4  %} top3{% endif %}{% ifequal player.user.username user.username %} you{% endifequal %}">
+                        <tr class="player{% if forloop.counter < 4  %} topplayers{% endif %}">
                             <td class="rank">{{ forloop.counter }}</td>
 
-                            <td class="info"><img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt=" "> {{ player.user.username }}</td>
+                            <td class="info">
+								<a href=""><img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="" />
+								<a href=""><span class="userame">{{ player.user.username }}</span></a>
+								{% ifequal player.user.username user.username %}<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />{% endifequal %}
+							</td>
                             <td class="win">{{ player.get_win_count }}</td>
                             <td class="lose">{{ player.get_loss_count }}</td>
                             <td class="tie">{{ player.get_tie_count }}</td>
@@ -284,7 +360,7 @@
             {% endif %}
         </table>
         </div>      
-        
+        </div>
     </div>
 </div>
 {% endblock %}
