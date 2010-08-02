@@ -259,7 +259,13 @@
         
         <div id="details">
             <img id="profile_badge_tag" src="{{ MEDIA_URL }}image/profile_badge_tag.png" alt="">
-            <img class="buddy-icon" src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
+            <img class="buddy-icon" src="{% spaceless %}
+            {% if user.get_profile.get_avatar_url %}
+                {{ user.get_profile.get_avatar_url }}
+            {% endif %}
+                {{ MEDIA_URL }}image/buddy-icon-login-box.png
+            {% endif %}
+            {% endspaceless %}" alt="">
             
             <h2>{{ player.user.username }}</h2>
             
