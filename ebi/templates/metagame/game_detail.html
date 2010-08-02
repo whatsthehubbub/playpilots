@@ -414,7 +414,7 @@
             <div class="participant {% if forloop.counter|divisibleby:"5" %}last{% endif %}">
                 <a href="/players/{{ player.id }}/">
                     <img src="{{ player.get_avatar_url }}" alt="">
-                    <div class="rank">{{ player.get_rank|stringformat:".2d" }}</div>
+                    <div class="rank">{{ player.get_rank|stringformat:".3d" }}</div>
                     <span>{{ player.user.username }}</span>
                 </a>
             </div>
