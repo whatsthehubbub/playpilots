@@ -189,9 +189,9 @@ def twitter(request, account_inactive_template='socialregistration/account_inact
     
     if user is None:
         profile = TwitterProfile(twitter_id=user_info['id'], 
-                                username=user['screen_name'],
-                                avatar=user['profile_image_url'],
-                                name=user['name'])
+                                username=user_info['screen_name'],
+                                avatar=user_info['profile_image_url'],
+                                name=user_info['name'])
                                 
         user = User()
         request.session['socialregistration_profile'] = profile
