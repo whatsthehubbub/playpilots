@@ -18,15 +18,22 @@ import datetime, random, math, json
 import logging
 
 def klassement(request):
-    styles = Style.objects.all()
-    
-    players = Player.objects.all().order_by('-rating')
-    
-    return render_to_response('metagame/klassement.html', {
-        'players': players,
-        'styles': styles,
+    c = {
+        'styles': Style.objects.all(),
         'current': 'klassement'
-    }, context_instance=RequestContext(request))
+    }
+    
+    if not request.GET.get('style'):
+        c['players'] = Player.objects.all().order_by('-rating')
+    
+        return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
+    else:
+        styleid = int(request.GET.get('style'))
+        
+        c['style'] = Style.objects.get(id=styleid)
+        c['skills'] = Skill.objects.filter(style=c['style']).order_by('level').order_by('experience')
+        
+        return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
     
 
 def challenge(request):
