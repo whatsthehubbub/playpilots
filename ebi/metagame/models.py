@@ -146,7 +146,11 @@ class Player(models.Model):
     
     rating = models.IntegerField(blank=True, null=True, default=0)
     
-    # game_set.all()
+    def get_display_name(self):
+        if self.twitter_name:
+            return self.twitter_name
+        else:
+            return self.user.username
     
     def get_rank(self):
         players = Player.objects.all().order_by('-rating')

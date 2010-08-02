@@ -88,9 +88,6 @@ def challenge_create(request):
                             challenge_move=action, 
                             challenge_message=message, 
                             target=target)
-        
-        d.challenger_oldrank = challenger.get_rank()
-        d.responder_oldrank = target.get_rank()
 
         awesomeness = d.get_challenge_awesomeness()
         d.challenge_awesomeness = awesomeness
@@ -129,40 +126,41 @@ def challenge_resolve(request):
             '''Returns the win probability for the stronger player. The probability for the weaker player is 1-prob.'''
             if diff == 0:
                 return 0.5
-            elif diff < 25:
+            elif diff < 2:
                 return 0.53
-            elif diff < 50:
+            elif diff < 5:
                 return 0.57
-            elif diff < 100:
+            elif diff < 10:
                 return 0.64
-            elif diff < 150:
+            elif diff < 15:
                 return 0.70
-            elif diff < 200:
+            elif diff < 20:
                 return 0.76
-            elif diff < 250:
+            elif diff < 25:
                 return 0.81
-            elif diff < 300:
+            elif diff < 30:
                 return 0.85
-            elif diff < 350:
+            elif diff < 35:
                 return 0.89
-            elif diff < 400:
+            elif diff < 40:
                 return 0.92
-            elif diff < 450:
+            elif diff < 45:
                 return 0.94
-            elif diff < 500:
+            elif diff < 50:
                 return 0.96
-            elif diff < 735:
+            elif diff < 73:
                 return 0.99
             else:
                 return 1.00
-        Kfactor = 10
+        Kfactor = 20
+        
+        d.challenger_oldrank = d.challenger.get_rank()
+        d.responder_oldrank = d.target.get_rank()
+        
+        d.challenger_oldrating = d.challenger.rating
+        d.responder_oldrating = d.target.rating
         
         if d.is_tie():
-            players = [d.challenger, d.target]
-            
-            d.challenger_oldrating = d.challenger.rating
-            d.responder_oldrating = d.target.rating
-            
             difference = abs(d.challenger.rating-d.target.rating)
             prob = getWinProb(difference)
             if d.challenger.rating > d.target.rating:
@@ -174,15 +172,8 @@ def challenge_resolve(request):
             
             stronger.rating += Kfactor * (0.5-prob)
             weaker.rating += Kfactor * (0.5-(1-prob))
-            
-            d.challenger_newrating = d.challenger.rating
-            d.responder_newrating = d.target.rating
-            
-            phrase = 'Helaas, gelijkspel. Probeer het nog eens!'            
-            result['phrase'] = phrase
-            
-            d.challenger.save()
-            d.target.save()
+
+            result['phrase'] = 'Helaas, gelijkspel. Probeer het nog eens!'
             
             try:
                 sw = Skill.objects.get(player=d.challenger, style=d.challenge_move.style)
@@ -202,11 +193,8 @@ def challenge_resolve(request):
             loser = d.get_loser()
             loser_style = d.get_loser_style()
             
-            result['winner'] = winner.user.username
-            result['loser'] = loser.user.username
-            
-            d.challenger_oldrating = d.challenger.rating
-            d.responder_oldrating = d.target.rating
+            result['winner'] = winner.get_display_name()
+            result['loser'] = loser.get_display_name()
             
             try:
                 # Get a random win phrase
@@ -237,26 +225,23 @@ def challenge_resolve(request):
             winner.rating += round(Kfactor * (1-prob))
             loser.rating += round(Kfactor * (0-(1-prob)))
             
-            winner.save()
-            loser.save()
-            
             if d.challenger == winner:
                 d.challenger_skilllevel = sw.level
                 d.responder_skilllevel = sl.level
-                
-                d.challenger_newrating = winner.rating
-                d.responder_newrating = loser.rating
             else:
                 d.challenger_skilllevel = sl.level
                 d.responder_skilllevel = sw.level
-                
-                d.challenger_newrating = loser.rating
-                d.responder_newrating = winner.rating
-            
-            d.challenger_newrank = d.challenger.get_rank()
-            d.responder_newrank = d.target.get_rank()
-            
+                        
             actstream.action.send(winner, verb='heeft net gewonnen van %s in' % loser.user.username, target=d)
+        
+        d.challenger.save()
+        d.target.save()
+        
+        d.challenger_newrating = d.challenger.rating
+        d.responder_newrating = d.target.rating        
+        
+        d.challenger_newrank = d.challenger.get_rank()
+        d.responder_newrank = d.target.get_rank()
         
         d.save()
         

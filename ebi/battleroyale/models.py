@@ -45,15 +45,6 @@ class Skill(models.Model):
     def progress(self, record):
         old_exp = self.experience
         
-        '''
-        if record=='W':
-            self.experience += 3
-        elif record=='L':
-            self.experience += 1
-        elif record=='T':
-            self.experience += 2
-        '''
-        
         self.experience += 1
         
         # TODO balance experience in the future using total experience for the group
@@ -78,10 +69,20 @@ class Skill(models.Model):
 
         
     def get_probability_text(self):
+        s = '%s'
+
         if self.level==1:
-            return 'Je begint pas net als %s; de kans dat je wint is klein.' % self.style.name
-             
-        return ''
+            s = 'Je begint pas net als %s; de kans dat je wint is klein.'
+        elif self.level==2:
+            s = 'Je bent aardig op weg als %s; je zult niet snel winnen, maar daar staat wel een behoorlijke bak punten tegenover.'
+        elif self.level==3:
+            s = 'Je bent een goede middenmoter als %s; je winkans en te vergaren punten zijn nominaal.'
+        elif self.level==4:
+            s = 'Je bent landelijk bekend als %s; je hebt een behoorlijke kans om te winnen, maar echt veel punten zul je niet krijgen.'
+        elif self.level==5:
+            s = 'Je staat op eenzame hoogte als %s; de kans dat je wint is groot maar als het lukt scoor je weinig punten.'
+            
+        return s % self.style.name
     
     def __unicode__(self):
         return '%d' % self.level
@@ -151,10 +152,10 @@ class Duel(models.Model):
         return '/c/%d/' % self.id
         
     def get_challenge_move(self):
-        return self.challenge_move.phrase.replace('X', self.target.user.username.capitalize())
+        return self.challenge_move.phrase.replace('X', self.target.get_display_name().capitalize())
         
     def get_response_move(self):
-        return self.response_move.phrase.replace('X', self.challenger.user.username.capitalize())
+        return self.response_move.phrase.replace('X', self.challenger.get_display_name().capitalize())
     
     def get_challenge_awesomeness(self):
         return self.get_awesomeness(self.challenger, self.challenge_move.style)
@@ -168,6 +169,8 @@ class Duel(models.Model):
             skill = Skill.objects.get(player=player, style=style)
         except Skill.DoesNotExist:
             skill = Skill.objects.create(player=player, style=style)
+        
+        logging.info('skill level for %s is %d', player.get_display_name(), skill.level)
         
         # For each level a probability distribution
         level_choices = {
@@ -206,7 +209,7 @@ class Duel(models.Model):
             
     def get_win_phrase(self):
         if self.win_phrase:
-            return self.win_phrase.phrase.replace('X', self.get_loser().user.username.capitalize())
+            return self.win_phrase.phrase.replace('X', self.get_loser().get_display_name().capitalize())
                     
         return ''
             
@@ -225,7 +228,7 @@ class Duel(models.Model):
     # TODO probably is not being used
     def get_result_phrase(self):
         if self.is_tie():
-            return '%s en %s zijn aan elkaar gewaagd, maar de jury komt er niet uit. Het duel blijft onbeslist.' % (self.challenger.user.username.capitalize(), self.target.user.username.capitalize())
+            return '%s en %s zijn aan elkaar gewaagd, maar de jury komt er niet uit. Het duel blijft onbeslist.' % (self.challenger.get_display_name().capitalize(), self.target.get_display_name().capitalize())
         else:
             style = self.get_winner_style()
             
@@ -241,7 +244,7 @@ class Duel(models.Model):
     def send_target_message(self):
         # TODO this also assumes e-mail as communications medium
         try:
-            send_mail('Je bent uitgedaagd door %s' % self.challenger.user.username,
+            send_mail('Je bent uitgedaagd door %s' % self.challenger.get_display_name(),
             '''Hoi %(target)s,
 
 Je bent uitgedaagd voor een duel door %(challenger)s.
@@ -250,8 +253,8 @@ Ga naar %(url)s om te duelleren!
 
 Namens PLAY Pilots,
 
-Uw gezagvoerder''' % {'target': self.target.user.username, 
-                            'challenger': self.challenger.user.username, 
+Uw gezagvoerder''' % {'target': self.target.get_display_name(), 
+                            'challenger': self.challenger.get_display_name(), 
                             'url': 'http://playpilots.nl/c/%d/' % self.id}, 
             'Your Captain Speaking <captain@playpilots.nl>', 
             [self.target.user.email])
@@ -268,7 +271,7 @@ Uw gezagvoerder''' % {'target': self.target.user.username,
             
             # TODO For now assume e-mail is the only medium
             try:
-                send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.user.username, 
+                send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.get_display_name(), 
                 '''Hoi %(winner)s,
 
 Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
@@ -278,14 +281,14 @@ Ga naar %(url)s om de uitkomst te zien!
 Namens PLAY Pilots,
 
 Uw gezagvoerder''' % {
-                'winner': winner.user.username,
-                'loser': loser.user.username,
+                'winner': winner.get_display_name(),
+                'loser': loser.get_display_name(),
                 'url': 'http://playpilots.nl/c/%d/' % self.id 
             }, 
                 'Your Captain Speaking <captain@playpilots.nl>', 
                 [winner.user.email])
             
-                send_mail('Helaas! Je hebt verloren van %s!' % winner.user.username,
+                send_mail('Helaas! Je hebt verloren van %s!' % winner.get_display_name(),
                 '''Hoi %(loser)s,
 
 Helaas! Je hebt het duel met %(winner)s verloren.
@@ -295,8 +298,8 @@ Ga naar %(url)s om de uitkomst te zien!
 Namens PLAY Pilots,
 
 Uw gezagvoerder''' % {
-                    'loser': loser.user.username,
-                    'winner': winner.user.username,
+                    'loser': loser.get_display_name(),
+                    'winner': winner.get_display_name(),
                     'url': 'http://playpilots.nl/c/%d/' % self.id
                 }, 
                 'Your Captain Speaking <captain@playpilots.nl>', 
