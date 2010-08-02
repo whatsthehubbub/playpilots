@@ -1,6 +1,8 @@
 {% extends "metagame/challenge_base.html" %}
 
 {% block extrahead %}
+<title>{{ user.get_profile.get_display_name|upper }} vs {{ target.get_display_name|upper }} &bull; PLAY Pilots</title>
+
     {{ block.super }}
     
     <script type="text/javascript" charset="utf-8">
@@ -129,7 +131,7 @@
                 var totalMove = '<div class="finalmove"><b>' + actionString.capitalize();
                 if (message == '') {
                 } else {
-                    totalMove += '<br>{{ user.username|capfirst }} zegt:</b> &ldquo;' + message + '&rdquo;';
+                    totalMove += '<br>{{ user.username|upper }} zegt:</b> &ldquo;' + message + '&rdquo;';
                 }
                 totalMove += '</div>';
                 
@@ -140,7 +142,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="content" class="mainblock">
+<div id="content" class="mainblock start">
     
     <div id="headline">
         <div class="player1">
@@ -149,15 +151,17 @@
             <img id="vs" style="right: -100px;" src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
+                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
                 <h2>{{ user.username }}</h2>
-                <p>{{ user.get_profile.get_rank }} in het algemeen klassement</p>
+                <p><span class="rank">{{ user.get_profile.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
         
         <div class="player2">
             <div class="player">
+                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
                 <h2>{{ target.user.username }}</h2>
-                <p>{{ target.get_rank }} in het algemeen klassement</p>
+                <p><span class="rank">{{ target.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
     </div>
@@ -180,12 +184,12 @@
                         {% for skill in user.get_profile.get_skills %}
                             <tr id="style_row_{{ skill.style.id }}" class="stylerow {% cycle '' 'odd' %}">
                                 <td class="style">{{ skill.style.name }}</td>
-                                <td class="rank">{{ skill.experience }}</td>
+                                <td class="rank"><span class="rank">{{ skill.experience|stringformat:".2d" }}</span></td>
                                 <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ skill.level }}.png"></td>
                             </tr>
                             <tr>
                                 <td id="style_detail_{{ skill.style.id }}" class="style_detail" colspan="3">
-                                    {{ skill.get_probability_text }}<br>
+                                    <p class="probability_text">{{ skill.get_probability_text }}</p>
                                     <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
                                 </td>
                             </tr>
@@ -201,7 +205,7 @@
             </div>
 
             <div id="styleplayer2" class="player2">
-                <div>We zullen zien wat {{ target.user.username }} voor stijl gaat kiezen.</div>
+                <p>We zullen zien wat <span class="username">{{ target.user.username }}</span> voor stijl gaat kiezen&hellip;</p>
             </div>
         </div>
     </div>
@@ -229,7 +233,7 @@
             </div>
         
             <div id="actionplayer2" class="player2">
-                <p>We wachten op de actie van {{ target.user.username }}.</p>
+                <p>&hellip;en we wachten ook nog op de actie van {{ target.user.username|upper }}.</p>
             </div>
         </div>
         

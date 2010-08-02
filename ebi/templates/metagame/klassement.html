@@ -151,7 +151,7 @@
 			border-radius: 5px;
 			-moz-border-radius: 5px;
 			-webkit-border-radius: 5px;
-			background: transparent url({{ MEDIA_URL }}image/ranking_bar_bg.png) repeat-x 50% 50%;
+			background: transparent url({{ MEDIA_URL }}image/ranking_bar_bg_light.png) repeat-x 50% 50%;
 			vertical-align: middle;
 			font-size: 18px;
 			line-height: 18px;
@@ -173,7 +173,7 @@
         }
 		
         td.rank {
-            width: 60px;
+            width: 50px;
             text-align: center;
         }
         
@@ -241,9 +241,7 @@
             padding: 0;
             
             border: none;
-            background-color: transparent;
-            background-image: url({{ MEDIA_URL }}image/action_buttons_medium.png);
-            background-position: center center;
+            background: transparent url({{ MEDIA_URL }}image/action_buttons_medium.png) center center;
         }
         
         td.pow button {
@@ -259,7 +257,26 @@
         }
         td.pow button:hover { background-position: center top; }
         td.pow button:active { background-position: center bottom; }
-        
+
+        .leveldescription {
+			padding-top: 10px;
+		}
+
+		.leveldescription img {
+			float: left;
+		}
+		
+		.leveldescription span {
+			float: left;
+			margin-top: -3px;
+			margin-left: 10px;
+			font-size: 12px;
+			font-weight: bold;
+			text-transform: uppercase;
+			color: #fff;
+			text-shadow: #999999 0 1px 0;
+		}
+		
     </style>
 {% endblock %}
 
@@ -323,7 +340,8 @@
             
             {% if skills %}
                 {% for level in skills %}
-                    <tr><td>{{ level.0 }}</td></tr>
+                    <tr><td class="leveldescription" colspan="5">
+	<img src="{{ MEDIA_URL }}image/level_{{ level.0 }}.png"> <span>Lorem ipsum dolor este lauda:</span></td></tr>
                     {% for player in level.1 %}
                         <tr class="player{% if forloop.counter < 4  %} topplayers{% endif %}">
                             <td class="rank">{{ forloop.counter }}</td>

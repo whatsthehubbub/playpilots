@@ -1,6 +1,8 @@
 {% extends "metagame/challenge_base.html" %}
 
 {% block extrahead %}
+<title>{{ duel.challenger.get_display_name|upper }} vs {{ duel.target.get_display_name|upper }} &bull; PLAY Pilots</title>
+
     {{ block.super }}
     
     <script type="text/javascript" charset="utf-8">

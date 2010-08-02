@@ -120,8 +120,12 @@
         }
         
         #record td {
-            width: 50%;
+            width: 88%;
         }
+
+		#record td.count {
+			width: 12%;
+		}
         
         #levels td {
             width: 15%;
@@ -133,7 +137,6 @@
 
 		#levels td.level {
             width: 25%;
-			background-clor: yellow;
         }
 		
 		#levels td.#rank {
@@ -297,18 +300,18 @@
         <div id="record">
             <table>
                 <tr class="odd">
-                    <td>Gewonnen</td>
-                    <td>{{ player.get_win_count }}</td>
+                    <td class="descr">Gewonnen</td>
+                    <td class="count">{{ player.get_win_count }}</td>
                 </tr>
                 
                 <tr class="even">
-                    <td>Verloren</td>
-                    <td>{{ player.get_loss_count }}</td>
+                    <td class="descr">Verloren</td>
+                    <td class="count">{{ player.get_loss_count }}</td>
                 </tr>
                 
                 <tr class="odd">
-                    <td>Gelijkspel</td>
-                    <td>{{ player.get_tie_count }}</td>
+                    <td class="descr">Gelijkspel</td>
+                    <td class="count">{{ player.get_tie_count }}</td>
                 </tr>
             </table>
         </div>

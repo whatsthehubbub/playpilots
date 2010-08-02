@@ -1,6 +1,7 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
+
     <script type="text/javascript" charset="utf-8">
         var awesomenessMessages = {
             1: 'Die actie was veel te houterig. Fail!',
@@ -19,39 +20,51 @@
     </script>
 
     <style type="text/css" media="screen">
+        html {
+            background: transparent url({{ MEDIA_URL }}image/grid.png) repeat-y top center;
+        }
+        
         #contentwrapper {
             background-color: #f5f5f5;
-            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
-            
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);            
             border-top: 5px solid #ddd;
         }
         
         #content {
             padding-top: 20px;
-            padding-bottom: 40px;
-            
+            padding-bottom: 40px;            
             overflow: auto;
         }
         
         /* Generic styles for players. */
         .player1 {
-            width: 460px;
+            width: 469px;
             float: left;
         }
         
         .player2 {
-            width: 475px; /* needs to be 460 + 20gutter */
+            width: 469px;
             float: left;
         }
+        
+        div#content.start div#styleplayer2 p, div#content.start div#actionplayer2 p {
+            font-size: 12px;
+            color: #bbb;
+            text-align: center;
+            margin: 15px 10px;
+        }
+
+        div#content.start div#styleplayer2 p span.username {
+            text-transform: uppercase;
+        }        
         
         .headingbox {
             overflow: auto;
         }
         
         H5 {
-            width: 460px;
+            width: 470px;
             float: left;
-            margin-top: 10px;
             color: #12151a;
         }
         
@@ -113,25 +126,52 @@
         
         .player2 .you {
             float: left;
-        }
-        
+        }        
         
         .player1 .player {
             margin-top: 20px;
-            margin-left: 40px;
+            margin-left: 60px;
         }
         
         .player2 .player {
             margin-top: 20px;
-            margin-left: 80px;
+            margin-left: 90px;
+        }
+        
+        .player img {
+            width: 40px;
+            height: 40px;
+            margin: 0 10px 0 0;
+            float: left;
+        }
+        
+        .player p {
+            font-size: 12px;
+            color: #333;
+        }
+        
+        .player span.rank, td.rank span {
+            background: transparent url(http://playpilots.nl/static/image/ranking_bar_bg.png) no-repeat 50% 50%;
+            color: white;
+            padding: 0px 2px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;       
+            font-size: 10px;
+            display: block;
+            float: left;
+/*            width: 30px;*/
+            text-align: center;
+        }
+        
+        .player span.rank {
+            margin-right: 2px;
         }
         
         #vs {
-            float: right;
-            
+            float: right;            
             position: relative;
             right: -50px;
-            top: 30px;
+            top: 28px;
         }
 
         .name {
@@ -144,28 +184,38 @@
         #style {
             margin-top: 10px;
         }
+        
+        #stylechooser {
+            padding-bottom: 10px;
+        }
 
         #stylechooser TABLE {
-            width: 95%;
-            margin: 10px auto;
+            width: 450px;
+            margin: 10px auto 0 auto;
         }
         
         #stylechooser TH {
             color: #bbb;
             text-align: left;
-            
-            font-size: 12px;
+            font-weight: normal;            
+            font-size: 11px;
         }
         
         TR.toprow {
             border-bottom: thin solid #ddd;
         }
         
-        TR.stylerow.hover, TR.stylerow.active {
+        TR.stylerow.hover {
+            background-color: #F6E9D7;
+        }
+        
+        TR.stylerow.active {
             background-color: #f30;
         }
         
-        TR.stylerow.hover TD, TR.stylerow.active TD {
+        TR.stylerow.hover TD {} 
+        
+        TR.stylerow.active TD {
             color: white;
         }
         
@@ -184,24 +234,43 @@
         }
         
         TD.style {
+            width: 50%;
             color: #f30;
         }
         
         TD.rank {
-            width: 120px;
+            width: 25%;
         }
         
         TD.level {
-            width: 80px;
+            width: 25%;
             vertical-align: middle;
+        }
+        
+        td.level img {
+            float: left;
         }
                 
         TD.style_detail {
-            display: none;
-            
+            display: none;            
             background-color: #f6e9d7;
         }
 
+        td.style_detail p {
+            font-size: 12px;
+            margin: 10px 0 0 0;
+        }
+        
+        td.style_detail form {
+            margin-top: -10.5px;
+        }
+        
+        td.style_detail button {
+/*            text-align: right;*/
+            float: right;
+/*            cursor: hand;*/
+        }
+        
         TD.style_detail.active {
             display: table-cell;
         }
@@ -216,7 +285,7 @@
         }
         
         .stylechosen {
-            padding: 5px 5px 0 5px;
+            padding: 10px 20px 15px 20px;
         }
         
         .stylechosen A {
@@ -229,25 +298,36 @@
         }
         
         .stylechosen .stylename {
-            color: #f30;
+            color: #333;
+            font-weight: bold;
             text-transform: uppercase;
         }
         
         #changestylelink {
             float: right;
+            font-size: 12px;
+        }
+        
+        #changestylelink:hover {
+            text-decoration: underline;
         }
         
         /* Styles for choosing the action. */
+        
         #action {
             overflow: auto;
-            display: none;
-            
+            display: none;            
             margin-top: 10px;
+            padding: 0;
         }
         
         #actionselect {
-            padding: 10px;
-            width: 440px;
+            width: 470px;
+            margin: 10px 0 0 0;
+        }
+        
+        #actionselect UL {
+            margin: 0 10px 10px 10px;
         }
         
         #actionselect UL LI {
@@ -256,24 +336,29 @@
         
         #actionselect LI {
             color: #f30;
-            padding: 5px;
+            padding: 5px 33px 5px 5px;
         }
         
         #actionselect LI.selected, #actionselect LI:hover {
             background-color: #f30;
-            color: white;
-            
+            color: white;            
             background-image: url({{ MEDIA_URL }}image/icon_check.png);
-            background-position: 95% center;
+            background-position: 427px center;
             background-repeat: no-repeat;
         }
         
         DIV.message {
+            border-top: 1px solid #ddd;
+/*            width: 100%;*/
             padding: 10px;
         }
         
         .message H5 {
             color: #666;
+        }
+        
+        .message p {
+            margin-bottom: 5px;
         }
         
         .messagetext {
@@ -298,18 +383,19 @@
         }
         
         .finalmove {
-            padding: 10px;
-            height: 4em;
+            padding: 0 20px 0 20px;
         }
         
         .result {
             border-top: thin solid #ddd;
-            padding: 20px;
+            margin: 20px;
+            padding: 25px 0 0 0;
             text-align: center;
         }
         
         .result H2 {
-            color: #666;
+            margin: 10px 0;
+            color: #333;
         }
         
         .result .responder {
@@ -323,7 +409,6 @@
         
         #resultstats H2 {
             text-align: center;
-            
             color: #12151a;
         }
         
