@@ -78,7 +78,8 @@ def setup(request, template='socialregistration/setup.html',
         
     else:
         # Generate user and profile
-        social_user.username = str(uuid.uuid4())[:30]
+        # social_user.username = str(uuid.uuid4())[:30]
+        social_user.username = '@' + social_profile.username
         social_user.save()
 
         social_profile.user = social_user
@@ -187,7 +188,11 @@ def twitter(request, account_inactive_template='socialregistration/account_inact
     # screen_name = user['screen_name']
     
     if user is None:
-        profile = TwitterProfile(twitter_id=user_info['id'])
+        profile = TwitterProfile(twitter_id=user_info['id'], 
+                                username=user['screen_name'],
+                                avatar=user['profile_image_url'],
+                                name=user['name'])
+                                
         user = User()
         request.session['socialregistration_profile'] = profile
         request.session['socialregistration_user'] = user
