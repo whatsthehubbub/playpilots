@@ -126,10 +126,10 @@
                     $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2><p>Kijken wat <span class="responder">' + targetUsername + '</span> gaat doen</p></div>');
                 }, 'json');
                 
-                var totalMove = '<div class="finalmove"><b>' + actionString;
+                var totalMove = '<div class="finalmove"><b>' + actionString.capitalize();
                 if (message == '') {
                 } else {
-                    totalMove += '{{ user.username }} zegt:</b> &ldquo;' + message + '&rdquo;';
+                    totalMove += '<br>{{ user.username|capfirst }} zegt:</b> &ldquo;' + message + '&rdquo;';
                 }
                 totalMove += '</div>';
                 
