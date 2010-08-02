@@ -109,6 +109,15 @@
                 
                 <div class="result"><img src="{{ MEDIA_URL }}image/stars_{{ duel.response_awesomeness }}.png"><br>
                     <h2><script type="text/javascript">document.write(awesomenessMessages[{{ duel.response_awesomeness }}]);</script></h2>
+                    
+                    {% if duel.get_response_modifier > 0 %}
+                        <p>Je hebt {{ duel.get_response_modifier|stringformat:".2f"|slice:"2:"}}% meer krokans tegen {{ duel.challenge_move.style.name }}</p>
+                    {% endif %}
+                    
+                    {% if duel.get_response_modifier < 0 %}
+                        <p>Je hebt minder kans tegen {{ duel.challenge_move.style.name }}</p>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
@@ -151,7 +160,17 @@
                 
                 <tr class="skill">
                     <td></td>
-                    <td>{{ duel.challenger.user.username }} gaat van score {{ duel.challenger_oldrating }} naar {{ duel.challenger_newrating}}
+                    <td>{{ duel.challenger.user.username }}
+                        {% if duel.get_challenger_rating_difference == 0 %}
+                            blijft staan op {{ duel.challenger_newrating}}
+                        {% else %}
+                            {% if duel.get_challenger_rating_difference > 0 %}
+                                krijgt er {{ duel.get_challenger_rating_difference }} punten bij
+                            {% else %}
+                                verliest {{ duel.get_challenger_rating_difference|stringformat:"d"|slice:"1:" }} punten
+                            {% endif %}
+                        {% endif %}
+                        voor een totaal van {{ duel.challenger_newrating}}
                         {% if duel.challenger_oldrank == duel.challenger_newrank %}
                             en blijft op rang {{ duel.challenger_newrank }}
                         {% else %}
@@ -167,9 +186,19 @@
                         </td>
                     <td></td>
                     <td>
-                        {{ duel.target.user.username }} gaat van score {{ duel.responder_oldrating }} naar {{ duel.responder_newrating }},
+                        {{ duel.target.user.username }}
+                        {% if duel.get_responder_rating_difference == 0 %}
+                            blijft staan op {{ duel.responder_newrating}}
+                        {% else %}
+                            {% if duel.get_responder_rating_difference > 0 %}
+                                krijgt er {{ duel.get_responder_rating_difference }} punten bij
+                            {% else %}
+                                verliest {{ duel.get_responder_rating_difference|stringformat:"d"|slice:"1:" }} punten
+                            {% endif %}
+                        {% endif %}
+                        voor een totaal van {{ duel.responder_newrating }}
                         {% if duel.responder_oldrank == duel.responder_newrank %}
-                            blijft op rang {{ duel.responder_newrank }}
+                            en blijft op rang {{ duel.responder_newrank }}
                         {% else %}
                             en
                             {% if duel.responder_oldrank < duel.responder_newrank %}

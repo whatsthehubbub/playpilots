@@ -160,8 +160,88 @@ class Duel(models.Model):
     def get_challenge_awesomeness(self):
         return self.get_awesomeness(self.challenger, self.challenge_move.style)
         
+    def get_challenger_rating_difference(self):
+        return self.challenger_newrating - self.challenger_oldrating
+        
+    def get_responder_rating_difference(self):
+        return self.responder_newrating - self.responder_oldrating
+        
+    def get_response_modifier(self):
+        modifier = 0
+        
+        if self.response_move.style.id == 1:
+            if self.challenge_move.style.id == 8:
+                modifier = 0.2
+        elif self.response_move.style.id == 2:
+            if self.challenge_move.style.id == 10:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 5:
+                modifier = 0.2
+        elif self.response_move.style.id == 3:
+            if self.challenge_move.style.id == 6:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 11:
+                modifier = 0.2
+        elif self.response_move.style.id == 4:
+            if self.challenge_move.style.id == 1:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 8:
+                modifier = 0.2
+        elif self.response_move.style.id == 5:
+            if self.challenge_move.style.id == 9:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 2:
+                modifier = 0.2
+        elif self.response_move.style.id == 6:
+            if self.challenge_move.style.id == 9:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 3:
+                modifier = 0.2
+        elif self.response_move.style.id == 7:
+            if self.challenge_move.style.id == 11:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 4:
+                modifier = 0.2
+        elif self.response_move.style.id == 8:
+            if self.challenge_move.style.id == 1:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 4:
+                modifier = 0.2
+        elif self.response_move.style.id == 9:
+            if self.challenge_move.style.id == 5:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 6:
+                modifier = 0.2
+        elif self.response_move.style.id == 10:
+            if self.challenge_move.style.id == 2:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 5:
+                modifier = 0.2
+        elif self.response_move.style.id == 11:
+            if self.challenge_move.style.id == 7:
+                modifier = -0.2
+            elif self.challenge_move.style.id == 3:
+                modifier = 0.2
+        return modifier
+        
     def get_response_awesomeness(self):
-        return self.get_awesomeness(self.target, self.response_move.style)
+        # Response awesomeness is dependent on some stuff
+        modifier = self.get_response_modifier()
+        
+        awesomeness = self.get_awesomeness(self.target, self.response_move.style)
+        
+        if modifier > 0:
+            if random.random() < modifier:
+                awesomeness += 1
+            
+            return min(awesomeness, 5)
+        elif modifier < 0:
+            if random.random() < abs(modifier):
+                awesomeness -= 1
+                
+            return max(awesomeness, 0)
+            
+        return awesomeness
         
     def get_awesomeness(self, player, style):
         # Get a skill or make one if it doesn't exist yet

@@ -8,7 +8,8 @@
         var actionString = '';
         var message = '';
         
-        var targetUser = '{{ duel.challenger.user.username }}';
+        var challengeUser = '{{ duel.challenger.get_display_name }}';
+        var targetUser = '{{ duel.target.get_display_name }}';
         
         var actionSent = false;
         
@@ -32,12 +33,12 @@
                 if (counter == 0) {
                     // The first are selected by default, so we need to fill those in
                     actionId = action[0];
-                    actionString = templateAction(action[1], targetUser);
+                    actionString = templateAction(action[1], challengeUser);
 
                     extraclass = 'selected';
                 }
                 
-                $('#moves').append('<li id="move_' + action[0] + '" class="move ' + extraclass + '"><b>JIJ</b> ' + templateAction(action[1], targetUser) + '</li>');
+                $('#moves').append('<li id="move_' + action[0] + '" class="move ' + extraclass + '"><b>' + targetUser + '</b> ' + templateAction(action[1], challengeUser) + '</li>');
             }
         }
         

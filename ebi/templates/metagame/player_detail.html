@@ -384,7 +384,7 @@
                         {% if duel.get_win_phrase %}
                             {{ duel.get_win_phrase }}
                         {% endif %}
-                        <span class="timestamp">{{ duel.responded|timesince }}</span> <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel</a> &raquo;</p></li>  
+                        <span class="timestamp">{{ duel.responded|timesince }} geleden</span> <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel</a> &raquo;</p></li>  
                 {% endfor %}
             </ol>
         </div>
