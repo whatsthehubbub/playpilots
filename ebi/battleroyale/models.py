@@ -6,6 +6,7 @@ from ebi.metagame.models import Player
 
 import random
 import smtplib
+import logging
 
 class Style(models.Model):
     name = models.CharField(max_length=255, blank=True)
