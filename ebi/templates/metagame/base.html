@@ -274,20 +274,13 @@ _gaq.push(['_trackPageview']);
         <div id="header" class="mainblock">
             <div id="checkin">
                 {% if not user.is_authenticated %}
-                <div id="login"><a href="/login/">Inloggen</a></div>
-                <div id="register">&hellip;of <a href="/register/">aanmelden</a> &raquo;</div>
+                    <div id="login"><a href="/login/">Inloggen</a></div>
+                    <div id="register">&hellip;of <a href="/register/">aanmelden</a> &raquo;</div>
                 {% else %}
+                    <img src="{{ user.get_profile.get_avatar_url }}">
                 
-                <img src="{% spaceless %}
-                {% if user.get_profile.get_avatar_url %}
-                    {{ user.get_profile.get_avatar_url }}
-                {% else %}
-                    {{ MEDIA_URL }}image/buddy-icon-login-box.png
-                {% endif %}
-                {% endspaceless %}">
-                
-                <div id="username"><a href="/players/{{ user.get_profile.get_display_name }}/">{{ user.username }}</a></div>
-                <div id="logout"><a href="/logout/" id="logout">uitloggen</a></div>
+                    <div id="username"><a href="/players/{{ user.get_profile.get_display_name }}/">{{ user.username }}</a></div>
+                    <div id="logout"><a href="/logout/" id="logout">uitloggen</a></div>
                 {% endif %}
             </div>
 
