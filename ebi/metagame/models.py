@@ -1,8 +1,9 @@
 from django.db import models
 from django.db.models import F, Q
 from django.contrib.auth.models import User
-
 from django.db.models.signals import pre_save, post_save
+
+from socialregistration.models import TwitterProfile
 
 import datetime
 
@@ -151,6 +152,16 @@ class Player(models.Model):
             return self.twitter_name
         else:
             return self.user.username
+            
+    def get_avatar_url(self):
+        try:
+            t = TwitterProfile.objects.get(user=self.user)
+            
+            return t.avatar
+        except TwitterProfile.DoesNotExist:
+            pass
+            
+        return ''
     
     def get_rank(self):
         players = Player.objects.all().order_by('-rating')
