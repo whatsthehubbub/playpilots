@@ -5,6 +5,7 @@ from django.db.models import Q
 from ebi.metagame.models import Player
 
 import random
+import smtplib
 
 class Style(models.Model):
     name = models.CharField(max_length=255, blank=True)
@@ -250,7 +251,8 @@ class Duel(models.Model):
     
     def send_target_message(self):
         # TODO this also assumes e-mail as communications medium
-        send_mail('Je bent uitgedaagd door %s' % self.challenger.user.username,
+        try:
+            send_mail('Je bent uitgedaagd door %s' % self.challenger.user.username,
             '''Hoi %(target)s,
 
 Je bent uitgedaagd voor een duel door %(challenger)s.
@@ -264,6 +266,8 @@ Uw gezagvoerder''' % {'target': self.target.user.username,
                             'url': 'http://playpilots.nl/c/%d/' % self.id}, 
             'Your Captain Speaking <captain@playpilots.nl>', 
             [self.target.user.email])
+        except smtplib.SMTPException:
+            logging.error('sending target e-mail failed')
 
     
     def send_winner_loser_messages(self):
@@ -274,7 +278,8 @@ Uw gezagvoerder''' % {'target': self.target.user.username,
             
             
             # TODO For now assume e-mail is the only medium
-            send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.user.username, 
+            try:
+                send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.user.username, 
                 '''Hoi %(winner)s,
 
 Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
@@ -291,7 +296,7 @@ Uw gezagvoerder''' % {
                 'Your Captain Speaking <captain@playpilots.nl>', 
                 [winner.user.email])
             
-            send_mail('Helaas! Je hebt verloren van %s!' % winner.user.username,
+                send_mail('Helaas! Je hebt verloren van %s!' % winner.user.username,
                 '''Hoi %(loser)s,
 
 Helaas! Je hebt het duel met %(winner)s verloren.
@@ -307,3 +312,5 @@ Uw gezagvoerder''' % {
                 }, 
                 'Your Captain Speaking <captain@playpilots.nl>', 
                 [loser.user.email])
+            except smtplib.SMTPException:
+                logging.error('sending winner loser e-mail failed')
