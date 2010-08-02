@@ -262,7 +262,7 @@
             <img class="buddy-icon" src="{% spaceless %}
             {% if user.get_profile.get_avatar_url %}
                 {{ user.get_profile.get_avatar_url }}
-            {% endif %}
+            {% else %}
                 {{ MEDIA_URL }}image/buddy-icon-login-box.png
             {% endif %}
             {% endspaceless %}" alt="">
