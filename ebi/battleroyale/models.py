@@ -146,7 +146,7 @@ class Duel(models.Model):
     responder_newrating = models.IntegerField(blank=True, null=True)
     
     def __unicode__(self):
-        return '%s' % self.challenge_move.phrase
+        return '%s' % self.get_challenge_move()
         
     def get_absolute_url(self):
         return '/c/%d/' % self.id
