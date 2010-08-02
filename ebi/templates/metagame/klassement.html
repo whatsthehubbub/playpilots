@@ -102,16 +102,6 @@
         #styles .selected A, #styles LI:hover A {
             color: white;
         }
-
-		/* #styleimage {
-			float: right;
-			position: absolute;
-			top: 0;
-			z-index: 2;
-			width: 100px;
-			height: 100px;
-			background-color: yellow;
-		} */
         
         #tablewrapper {
 			position: relative;
@@ -128,7 +118,7 @@
 			{% if currentStyle and currentStyle.image %}
 				background: transparent url({{currentStyle.image.url}}) no-repeat right top;
 			{% else %}
-				background:
+				background: transparent url({{ MEDIA_URL }}image/start_fight.png) no-repeat right top;
 			{% endif %}
 		}
 		
