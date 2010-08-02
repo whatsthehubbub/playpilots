@@ -42,7 +42,7 @@ class Skill(models.Model):
         '''Returns the number of times this player/skill combination have played.'''
         return Duel.objects.all().filter(open=False).filter((Q(challenger=self.player) & Q(challenge_move__style=self.style)) | (Q(target=self.player) & Q(response_move__style=self.style))).count()
         
-    def progress(self, record):
+    def progress(self):
         old_exp = self.experience
         
         self.experience += 1

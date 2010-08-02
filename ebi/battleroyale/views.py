@@ -30,7 +30,7 @@ def klassement(request):
     else:
         styleid = int(request.GET.get('style'))
         
-        c['style'] = Style.objects.get(id=styleid)
+        c['currentStyle'] = Style.objects.get(id=styleid)
         c['skills'] = Skill.objects.filter(style=c['style']).order_by('level').order_by('experience')
         
         return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
@@ -126,29 +126,29 @@ def challenge_resolve(request):
             '''Returns the win probability for the stronger player. The probability for the weaker player is 1-prob.'''
             if diff == 0:
                 return 0.5
-            elif diff < 2:
+            elif diff < 4:
                 return 0.53
-            elif diff < 5:
-                return 0.57
             elif diff < 10:
-                return 0.64
-            elif diff < 15:
-                return 0.70
+                return 0.57
             elif diff < 20:
-                return 0.76
-            elif diff < 25:
-                return 0.81
+                return 0.64
             elif diff < 30:
-                return 0.85
-            elif diff < 35:
-                return 0.89
+                return 0.70
             elif diff < 40:
-                return 0.92
-            elif diff < 45:
-                return 0.94
+                return 0.76
             elif diff < 50:
+                return 0.81
+            elif diff < 60:
+                return 0.85
+            elif diff < 70:
+                return 0.89
+            elif diff < 80:
+                return 0.92
+            elif diff < 90:
+                return 0.94
+            elif diff < 100:
                 return 0.96
-            elif diff < 73:
+            elif diff < 150:
                 return 0.99
             else:
                 return 1.00
@@ -160,9 +160,23 @@ def challenge_resolve(request):
         d.challenger_oldrating = d.challenger.rating
         d.responder_oldrating = d.target.rating
         
+        ratingDifference = abs(d.challenger.rating-d.target.rating)
+        
+        challengerSkill = Skill.objects.get(player=d.challenger, style=d.challenge_move.style)
+        responderSkill = Skill.objects.get(player=d.target, style=d.response_move.style)
+        
+        d.challenger_skilllevel = challengerSkill.level
+        d.responder_skilllevel = responderSkill.level
+        
+        skillDifference = abs(challengerSkill.level-responderSkill.level)
+        
+        # TODO maybe still progress skill based on performance
+        challengerSkill.progress()
+        responderSkill.progress()
+        
+        prob = getWinProb(ratingDifference + skillDifference*10)
+        
         if d.is_tie():
-            difference = abs(d.challenger.rating-d.target.rating)
-            prob = getWinProb(difference)
             if d.challenger.rating > d.target.rating:
                 stronger = d.challenger
                 weaker = d.target
@@ -174,49 +188,21 @@ def challenge_resolve(request):
             weaker.rating += Kfactor * (0.5-(1-prob))
 
             result['phrase'] = 'Helaas, gelijkspel. Probeer het nog eens!'
-            
-            try:
-                sw = Skill.objects.get(player=d.challenger, style=d.challenge_move.style)
-                sw.progress('T')
-                d.challenger_skilllevel = sw.level
-                
-                sl = Skill.objects.get(player=d.target, style=d.response_move.style)
-                sl.progress('T')
-                d.responder_skilllevel = sl.level
-            except Skill.DoesNotExist:
-                logging.error('Skills do not exist')
                 
             actstream.action.send(d.target, verb='heeft net gelijkgespeeld met %s in duel' % d.challenger.user.username, target=d)
         else:
             winner = d.get_winner()
-            winner_style = d.get_winner_style()
             loser = d.get_loser()
-            loser_style = d.get_loser_style()
             
             result['winner'] = winner.get_display_name()
             result['loser'] = loser.get_display_name()
             
             try:
                 # Get a random win phrase
-                d.win_phrase = WinPhrase.objects.filter(style=winner_style).order_by('?')[0]
+                d.win_phrase = WinPhrase.objects.filter(style=d.get_winner_style()).order_by('?')[0]
                 result['phrase'] = self.get_win_phrase()
             except:
                 result['phrase'] = 'Generic win phrase.'
-            
-            try:
-                sw = Skill.objects.get(player=winner, style=winner_style)
-                sw.progress('W')
-                
-                sl = Skill.objects.get(player=loser, style=loser_style)
-                sl.progress('L')
-                
-                # Fill in the current levels of both players
-            except Skill.DoesNotExist:
-                logging.error('Skills do not exist')
-            
-            
-            difference = abs(winner.rating-loser.rating)
-            prob = getWinProb(difference)
 
             # Reverse probability if the winner had a lower rating (they were the underdog)
             if winner.rating < loser.rating:
@@ -224,14 +210,7 @@ def challenge_resolve(request):
 
             winner.rating += round(Kfactor * (1-prob))
             loser.rating += round(Kfactor * (0-(1-prob)))
-            
-            if d.challenger == winner:
-                d.challenger_skilllevel = sw.level
-                d.responder_skilllevel = sl.level
-            else:
-                d.challenger_skilllevel = sl.level
-                d.responder_skilllevel = sw.level
-                        
+
             actstream.action.send(winner, verb='heeft net gewonnen van %s in' % loser.user.username, target=d)
         
         d.challenger.save()
