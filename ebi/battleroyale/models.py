@@ -320,16 +320,4 @@ class Duel(models.Model):
         self.target.send_challenge_message(self)
     
     def send_winner_loser_messages(self):
-        if self.get_winner():
-            # We have a winner and a loser
-            winner = self.get_winner()
-            loser = self.get_loser()
-            
-            
-            # TODO For now assume e-mail is the only medium
-            try:
-                
-            
-                
-            except smtplib.SMTPException:
-                logging.error('sending winner loser e-mail failed')
+        pass
