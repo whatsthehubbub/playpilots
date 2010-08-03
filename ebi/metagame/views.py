@@ -25,7 +25,6 @@ from django.views.decorators.cache import cache_page
 
 import logging
 
-# @cache_page(60*60)
 def index(request):
     if False and request.user.is_anonymous():
         return render_to_response('metagame/index_splash.html', {
@@ -113,7 +112,6 @@ def logout_view(request):
     
     return HttpResponseRedirect('/')
     
-@cache_page(60*60)
 def game_list(request):
     return render_to_response('metagame/game_list.html', {
         'games': Game.objects.all().order_by('-start'),

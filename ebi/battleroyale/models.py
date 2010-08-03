@@ -49,16 +49,16 @@ class Skill(models.Model):
         
         # TODO balance experience in the future using total experience for the group
         if self.level==1:
-            if self.experience >= 25:
+            if self.experience >= 10:
                 self.level += 1
         elif self.level==2:
-            if self.experience >= 50:
+            if self.experience >= 25:
                 self.level += 1
         elif self.level==3:
-            if self.experience >= 100:
+            if self.experience >= 50:
                 self.level += 1
         elif self.level==4:
-            if self.experience >= 200:
+            if self.experience >= 100:
                 self.level += 1
         elif self.level==5:
             pass # No higher levels yet
