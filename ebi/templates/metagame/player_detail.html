@@ -290,7 +290,7 @@
                 <form method="GET" action="/challenge/">
                     <input type="hidden" name="target" value="{{ player.id }}">
                     
-                    <button class="door"><p class="door">Daag {{ player.user.first_name }} nu uit</p></button>
+                    <button class="door"><p class="door">Daag {{ player.get_display_name }} nu uit</p></button>
                 </form>
                 {% else %}
                 <!-- <p>Dit is jouw profiel.</p> -->
@@ -380,7 +380,7 @@
             <ol id="outgoing_duels">
                 {% for duel in player.get_challenger_duels %}
                     <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}"><span class="style">{{ duel.challenge_move.style.name }}</span>
-                        <span class="username">{{ player.user.first_name }}</span>
+                        <span class="username">{{ player.get_display_name }}</span>
                         <span class="move">{{ duel.get_challenge_move }}</span>
                         
                         {% if duel.challenge_message %}
