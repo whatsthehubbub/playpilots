@@ -51,8 +51,8 @@ styles = {
         'reactions': ['negeert X die duidelijk geen VIP is',
                     'heeft X even gegoogled en is niet onder de indruk.',
                     'photoshopt X er gewoon uit.'],
-        'winphrases': ['wint van Y en komt Anton Corbijn tegen op straat.',
-                    'wint exclusief van Y! Mis het niet in RTL Boulevard!']
+        'winphrases': ['wint van X en komt Anton Corbijn tegen op straat.',
+                    'wint exclusief van X! Mis het niet in RTL Boulevard!']
     },
     'Barfly': {
         'actions': ['bestelt een Guillotine voor X.',
@@ -111,8 +111,8 @@ styles = {
         'reactions': ['doet een radslag-sprong opzij en ontwijkt X.',
                     'laat een bananeschil vallen en drukt X van de weg met zijn kart.',
                     'teleporteert weg van X en capturet de vlag.'],
-        'winphrases': ['X wint van Y en redt de prinses.',
-                    'X wint verpletterend van Y! All your mushrooms are belong to us!']
+        'winphrases': ['wint van X en redt de prinses.',
+                    'wint verpletterend van X! All your mushrooms are belong to us!']
     },
 }
 

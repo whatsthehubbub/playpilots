@@ -134,12 +134,14 @@
         </div>
         
         <div class="box">
-            <h2><span class="player">
+            <h2>
                 {% if not duel.is_tie %}
-                    {{ duel.get_winner }}</span>
+                    <span class="player">{{ duel.get_winner }}</span>
+                    {{ duel.get_win_phrase }}
+                {% else %}
+                    Helaas gelijkspel. Probeer het opnieuw!
                 {% endif %}
-
-                {{ duel.get_win_phrase }}</h2>
+            </h2>
             <table>
                 <tr>
                     <th colspan="2" class="border">
@@ -149,6 +151,8 @@
                             {% else %}
                                 Jij hebt verloren&hellip;
                             {% endifequal %}
+                        {% else %}
+                            Gelijkspel&hellip;
                         {% endif %}
                     </th>
                     <th colspan="2" class="pad">
@@ -158,6 +162,8 @@
                             {% else %}
                                 Jij hebt verloren&hellip;
                             {% endifequal %}
+                        {% else %}
+                            Gelijkspel&hellip;
                         {% endif %}
                     </th>
                 </tr>
