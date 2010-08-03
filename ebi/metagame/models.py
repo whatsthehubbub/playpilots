@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# vim: set fileencoding=utf-8 :
 from django.db import models
 from django.db.models import F, Q
 from django.contrib.auth.models import User
@@ -213,9 +215,18 @@ Uw gezagvoerder''' % {'target': self.get_display_name(),
             
             challenger_name = duel.challenger.get_twitter_name() or duel.challenger.get_display_name()
             
-            message = '@%s Je bent uitgedaagd door %s. Ga naar %s om het duel aan te gaan.' % (self.get_twitter_name(), challenger_name, url)
+            messageParts = [
+                u'@%(target)s' % {'target': self.get_twitter_name()}
+            ]
+            
+            if duel.challenge_message:
+                messageParts.append(u'“%(style)s” %(challenger)s zegt: %(message)s' % {'style': duel.challenge_move.style.name, 'challenger': challenger_name, 'message': duel.challenge_message})
+            else:
+                messageParts.append(u'Je bent uitgedaagd door “%(style)s” %(challenger)s.' % {'style': duel.challenge_move.style.name, 'challenger': challenger_name})
                 
-            send_tweet(message)
+            messageParts.append(u'Ga naar %(url)s om het duel aan te gaan.' % {'url': url})
+            
+            send_tweet(' '.join(messageParts))
             
     def send_win_message(self, duel):
         logging.info('sending win message to %s', self.get_display_name())
@@ -245,8 +256,13 @@ Uw gezagvoerder''' % {
             logging.info('trying to send twitter win message to @%s', self.get_twitter_name())
             loser_name = duel.get_loser().get_twitter_name() or duel.get_loser().get_display_name()
             
-            message = '@%s Gefeliciteerd. Je hebt gewonnen van %s. Ga naar %s om het resultaat te zien.' % (self.get_twitter_name(), loser_name, url)
-                
+            message = u'@%(winner)s, je bent de baas! Je hebt als “%(style)s” gewonnen van %(loser)s. Ga naar %(url)s om het resultaat te zien.' % {
+                'winner': self.get_twitter_name(),
+                'style': duel.get_winner_style().name,
+                'loser': loser_name,
+                'url': url
+            }
+
             send_tweet(message)
         
     def send_lose_message(self, duel):
@@ -279,8 +295,13 @@ Uw gezagvoerder''' % {
             
             winner_name = duel.get_winner().get_twitter_name() or duel.get_winner().get_display_name()
             
-            message = '@%s Helaas! Je hebt verloren van %s. Ga naar %s om het resultaat te zien.' % (self.get_twitter_name(), winner_name, url)
-                
+            message = u'@%(loser)s jammer! Je hebt verloren van “%(style)s” %(winner)s. Ga naar %(url)s om het resultaat te zien.' % {
+                'loser': self.get_twitter_name(),
+                'style': self.get_winner_style().name,
+                'winner': winner_name,
+                'url': url
+            }
+
             send_tweet(message)
     
     def get_rank(self):
