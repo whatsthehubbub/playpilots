@@ -37,7 +37,7 @@ def klassement(request):
         skills = []
         for count in range(5, 0, -1):
             skills.append((count, 
-                        Player.objects.filter(skills__style=c['currentStyle'], skills__level=count).order_by('skills__experience')
+                        Player.objects.filter(skills__style=c['currentStyle'], skills__level=count).order_by('-skills__experience')
                     ))
         # c['currentStyle'].skills.all()[0].get_probability_texts()[count]
         
