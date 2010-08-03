@@ -216,16 +216,16 @@ class Player(models.Model):
                 send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.get_display_name(), 
                 '''Hoi %(winner)s,
 
-    Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
+Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
 
-    Ga naar %(url)s om de uitkomst te zien!
+Ga naar %(url)s om de uitkomst te zien!
 
-    Namens PLAY Pilots,
+Namens PLAY Pilots,
 
-    Uw gezagvoerder''' % {
+Uw gezagvoerder''' % {
                 'winner': winner.get_display_name(),
                 'loser': loser.get_display_name(),
-                'url':  
+                'url':  url
                 }, 
                 'Your Captain Speaking <captain@playpilots.nl>', 
                 [winner.user.email])
