@@ -25,9 +25,9 @@
         }
         
         #contentwrapper {
-            background-color: #f5f5f5;
-            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);            
-            border-top: 5px solid #ddd;
+/*            background-color: #f5f5f5;*/
+/*            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);            */
+/*            border-top: 5px solid #ddd;*/
         }
         
         #content {
@@ -37,16 +37,64 @@
         }
         
         /* Generic styles for players. */
-        .player1 {
+        
+        closed .player1 {
+/*            width: 469px;*/
+/*            float: left;*/
+        } 
+        
+        closed .player2 {
+/*            width: 469px;*/
+/*            float: left;*/
+        }
+        
+        #headline .player1 {
+            width: 470px;
+            float: left;
+        }
+        
+        #headline .player2 {
+            width: 470px;
+            float: left;
+        }
+        
+        .start #style .player1, .open #style .player2 {
+            width: 470px;
+            float: left;
+        }
+        
+        .start #style .player2, .open #style .player1 {
+            width: 468px;
+            float: left;
+        }
+        
+        .start #actionplayer1, .open #actionplayer2 {
             width: 469px;
             float: left;
         }
         
-        .player2 {
-            width: 469px;
+        .open #actionplayer1 {
+            width: 468px;
             float: left;
         }
         
+        .closed #style .player1, .closed #actionplayer1 {
+            border-right: 1px solid #ddd;
+            width: 468px;
+            float: left;
+        }
+        
+        .closed #style .player2, .closed #actionplayer2 {
+            width: 469px;
+            float: left;            
+        }
+        
+        .closed #actionplayer2 {
+            border-left: 1px solid #ddd;
+            margin-left: -1px;
+            
+        }
+                        
         div#content.start div#styleplayer2 p, div#content.start div#actionplayer2 p {
             font-size: 12px;
             color: #bbb;
@@ -73,8 +121,12 @@
             overflow: hidden;
         }
         
-        .player1 .choice {
+        .start .player1 .choice, .start #actionplayer1 {
             border-right: 1px solid #ddd;
+        }
+        
+        .open .player2 .choice, .open #actionplayer2 {
+            border-left: 1px solid #ddd;
         }
         
         .choice {
@@ -112,12 +164,28 @@
             height: 85px;
         }
         
-        #headline .winner {
+        .open #headline .player1 {
+            background-image: url({{ MEDIA_URL }}image/action_bg_outline.png);            
+        }
+
+        .open #headline .player2 {
+            background-image: url({{ MEDIA_URL }}image/action_bg_blue.png);
+        }
+        
+        .closed #headline .player1, .closed #headline .player2 {
+            background-image: url({{ MEDIA_URL }}image/action_bg_outline.png);                        
+        } 
+        
+        .closed #headline .winner {
             background-image: url({{ MEDIA_URL }}image/action_bg_yellow.png);
         }
         
         #badgewinner {
+            display: none;
             float: right;
+            width: 70px;
+            height: 90px;
+            margin: 0;
         }
 
         .player1 .you {
@@ -150,17 +218,19 @@
             color: #333;
         }
         
-        .player span.rank, td.rank span {
+        .player span.rank, td.rank span, #resultstats span.rank {
             background: transparent url(http://playpilots.nl/static/image/ranking_bar_bg.png) no-repeat 50% 50%;
             color: white;
             padding: 0px 2px;
+            margin: 0;
             -webkit-border-radius: 2px;
             -moz-border-radius: 2px;       
             font-size: 10px;
-            display: block;
-            float: left;
+            display: inline-block;
+/*            float: left;*/
 /*            width: 30px;*/
             text-align: center;
+            line-height: 21px;
         }
         
         .player span.rank {
@@ -285,7 +355,7 @@
         }
         
         .stylechosen {
-            padding: 10px 20px 10px 20px;
+            padding: 10px 20px 15px 20px;
         }
         
         .stylechosen A {
@@ -324,6 +394,10 @@
         #actionselect {
             width: 470px;
             margin: 10px 0 0 0;
+        }
+        
+        .open .finalmove, .closed .finalmove {
+            margin-top: 10px;
         }
         
         #actionselect UL {
@@ -403,6 +477,10 @@
             font-weight: bold;
         }
         
+        #resultstats {
+            margin-top: 10px;
+        }
+        
         #resultstats .box {
             padding: 20px;
         }
@@ -417,7 +495,7 @@
         }
         
         #resultstats TABLE {
-            width: 90%;
+/*            width: 90%;*/
             margin: auto;
         }
         

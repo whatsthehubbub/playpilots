@@ -34,12 +34,38 @@
             font-weight: bold;
             font-size: 12px;
         }
+
+		#klassementexplanation a {
+			color: #ff3300;
+			text-decoration: none;
+        }
+
+		#klassementexplanation a:hover {
+			text-decoration: underline;
+        }
         
         #klassementhead H2 {
             color: #fff;
 			text-shadow: #666 0px 1px 0px;
             display: inline;
         }
+
+		#klassementexplanation dl {
+			margin-top: 16px;
+			font-size: 12px;
+			overflow: hidden;
+		}
+		
+		#klassementexplanation dl dt {
+			clear: left;
+			float: left;
+			width: 140px;
+			font-weight: normal;
+		}
+		
+		#klassementexplanation dl dd {
+			float: left;
+		}
         
         #rankwrapper {
 			position: relative;
@@ -51,12 +77,14 @@
         #ranking {
 			position: relative;
             overflow: hidden;
-			margin-top: -110px;
+			margin-top: -10px;
         }
         
         #stylepicker {
+			position: relative;
+			z-index: 3;
             width: 240px;
-			margin-top: 110px;
+			margin-top: 10px;
             overflow: hidden;
             float: left;
         }
@@ -72,7 +100,7 @@
             padding: 0;
         }
         
-        #styles LI {
+        #styles li {
             color: #f30;
             
             margin: 0;
@@ -84,12 +112,13 @@
 			border-top: 1px none #ddd;
         }
         
-        #styles LI A {
+        #styles a {
             text-decoration: none;
             color: #f30;
         }
         
-        #styles .selected, #styles LI:hover {
+        #styles .selected, #styles li:hover {
+			color: #fff;
 			text-transform: uppercase;
 			background-color: #262a33;
 			font-weight: bold;
@@ -99,7 +128,7 @@
 			border-top: 1px none #262a33;
         }
         
-        #styles .selected A, #styles LI:hover A {
+        #styles .selected A, #styles li:hover A {
             color: white;
         }
         
@@ -113,23 +142,23 @@
         }
 
 		#illustr_container {
-			padding-top: 90px;
-			position: relative;
-			{% if currentStyle and currentStyle.image %}
-				background: transparent url({{currentStyle.image.url}}) no-repeat right top;
-			{% else %}
-				background: transparent url({{ MEDIA_URL }}image/start_fight.png) no-repeat right top;
-			{% endif %}
+			position: absolute;
+			z-index: 5;
+			right: 0px;
+			top: 0px;
 		}
 		
 		table a {
 			color: #fff;
 			text-decoration: none;
 		}
+		
+		#rank {
+			position: relative;
+			z-index: 2;
+		}
 
         table#rank {
-			position: relative;
-			z-index: 3;
             width: 700px;
             border-bottom: 2px solid #999;
             border-collapse: separate;
@@ -292,6 +321,13 @@
                 <h2>{{ currentStyle.name }}</h2> {{ currentStyle.description|safe }}
             {% endif %}
         </div>
+		<div id="illustr_container">
+			{% if currentStyle and currentStyle.image %}
+				<img src="{{currentStyle.image.url}}" alt="" />
+			{% else %}
+				<img src="{{ MEDIA_URL }}image/start_fight.png" alt="" />
+			{% endif %}
+		</div>
     </div>
 </div>
 
@@ -301,16 +337,14 @@
 
         <div id="stylepicker">
             <ul id="styles">
-                <li class="{% if not currentStyle %}selected{% endif %}"><a href="/klassement">Alle stijlen</a></li>
+                <a href="/klassement"><li class="{% if not currentStyle %}selected{% endif %}">Alle stijlen</li></a>
                 {% for style in styles %}
-                    <li id="style_{{ style.id }}" class="{% ifequal style.name currentStyle.name %}selected{% endifequal %}"><a href="/klassement?style={{ style.id }}">{{ style.name }}</a></li>
+                    <a href="/klassement?style={{ style.id }}"><li id="style_{{ style.id }}" class="{% ifequal style.name currentStyle.name %}selected{% endifequal %}">{{ style.name }}</li></a>
                 {% endfor %}
             </ul>
         </div>
         
         <div id="tablewrapper">
-		<div id="illustr_container">
-		</div>
 
         <table id="rank">
             
@@ -327,9 +361,11 @@
                     <tr class="player{% if forloop.counter < 4  %} topplayers{% endif %}">
                         <td class="rank">{{ forloop.counter }}</td>
                         <td class="info">
-							<a href="/players/{{ player.id }}/"><img src="{{ player.get_avatar_url }}" alt="" />
-							<a href="/players/{{ player.id }}/"><span class="userame">{{ player.user.username }}</span></a>
-							{% ifequal player.user.username user.username %}<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />{% endifequal %}
+							<a href="/players/{{ player.id }}/">
+								<img src="{{ player.get_avatar_url }}" alt="" />
+								<span class="userame">{{ player.user.username }}</span>
+								{% ifequal player.user.username user.username %}<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />{% endifequal %}
+							</a>
 						</td>
                         <td class="win">{{ player.get_win_count }}</td>
                         <td class="lose">{{ player.get_loss_count }}</td>
@@ -356,9 +392,11 @@
                                 <td class="rank">{{ forloop.counter }}</td>
 
                                 <td class="info">
-        							<a href="/players/{{ player.id }}/"><img src="{{ player.get_avatar_url }}" alt="" />
-        							<a href="/players/{{ player.id }}/"><span class="userame">{{ player.user.username }}</span></a>
-        							{% ifequal player.user.username user.username %}<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />{% endifequal %}
+        							<a href="/players/{{ player.id }}/">
+										<img src="{{ player.get_avatar_url }}" alt="" />
+        								<span class="userame">{{ player.user.username }}</span>
+        								{% ifequal player.user.username user.username %}<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />{% endifequal %}
+									</a>
         						</td>
                                 <td class="win">{{ player.get_win_count }}</td>
                                 <td class="lose">{{ player.get_loss_count }}</td>

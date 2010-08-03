@@ -1,0 +1,27 @@
+
+<img src="{{ MEDIA_URL }}image/logo.png">
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+<form action="/login/" method="post">
+{% csrf_token %}
+{{ form.as_p }}
+
+<input type="hidden" name="next" value="{{ next }}">
+
+<input type="submit" value="Submit" />
+</form>
+
+
+<h2>Twitter</h2>
+
+{% load twitter_tags %}
+{% twitter_button %}
+
+<h2>Facebook</h2>
+
+{% load facebook_tags %}
+{% facebook_button %}
+{% facebook_js %}

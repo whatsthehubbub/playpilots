@@ -54,59 +54,63 @@
     }
 
     #checkin {
-        font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+        font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Arial;
         text-transform: uppercase;
-        text-shadow: 0px 1px 0 #000;        
-        
-        
+		font-weight: bold;
+        text-shadow: 0px 1px 0 #000;
         float: right;
-
-        height: 65px;
-        width: 190px;
-
         color: #ddd;
         background: transparent url({{ MEDIA_URL }}image/login_box_bg.png) no-repeat;
         margin-right: -5px;
-    }
-    
-    #checkin img {
-        margin: 3px 0 0 5px;
-        float: left;
-        
-        height: 30px;
-        width: 30px;
-        
+		overflow: hidden;
     }
 
-    #checkin A {
+	#checkin .leftpart {
+		float: left;
+		background: #fff url({{ MEDIA_URL }}image/login_box_bg.png) no-repeat left top;
+		width: 10px;
+		height: 65px;
+	}
+	
+	#checkin .middlepart {
+		float: left;
+		background: #fff url({{ MEDIA_URL }}image/login_box_bg.png) no-repeat -20px top;
+		height: 65px;
+	}
+	
+	#checkin .rightpart {
+		float: left;
+		background: #fff url({{ MEDIA_URL }}image/login_box_bg.png) no-repeat right top;
+		width: 10px;
+		height: 65px;
+	}
+    
+    #checkin img {
+        float: left;
+        height: 30px;
+        width: 30px;
+		margin-top: 5px;
+    }
+
+    #checkin a {
         color: white;
         text-decoration: none;
     }
-    
-    #checkin A:visited {
-    }
-    
+
     #checkin a:hover {
         text-decoration: underline;
     }
     
     #checkin #username, #checkin #login {
-        font-size: 16px;
-        
-        margin: 18px 27px 0 0;
-        
-        text-align: right;
+		float: right;
+		font-size: 16px;
+		margin: 18px 10px 0;
     }
     
     #checkin #logout, #checkin #register {
-        text-align: right;
-        margin: 0 27px 0 0;
+		text-align: right;
+        margin: 0 5px 0 0;
         font-size: 10px;
-    }
-    
-    #checkin #logout a {
-        padding: 0;
-        margin: 0;
     }
 
     #menu {
@@ -204,7 +208,7 @@
 
         border-top: 5px solid #bbb;
 
-        background-image: url(/static/image/grain_overlay.png);
+        background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
         background-repeat: repeat;
 
         padding: 21px 0;
@@ -279,6 +283,9 @@
     #footercolofon A {
         text-decoration: none;
     }
+	#unicorn {
+		background: transparent url({{ MEDIA_URL }}image/footer_graphic.png) no-repeat center bottom;
+	}
 </style>
 
 <script type="text/javascript">
@@ -297,22 +304,24 @@ _gaq.push(['_trackPageview']);
 </head>
 
 <div id="underconstrwrapper">
-	<p><strong>PLAY Pilots is vollop in ontwikkeling</strong> en we zijn nog aan het testen. Heb je suggesties? <a href="mailto:info@playpilots.nl" title="Mail PLAY Pilots">Mail ons »</a></p>
+	<p><strong>PLAY Pilots is volop in ontwikkeling.</strong> Kom je een <a href="http://en.wikipedia.org/wiki/Gremlin#The_aeroplane_gremlin_legend">gremlin</a> tegen of heb je suggesties? <a href="mailto:info@playpilots.nl" title="Mail PLAY Pilots">Mail ons »</a></p>
 </div>
 
 <body>
     <div id="headerwrapper">
         <div id="header" class="mainblock">
             <div id="checkin">
+				<div class="leftpart"></div>
+				<div class="middlepart">
                 {% if not user.is_authenticated %}
                     <div id="login"><a href="/login/">Inloggen</a></div>
-                    <div id="register">&hellip;of <a href="/register/">aanmelden</a> &raquo;</div>
                 {% else %}
                     <img src="{{ user.get_profile.get_avatar_url }}">
-                
                     <div id="username"><a href="/players/{{ user.get_profile.get_display_name }}/">{{ user.username }}</a></div>
                     <div id="logout"><a href="/logout/" id="logout">uitloggen</a></div>
                 {% endif %}
+				</div>
+				<div class="rightpart"></div>
             </div>
 
             <div id="logo">
@@ -346,20 +355,21 @@ _gaq.push(['_trackPageview']);
     </div>
 
     <div id="footerwrapper">
-        <div id="footerexplanation" class="mainblock">
-            <h4>Wat is PLAY Pilots?</h4>
-            <p>PLAY Pilots verbindt muziek, film en speelse cultuur in Utrecht. Op Stekker Fest, het Nederlands Film Festival en Le Guess Who? kun je speciaal ontwikkelde <a href="/games/">live games</a> spelen. En er is een <a href="/klassement/">online game</a> om je eigen stijl te ontwikkelen.</p>
-        </div>
+		<div id="unicorn">
+        	<div id="footerexplanation" class="mainblock">
+            	<h4>Wat is PLAY Pilots?</h4>
+            	<p>PLAY Pilots verbindt muziek, film en speelse cultuur in Utrecht. Op Stekker Fest, het Nederlands Film Festival en Le Guess Who? kun je speciaal ontwikkelde <a href="/games/">live games</a> spelen. En er is een <a href="/klassement/">online game</a> om je eigen stijl te ontwikkelen.</p>
+        	</div>
 
-        <div id="footergraphic" class="mainblock">
-            Een project van <img src="{{ MEDIA_URL }}image/footer_play.png"> Mogelijk gemaakt door <img src="{{ MEDIA_URL }}image/footer_utrecht.png"> en <img src="{{ MEDIA_URL }}image/footer_provincie.png"> Gemaakt door <img src="{{ MEDIA_URL }}image/footer_hubbub.png">
-        </div>
+        	<div id="footergraphic" class="mainblock">Een project van <img src="{{ MEDIA_URL }}image/footer_play.png"> Mogelijk gemaakt door <img src="{{ MEDIA_URL }}image/footer_utrecht.png"> en <img src="{{ MEDIA_URL }}image/footer_provincie.png"> Gemaakt door <img src="{{ MEDIA_URL }}image/footer_hubbub.png">
+        	</div>
 
-        <div id="footercolofon" class="mainblock">
-            <div style="float: right"><a href="/over/">Over</a> | <a href="http://blog.playpilots.nl/">Blog</a> | <a href="http://twitter.com/playpilots">Twitter</a></div>
+        	<div id="footercolofon" class="mainblock">
+            	<div style="float: right"><a href="/over/">Over</a> | <a href="http://blog.playpilots.nl/">Blog</a> | <a href="http://twitter.com/playpilots">Twitter</a></div>
 
-            <div>Deze site wordt aangeboden onder een <a href="http://creativecommons.org/licenses/by-nc/3.0/nl/">Creative Commons Naamsvermelding-NietCommercieel 3.0 Licentie</a></div>
-            </div>
+            	<div>Deze site wordt aangeboden onder een <a href="http://creativecommons.org/licenses/by-nc/3.0/nl/">Creative Commons Naamsvermelding-NietCommercieel 3.0 Licentie</a></div>
+            	</div>
+			</div>
         </div>
 
     </body>

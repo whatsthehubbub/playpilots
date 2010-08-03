@@ -1,6 +1,8 @@
 {% extends "metagame/challenge_base.html" %}
 
 {% block extrahead %}
+<title>{{ user.get_profile.get_display_name|upper }} vs {{ target.get_display_name|upper }} &bull; PLAY Pilots</title>
+
     {{ block.super }}
     
     <style type="text/css" media="screen">
@@ -16,7 +18,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="content" class="mainblock">
+<div id="content" class="mainblock closed">
     
     <div id="headline">
         <div class="player1{% ifequal duel.get_winner duel.challenger %} winner{% endifequal %}">
@@ -31,8 +33,9 @@
                     <img src="{{ MEDIA_URL }}image/badge_winner.png" id="badgewinner">
                 {% endifequal %}
                 
+                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
                 <h2>{{ duel.challenger.user.username }}</h2>
-                <p>{{ duel.challenger_newrank }} in het algemeen klassement</p>
+                <p><span class="rank">{{ duel.challenger_newrank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
         
@@ -46,8 +49,9 @@
                     <img src="{{ MEDIA_URL }}image/badge_winner.png" id="badgewinner">
                 {% endifequal %}
                 
+                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
                 <h2>{{ duel.target.user.username }}</h2>
-                <p>{{ duel.responder_newrank }} in het algemeen klassement</p>
+                <p><span class="rank">{{ duel.responder_newrank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
     </div>
@@ -172,7 +176,7 @@
                         {% endif %}
                         voor een totaal van {{ duel.challenger_newrating}}
                         {% if duel.challenger_oldrank == duel.challenger_newrank %}
-                            en blijft op rang {{ duel.challenger_newrank }}
+                            en blijft op rang <span class="rank">{{ duel.challenger_newrank|stringformat:".2d" }}</span>
                         {% else %}
                             en 
                             {% if duel.challenger_oldrank < duel.challenger_newrank %}
@@ -181,7 +185,7 @@
                             {% if duel.challenger_oldrank > duel.challenger_newrank %}
                                 stijgt
                             {% endif %}
-                            van rang {{ duel.challenger_oldrank }} naar {{ duel.challenger_newrank }}
+                            van rang {{ duel.challenger_oldrank|stringformat:".2d" }} naar {{ duel.challenger_newrank|stringformat:".2d" }}
                         {% endif %}
                         </td>
                     <td></td>
@@ -198,7 +202,7 @@
                         {% endif %}
                         voor een totaal van {{ duel.responder_newrating }}
                         {% if duel.responder_oldrank == duel.responder_newrank %}
-                            en blijft op rang {{ duel.responder_newrank }}
+                            en blijft op rang {{ duel.responder_newrank|stringformat:".2d" }}
                         {% else %}
                             en
                             {% if duel.responder_oldrank < duel.responder_newrank %}
@@ -207,7 +211,7 @@
                             {% if duel.responder_oldrank > duel.responder_newrank %}
                                 stijgt
                             {% endif %}
-                            van rang {{ duel.responder_oldrank }} naar {{ duel.responder_newrank }}
+                            van rang {{ duel.responder_oldrank|stringformat:".2d" }} naar <span class="rank">{{ duel.responder_newrank|stringformat:".2d" }}</span>
                         {% endif %}
                     </td>
                 </tr>

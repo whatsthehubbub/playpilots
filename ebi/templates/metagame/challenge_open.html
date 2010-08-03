@@ -168,7 +168,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="content" class="mainblock">
+<div id="content" class="mainblock open">
     
     <div id="headline">
         <div class="player1">
@@ -179,8 +179,9 @@
             <img id="vs" {% if duel.challenger.user == user %}style="right: -100px;"{% endif %} src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
+                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
                 <h2>{{ duel.challenger.user.username }}</h2>
-                <p>{{ duel.challenger.get_rank }} in het algemeen klassement</p>
+                <p><span class="rank">{{ duel.challenger.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
         
@@ -190,8 +191,9 @@
             {% endif %}
             
             <div class="player">
+                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
                 <h2>{{ duel.target.user.username }}</h2>
-                <p>{{ duel.target.get_rank }} in het algemeen klassement</p>
+                <p><span class="rank">{{ duel.target.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
     </div>
@@ -209,7 +211,7 @@
         <div class="box">
             <div id="styleplayer1" class="player1">
                 <div id="stylechosen1" class="{% if not duel %}choice{% endif %} stylechosen">
-                    <p class="stylename">{{ duel.challenge_move.style.name }}</p>
+                    <p class="stylename">{{ duel.challenger.user.username }} speelt als {{ duel.challenge_move.style.name }}</p>
                 </div>
             </div>
         
@@ -226,12 +228,12 @@
                             {% for skill in duel.target.get_skills %}
                                 <tr id="style_row_{{ skill.style.id }}" class="stylerow {% cycle '' 'odd' %}">
                                     <td class="style">{{ skill.style.name }}</td>
-                                    <td class="rank">{{ skill.experience }}</td>
+                                    <td class="rank"><span class="rank">{{ skill.experience|stringformat:".2d" }}</span></td>
                                     <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ skill.level }}.png"></td>
                                 </tr>
                                 <tr>
                                     <td id="style_detail_{{ skill.style.id }}" class="style_detail" colspan="3">
-                                        {{ skill.get_probability_text }}<br>
+                                        <p class="probability_text">{{ skill.get_probability_text }}</p>
                                         <button class="door choosestylebutton"><p class="door">Kiezen</p></button>
                                     </td>
                                 </tr>
@@ -267,13 +269,13 @@
                     {% if duel.challenge_message %}
                         en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
                     {% else %}
-                        zonder iets te zeggen.</b>
+                        maar had niks te zeggen.</b>
                     {% endif %}
                 </div>
                 
                 <div class="result"><img src="{{ MEDIA_URL }}image/stars_{{ duel.challenge_awesomeness }}.png"><br>
                     <h2><script type="text/javascript">document.write(awesomenessMessages[{{ duel.challenge_awesomeness }}]);</script></h2>
-                    <p>Kijken wat <span class="responder">{{ duel.target.user.username }}</span> gaat doen</p>
+                    <p>Kijken wat <span class="responder">{{ duel.target.user.username }}</span> gaat doen&hellip;</p>
                 </div>
             </div>
         
