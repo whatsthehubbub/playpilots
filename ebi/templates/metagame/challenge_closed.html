@@ -169,8 +169,8 @@
                 </tr>
                 
                 <tr class="skill">
-                    <td><span class="rank">00</span></td>
-                    <td class="border">{{ duel.challenger.user.username }}
+                    <td><span class="rank">{{ duel.challenger.get_rank }}</span></td>
+                    <td class="border">{{ duel.challenger.get_display_name }}
                         {% if duel.get_challenger_rating_difference == 0 %}
                             blijft staan op {{ duel.challenger_newrating}}
                         {% else %}
@@ -194,9 +194,9 @@
                             van rang {{ duel.challenger_oldrank|stringformat:".3d" }} naar {{ duel.challenger_newrank|stringformat:".3d" }}
                         {% endif %}
                         </td>
-                    <td class="pad"><span class="rank">00</span></td>
+                    <td class="pad"><span class="rank">{{ duel.target.get_rank }}</span></td>
                     <td>
-                        {{ duel.target.user.username }}
+                        {{ duel.target.get_display_name }}
                         {% if duel.get_responder_rating_difference == 0 %}
                             blijft staan op {{ duel.responder_newrating}}
                         {% else %}
@@ -224,10 +224,10 @@
                 
                 <tr class="rating">
                     <td><img src="{{ MEDIA_URL }}image/level_{{ duel.challenger_skilllevel }}.png"></td>
-                    <td class="border">{{ duel.challenger.user.username }} is nu op niveau {{ duel.challenger_skilllevel }} als {{ duel.challenge_move.style }}</td>
+                    <td class="border">{{ duel.challenger.get_display_name }} is nu op niveau {{ duel.challenger_skilllevel }} als {{ duel.challenge_move.style }}</td>
                     
                     <td class="pad"><img src="{{ MEDIA_URL }}image/level_{{ duel.responder_skilllevel }}.png"></td>
-                    <td>{{ duel.target.user.username }} is nu op niveau {{ duel.responder_skilllevel }} als {{ duel.response_move.style}}</td>
+                    <td>{{ duel.target.get_display_name }} is nu op niveau {{ duel.responder_skilllevel }} als {{ duel.response_move.style}}</td>
                 </tr>
             </table>
         </div>
