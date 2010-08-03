@@ -220,7 +220,11 @@ Uw gezagvoerder''' % {'target': self.get_display_name(),
             ]
             
             if duel.challenge_message:
-                messageParts.append(u'“%(style)s” %(challenger)s zegt: %(message)s' % {'style': duel.challenge_move.style.name, 'challenger': challenger_name, 'message': duel.challenge_message})
+                message = duel.challenge_message
+                if len(message) > 25:
+                    message = duel.challenge_message[:25] + u'…'
+                    
+                messageParts.append(u'“%(style)s” %(challenger)s zegt: %(message)s' % {'style': duel.challenge_move.style.name, 'challenger': challenger_name, 'message': message})
             else:
                 messageParts.append(u'Je bent uitgedaagd door “%(style)s” %(challenger)s.' % {'style': duel.challenge_move.style.name, 'challenger': challenger_name})
                 
