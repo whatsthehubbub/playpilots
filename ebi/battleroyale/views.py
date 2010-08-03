@@ -45,6 +45,7 @@ def klassement(request):
         
         return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
     
+@login_required
 def challenge(request):
     playerid = request.GET.get('target', None)
 
