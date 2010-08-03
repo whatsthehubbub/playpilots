@@ -179,7 +179,7 @@
             <img id="vs" {% if duel.challenger.user == user %}style="right: -100px;"{% endif %} src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
-                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
+                <img src="{{ duel.challenger.get_avatar_url }}" alt="">
                 <h2>{{ duel.challenger.user.username }}</h2>
                 <p><span class="rank">{{ duel.challenger.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
@@ -191,7 +191,7 @@
             {% endif %}
             
             <div class="player">
-                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
+                <img src="{{ duel.target.get_avatar_url }}" alt="">
                 <h2>{{ duel.target.user.username }}</h2>
                 <p><span class="rank">{{ duel.target.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
