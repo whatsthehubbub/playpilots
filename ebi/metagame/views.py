@@ -130,7 +130,7 @@ def game_detail(request, slug):
         cache.set(feedURL, feedEntries, 60*60*24)
     
     interest = False
-    if request.user.get_profile() in game.interested.all():
+    if request.user.is_authenticated() and request.user.get_profile() in game.interested.all():
         interest = True
     
     return render_to_response('metagame/game_detail.html', {
@@ -140,6 +140,7 @@ def game_detail(request, slug):
         'feed': feedEntries[:3]
     }, context_instance=RequestContext(request))
 
+@login_required
 def game_interest(request, slug):
     action = request.POST.get('action', 'add')
     game = get_object_or_404(Game, slug=slug)
