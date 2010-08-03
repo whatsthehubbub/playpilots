@@ -49,7 +49,7 @@ urlpatterns += patterns('ebi.battleroyale.views',
 
 
 urlpatterns += patterns('',
-    # (r'^login/$', 'django.contrib.auth.views.login')
+    (r'^secretlogin/$', 'django.contrib.auth.views.login')
 )
 
 # TODO configure static file serving for deployment server
