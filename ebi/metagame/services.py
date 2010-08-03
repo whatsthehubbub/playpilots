@@ -1,6 +1,6 @@
 import feedparser
 
-import twitter
+frorm ebi import twitter
 import logging
 
 def feed_first_entry(url):
