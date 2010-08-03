@@ -320,4 +320,5 @@ class Duel(models.Model):
         self.target.send_challenge_message(self)
     
     def send_winner_loser_messages(self):
-        pass
+        self.get_winner().send_win_message(self)
+        self.get_loser().send_lose_message(self)

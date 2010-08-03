@@ -223,20 +223,28 @@ Ga naar %(url)s om de uitkomst te zien!
 Namens PLAY Pilots,
 
 Uw gezagvoerder''' % {
-                'winner': winner.get_display_name(),
-                'loser': loser.get_display_name(),
+                'winner': duel.get_winner().get_display_name(),
+                'loser': duel.get_loser().get_display_name(),
                 'url':  url
-                }, 
+                },
                 'Your Captain Speaking <captain@playpilots.nl>', 
-                [winner.user.email])
+                [duel.get_winner().user.email])
             except smtplib.SMTPException:
                 logging.error('sending win e-mail to user %s failed' % self.get_display_name())
         elif self.get_twitter_name():
-            pass
+            loser_name = duel.get_loser().get_twitter_name() or duel.get_loser().get_display_name()
+            
+            message = '@%s Gefeliciteerd. Je hebt gewonnen van %s. Ga naar %s om het resultaat te zien.' % (self.get_twitter_name(), loser_name, url)
+                
+            send_tweet(message)
         
     def send_lose_message(self, duel):
-        send_mail('Helaas! Je hebt verloren van %s!' % winner.get_display_name(),
-        '''Hoi %(loser)s,
+        url = 'http://playpilots.nl/c/%d/' % duel.id
+        
+        if self.user.email:
+            try:
+                send_mail('Helaas! Je hebt verloren van %s!' % self.get_display_name(), 
+                '''Hoi %(loser)s,
 
 Helaas! Je hebt het duel met %(winner)s verloren.
 
@@ -245,12 +253,20 @@ Ga naar %(url)s om de uitkomst te zien!
 Namens PLAY Pilots,
 
 Uw gezagvoerder''' % {
-            'loser': loser.get_display_name(),
-            'winner': winner.get_display_name(),
-            'url': 'http://playpilots.nl/c/%d/' % self.id
-        }, 
-        'Your Captain Speaking <captain@playpilots.nl>', 
-        [loser.user.email])
+                'winner': duel.get_winner().get_display_name(),
+                'loser': duel.get_loser().get_display_name(),
+                'url':  url
+                },
+                'Your Captain Speaking <captain@playpilots.nl>', 
+                [self.user.email])
+            except smtplib.SMTPException:
+                logging.error('sending win e-mail to user %s failed' % self.get_display_name())
+        elif self.get_twitter_name():
+            winner_name = duel.get_winner().get_twitter_name() or duel.get_winner().get_display_name()
+            
+            message = '@%s Helaas! Je hebt verloren van %s. Ga naar %s om het resultaat te zien.' % (self.get_twitter_name(), loser_name, url)
+                
+            send_tweet(message)
     
     def get_rank(self):
         players = Player.objects.all().order_by('-rating')
