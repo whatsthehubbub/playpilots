@@ -349,7 +349,7 @@
     					<p class="activity">
     					    {{ action.actor.get_display_name }} {{ action.verb }}
     					    {% if action.target %}
-    					        <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+    					        <a href="{{ action.target.get_absolute_url }}">{{ action.target|safe }}</a>
     					    {% endif %}
     					</p>
     				</div>
