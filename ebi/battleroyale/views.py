@@ -99,7 +99,7 @@ def challenge_create(request):
         d.challenge_awesomeness = awesomeness
         d.save()
 
-        actstream.action.send(challenger, verb='heeft net %s uitgedaagd voor een duel' % target.get_display_name(), target=d)
+        actstream.action.send(challenger, verb='heeft net %s uitgedaagd voor een duel en' % target.get_display_name(), target=d)
 
         d.send_target_message()
         
