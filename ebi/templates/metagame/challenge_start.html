@@ -151,7 +151,7 @@
             <img id="vs" style="right: -100px;" src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
-                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
+                <img src="{{ user.get_profile.get_avatar_url }}" alt="">
                 <h2>{{ user.username }}</h2>
                 <p><span class="rank">{{ user.get_profile.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
@@ -159,7 +159,7 @@
         
         <div class="player2">
             <div class="player">
-                <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
+                <img src="{{ target.get_avatar_url }}" alt="">
                 <h2>{{ target.user.username }}</h2>
                 <p><span class="rank">{{ target.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
             </div>
