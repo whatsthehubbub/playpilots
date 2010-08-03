@@ -316,7 +316,7 @@ Uw gezagvoerder''' % {
             
             message = u'@%(loser)s jammer! Je hebt verloren van “%(style)s” %(winner)s. Ga naar %(url)s om het resultaat te zien.' % {
                 'loser': self.get_twitter_name(),
-                'style': self.get_winner_style().name,
+                'style': duel.get_winner_style().name,
                 'winner': winner_name,
                 'url': url
             }
