@@ -297,7 +297,6 @@
 </style>
 {% endblock %}
 
-
 {% block content %}
 <div id="intro_wrapper">
 	<div id="intro" class="mainblock">
@@ -326,7 +325,7 @@
 		<div id="onlinebattle">
 			<div id="teaser">
 			</div>
-			<h2>Ontwikkel je stijl & skills</h2>
+			<h2>Ontwikkel je stijl en skills</h2>
 			<p>PLAY Pilots presenteren een online battle van subculturen. Voor fans vaan muziek, films en games.</p>
 			<a href="/login/" class="button"><h4>Meld je aan en speel</h4></a>
 		</div>
@@ -354,7 +353,7 @@
 		<div id="blog">
 			<h2>blog</h2>
 			<div id="post">
-				<p><a href="{{ blogentry.link }}" class="title">{{ blogentry.title }}</a><br /><span class="date">{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }}</span> - {{ blogentry.summary|striptags|truncatewords:25 }}  <a href="{{ blogentry.link }}" target="_blank">more »</a></p>
+				<p><a href="{{ blogentry.link }}" class="title">{{ blogentry.title }}</a><br /><span class="date">{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }}</span> - {{ blogentry.summary|striptags|truncatewords:25 }}  <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
 		</div>
     </div>
 </div>

@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen" charset="utf-8">
 
+	<link rel="shortcut icon" href="{{ MEDIA_URL }}image/favicon.ico" />
+	<link rel="apple-touch-icon" href="{{ MEDIA_URL }}image/touchicon.png" />
+
     <style type="text/css" media="screen">        
     .mainblock {
         margin: auto;
@@ -31,6 +34,7 @@
         height: 65px;
         -webkit-box-shadow: 0 2px 2px #999;
         -moz-box-shadow: 0 2px 2px #999;
+		box-shadow: 0 2px 2px #999;
         position: relative;
         z-index: 999;
     }
@@ -152,6 +156,29 @@
         background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
     }
 
+	#underconstrwrapper {
+        background-color: #ffff9d;
+		background-image: url({{ MEDIA_URL }}image/bg_soon.png);
+		border-bottom: 1px solid #ffeb00;
+    }
+
+	#underconstrwrapper p {
+		font-size: 12px;
+		width: 620px;
+        margin: 0px auto;
+		padding: 3px 0 3px 24px;
+		background: url({{ MEDIA_URL }}image/constr_icon.png) no-repeat left center;
+    }
+
+	#underconstrwrapper a {
+		color: #ff3300;
+		text-decoration: none;
+    }
+
+	#underconstrwrapper a:hover {
+		text-decoration: underline;
+    }
+
     #contentwrapper {
 
     }
@@ -268,6 +295,10 @@ _gaq.push(['_trackPageview']);
 
     {% block extrahead %}{% endblock %}
 </head>
+
+<div id="underconstrwrapper">
+	<p><strong>PLAY Pilots is vollop in ontwikkeling</strong> en we zijn nog aan het testen. Heb je suggesties? <a href="mailto:info@playpilots.nl" title="Mail PLAY Pilots">Mail ons »</a></p>
+</div>
 
 <body>
     <div id="headerwrapper">
