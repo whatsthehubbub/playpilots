@@ -174,6 +174,9 @@ def game_interest(request, slug):
                     'url': game.get_absolute_url()
                 })
         
-        return HttpResponse(json.dumps({'success': 1}))
+        if 'json' in request.META.get("HTTP_ACCEPT", ""):
+            return HttpResponse(json.dumps({'success': 1}))
+        else:
+            return HttpResponseRedirect(game.get_absolute_url())
         
     return HttpResponse(json.dumps({'success': 0}))
