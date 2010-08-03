@@ -21,13 +21,13 @@
 
     <style type="text/css" media="screen">
         html {
-            background: transparent url({{ MEDIA_URL }}image/grid.png) repeat-y top center;
+/*            background: transparent url({{ MEDIA_URL }}image/grid.png) repeat-y top center;*/
         }
         
         #contentwrapper {
-/*            background-color: #f5f5f5;*/
-/*            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);            */
-/*            border-top: 5px solid #ddd;*/
+            background-color: #f5f5f5;
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);            
+            border-top: 5px solid #ddd;
         }
         
         #content {
@@ -180,8 +180,12 @@
             background-image: url({{ MEDIA_URL }}image/action_bg_yellow.png);
         }
         
+        div.closed div#headline div.player1.you, div.closed div#headline div.player2.you {
+            background-image: url({{ MEDIA_URL }}image/action_bg_blue_you.png);
+        }        
+        
         #badgewinner {
-            display: none;
+/*            display: none;*/
             float: right;
             width: 70px;
             height: 90px;
@@ -189,12 +193,20 @@
         }
 
         .player1 .you {
-            float: right;
-        }
+/*            display: none;*/
+/*            float: right;*/
+/*            position: absolute;*/
+/*            top: 113px;
+            left: 454px;
+*/        }
         
         .player2 .you {
-            float: left;
-        }        
+/*            display: none;*/
+/*            float: left;*/
+/*            position: absolute;*/
+/*            top: 113px;
+            left: 54px;
+*/        }        
         
         .player1 .player {
             margin-top: 20px;
@@ -222,7 +234,6 @@
             background: transparent url(http://playpilots.nl/static/image/ranking_bar_bg.png) no-repeat 50% 50%;
             color: white;
             padding: 0px 2px;
-            margin: 0;
             -webkit-border-radius: 2px;
             -moz-border-radius: 2px;       
             font-size: 10px;
@@ -230,7 +241,6 @@
 /*            float: left;*/
 /*            width: 30px;*/
             text-align: center;
-            line-height: 21px;
         }
         
         .player span.rank {
@@ -238,10 +248,11 @@
         }
         
         #vs {
-            float: right;            
+            float: right;
             position: relative;
             right: -50px;
             top: 28px;
+/*            clear: both;*/
         }
 
         .name {
@@ -482,12 +493,15 @@
         }
         
         #resultstats .box {
-            padding: 20px;
+            padding: 20px 20px 0 20px;
         }
         
         #resultstats H2 {
             text-align: center;
             color: #12151a;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+/*            margin-bottom: 10px;*/
         }
         
         #resultstats H2 .player {
@@ -496,13 +510,39 @@
         
         #resultstats TABLE {
 /*            width: 90%;*/
-            margin: auto;
+/*            margin: 20px 0;*/
+            padding: 20px 0;
         }
         
         #resultstats TH {
             text-align: left;
             text-transform: uppercase;
+            padding: 10px 0 0 0;
         }
+        
+        #resultstats TD {
+            color: #666;
+            padding: 0;
+        }
+        
+        #resultstats TH.border, #resultstats TD.border {
+            border-right: 1px solid #ddd;
+            padding-right: 20px;
+        }
+
+        #resultstats TH.pad, #resultstats TD.pad {
+            padding-left: 19px;
+        }
+        
+        #resultstats TR.rating TD {
+            padding-bottom: 10px;
+        }
+        
+        #resultstats TD IMG {
+            float: left;
+            margin-right: 10px;
+        }
+        
     </style>
 {% endblock %}
 

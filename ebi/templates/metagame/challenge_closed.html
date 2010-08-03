@@ -1,7 +1,7 @@
 {% extends "metagame/challenge_base.html" %}
 
 {% block extrahead %}
-<title>{{ user.get_profile.get_display_name|upper }} vs {{ target.get_display_name|upper }} &bull; PLAY Pilots</title>
+<title>{{ duel.challenger.get_display_name|upper }} vs {{ duel.target.get_display_name|upper }} &bull; PLAY Pilots</title>
 
     {{ block.super }}
     
@@ -21,16 +21,16 @@
 <div id="content" class="mainblock closed">
     
     <div id="headline">
-        <div class="player1{% ifequal duel.get_winner duel.challenger %} winner{% endifequal %}">
+        <div class="player1{% ifequal duel.get_winner duel.challenger %} winner{% endifequal %}{% ifequal duel.challenger.user user %} you{% endifequal%}">
             {% ifequal duel.challenger.user user %}
-                <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
+                <!-- <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png"> -->
             {% endifequal %}
             
             <img id="vs" src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
                 {% ifequal duel.get_winner duel.challenger %}
-                    <img src="{{ MEDIA_URL }}image/badge_winner.png" id="badgewinner">
+                    <!-- <img src="{{ MEDIA_URL }}image/badge_winner.png" id="badgewinner"> -->
                 {% endifequal %}
                 
                 <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
@@ -39,14 +39,14 @@
             </div>
         </div>
         
-        <div class="player2{% ifequal duel.get_winner duel.target %} winner{% endifequal %}">
+        <div class="player2{% ifequal duel.get_winner duel.target %} winner{% endifequal %}{% ifequal duel.target.user user %} you{% endifequal %}">
             {% ifequal duel.target.user user %}
-                <img class="you" src="{{ MEDIA_URL }}image/tag_jij_mirrored.png">
+                <!-- <img class="you" src="{{ MEDIA_URL }}image/tag_jij_mirrored.png"> -->
             {% endifequal %}
             
             <div class="player">
                 {% ifequal duel.get_winner duel.target %}
-                    <img src="{{ MEDIA_URL }}image/badge_winner.png" id="badgewinner">
+                    <!-- <img src="{{ MEDIA_URL }}image/badge_winner.png" id="badgewinner"> -->
                 {% endifequal %}
                 
                 <img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="">
@@ -142,7 +142,7 @@
                 {{ duel.get_win_phrase }}</h2>
             <table>
                 <tr>
-                    <th colspan="2">
+                    <th colspan="2" class="border">
                         {% if not duel.is_tie %}
                             {% ifequal duel.get_winner duel.challenger %}
                                 Gewonnen!
@@ -151,7 +151,7 @@
                             {% endifequal %}
                         {% endif %}
                     </th>
-                    <th colspan="2">
+                    <th colspan="2" class="pad">
                         {% if not duel.is_tie %}
                             {% ifequal duel.get_winner duel.target %}
                                 Gewonnen!
@@ -163,8 +163,8 @@
                 </tr>
                 
                 <tr class="skill">
-                    <td></td>
-                    <td>{{ duel.challenger.user.username }}
+                    <td><span class="rank">00</span></td>
+                    <td class="border">{{ duel.challenger.user.username }}
                         {% if duel.get_challenger_rating_difference == 0 %}
                             blijft staan op {{ duel.challenger_newrating}}
                         {% else %}
@@ -176,7 +176,7 @@
                         {% endif %}
                         voor een totaal van {{ duel.challenger_newrating}}
                         {% if duel.challenger_oldrank == duel.challenger_newrank %}
-                            en blijft op rang <span class="rank">{{ duel.challenger_newrank|stringformat:".2d" }}</span>
+                            en blijft op rang {{ duel.challenger_newrank|stringformat:".2d" }}
                         {% else %}
                             en 
                             {% if duel.challenger_oldrank < duel.challenger_newrank %}
@@ -188,7 +188,7 @@
                             van rang {{ duel.challenger_oldrank|stringformat:".2d" }} naar {{ duel.challenger_newrank|stringformat:".2d" }}
                         {% endif %}
                         </td>
-                    <td></td>
+                    <td class="pad"><span class="rank">00</span></td>
                     <td>
                         {{ duel.target.user.username }}
                         {% if duel.get_responder_rating_difference == 0 %}
@@ -211,16 +211,16 @@
                             {% if duel.responder_oldrank > duel.responder_newrank %}
                                 stijgt
                             {% endif %}
-                            van rang {{ duel.responder_oldrank|stringformat:".2d" }} naar <span class="rank">{{ duel.responder_newrank|stringformat:".2d" }}</span>
+                            van rang {{ duel.responder_oldrank|stringformat:".2d" }} naar {{ duel.responder_newrank|stringformat:".2d" }}
                         {% endif %}
                     </td>
                 </tr>
                 
                 <tr class="rating">
                     <td><img src="{{ MEDIA_URL }}image/level_{{ duel.challenger_skilllevel }}.png"></td>
-                    <td>{{ duel.challenger.user.username }} is nu op niveau {{ duel.challenger_skilllevel }} als {{ duel.challenge_move.style }}</td>
+                    <td class="border">{{ duel.challenger.user.username }} is nu op niveau {{ duel.challenger_skilllevel }} als {{ duel.challenge_move.style }}</td>
                     
-                    <td><img src="{{ MEDIA_URL }}image/level_{{ duel.responder_skilllevel }}.png"></td>
+                    <td class="pad"><img src="{{ MEDIA_URL }}image/level_{{ duel.responder_skilllevel }}.png"></td>
                     <td>{{ duel.target.user.username }} is nu op niveau {{ duel.responder_skilllevel }} als {{ duel.response_move.style}}</td>
                 </tr>
             </table>

@@ -1,27 +1,90 @@
+{% extends "metagame/base.html" %}
 
-<img src="{{ MEDIA_URL }}image/logo.png">
+{% block extrahead %}
+	<title>Login &bull; PLAY Pilots</title>
+	<style type="text/css" media="screen">
+	
+		#contentwrapper {
+			background-color: #f5f5f5;
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+		}
+		#twitterbadge {
+			position: relative;
+			width: 300px;
+			margin: 0 auto;
+			padding-bottom: 40px;
+		}
+		
+		#badge_tag {
+			position: relative;
+            left: 110px;
+		}
+		
+		#simpel_arrow {
+			position: absolute;
+            left: 0;
+			top: 20px;
+		}
+		
+		#twitterlogin {
+			margin-top: -20px;
+			background: #ff3300 url({{ MEDIA_URL }}image/login_background.png) no-repeat left top;
+			overflow: hidden;
+		}
+		
+		#twitterlogin .connect-button {
+			margin: 70px auto 20px;
+			padding: 10px;
+			line-height: 0;
+			width: 151px;
+			height: 24px;
+			background: transparent url({{ MEDIA_URL }}image/ranking_bar_bg_light.png) no-repeat center center;
+			-webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+			radius: 5px;
+		}
+		
+		#register {
+			background-color: #fff;
+			border-top: 5px solid #ddd;
+			padding: 10px;
+		}
+		
+		#register a {
+			color: #ff3300;
+			text-decoration: none;
+		}
+		
+		#register a:hover {
+			text-decoration: underline;
+		}
+		
+		.annotation {
+			border-top: 1px solid #f5f5f5;
+			padding: 10px;
+			margin: 0px 10px;
+			color: #f5f5f5;
+			font-size: 12px;
+			line-height: 18px;
+			text-shadow: #333 0 1px 0;
+		}
+		
+	</style>
+{% endblock %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+{% block content %}
 
-<form action="/login/" method="post">
-{% csrf_token %}
-{{ form.as_p }}
-
-<input type="hidden" name="next" value="{{ next }}">
-
-<input type="submit" value="Submit" />
-</form>
-
-
-<h2>Twitter</h2>
-
-{% load twitter_tags %}
-{% twitter_button %}
-
-<h2>Facebook</h2>
-
-{% load facebook_tags %}
-{% facebook_button %}
-{% facebook_js %}
+<div id="twitterbadge">
+	<img id="badge_tag" src="{{ MEDIA_URL }}image/profile_badge_tag.png" alt="">
+	<img id="simpel_arrow" src="{{ MEDIA_URL }}image/login_simpel.png" alt="">
+	<div id="twitterlogin">
+		{% load twitter_tags %}
+		{% twitter_button %}
+		<p class="annotation">Maak je geen zorgen, we zullen zonder jouw toestemming geen berichten versturen uit jouw naam.</p>
+	</div>
+	<div id="register">
+	<h4>Nog geen Twitter account?</h4>
+	<a href="https://twitter.com/signup" title="Meld je nu bij Twitter aan">Meld je nu bij Twitter aan &raquo;</a>
+	</div>
+</div>
+{% endblock %}
