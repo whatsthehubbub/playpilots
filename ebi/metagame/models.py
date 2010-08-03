@@ -333,7 +333,7 @@ Uw gezagvoerder''' % {
         
     def get_finished_duels(self):
         from battleroyale.models import Duel
-        return Duel.objects.all().filter(open=False).filter(Q(challenger=self) | Q(target=self)).order_by('-created')
+        return Duel.objects.all().filter(open=False).filter(Q(challenger=self) | Q(target=self)).order_by('-responded')
         
     def get_skills(self):
         from battleroyale.models import Skill, Style
