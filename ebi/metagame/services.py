@@ -25,8 +25,6 @@ def send_tweet(msg):
     
     try:
         status = api.PostUpdate(msg)
+        logging.info('sent tweet %d', status.id)
     except:
         logging.error('sending tweet %s failed', msg)
-    
-    logging.info('sent tweet %d', status.id)
-    
