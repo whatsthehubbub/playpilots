@@ -47,7 +47,6 @@ def index(request):
             'nextgame': nextgame
         }, context_instance=RequestContext(request))
 
-@login_required
 def player_detail(request, id):
     player = get_object_or_404(Player, id=id)
     
@@ -63,7 +62,6 @@ def player_detail(request, id):
         'skills': skills
     }, context_instance=RequestContext(request))
     
-@login_required
 def user_detail(request, username):
     user = get_object_or_404(User, username=username)
     
@@ -108,7 +106,6 @@ def register(request):
     }, context_instance=RequestContext(request))
 
 
-@login_required
 def logout_view(request):
     # actstream.action.send(request.user, verb='is uitgelogd. Spater ouwe!')
     
@@ -116,15 +113,13 @@ def logout_view(request):
     
     return HttpResponseRedirect('/')
     
-@login_required
-# @cache_page(60*60)
+@cache_page(60*60)
 def game_list(request):
     return render_to_response('metagame/game_list.html', {
         'games': Game.objects.all().order_by('-start'),
         'current': 'games'
     }, context_instance=RequestContext(request))
 
-@login_required
 def game_detail(request, slug):
     game = get_object_or_404(Game, slug=slug)
     
@@ -145,7 +140,6 @@ def game_detail(request, slug):
         'feed': feedEntries[:3]
     }, context_instance=RequestContext(request))
 
-@login_required
 def game_interest(request, slug):
     action = request.POST.get('action', 'add')
     game = get_object_or_404(Game, slug=slug)

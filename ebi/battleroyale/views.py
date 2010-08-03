@@ -19,7 +19,6 @@ import datetime, random, math, json
 
 import logging
 
-@login_required
 def klassement(request):
     c = {
         'styles': Style.objects.all(),
@@ -46,7 +45,6 @@ def klassement(request):
         
         return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
     
-@login_required
 def challenge(request):
     playerid = request.GET.get('target', None)
 
@@ -59,7 +57,6 @@ def challenge(request):
         'styles': styles
     }, context_instance=RequestContext(request))
 
-@login_required
 def challenge_detail(request, id):
     d = get_object_or_404(Duel, id=id)
 
@@ -246,6 +243,5 @@ def challenge_resolve(request):
         
         return HttpResponse(json.dumps(result), mimetype="text/json")
         
-@login_required
 def challenge_detail_redirect(request, id):
     return HttpResponseRedirect('/challenge/%s/' % id)
