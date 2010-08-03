@@ -340,31 +340,33 @@
             
             {% if skills %}
                 {% for level in skills %}
-                    <tr><td class="leveldescription" colspan="5">
-	<img src="{{ MEDIA_URL }}image/level_{{ level.0 }}.png"> <span>Lorem ipsum dolor este lauda:</span></td></tr>
-                    {% for player in level.1 %}
-                        <tr class="player{% if forloop.counter < 4  %} topplayers{% endif %}">
-                            <td class="rank">{{ forloop.counter }}</td>
+                    {% if level.1 %}
+                        <tr><td class="leveldescription" colspan="5">
+                    	<img src="{{ MEDIA_URL }}image/level_{{ level.0 }}.png"> <span>niveau {{ level.0 }}</span></td></tr>
+                        {% for player in level.1 %}
+                            <tr class="player{% if forloop.counter < 4  %} topplayers{% endif %}">
+                                <td class="rank">{{ forloop.counter }}</td>
 
-                            <td class="info">
-    							<a href=""><img src="{{ MEDIA_URL }}image/buddy-icon-login-box.png" alt="" />
-    							<a href=""><span class="userame">{{ player.user.username }}</span></a>
-    							{% ifequal player.user.username user.username %}<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />{% endifequal %}
-    						</td>
-                            <td class="win">{{ player.get_win_count }}</td>
-                            <td class="lose">{{ player.get_loss_count }}</td>
-                            <td class="tie">{{ player.get_tie_count }}</td>
+                                <td class="info">
+        							<a href="/players/{{ player.id }}/"><img src="{{ player.get_avatar_url }}" alt="" />
+        							<a href="/players/{{ player.id }}/"><span class="userame">{{ player.user.username }}</span></a>
+        							{% ifequal player.user.username user.username %}<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />{% endifequal %}
+        						</td>
+                                <td class="win">{{ player.get_win_count }}</td>
+                                <td class="lose">{{ player.get_loss_count }}</td>
+                                <td class="tie">{{ player.get_tie_count }}</td>
 
-                            <td class="pow">
-                                {% ifnotequal player.user.username user.username %}
-                                    <form method="GET" action="/challenge">
-                                        <input type="hidden" name="target" value="{{ player.id }}">
-                                        <button type="submit"></button>
-                                    </form>                            
-                                {% endifnotequal %}
-                            </td>
-                        </tr>
-                    {% endfor %}
+                                <td class="pow">
+                                    {% ifnotequal player.user.username user.username %}
+                                        <form method="GET" action="/challenge/">
+                                            <input type="hidden" name="target" value="{{ player.id }}">
+                                            <button type="submit"></button>
+                                        </form>                            
+                                    {% endifnotequal %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </table>

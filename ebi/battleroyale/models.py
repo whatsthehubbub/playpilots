@@ -30,7 +30,7 @@ class Style(models.Model):
 
 class Skill(models.Model):
     player = models.ForeignKey(Player, related_name="skills")
-    style = models.ForeignKey(Style)
+    style = models.ForeignKey(Style, related_name='skills')
     
     level = models.IntegerField(default=1)
     experience = models.IntegerField(default=0)
@@ -67,22 +67,17 @@ class Skill(models.Model):
         
         return (old_exp, self.experience)
 
-        
+    
+    def get_probability_texts(self):
+        return {1: 'Je begint pas net als %s; de kans dat je wint is klein.' % self.style.name,
+                2: 'Je bent aardig op weg als %s; je zult niet snel winnen, maar daar staat wel een behoorlijke bak punten tegenover.' % self.style.name,
+                3: 'Je bent een goede middenmoter als %s; je winkans en te vergaren punten zijn nominaal.' % self.style.name,
+                4: 'Je bent landelijk bekend als %s; je hebt een behoorlijke kans om te winnen, maar echt veel punten zul je niet krijgen.' % self.style.name,
+                5: 'Je staat op eenzame hoogte als %s; de kans dat je wint is groot maar als het lukt scoor je weinig punten.' % self.style.name}
+    
     def get_probability_text(self):
-        s = '%s'
+        return self.get_probability_texts()[self.level]
 
-        if self.level==1:
-            s = 'Je begint pas net als %s; de kans dat je wint is klein.'
-        elif self.level==2:
-            s = 'Je bent aardig op weg als %s; je zult niet snel winnen, maar daar staat wel een behoorlijke bak punten tegenover.'
-        elif self.level==3:
-            s = 'Je bent een goede middenmoter als %s; je winkans en te vergaren punten zijn nominaal.'
-        elif self.level==4:
-            s = 'Je bent landelijk bekend als %s; je hebt een behoorlijke kans om te winnen, maar echt veel punten zul je niet krijgen.'
-        elif self.level==5:
-            s = 'Je staat op eenzame hoogte als %s; de kans dat je wint is groot maar als het lukt scoor je weinig punten.'
-            
-        return s % self.style.name
     
     def __unicode__(self):
         return '%d' % self.level
