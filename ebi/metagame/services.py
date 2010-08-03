@@ -23,7 +23,10 @@ def feed_entries(url):
 def send_tweet(msg):
     api = twitter.Api(username='playpilots', password='boarding45paris')
     
-    status = api.PostUpdate(msg)
+    try:
+        status = api.PostUpdate(msg)
+    except:
+        logging.error('sending tweet %s failed', msg)
     
     logging.info('sent tweet %d', status.id)
     
