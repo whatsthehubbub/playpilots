@@ -137,7 +137,7 @@
             <h2>
                 {% if not duel.is_tie %}
                     <span class="player">{{ duel.get_winner }}</span>
-                    {{ duel.get_win_phrase }}
+                    {{ duel.get_win_phrase|safe }}
                 {% else %}
                     Helaas gelijkspel. Probeer het opnieuw!
                 {% endif %}
