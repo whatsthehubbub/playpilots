@@ -127,6 +127,7 @@
         
         .open .player2 .choice, .open #actionplayer2 {
             border-left: 1px solid #ddd;
+			background-color: #fff;
         }
         
         .choice {
@@ -180,9 +181,13 @@
             background-image: url({{ MEDIA_URL }}image/action_bg_yellow.png);
         }
         
-        div.closed div#headline div.player1.you, div.closed div#headline div.player2.you {
+        div.start div#headline div.player1, div.open div#headline div.player2, div.closed div#headline div.player1.you, div.closed div#headline div.player2.you {
             background-image: url({{ MEDIA_URL }}image/action_bg_blue_you.png);
-        }        
+        }
+        
+        div.closed div#headline div.player1.winner.you, div.closed div#headline div.player2.winner.you {
+            background-image: url({{ MEDIA_URL }}image/action_bg_yellow_you.png);
+        }
         
         #badgewinner {
 /*            display: none;*/
@@ -493,6 +498,7 @@
         }
         
         #resultstats .box {
+			background-color: #fff;
             padding: 20px 20px 0 20px;
         }
         

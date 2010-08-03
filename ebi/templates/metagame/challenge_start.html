@@ -146,14 +146,14 @@
     
     <div id="headline">
         <div class="player1">
-            <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png">
+            <!-- <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png"> -->
 
-            <img id="vs" style="right: -100px;" src="{{ MEDIA_URL }}image/vs_stars.png">
+            <img id="vs" style="right: -50px;" src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
                 <img src="{{ user.get_profile.get_avatar_url }}" alt="">
                 <h2>{{ user.username }}</h2>
-                <p><span class="rank">{{ user.get_profile.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
+                <p><span class="rank">{{ user.get_profile.get_rank|stringformat:".3d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
         
@@ -161,7 +161,7 @@
             <div class="player">
                 <img src="{{ target.get_avatar_url }}" alt="">
                 <h2>{{ target.user.username }}</h2>
-                <p><span class="rank">{{ target.get_rank|stringformat:".2d" }}</span> in het algemeen klassement</p>
+                <p><span class="rank">{{ target.get_rank|stringformat:".3d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
     </div>
@@ -184,7 +184,7 @@
                         {% for skill in user.get_profile.get_skills %}
                             <tr id="style_row_{{ skill.style.id }}" class="stylerow {% cycle '' 'odd' %}">
                                 <td class="style">{{ skill.style.name }}</td>
-                                <td class="rank"><span class="rank">{{ skill.experience|stringformat:".2d" }}</span></td>
+                                <td class="rank"><span class="rank">{{ skill.experience|stringformat:".3d" }}</span></td>
                                 <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ skill.level }}.png"></td>
                             </tr>
                             <tr>
