@@ -317,25 +317,7 @@ class Duel(models.Model):
             return phrase
     
     def send_target_message(self):
-        # TODO this also assumes e-mail as communications medium
-        try:
-            send_mail('Je bent uitgedaagd door %s' % self.challenger.get_display_name(),
-            '''Hoi %(target)s,
-
-Je bent uitgedaagd voor een duel door %(challenger)s.
-
-Ga naar %(url)s om te duelleren!
-
-Namens PLAY Pilots,
-
-Uw gezagvoerder''' % {'target': self.target.get_display_name(), 
-                            'challenger': self.challenger.get_display_name(), 
-                            'url': 'http://playpilots.nl/c/%d/' % self.id}, 
-            'Your Captain Speaking <captain@playpilots.nl>', 
-            [self.target.user.email])
-        except smtplib.SMTPException:
-            logging.error('sending target e-mail failed')
-
+        self.target.send_challenge_message(self)
     
     def send_winner_loser_messages(self):
         if self.get_winner():
@@ -346,38 +328,8 @@ Uw gezagvoerder''' % {'target': self.target.get_display_name(),
             
             # TODO For now assume e-mail is the only medium
             try:
-                send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.get_display_name(), 
-                '''Hoi %(winner)s,
-
-Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
-
-Ga naar %(url)s om de uitkomst te zien!
-
-Namens PLAY Pilots,
-
-Uw gezagvoerder''' % {
-                'winner': winner.get_display_name(),
-                'loser': loser.get_display_name(),
-                'url': 'http://playpilots.nl/c/%d/' % self.id 
-            }, 
-                'Your Captain Speaking <captain@playpilots.nl>', 
-                [winner.user.email])
+                
             
-                send_mail('Helaas! Je hebt verloren van %s!' % winner.get_display_name(),
-                '''Hoi %(loser)s,
-
-Helaas! Je hebt het duel met %(winner)s verloren.
-
-Ga naar %(url)s om de uitkomst te zien!
-
-Namens PLAY Pilots,
-
-Uw gezagvoerder''' % {
-                    'loser': loser.get_display_name(),
-                    'winner': winner.get_display_name(),
-                    'url': 'http://playpilots.nl/c/%d/' % self.id
-                }, 
-                'Your Captain Speaking <captain@playpilots.nl>', 
-                [loser.user.email])
+                
             except smtplib.SMTPException:
                 logging.error('sending winner loser e-mail failed')

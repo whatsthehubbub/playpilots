@@ -1,5 +1,8 @@
 import feedparser
 
+from ebi import twitter
+import logging
+
 def feed_first_entry(url):
     blogparsed = feedparser.parse(url)
     
@@ -16,3 +19,11 @@ def feed_entries(url):
             return parsed['entries']
     
     return []
+    
+def send_tweet(msg):
+    api = twitter.Api(username='playpilots', password='boarding45paris')
+    
+    status = api.PostUpdate(msg)
+    
+    logging.info('sent tweet %d', status.id)
+    

@@ -6,7 +6,11 @@ from django.db.models.signals import pre_save, post_save
 from django.conf import settings
 from socialregistration.models import TwitterProfile
 
+from django.core.mail import send_mail
 import datetime, os
+
+from metagame.services import send_tweet
+import logging
 
 class Photo(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -152,7 +156,16 @@ class Player(models.Model):
         if self.twitter_name:
             return self.twitter_name
         else:
+            # username is filled in with your twittername
             return self.user.username
+            
+    def get_twitter_name(self):
+        try:
+            t = TwitterProfile.objects.get(user=self.user)
+        except TwitterProfile.DoesNotExist:
+            pass
+            
+        return ''
             
     def get_avatar_url(self):
         try:
@@ -163,6 +176,81 @@ class Player(models.Model):
             pass
             
         return os.path.join(settings.MEDIA_URL, 'image/buddy-icon-login-box.png')
+    
+    def send_challenge_message(self, duel):
+        url = 'http://playpilots.nl/c/%d/' % duel.id
+        
+        if self.user.email:
+            try:
+                send_mail('Je bent uitgedaagd door %s' % self.challenger.get_display_name(),
+                '''Hoi %(target)s,
+
+    Je bent uitgedaagd voor een duel door %(challenger)s.
+
+    Ga naar %(url)s om te duelleren!
+
+    Namens PLAY Pilots,
+
+    Uw gezagvoerder''' % {'target': self.get_display_name(), 
+                                'challenger': challenger.get_display_name(), 
+                                'url': url}, 
+                'Your Captain Speaking <captain@playpilots.nl>', 
+                [self.target.user.email])
+            except smtplib.SMTPException:
+                logging.error('sending target e-mail failed')
+            logging.info('sent challenge e-mail to %s', self.user.username)
+        elif self.get_twitter_name():
+            logging.info('trying to send challenge tweet')
+            
+            challenger_name = duel.challenger.get_twitter_name() or duel.challenger.get_display_name()
+            
+            message = '@%s Je bent uitgedaagd door %s. Ga naar %s om het duel aan te gaan.' % (self.get_twitter_name(), challenger_name, url)
+                
+            send_tweet(message)
+            
+    def send_win_message(self, duel):
+        url = 'http://playpilots.nl/c/%d/' % duel.id
+        
+        if self.user.email:
+            try:
+                send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.get_display_name(), 
+                '''Hoi %(winner)s,
+
+    Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
+
+    Ga naar %(url)s om de uitkomst te zien!
+
+    Namens PLAY Pilots,
+
+    Uw gezagvoerder''' % {
+                'winner': winner.get_display_name(),
+                'loser': loser.get_display_name(),
+                'url':  
+                }, 
+                'Your Captain Speaking <captain@playpilots.nl>', 
+                [winner.user.email])
+            except smtplib.SMTPException:
+                logging.error('sending win e-mail to user %s failed' % self.get_display_name())
+        elif self.get_twitter_name():
+            pass
+        
+    def send_lose_message(self, duel):
+        send_mail('Helaas! Je hebt verloren van %s!' % winner.get_display_name(),
+        '''Hoi %(loser)s,
+
+Helaas! Je hebt het duel met %(winner)s verloren.
+
+Ga naar %(url)s om de uitkomst te zien!
+
+Namens PLAY Pilots,
+
+Uw gezagvoerder''' % {
+            'loser': loser.get_display_name(),
+            'winner': winner.get_display_name(),
+            'url': 'http://playpilots.nl/c/%d/' % self.id
+        }, 
+        'Your Captain Speaking <captain@playpilots.nl>', 
+        [loser.user.email])
     
     def get_rank(self):
         players = Player.objects.all().order_by('-rating')

@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 from django import forms
 
@@ -17,6 +18,7 @@ import datetime, random, math, json
 
 import logging
 
+@login_required
 def klassement(request):
     c = {
         'styles': Style.objects.all(),
@@ -43,7 +45,7 @@ def klassement(request):
         
         return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
     
-
+@login_required
 def challenge(request):
     playerid = request.GET.get('target', None)
 
@@ -57,7 +59,7 @@ def challenge(request):
         'current': 'klassement'
     }, context_instance=RequestContext(request))
 
-
+@login_required
 def challenge_detail(request, id):
     d = get_object_or_404(Duel, id=id)
 
@@ -75,7 +77,7 @@ def challenge_detail(request, id):
             'current': 'klassement'
         }, context_instance=RequestContext(request))
 
-
+@login_required
 def challenge_create(request):
     if request.method == 'POST':
         challenger = request.user.get_profile()
@@ -109,6 +111,7 @@ def challenge_create(request):
             'awesomeness': awesomeness
         }), mimetype='text/json')
 
+@login_required
 def challenge_resolve(request):
     if request.method == 'POST':
         duel_id = int(request.POST.get('duel', None))
@@ -236,5 +239,6 @@ def challenge_resolve(request):
         
         return HttpResponse(json.dumps(result), mimetype="text/json")
         
+@login_required
 def challenge_detail_redirect(request, id):
     return HttpResponseRedirect('/challenge/%s/' % id)
