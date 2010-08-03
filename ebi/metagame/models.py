@@ -143,7 +143,7 @@ def user_post_save_callback(sender, instance, created, **kwargs):
         except Player.DoesNotExist:
             p = Player.objects.create(user=instance)
             
-            actstream.action.send(p, verb='heeft net ingecheckt voor PLAY!')
+            actstream.action.send(p, verb='heeft net ingecheckt voor PLAY Pilots!')
             
 post_save.connect(user_post_save_callback, sender=User)
 
