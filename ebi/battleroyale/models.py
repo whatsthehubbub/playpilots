@@ -141,6 +141,15 @@ class Duel(models.Model):
     responder_newrating = models.IntegerField(blank=True, null=True)
     
     def __unicode__(self):
+        # Complex conditional branch to create a useful string representation for various situations
+        if self.open:
+            return '%s' % self.get_challenge_move()
+        else:
+            if self.is_tie():
+                return '%s' % self.get_response_move()
+            else:
+                return '%s' % self.get_win_phrase()
+                
         return '%s' % self.get_challenge_move()
         
     def get_absolute_url(self):
