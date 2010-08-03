@@ -6,6 +6,7 @@ from django.db.models.signals import pre_save, post_save
 from django.conf import settings
 from socialregistration.models import TwitterProfile
 
+from django.core.cache import cache
 from django.core.mail import send_mail
 import datetime, os, smtplib
 
@@ -160,13 +161,19 @@ class Player(models.Model):
             return self.user.username
             
     def get_twitter_name(self):
-        try:
-            t = TwitterProfile.objects.get(user=self.user)
-            return t.username
-        except TwitterProfile.DoesNotExist:
-            pass
+        twittername = cache.get('player_%d_twittername' % self.id)
+        if not twittername:
+            try:
+                t = TwitterProfile.objects.get(user=self.user)
+                twittername = t.username
+                cache.set('player_%d_twittername' % self.id, twittername, 60*60)
+            except TwitterProfile.DoesNotExist:
+                pass
             
-        return ''
+        if twittername:
+            return twittername
+        else:
+            return ''
             
     def get_avatar_url(self):
         try:
@@ -277,15 +284,20 @@ Uw gezagvoerder''' % {
             send_tweet(message)
     
     def get_rank(self):
-        players = Player.objects.all().order_by('-rating')
+        rank = cache.get('player_%d_rank' % self.id)
+        if not rank:        
+            players = Player.objects.all().order_by('-rating')
         
-        # TODO this won't scale, but for now it works
-        # Swap in later for http://www.artfulsoftware.com/infotree/queries.php?&bw=1024#460
-        rank = 1
-        for player in players:
-            if player == self:
-                return rank
-            rank += 1
+            # TODO this won't scale, but for now it works
+            # Swap in later for http://www.artfulsoftware.com/infotree/queries.php?&bw=1024#460
+            rank = 1
+            for player in players:
+                if player == self:
+                    break
+                rank += 1
+                
+            cache.set('player_%d_rank' % self.id, rank, 60*15)
+        return rank
     
     def get_challenger_duels(self):
         return self.challenger_duel.all().filter(open=True).order_by('-created')

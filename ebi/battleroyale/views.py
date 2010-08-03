@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from django.core.mail import send_mail
+from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
 
 from django import forms
@@ -228,7 +229,11 @@ def challenge_resolve(request):
         d.target.save()
         
         d.challenger_newrating = d.challenger.rating
-        d.responder_newrating = d.target.rating        
+        d.responder_newrating = d.target.rating
+        
+        # Invalidate ranks
+        cache.set('player_%d_rank' % d.challenger.id, None, 1)
+        cache.set('player_%d_rank' % d.target.id, None, 1)
         
         d.challenger_newrank = d.challenger.get_rank()
         d.responder_newrank = d.target.get_rank()
