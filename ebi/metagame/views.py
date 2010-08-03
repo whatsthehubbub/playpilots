@@ -27,7 +27,7 @@ import logging
 
 # @cache_page(60*60)
 def index(request):
-    if request.user.is_anonymous():
+    if False and request.user.is_anonymous():
         return render_to_response('metagame/index_splash.html', {
         }, context_instance=RequestContext(request))
     else:
