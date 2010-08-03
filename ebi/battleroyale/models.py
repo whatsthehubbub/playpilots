@@ -285,7 +285,7 @@ class Duel(models.Model):
     def get_win_phrase(self):
         if self.win_phrase:
             return self.win_phrase.phrase.replace('X', self.get_loser().get_display_name().capitalize())
-                    
+
         return ''
             
     def get_loser(self):
