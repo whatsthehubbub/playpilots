@@ -284,7 +284,13 @@
 {% block content %}
 <div id="headwrapper">
     <div id="klassementhead" class="mainblock">
-        <div id="klassementexplanation"><h2>Algemeen Klassement</h2> toont de posities van alle spelers, op basis van alle gespeelde duels. Bekijk ook de Stijlklassementen, die de top dogs en underdogs van elke subcultuur laten zien.</div>
+        <div id="klassementexplanation">
+            {% if not currentStyle %}
+                <h2>Algemeen Klassement</h2> toont de posities van alle spelers, op basis van alle gespeelde duels. Bekijk ook de Stijlklassementen, die de top dogs en underdogs van elke subcultuur laten zien.
+            {% else %}
+                <h2>{{ currentStyle.name }}</h2> {{ currentStyle.description|safe }}
+            {% endif %}
+        </div>
     </div>
 </div>
 

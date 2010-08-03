@@ -187,15 +187,15 @@ class Player(models.Model):
                 send_mail('Je bent uitgedaagd door %s' % duel.challenger.get_display_name(),
                 '''Hoi %(target)s,
 
-    Je bent uitgedaagd voor een duel door %(challenger)s.
+Je bent uitgedaagd voor een duel door %(challenger)s.
 
-    Ga naar %(url)s om te duelleren!
+Ga naar %(url)s om te duelleren!
 
-    Namens PLAY Pilots,
+Namens PLAY Pilots,
 
-    Uw gezagvoerder''' % {'target': self.get_display_name(), 
-                            'challenger': duel.challenger.get_display_name(), 
-                            'url': url}, 
+Uw gezagvoerder''' % {'target': self.get_display_name(), 
+                        'challenger': duel.challenger.get_display_name(), 
+                        'url': url}, 
                 'Your Captain Speaking <captain@playpilots.nl>', 
                 [self.user.email])
             except smtplib.SMTPException:
