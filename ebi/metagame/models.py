@@ -260,6 +260,7 @@ Uw gezagvoerder''' % {
             logging.info('trying to send twitter win message to @%s', self.get_twitter_name())
             loser_name = duel.get_loser().get_twitter_name() or duel.get_loser().get_display_name()
             
+            # TODO add twitter '@' for the other
             message = u'@%(winner)s, je bent de baas! Je hebt als “%(style)s” gewonnen van %(loser)s. Ga naar %(url)s om het resultaat te zien.' % {
                 'winner': self.get_twitter_name(),
                 'style': duel.get_winner_style().name,

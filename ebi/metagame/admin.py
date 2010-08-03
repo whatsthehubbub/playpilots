@@ -25,5 +25,5 @@ admin.site.register(Game, GameAdmin)
 
 
 class PlayerAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'rating')
 admin.site.register(Player, PlayerAdmin)
