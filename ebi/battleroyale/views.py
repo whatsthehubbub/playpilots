@@ -235,7 +235,12 @@ def challenge_resolve(request):
         
         d.save()
         
-        d.send_winner_loser_messages()
+        if not d.is_tie():
+            d.send_winner_loser_messages()
+        else:
+            # TODO implement
+            # d.send_tie_messages()
+            pass
         
         return HttpResponse(json.dumps(result), mimetype="text/json")
         

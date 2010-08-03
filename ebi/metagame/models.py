@@ -7,7 +7,7 @@ from django.conf import settings
 from socialregistration.models import TwitterProfile
 
 from django.core.mail import send_mail
-import datetime, os
+import datetime, os, smtplib
 
 from metagame.services import send_tweet
 import logging
@@ -162,6 +162,7 @@ class Player(models.Model):
     def get_twitter_name(self):
         try:
             t = TwitterProfile.objects.get(user=self.user)
+            return t.username
         except TwitterProfile.DoesNotExist:
             pass
             
@@ -171,7 +172,8 @@ class Player(models.Model):
         try:
             t = TwitterProfile.objects.get(user=self.user)
             
-            return t.avatar
+            if t.avatar:
+                return t.avatar
         except TwitterProfile.DoesNotExist:
             pass
             
@@ -182,7 +184,7 @@ class Player(models.Model):
         
         if self.user.email:
             try:
-                send_mail('Je bent uitgedaagd door %s' % self.challenger.get_display_name(),
+                send_mail('Je bent uitgedaagd door %s' % duel.challenger.get_display_name(),
                 '''Hoi %(target)s,
 
     Je bent uitgedaagd voor een duel door %(challenger)s.
@@ -192,10 +194,10 @@ class Player(models.Model):
     Namens PLAY Pilots,
 
     Uw gezagvoerder''' % {'target': self.get_display_name(), 
-                                'challenger': challenger.get_display_name(), 
-                                'url': url}, 
+                            'challenger': duel.challenger.get_display_name(), 
+                            'url': url}, 
                 'Your Captain Speaking <captain@playpilots.nl>', 
-                [self.target.user.email])
+                [self.user.email])
             except smtplib.SMTPException:
                 logging.error('sending target e-mail failed')
             logging.info('sent challenge e-mail to %s', self.user.username)
@@ -209,11 +211,12 @@ class Player(models.Model):
             send_tweet(message)
             
     def send_win_message(self, duel):
+        logging.info('sending win message to %s', self.get_display_name())
         url = 'http://playpilots.nl/c/%d/' % duel.id
         
         if self.user.email:
             try:
-                send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % loser.get_display_name(), 
+                send_mail('Gefeliciteerd! Je hebt gewonnen van %s!' % duel.get_loser().get_display_name(), 
                 '''Hoi %(winner)s,
 
 Gefeliciteerd! Je hebt het duel met %(loser)s gewonnen.
@@ -228,10 +231,11 @@ Uw gezagvoerder''' % {
                 'url':  url
                 },
                 'Your Captain Speaking <captain@playpilots.nl>', 
-                [duel.get_winner().user.email])
+                [self.user.email])
             except smtplib.SMTPException:
                 logging.error('sending win e-mail to user %s failed' % self.get_display_name())
         elif self.get_twitter_name():
+            logging.info('trying to send twitter win message to @%s', self.get_twitter_name())
             loser_name = duel.get_loser().get_twitter_name() or duel.get_loser().get_display_name()
             
             message = '@%s Gefeliciteerd. Je hebt gewonnen van %s. Ga naar %s om het resultaat te zien.' % (self.get_twitter_name(), loser_name, url)
@@ -239,6 +243,8 @@ Uw gezagvoerder''' % {
             send_tweet(message)
         
     def send_lose_message(self, duel):
+        logging.info('sending lose message to %s', self.get_display_name())
+        
         url = 'http://playpilots.nl/c/%d/' % duel.id
         
         if self.user.email:
@@ -260,11 +266,13 @@ Uw gezagvoerder''' % {
                 'Your Captain Speaking <captain@playpilots.nl>', 
                 [self.user.email])
             except smtplib.SMTPException:
-                logging.error('sending win e-mail to user %s failed' % self.get_display_name())
+                logging.error('sending lose e-mail to user %s failed' % self.get_display_name())
         elif self.get_twitter_name():
+            logging.info('trying to send twitter lose message to @%s', self.get_twitter_name())
+            
             winner_name = duel.get_winner().get_twitter_name() or duel.get_winner().get_display_name()
             
-            message = '@%s Helaas! Je hebt verloren van %s. Ga naar %s om het resultaat te zien.' % (self.get_twitter_name(), loser_name, url)
+            message = '@%s Helaas! Je hebt verloren van %s. Ga naar %s om het resultaat te zien.' % (self.get_twitter_name(), winner_name, url)
                 
             send_tweet(message)
     
@@ -280,10 +288,10 @@ Uw gezagvoerder''' % {
             rank += 1
     
     def get_challenger_duels(self):
-        return self.challenger_duel.all().filter(open=True).order_by('created')
+        return self.challenger_duel.all().filter(open=True).order_by('-created')
         
     def get_responder_duels(self):
-        return self.responder_duel.all().filter(open=True).order_by('created')
+        return self.responder_duel.all().filter(open=True).order_by('-created')
         
     def get_finished_duels(self):
         from battleroyale.models import Duel
