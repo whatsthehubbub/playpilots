@@ -220,6 +220,15 @@ Uw gezagvoerder''' % {'target': self.get_display_name(),
             
             challenger_name = duel.challenger.get_twitter_name() or duel.challenger.get_display_name()
             
+            modifiers = {
+                1: ' zwak',
+                2: ' matig',
+                3: '',
+                4: ' goed',
+                5: ' hard'
+            }
+            modifier = modifiers[duel.challenge_awesomeness]
+            
             messageParts = [
                 u'@%(target)s' % {'target': self.get_twitter_name()}
             ]
@@ -229,11 +238,11 @@ Uw gezagvoerder''' % {'target': self.get_display_name(),
                 if len(message) > 25:
                     message = duel.challenge_message[:25] + u'…'
                     
-                messageParts.append(u'“%(style)s” @%(challenger)s zegt: %(message)s' % {'style': duel.challenge_move.style.name, 'challenger': challenger_name, 'message': message})
+                messageParts.append(u'“%(style)s” @%(challenger)s daagt je%(modifier)s uit en zegt: %(message)s' % {'style': duel.challenge_move.style.name, 'challenger': challenger_name, 'message': message, 'modifier': modifier})
             else:
-                messageParts.append(u'Je bent uitgedaagd door “%(style)s” @%(challenger)s.' % {'style': duel.challenge_move.style.name, 'challenger': challenger_name})
+                messageParts.append(u'Je bent%(modifier)s uitgedaagd door “%(style)s” @%(challenger)s.' % {'style': duel.challenge_move.style.name, 'challenger': challenger_name, 'modifier': modifier})
                 
-            messageParts.append(u'Ga naar %(url)s om het duel aan te gaan.' % {'url': url})
+            messageParts.append(u'Doe iets terug op: %(url)s' % {'url': url})
             
             send_tweet(' '.join(messageParts))
             

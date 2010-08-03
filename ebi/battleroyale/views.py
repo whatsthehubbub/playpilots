@@ -56,8 +56,7 @@ def challenge(request):
 
     return render_to_response('metagame/challenge_start.html', {
         'target': target,
-        'styles': styles,
-        'current': 'klassement'
+        'styles': styles
     }, context_instance=RequestContext(request))
 
 @login_required
@@ -69,13 +68,11 @@ def challenge_detail(request, id):
 
         return render_to_response('metagame/challenge_open.html', {
             'duel': d,
-            'styles': styles,
-            'current': 'klassement'
+            'styles': styles
         }, context_instance=RequestContext(request))
     else:
         return render_to_response('metagame/challenge_closed.html', {
-            'duel': d,
-            'current': 'klassement'
+            'duel': d
         }, context_instance=RequestContext(request))
 
 @login_required

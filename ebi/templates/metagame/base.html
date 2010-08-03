@@ -138,11 +138,11 @@
         margin-right: 40px;
     }
 
-    #menu LI A:visited {
+    #menu A:visited {
         color: #bababa;
     }
 
-    #menu LI A.current {
+    #menu A.current {
 		font-family: "proxima-nova-1", "proxima-nova-2", Arial;
         font-weight: 800;
 		border-bottom: 2px solid #f30;
@@ -330,11 +330,11 @@ _gaq.push(['_trackPageview']);
 
             <div id="menu">
                 <ol>
-                    <li><a href="/" class="{% ifequal current "home" %}current{% endifequal %}">Home</a></li>
-                    <li><a href="/games/" class="{% ifequal current "games" %}current{% endifequal %}">Games</a></li>
-                    <li><a href="/klassement/" class="{% ifequal current "klassement" %}current{% endifequal %}">Klassement</a></li>
-                    <li><a href="/over/" class="{{ current|default:"current" }}">Over</a></li>
-                    <li><a href="http://blog.playpilots.nl/">Blog</a></li>
+                    <li id="menu_home"><a href="/" class="{% ifequal current "home" %}current{% endifequal %}">Home</a></li>
+                    <li id="menu_games"><a href="/games/" class="{% ifequal current "games" %}current{% endifequal %}">Games</a></li>
+                    <li id="menu_klassement"><a href="/klassement/" class="{% ifequal current "klassement" %}current{% endifequal %}">Klassement</a></li>
+                    <li id="menu_over"><a href="/over/" class="{% ifequal current "over" %}current{% endifequal %}">Over</a></li>
+                    <li id="menu_blog"><a href="http://blog.playpilots.nl/">Blog</a></li>
                 </ol>
             </div>
         </div>

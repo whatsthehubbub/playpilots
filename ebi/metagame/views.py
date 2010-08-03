@@ -60,8 +60,7 @@ def player_detail(request, id):
     
     return render_to_response('metagame/player_detail.html', {
         'player': player,
-        'skills': skills,
-        'current': 'klassement'
+        'skills': skills
     }, context_instance=RequestContext(request))
     
 @login_required
@@ -163,7 +162,7 @@ def game_interest(request, slug):
             actstream.action.send(player, verb="doet mee met", target=game)
             
             if player.get_twitter_name():
-                send_tweet('@%(player)s doet mee met %(game)s, kijk op: http://playpilots.nl%(url)s' % {
+                send_tweet('@%(player)s je doet mee met %(game)s, kijk op: http://playpilots.nl%(url)s en vertel je vrienden!' % {
                     'player': player.get_twitter_name(),
                     'game': game.name,
                     'url': game.get_absolute_url()
@@ -174,7 +173,7 @@ def game_interest(request, slug):
             actstream.action.send(player, verb='doet niet meer mee met', target=game)
             
             if player.get_twitter_name():
-                send_tweet('@%(player)s doet niet meer mee met %(game)s, maar wil je wel al je vrienden vertellen over: http://playpilots.nl%(url)s ?' % {
+                send_tweet('@%(player)s doet helaas niet meer mee met %(game)s, maar wil je wel al je vrienden vertellen over: http://playpilots.nl%(url)s ?' % {
                     'player': player.get_twitter_name(),
                     'game': game.name,
                     'url': game.get_absolute_url()
