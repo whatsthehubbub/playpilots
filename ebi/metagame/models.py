@@ -15,6 +15,8 @@ import datetime, os, smtplib
 from metagame.services import send_tweet
 import logging
 
+import actstream
+
 class Photo(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     
@@ -139,7 +141,10 @@ def user_post_save_callback(sender, instance, created, **kwargs):
         try:
             Player.objects.get(user=instance)
         except Player.DoesNotExist:
-            Player.objects.create(user=instance)
+            p = Player.objects.create(user=instance)
+            
+            actstream.action.send(p, verb='heeft net ingecheckt voor PLAY!')
+            
 post_save.connect(user_post_save_callback, sender=User)
 
 

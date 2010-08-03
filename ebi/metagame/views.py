@@ -13,6 +13,7 @@ from django.core.signals import request_finished
 
 from ebi.metagame.models import Maker, Festival, Game, Player
 from ebi.battleroyale.models import Skill
+from metagame.services import send_tweet
 
 import actstream
 from actstream.models import Action, actor_stream
@@ -94,7 +95,7 @@ def register(request):
         
         login(request, user)
         
-        actstream.action.send(user.get_profile(), verb='heeft net ingecheckt voor PLAY!')
+        # actstream.action.send(user.get_profile(), verb='heeft net ingecheckt voor PLAY!')
         
         send_mail('Account voor Play Pilots aangemaakt!', 'Bericht', 'alper@whatsthehubbub.nl', form.cleaned_data['email'])
         
@@ -108,18 +109,9 @@ def register(request):
     }, context_instance=RequestContext(request))
 
 
-''' TODO catch the login view and do an action.send()
-def user_logged_in(sender, **kwargs):
-    # print sender
-    # print 'test request finished'
-    print sender.request_class.get_full_path(sender.request_class)
-    #print sender.request_class
-request_finished.connect(user_logged_in)
-'''
-
 @login_required
 def logout_view(request):
-    actstream.action.send(request.user, verb='is uitgelogd. Spater ouwe!')
+    # actstream.action.send(request.user, verb='is uitgelogd. Spater ouwe!')
     
     logout(request)
     
@@ -167,10 +159,26 @@ def game_interest(request, slug):
         
         if action == 'add':
             game.interested.add(player)
+            
             actstream.action.send(player, verb="doet mee met", target=game)
+            
+            if player.get_twitter_name():
+                send_tweet('@%(player)s doet mee met %(game)s, kijk op: http://playpilots.nl%(url)s' % {
+                    'player': player.get_twitter_name(),
+                    'game': game.name,
+                    'url': game.get_absolute_url()
+                })
+            
         elif action == 'remove':
             game.interested.remove(player)
             actstream.action.send(player, verb='doet niet meer mee met', target=game)
+            
+            if player.get_twitter_name():
+                send_tweet('@%(player)s doet niet meer mee met %(game)s, maar wil je wel al je vrienden vertellen over: http://playpilots.nl%(url)s ?' % {
+                    'player': player.get_twitter_name(),
+                    'game': game.name,
+                    'url': game.get_absolute_url()
+                })
         
         return HttpResponse(json.dumps({'success': 1}))
         
