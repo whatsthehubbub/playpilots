@@ -46,6 +46,9 @@ def index(request):
             'nextgame': nextgame
         }, context_instance=RequestContext(request))
 
+def flatpage(request):
+    raise Http404
+
 def player_detail(request, id):
     player = get_object_or_404(Player, id=id)
     

@@ -29,8 +29,9 @@ urlpatterns += patterns('ebi.metagame.views',
 	(r'^games/(?P<slug>\S+?)/$', 'game_detail'),
 	(r'^games/$', 'game_list'),
 	
-	(r'^register/$', 'register'),
-	(r'^logout/$', 'logout_view')
+	# (r'^register/$', 'register'),
+	(r'^logout/$', 'logout_view'),
+	(r'^over/$', 'flatpage')
 )
 
 urlpatterns += patterns('django.views.generic.simple',
