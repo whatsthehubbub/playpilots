@@ -314,7 +314,7 @@ Uw gezagvoerder''' % {
             
             winner_name = duel.get_winner().get_twitter_name() or duel.get_winner().get_display_name()
             
-            message = u'@%(loser)s jammer! Je hebt verloren van “%(style)s” %(winner)s. Ga naar %(url)s om het resultaat te zien.' % {
+            message = u'@%(loser)s jammer! Je hebt verloren van “%(style)s” @%(winner)s. Ga naar %(url)s om het resultaat te zien.' % {
                 'loser': self.get_twitter_name(),
                 'style': duel.get_winner_style().name,
                 'winner': winner_name,
@@ -323,7 +323,8 @@ Uw gezagvoerder''' % {
 
             send_tweet(message)
     
-    def get_rank(self):
+    def get_rank(self, fresh=False):
+        # TODO implement fresh method, so we can get accurate ratings whenever we want 'em
         rank = cache.get('player_%d_rank' % self.id)
         if not rank:        
             players = Player.objects.all().order_by('-rating')
@@ -336,9 +337,41 @@ Uw gezagvoerder''' % {
                     break
                 rank += 1
                 
-            cache.set('player_%d_rank' % self.id, rank, 60*15)
+            cache.set('player_%d_rank' % self.id, rank, 60*5)
         return rank
-    
+
+    def get_win_count(self):
+        count = cache.get('player_%d_wincount' % self.id)
+        
+        if not count:
+            count = self.challenger_duel.filter(challenge_awesomeness__gt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__gt=F('challenge_awesomeness')).count()
+            cache.set('player_%d_wincount' % self.id, count, 60*15)
+            
+        return count
+
+    def get_loss_count(self):
+        count = cache.get('player_%d_losscount' % self.id)
+        
+        if not count:
+            count = self.challenger_duel.filter(challenge_awesomeness__lt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__lt=F('challenge_awesomeness')).count()
+            cache.set('player_%d_losscount' % self.id, count, 60*15)
+            
+        return count
+
+    def get_tie_count(self):
+        count = cache.get('player_%d_tiecount' % self.id)
+        
+        if not count:
+            count = self.challenger_duel.filter(challenge_awesomeness=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness=F('challenge_awesomeness')).count()
+            cache.set('player_%d_tiecount' % self.id, count, 60*15)
+            
+        return count
+        
+    def invalidate_winlosstie_counts(self):
+        cache.set('player_%d_wincount' % self.id, None, 5)
+        cache.set('player_%d_losscount' % self.id, None, 5)
+        cache.set('player_%d_tiecount' % self.id, None, 5)
+
     def get_challenger_duels(self):
         return self.challenger_duel.all().filter(open=True).order_by('-created')
         
@@ -364,15 +397,6 @@ Uw gezagvoerder''' % {
         skills = Skill.objects.filter(player=self).order_by('style__name')
         
         return skills
-        
-    def get_win_count(self):
-        return self.challenger_duel.filter(challenge_awesomeness__gt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__gt=F('challenge_awesomeness')).count()
-        
-    def get_loss_count(self):
-        return self.challenger_duel.filter(challenge_awesomeness__lt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__lt=F('challenge_awesomeness')).count()
-    
-    def get_tie_count(self):
-        return self.challenger_duel.filter(challenge_awesomeness=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness=F('challenge_awesomeness')).count()
     
     def __unicode__(self):
         return self.user.username
