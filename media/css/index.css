@@ -1,0 +1,292 @@
+#intro_wrapper {
+    background: #b7d1d0 url(../image/grain_overlay.png) repeat;
+}
+
+#intro {
+	text-align: center;
+	background: url(../image/home_tagline_bg.png) no-repeat;
+}
+
+#intro h2 {
+	padding: 21px 0;
+	color: #fff;
+	text-shadow: #666 0 1px 0;
+}
+
+#intro h2 span {
+	color: #262a33;
+	text-shadow: #f5f5f5 0 1px 0;
+}
+
+.airmail {
+	background: #fff url(../image/bg_airmail.png) repeat;
+}
+
+#intro_wrapper .airmail {
+	height: 10px;
+}
+
+#billboard_wrapper {
+	background: #262a33 url(../image/grain_overlay.png) repeat;
+	overflow: hidden;
+}
+
+#billboard_wrapper h2 {
+	color: #b7d1d0;
+	text-shadow: #000 0 1px 0;
+}
+
+#billboard_wrapper p {
+	font-size: 12px;
+	font-weight: bold;
+	color: #fff;
+	width: 380px;
+	text-shadow: #000 0 1px 0;
+}
+
+#billboard #livegames {
+	width: 460px;
+	float: left;
+	background: url(../image/schedule_bg_city.png) no-repeat right bottom;
+	padding-bottom: 42px;
+}
+
+#livegames #schedule {
+	height: 220px;
+	margin-bottom: 21px;
+	background: url(../image/schedule_frame_bg.png) no-repeat;
+}
+
+#schedule a {
+	color: #fff;
+	text-decoration: none;
+}
+
+#schedule a:hover {
+	color: #ff3300;
+}
+
+#schedule .nextevent {
+	position: relative;
+	width: 340px;
+	height: 30px;
+	top: 30px;
+	left: 20px;
+}
+
+#schedule .nextfestival {
+	position: relative;
+	text-transform: uppercase;
+	width: 250px;
+	height: 30px;
+	top: 50px;
+	left: 20px;
+}
+
+#schedule .nextdays {
+	position: relative;
+	text-align: center;
+	width: 30px;
+	height: 30px;
+	top: -1px;
+	left: 300px;
+}
+
+#schedule .nexthours {
+	position: relative;
+	text-align: center;
+	width: 30px;
+	height: 30px;
+	top: -52px;
+	left: 340px;
+}
+
+#schedule .upcoming1 {
+	position: relative;
+	text-transform: uppercase;
+	width: 230px;
+	height: 30px;
+	top: -43px;
+	left: 20px;
+}
+
+#schedule .upcoming1state {
+	position: relative;
+	text-align: center;
+	text-transform: uppercase;
+	color: #ccc;
+	width: 100px;
+	height: 30px;
+	top: -94px;
+	left: 270px;
+}
+
+#schedule .upcoming2 {
+	position: relative;
+	text-transform: uppercase;
+	width: 230px;
+	height: 30px;
+	top: -105px;
+	left: 20px;
+}
+
+#schedule .upcoming2state {
+	position: relative;
+	text-align: center;
+	text-transform: uppercase;
+	color: #ccc;
+	width: 100px;
+	height: 30px;
+	top: -156px;
+	left: 270px;
+}
+
+#billboard #onlinebattle {
+	width: 460px;
+	padding-bottom: 42px;
+	float: right;
+}
+
+#onlinebattle #teaser{
+	height: 220px;
+	margin-bottom: 21px;
+	background: url(../image/online_battle_visual.png) no-repeat center 50px;
+}
+
+a.button {
+	text-decoration: none;
+	background: url(../image/button_arrow.png) no-repeat top right;
+	float: left;
+}
+
+a.button:hover {
+	text-decoration: none;
+	background: url(../image/button_arrow.png) no-repeat bottom right;
+	float: left;
+}
+
+a.button h4 {
+	color: #fff;
+	background-color: #ff3300;
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-right: 10px;
+}
+
+a:hover.button h4 {
+	color: #ff3300;
+	background-color: #fff;
+}
+
+a:active.button h4 {
+	color: #333;
+}
+
+#activity_wrapper {
+	min-width: 940px;
+	background: #fff url(../image/border_bg_home.png) repeat-y center center;
+	border-top: 5px solid #ddd;
+	overflow: hidden;
+}
+
+#activity_wrapper h2 {
+	color: #262a33;
+	padding: 10px 0 10px 10px;
+	margin: 0 2px;
+	background-color: #fff;
+}
+
+#activities #stream {
+	width: 620px;
+	float: left;
+}
+
+#activities #stream #participants {
+	margin-left: 1px;
+	border-top: 5px solid #ddd;
+}
+
+#participants p {
+	font-size: 12px;
+}
+
+#participants a {
+	text-decoration: none;
+}
+
+#participants .participant a .name {
+	color: #666;
+}
+
+#participants .participant a:hover .name {
+	color: #ff3300;
+}
+
+#participants .participant {
+	width: 154px;
+	float: left;
+}
+
+#participants .participant .avatar {
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 30px;
+	height: 30px;
+}
+
+#participants .participant .name {
+	margin: 10px 10px 0 0;
+	width: 95px;
+	color: #666;
+	line-height: 16px;
+	font-weight: bold;
+	float: right;
+}
+
+#participants .activity a {
+	color: #ff3300;
+}
+
+#participants .activity a:hover {
+	text-decoration: underline;
+}
+
+#participants .participant .activity {
+	margin: 10px;
+	float: left;
+	width: 130px;
+}
+
+#activities #blog {
+	width: 300px;
+	float: right;
+	padding-bottom: 10px;
+}
+
+#activities #blog a.title {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+#activities #blog a {
+	color: #ff3300;
+	text-decoration: none;
+}
+
+#activities #blog a:hover {
+	text-decoration: underline;
+}
+
+#activities #blog .date {
+	color: #666;
+}
+
+#blog #post {
+	margin-left: 1px;
+	border-top: 5px solid #ddd;
+}
+
+#blog #post p {
+	margin: 20px 21px;
+}

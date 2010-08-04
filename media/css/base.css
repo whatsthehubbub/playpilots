@@ -1,0 +1,262 @@
+.mainblock {
+    margin: auto;
+    width: 940px;
+}
+
+#headerwrapper {
+    background: #fff;
+    height: 65px;
+    -webkit-box-shadow: 0 2px 2px #999;
+    -moz-box-shadow: 0 2px 2px #999;
+	box-shadow: 0 2px 2px #999;
+    position: relative;
+    z-index: 999;
+}
+
+#header {
+}
+
+#logo {
+    float: left;
+    padding: 0;
+    margin: 0;
+    height: 65px;
+}
+
+#logo IMG {
+    border: 0;
+}
+
+#checkin {
+    font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Arial;
+    text-transform: uppercase;
+	font-weight: bold;
+    text-shadow: 0px 1px 0 #000;
+    float: right;
+    color: #ddd;
+    background: transparent url(../image/login_box_bg.png) no-repeat;
+    margin-right: -5px;
+	overflow: hidden;
+}
+
+#checkin .leftpart {
+	float: left;
+	background: #fff url(../image/login_box_bg.png) no-repeat left top;
+	width: 10px;
+	height: 65px;
+}
+
+#checkin .middlepart {
+	float: left;
+	background: #fff url(../image/login_box_bg.png) no-repeat -20px top;
+	height: 65px;
+}
+
+#checkin .rightpart {
+	float: left;
+	background: #fff url(../image/login_box_bg.png) no-repeat right top;
+	width: 10px;
+	height: 65px;
+}
+
+#checkin img {
+    float: left;
+    height: 30px;
+    width: 30px;
+	margin-top: 5px;
+}
+
+#checkin a {
+    color: white;
+    text-decoration: none;
+}
+
+#checkin a:hover {
+    text-decoration: underline;
+}
+
+#checkin #username, #checkin #login {
+	float: right;
+	font-size: 16px;
+	margin: 18px 10px 0;
+}
+
+#checkin #logout, #checkin #register {
+	text-align: right;
+    margin: 0 5px 0 0;
+    font-size: 10px;
+}
+
+#menu {
+    margin-left: 0;
+    float: left;
+    font-size: 18px;
+    font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Arial;
+	font-weight: 600;
+}
+
+#menu OL {
+    padding-top: 24px;
+}
+
+#menu LI {
+    float: left;
+    text-transform: uppercase;
+    list-style-type: none;
+}
+
+#menu LI A {
+    display: inline-block;
+    text-decoration: none;
+    color: #bababa;
+    margin-right: 40px;
+}
+
+#menu A:visited {
+    color: #bababa;
+}
+
+#menu A.current {
+	font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+    font-weight: 800;
+	border-bottom: 2px solid #f30;
+    color: #f30;
+}
+
+#splash {
+    background-color: #262A33;
+
+    color: #f6e9d7;
+}
+
+#taglinewrapper {
+    background-color: #b7d1d0;
+    background-image: url(../image/grain_overlay.png);
+}
+
+#underconstrwrapper {
+    background-color: #ffff9d;
+	background-image: url(../image/bg_soon.png);
+	border-bottom: 1px solid #ffeb00;
+}
+
+#underconstrwrapper p {
+	font-size: 12px;
+	width: 620px;
+    margin: 0px auto;
+	padding: 3px 0 3px 26px;
+	background: url(../image/constr_icon.png) no-repeat left center;
+}
+
+#underconstrwrapper a {
+	color: #ff3300;
+	text-decoration: none;
+}
+
+#underconstrwrapper a:hover {
+	text-decoration: underline;
+}
+
+#contentwrapper {
+
+}
+
+#activity {
+    float: left;
+
+    width: 600px;
+}
+
+#blog {
+    float: left;
+
+    margin-left: 20px;
+    width: 300px;
+}
+
+#footerwrapper {
+    font-size: 12px;
+    background-color: #ddd;
+    color: #999;
+    text-shadow: 0px 1px 0 #fff;
+
+    border-top: 5px solid #bbb;
+
+    background-image: url(../image/grain_overlay.png);
+    background-repeat: repeat;
+
+    padding: 21px 0;
+}
+
+#footerwrapper a {
+    color: #666;
+    text-decoration: none;
+}
+
+#footerwrapper a:hover {
+    text-decoration: underline;
+}
+
+#footerwrapper p {
+margin: 0px;
+}
+
+#footerwrapper h4 {
+    color: #999;
+}
+
+
+#footerexplanation {
+    border: 1px solid #bbb;
+
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    border-bottom: none;
+
+    background-color: #ddd;
+
+    width: 920px;
+    padding: 10px;
+}
+
+#footerexplanation p {
+	width: 690px;
+}
+
+#footergraphic {
+    border: 1px solid #bbb;
+    padding: 21px 10px;
+    width: 920px;
+    border-bottom: none;
+}
+
+#footergraphic IMG {
+    vertical-align: top;
+}
+
+#footercolofon {
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+    border: 1px solid #bbb;
+
+    overflow: hidden;
+    padding: 10px 10px 11px 10px;
+    width: 920px;
+}
+
+#footercolofon A {
+    text-decoration: none;
+}
+#unicorn {
+	background: transparent url(../image/footer_graphic.png) no-repeat center bottom;
+}
