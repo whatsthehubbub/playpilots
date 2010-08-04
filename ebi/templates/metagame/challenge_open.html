@@ -176,7 +176,7 @@
                 <!-- <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png"> -->
             {% endif %}
             
-            <img id="vs" {% if duel.challenger.user == user %}style="right: -100px;"{% endif %} src="{{ MEDIA_URL }}image/vs_stars.png">
+            <img id="vs" {% if duel.challenger.user == user %}style="right: -50px;"{% endif %} src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
                 <img src="{{ duel.challenger.get_avatar_url }}" alt="">

@@ -236,12 +236,12 @@
 			height: 30px;
 		}
         
-        td.win, td.lose, td.tie {
+        td.win, td.loss, td.tie {
             width: 40px;
             text-align: center;
         }
 
-		td.win p, td.lose p, td.tie p {
+		td.win p, td.loss p, td.tie p {
 			margin: 0 auto;
 		}
         
@@ -368,8 +368,8 @@
 							</a>
 						</td>
                         <td class="win">{{ player.get_win_count }}</td>
-                        <td class="lose">{{ player.get_loss_count }}</td>
                         <td class="tie">{{ player.get_tie_count }}</td>
+                        <td class="loss">{{ player.get_loss_count }}</td>
                         <td class="pow">
                             {% ifnotequal player.user.username user.username %}
                                 <form method="GET" action="/challenge">
@@ -399,8 +399,8 @@
 									</a>
         						</td>
                                 <td class="win">{{ player.get_win_count }}</td>
-                                <td class="lose">{{ player.get_loss_count }}</td>
-                                <td class="tie">{{ player.get_tie_count }}</td>
+                                <td class="loss">{{ player.get_tie_count }}</td>
+                                <td class="tie">{{ player.get_loss_count }}</td>
 
                                 <td class="pow">
                                     {% ifnotequal player.user.username user.username %}

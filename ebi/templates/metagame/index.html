@@ -191,6 +191,7 @@
 	}
 	
 	#activity_wrapper {
+		min-width: 940px;
 		background: #fff url({{ MEDIA_URL }}image/border_bg_home.png) repeat-y center center;
 		border-top: 5px solid #ddd;
 		overflow: hidden;
@@ -318,7 +319,7 @@
 				<p class="nexthours">{{ nextgame.get_hours_till }}</p>
 				<p class="upcoming1">Nederlands Film Festival</p>
 				<p class="upcoming1state">binnenkort</p>
-				<p class="upcoming2">Le Guess Who</p>
+				<p class="upcoming2">Le Guess Who?</p>
 				<p class="upcoming2state">binnenkort</p>
 			</div>
 			<h2>Live games in Utrecht</h2>
@@ -329,7 +330,7 @@
 			<div id="teaser">
 			</div>
 			<h2>Ontwikkel je stijl en skills</h2>
-			<p>PLAY Pilots presenteren een online battle van subculturen. Voor fans vaan muziek, films en games.</p>
+			<p>PLAY Pilots presenteert een online battle van subculturen. Voor fans van muziek, films en games.</p>
 			<a href="/login/" class="button"><h4>Meld je aan en speel</h4></a>
 		</div>
     </div>
@@ -338,7 +339,7 @@
 <div id="activity_wrapper">
 	<div id="activities" class="mainblock">
 		<div id="stream">
-			<h2>activiteiten</h2>
+			<h2>activiteit</h2>
 			<div id="participants">
 			    {% for action in actions %}
 			        <div class="participant {% if forloop.last %}last{% endif %}">
