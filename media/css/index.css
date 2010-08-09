@@ -153,6 +153,10 @@
 	background: url(../image/online_battle_visual.png) no-repeat center 50px;
 }
 
+#onlinebattle A {
+    color: white;
+}
+
 a.button {
 	text-decoration: none;
 	background: url(../image/button_arrow.png) no-repeat top right;

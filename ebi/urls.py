@@ -41,6 +41,7 @@ urlpatterns += patterns('django.views.generic.simple',
 
 urlpatterns += patterns('ebi.battleroyale.views',
     (r'^klassement/$', 'klassement'),
+    (r'^klassement/login/$', 'klassement_auth_redirect'),
 
     (r'^challenge/$', 'challenge'),
     (r'^challenge/create/$', 'challenge_create'),

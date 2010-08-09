@@ -37,7 +37,12 @@ def klassement(request):
         c['skills'] = Skill.objects.filter(style=c['currentStyle']).order_by('-level', '-experience')
         
         return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
-    
+
+@login_required
+def klassement_auth_redirect(request):
+    '''View to force people to login before going to the klassement.'''
+    return HttpResponseRedirect('/klassement/')
+
 @login_required
 def challenge(request):
     playerid = request.GET.get('target', None)
