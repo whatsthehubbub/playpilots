@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
+from django.db.models import Count
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
@@ -33,17 +34,7 @@ def klassement(request):
         styleid = int(request.GET.get('style'))
         
         c['currentStyle'] = Style.objects.get(id=styleid)
-        
-        skills = []
-        count = 1
-        for skillLevel in range(5, 0, -1):
-            skills.append((count, 
-                        Player.objects.filter(skills__style=c['currentStyle'], skills__level=skillLevel).order_by('-skills__experience')
-                    ))
-            count += 1
-        # c['currentStyle'].skills.all()[0].get_probability_texts()[count]
-        
-        c['skills'] = skills
+        c['skills'] = Skill.objects.filter(style=c['currentStyle']).order_by('-level', '-experience')
         
         return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
     
