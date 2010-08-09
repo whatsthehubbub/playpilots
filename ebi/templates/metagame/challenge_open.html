@@ -31,16 +31,7 @@
             for (var counter in actions[style]) {
                 var action = actions[style][counter];
                 
-                var extraclass = '';
-                if (counter == 0) {
-                    // The first are selected by default, so we need to fill those in
-                    actionId = action[0];
-                    actionString = templateAction(action[1], challengeUser);
-
-                    extraclass = 'selected';
-                }
-                
-                $('#moves').append('<li id="move_' + action[0] + '" class="move ' + extraclass + '"><b>' + targetUser + '</b> ' + templateAction(action[1], challengeUser) + '</li>');
+                $('#moves').append('<li id="move_' + action[0] + '" class="move"><b>' + targetUser + '</b> ' + templateAction(action[1], challengeUser) + '</li>');
             }
         }
         
@@ -90,6 +81,20 @@
                 // Also show the action choice field and fill the correct actions
                 
                 fillMoves(style);
+                
+                $('.move').click(function() {
+                    $('.move').removeClass('selected');
+
+                    var i = this.id.split('_')[1];
+
+                    $('#move_' + i).addClass('selected');
+
+                    // Store move id
+                    actionId = parseInt(i);
+                    actionString = $('#move_' + i).text();
+                });
+                
+                $('.move').first().click();
             });
             
             $('#changestylelink').click(function() {
@@ -99,18 +104,6 @@
                 $('#stylechooser').css('display', 'block');
                 $('#stylechosen2').css('display', 'none');
                 $('#actionplayer2').css('display', 'none');
-            });
-            
-            $('#moves LI').live('click', function() {
-                $('.move').removeClass('selected');
-                
-                var i = this.id.split('_')[1];
-                
-                $('#move_' + i).addClass('selected');
-                
-                // Store move id
-                actionId = parseInt(i);
-                actionString = $('#move_' + i).text();
             });
             
             $('#makemovebutton').click(function() {
