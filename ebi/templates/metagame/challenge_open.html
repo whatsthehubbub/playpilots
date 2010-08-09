@@ -200,11 +200,11 @@
     
     <div id="style">
         <div class="headingbox">
-            <h5>Stijl</h5>
+            <h5>{{ duel.challenger.user.username }}&rsquo;s stijl</h5>
 
             <!-- if you are the target -->
             {% ifequal user duel.target.user %}
-                <h5>Jouw stijl</h5>
+                <h5>Kies je stijl</h5>
             {% endifequal %}
         </div>
         
@@ -254,10 +254,10 @@
     
     <div id="action">
         <div class="headingbox">
-            <h5>Actie</h5>
+            <h5>{{ duel.challenger.user.username }}&rsquo;s actie</h5>
 
             {% ifequal user duel.target.user %}
-                <h5>Jouw reactie</h5>
+                <h5>Kies je reactie</h5>
             {% endifequal %}
         </div>
         

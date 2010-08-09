@@ -143,11 +143,10 @@
 
 #billboard #onlinebattle {
 	width: 460px;
-	padding-bottom: 42px;
 	float: right;
 }
 
-#onlinebattle #teaser{
+#onlinebattle #teaser {
 	height: 220px;
 	margin-bottom: 21px;
 	background: url(../image/online_battle_visual.png) no-repeat center 50px;
@@ -155,6 +154,11 @@
 
 #onlinebattle A {
     color: white;
+}
+
+#onlinebattle a:hover {
+	text-decoration: none;
+	color: #f30;
 }
 
 a.button {
