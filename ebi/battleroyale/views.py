@@ -48,13 +48,16 @@ def challenge(request):
     playerid = request.GET.get('target', None)
 
     target = get_object_or_404(Player, id=int(playerid))
+    
+    if not request.user== target:
+        styles = Style.objects.all().order_by('name')
 
-    styles = Style.objects.all().order_by('name')
-
-    return render_to_response('metagame/challenge_start.html', {
-        'target': target,
-        'styles': styles
-    }, context_instance=RequestContext(request))
+        return render_to_response('metagame/challenge_start.html', {
+            'target': target,
+            'styles': styles
+        }, context_instance=RequestContext(request))
+    else:
+        return HttpResponseRedirect('/klassement/')
 
 def challenge_detail(request, id):
     d = get_object_or_404(Duel, id=id)
