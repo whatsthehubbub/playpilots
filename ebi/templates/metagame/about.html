@@ -1,5 +1,11 @@
 {% extends "metagame/base.html" %}
 
+{% comment %}
+    This template is being used as a generic flatpage container. Now both for 
+    /over/
+    and for /help/
+{% endcomment %}
+
 {% block extrahead %}
     <title>{{ flatpage.title }} &bull; PLAY Pilots</title>
     
@@ -60,17 +66,35 @@
             padding: 21px 10px;
         }        
         
-        /* Style to select the menu option. */
-        #menu_over A, #menu_over A.current, #menu_help A.current { /* de eerste mag weg zodra het highlighten van een optie fatsoenlijk werkt */
-    		font-family: "proxima-nova-1", "proxima-nova-2", Arial;
-            font-weight: 800;
-    		border-bottom: 2px solid #f30;
-            color: #f30;
-        }
+        {% ifequal flatpage.title "Over PLAY!" %}
+            /* Style to select the menu option. */
+            #menu_over A, #menu_over A.current { /* de eerste mag weg zodra het highlighten van een optie fatsoenlijk werkt */
+        		font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+                font-weight: 800;
+        		border-bottom: 2px solid #f30;
+                color: #f30;
+            }
+
+            #menu_over A:visited {
+                color: #f30;
+            }
+        {% endifequal %}
         
-        #menu_over A:visited, #menu_help A:visited {
-            color: #f30;
-        }
+        {% ifequal flatpage.title "Help" %}
+            /* Style to select the menu option. */
+            #menu_help A, #menu_help A.current { /* de eerste mag weg zodra het highlighten van een optie fatsoenlijk werkt */
+        		font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+                font-weight: 800;
+        		border-bottom: 2px solid #f30;
+                color: #f30;
+            }
+
+            #menu_help A:visited {
+                color: #f30;
+            }
+        {% endifequal %}
+        
+        
     </style>
     
 {% endblock %}
