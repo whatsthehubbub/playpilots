@@ -35,14 +35,23 @@ def index(request):
             blogentry = feed_first_entry('http://ebi.posterous.com/rss.xml')
             cache.set('blogentry', blogentry, 60*60*4)
     
+        # Rough code to get 4 actions with unique actors in this list
+        action_list = []
         actions = Action.objects.all().order_by('-timestamp')
-    
+        for action in actions:
+            if len(action_list) > 3:
+                break
+                
+            if not action.actor_object_id in [a.actor_object_id for a in action_list]:
+                action_list.append(action)
+            
+        
         nextgame = Game.objects.filter(start__gt=datetime.datetime.now()).order_by('start')[0]
         
         return render_to_response('metagame/index.html', {
             'current': 'home',
             'blogentry': blogentry,
-            'actions': actions[:4],
+            'actions': action_list,
             'nextgame': nextgame
         }, context_instance=RequestContext(request))
 
