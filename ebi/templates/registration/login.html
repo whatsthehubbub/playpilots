@@ -3,7 +3,6 @@
 {% block extrahead %}
 	<title>Login &bull; PLAY Pilots</title>
 	<style type="text/css" media="screen">
-	
 		#contentwrapper {
 			background-color: #f5f5f5;
             background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
@@ -90,4 +89,20 @@
 	<a href="https://twitter.com/signup" title="Meld je nu bij Twitter aan">Meld je nu bij Twitter aan &raquo;</a>
 	</div>
 </div>
+
+{% if debug %}
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    <form action="/login/" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="hidden" name="next" value="{{ next }}">
+
+    <input type="submit" value="Submit" />
+    </form>
+{% endif %}
+
 {% endblock %}
