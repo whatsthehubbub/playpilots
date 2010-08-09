@@ -1,7 +1,8 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>Klassement &bull; PLAY Pilots</title>
+    <title>{% if currentStyle %}
+    {{ currentStyle.name }} stijlklassement{% else %}Algemeen klassement{% endif %} &bull; PLAY Pilots</title>
 
     <style type="text/css" media="screen">
         #contentwrapper {
@@ -350,8 +351,8 @@
                 <th>Positie</th>
                 <th>Speler</th>
                 <th>Win</th>
-                <th>Tie</th>
-                <th>Loss</th>
+                <th>Gelijk</th>
+                <th>Verlies</th>
             </tr>
             
             {% if players %}

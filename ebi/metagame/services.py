@@ -2,22 +2,28 @@ import feedparser
 
 from ebi import twitter
 import logging
+import urllib2
+
+def get_feed(url):
+    if url:
+        feed = urllib2.urlopen(url, timeout=2)
+        content = feed.read()
+        return feedparser.parse(content)
 
 def feed_first_entry(url):
-    blogparsed = feedparser.parse(url)
-    
-    if len(blogparsed['entries']) > 0:
-        return blogparsed['entries'][0]
-    
+    try:
+        return feed_entries(url)[0]
+    except:
+        pass
+
     return {}
     
 def feed_entries(url):
-    if url:
-        parsed = feedparser.parse(url)
-    
-        if len(parsed['entries']) > 0:
-            return parsed['entries']
-    
+    feed = get_feed(url)
+
+    if len(feed['entries']) > 0:
+        return feed['entries']
+
     return []
     
 def send_tweet(msg):

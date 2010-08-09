@@ -31,7 +31,8 @@ urlpatterns += patterns('ebi.metagame.views',
 	
 	# (r'^register/$', 'register'),
 	(r'^logout/$', 'logout_view'),
-	(r'^over/$', 'flatpage')
+	(r'^over/$', 'flatpage'),
+	(r'^help/$', 'flatpage')
 )
 
 urlpatterns += patterns('django.views.generic.simple',
