@@ -256,7 +256,7 @@
         
         <div class="box">
             <div id="actionplayer1" class="player1 {% if not duel %}choice{% endif %}">
-                <div class="finalmove move">
+                <div class="finalmove">
                     <b>{{ duel.challenger.user.username }}
                     {{ duel.get_challenge_move|safe }}
                     {% if duel.challenge_message %}
