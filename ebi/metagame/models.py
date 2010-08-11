@@ -345,7 +345,7 @@ Uw gezagvoerder''' % {
         
         if not count:
             count = self.challenger_duel.filter(challenge_awesomeness__gt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__gt=F('challenge_awesomeness')).count()
-            cache.set('player_%d_wincount' % self.id, count, 60*15)
+            cache.set('player_%d_wincount' % self.id, count, 60*60)
             
         return count
 
@@ -354,7 +354,7 @@ Uw gezagvoerder''' % {
         
         if not count:
             count = self.challenger_duel.filter(challenge_awesomeness__lt=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness__lt=F('challenge_awesomeness')).count()
-            cache.set('player_%d_losscount' % self.id, count, 60*15)
+            cache.set('player_%d_losscount' % self.id, count, 60*60)
             
         return count
 
@@ -363,14 +363,20 @@ Uw gezagvoerder''' % {
         
         if not count:
             count = self.challenger_duel.filter(challenge_awesomeness=F('response_awesomeness')).count() + self.responder_duel.filter(response_awesomeness=F('challenge_awesomeness')).count()
-            cache.set('player_%d_tiecount' % self.id, count, 60*15)
+            cache.set('player_%d_tiecount' % self.id, count, 60*60)
             
         return count
         
     def invalidate_winlosstie_counts(self):
+        # Invalidate the counts
         cache.set('player_%d_wincount' % self.id, None, 5)
         cache.set('player_%d_losscount' % self.id, None, 5)
         cache.set('player_%d_tiecount' % self.id, None, 5)
+        
+        # Recalculate and set all the values
+        self.get_win_count()
+        self.get_loss_count()
+        self.get_tie_count()
 
     def get_challenger_duels(self):
         return self.challenger_duel.all().filter(open=True).order_by('-created')
