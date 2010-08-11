@@ -22,7 +22,7 @@ import logging
 
 def klassement(request):
     c = {
-        'styles': Style.objects.all(),
+        'styles': Style.objects.all().order_by('name'),
         'current': 'klassement'
     }
     
