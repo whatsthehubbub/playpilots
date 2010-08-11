@@ -402,4 +402,4 @@ Uw gezagvoerder''' % {
         return self.user.username
         
     def get_absolute_url(self):
-        return '/players/%d/' % self.user.id
+        return '/players/%d/' % self.id
