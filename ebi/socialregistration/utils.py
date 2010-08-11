@@ -215,7 +215,7 @@ class OAuthClient(object):
             self.request.session['oauth_%s_request_token' % get_token_prefix(self.request_token_url)] = self.request_token
             
             # Seems this is not being put into the session corretly in all cases
-            logging.debug('_get_request_token request token received: %s', str(self.request_token))
+            # logging.debug('_get_request_token request token received: %s', str(self.request_token))
             
         return self.request_token
 
