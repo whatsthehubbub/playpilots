@@ -1,0 +1,86 @@
+{% extends "metagame/base.html" %}
+
+{% block extrahead %}
+    <title>Home &bull; PLAY Pilots</title>
+
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/index.css" type="text/css" media="screen" charset="utf-8">
+
+{% endblock %}
+
+{% block content %}
+<div id="intro_wrapper">
+	<div id="intro" class="mainblock">
+		<h2><span>PLAY Pilots</span> verbindt muziek,<br /> film en speelse cultuur in Utrecht.</h2>
+    </div>
+<div class="airmail"></div>
+</div>
+
+<div id="billboard_wrapper">
+	<div id="billboard" class="mainblock">
+		<div id="livegames">
+			<div id="schedule">
+				<h2 class="nextevent"><a href="{{ nextgame.get_absolute_url }}">{{ nextgame.name }}</a></h2>
+				<p class="nextfestival"><a href="{{ nextgame.festival.link }}" target="_blank">{{ nextgame.festival.name }}</a></p>
+				<p class="nextdays">{{ nextgame.get_days_till }}</p>
+				<p class="nexthours">{{ nextgame.get_hours_till }}</p>
+				<p class="upcoming1">Nederlands Film Festival</p>
+				<p class="upcoming1state">binnenkort</p>
+				<p class="upcoming2">Le Guess Who?</p>
+				<p class="upcoming2state">binnenkort</p>
+			</div>
+			<h2>Live games in Utrecht</h2>
+			<p>PLAY Pilots nodigt je uit om live games te spelen op Utrechtse festivals. Mis het niet!</p>
+			<a href="/games/" class="button"><h4>Bekijk alle games</h4></a>
+		</div>
+		
+		<div id="onlinebattle">
+			
+			<div id="teaser">
+			</div>
+			
+			<h2>Ontwikkel je stijl en skills</h2>
+			
+            <p>PLAY Pilots presenteert een online battle van subculturen. Voor fans van muziek, films en games.</p>
+            {% if request.user.is_anonymous %}                
+                <a href="/klassement/login/" class="button"><h4>Meld je aan en speel</h4></a>
+            {% else %}
+                <a href="/klassement/" class="button"><h4>Ga naar het klassement &amp; start een duel</h4></a>
+                <p style="clear:left; color:#999; font-size:10px; padding-top:10px; margin:0;">Je bent ingelogd als <a style="text-transform:uppercase;" href="{{ request.user.get_profile.get_absolute_url }}">{{ request.user.get_profile.get_display_name }}</a> (Iemand anders? <a href="/logout/">Uitloggen</a>)</p>
+			{% endif %}
+			
+			<div class="button_badge" style="position:absolute;width:160px;height:70px;top:13px;right:-30px;"><img src="{{ MEDIA_URL }}image/buttons_badge.png" width="160" height="70" alt="Speel mee en win buttons" /></div>
+			
+		</div>
+    </div>
+</div>
+
+<div id="activity_wrapper">
+	<div id="activities" class="mainblock">
+		<div id="stream">
+			<h2>activiteit</h2>
+			<div id="participants">
+			    {% for action in actions %}
+			        <div class="participant {% if forloop.last %}last{% endif %}">
+    					<a href="/users/{{ action.actor.get_display_name }}/">
+    						<img src="{{ action.actor.get_avatar_url }}" class="avatar" alt="">
+    						<p class="name">{{ action.actor.get_display_name }}</p>
+    					</a>
+    					<p class="activity">
+    					    {{ action.actor.get_display_name }} {{ action.verb }}
+    					    {% if action.target %}
+    					        <a href="{{ action.target.get_absolute_url }}">{{ action.target|safe }}</a>
+    					    {% endif %}
+    					</p>
+    				</div>
+			    {% endfor %}
+			</div>
+		</div>
+		
+		<div id="blog">
+			<h2>blog</h2>
+			<div id="post">
+				<p><a href="{{ blogentry.link }}" class="title">{{ blogentry.title }}</a><br /><span class="date">{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }}</span> - {{ blogentry.summary|striptags|truncatewords:25 }}  <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
+		</div>
+    </div>
+</div>
+{% endblock %}
