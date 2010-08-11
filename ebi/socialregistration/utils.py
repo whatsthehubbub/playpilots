@@ -12,6 +12,8 @@ import base64
 import urllib
 import urllib2
 
+import logging
+
 # parse_qsl was moved from the cgi namespace to urlparse in Python2.6.
 # this allows backwards compatibility
 try:
@@ -211,6 +213,10 @@ class OAuthClient(object):
                     _('Invalid response while obtaining request token from "%s".') % get_token_prefix(self.request_token_url))
             self.request_token = dict(parse_qsl(content))
             self.request.session['oauth_%s_request_token' % get_token_prefix(self.request_token_url)] = self.request_token
+            
+            # Seems this is not being put into the session corretly in all cases
+            logging.debug('_get_request_token request token received: %s', str(self.request_token))
+            
         return self.request_token
 
     def _get_access_token(self):

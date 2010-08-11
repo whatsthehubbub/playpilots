@@ -245,6 +245,9 @@ def oauth_callback(request, consumer_key=None, secret_key=None,
         except:
             pass
         
+        for error in client.errors:
+            logging.debug('errors in client: %s', str(error))
+        
         return render_to_response(
             template, extra_context, context_instance=RequestContext(request)
         )
