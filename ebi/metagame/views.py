@@ -48,7 +48,12 @@ def index(request):
         
         nextgame = Game.objects.filter(start__gt=datetime.datetime.now()).order_by('start')[0]
         
-        return render_to_response('metagame/index.html', {
+        templateName = 'metagame/index.html'
+        
+        if request.GET.get('staging', 0) == 'yes':
+            templateName = 'metagame/index2.html'
+        
+        return render_to_response(templateName, {
             'current': 'home',
             'blogentry': blogentry,
             'actions': action_list,
