@@ -23,6 +23,8 @@ from socialregistration.utils import (OAuthClient, OAuthTwitter,
 from socialregistration.models import FacebookProfile, TwitterProfile, OpenIDProfile
 
 
+import logging
+
 FB_ERROR = _('We couldn\'t validate your Facebook credentials')
 
 GENERATE_USERNAME = bool(getattr(settings, 'SOCIALREGISTRATION_GENERATE_USERNAME', False))
@@ -235,6 +237,11 @@ def oauth_callback(request, consumer_key=None, secret_key=None,
     extra_context.update(dict(oauth_client=client))
 
     if not client.is_valid():
+        # Here we get when the oauth client is not valid
+        logging.debug('client is invalid')
+        logging.debug('request token %s', client._get_rt_from_session())
+        logging.debug('access token %s', client._get_access_token())
+        
         return render_to_response(
             template, extra_context, context_instance=RequestContext(request)
         )
