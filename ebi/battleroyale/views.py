@@ -1,7 +1,9 @@
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
+
+from django.template import RequestContext, Template
+from django.template.loader import get_template, render_to_string
 
 from django.db.models import Count
 from django.core.mail import send_mail
@@ -27,9 +29,14 @@ def klassement(request):
     }
     
     if not request.GET.get('style'):
-        c['players'] = Player.objects.all().order_by('-rating')
-    
-        return render_to_response('metagame/klassement.html', c, context_instance=RequestContext(request))
+        result = cache.get('klassement_page')
+        if not result:
+            c['players'] = Player.objects.all().order_by('-rating')
+            result = render_to_string('metagame/klassement.html', c, context_instance=RequestContext(request))
+            
+            cache.set('klassement_page', result, 60*10)
+        
+        return HttpResponse(result)
     else:
         styleid = int(request.GET.get('style'))
         
@@ -232,8 +239,10 @@ def challenge_resolve(request):
         d.responder_newrating = d.target.rating
         
         # Invalidate ranks
-        cache.set('player_%d_rank' % d.challenger.id, None, 1)
-        cache.set('player_%d_rank' % d.target.id, None, 1)
+        cache.set('player_%d_rank' % d.challenger.id, None, 5)
+        cache.set('player_%d_rank' % d.target.id, None, 5)
+        # Invalidate klassement page rank
+        cache.set('klassement_page', None, 5)
         
         d.challenger_newrank = d.challenger.get_rank()
         d.responder_newrank = d.target.get_rank()
