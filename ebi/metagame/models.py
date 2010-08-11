@@ -367,6 +367,23 @@ Uw gezagvoerder''' % {
             
         return count
         
+    def get_winlosstie_count(self):
+        counts = cache.get_many(['player_%d_wincount' % self.id, 'player_%d_losscount' % self.id, 'player_%d_tiecount' % self.id])
+        
+        if not 'player_%d_wincount' % self.id in counts:
+            counts['player_%d_wincount' % self.id] = self.get_win_count()
+        if not 'player_%d_losscount' % self.id in counts:
+            counts['player_%d_losscount' % self.id] = self.get_loss_count()
+        if not 'player_%d_tiecount' % self.id in counts:
+            counts['player_%d_tiecount' % self.id] = self.get_tie_count()
+        
+        counts['wincount'] = counts['player_%d_wincount' % self.id]
+        counts['losscount'] = counts['player_%d_losscount' % self.id]
+        counts['tiecount'] = counts['player_%d_tiecount' % self.id]
+        
+        return counts
+        
+        
     def invalidate_winlosstie_counts(self):
         # Invalidate the counts
         cache.set('player_%d_wincount' % self.id, None, 5)

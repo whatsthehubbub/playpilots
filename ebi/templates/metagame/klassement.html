@@ -107,9 +107,12 @@
                             		{% ifequal player.user.username user.username %}<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />{% endifequal %}
                             	</a>
                             </td>
-                            <td class="win">{{ player.get_win_count }}</td>
-                            <td class="loss">{{ player.get_tie_count }}</td>
-                            <td class="tie">{{ player.get_loss_count }}</td>
+                            
+                            {% with player.get_winlosstie_count as counts %}
+                                <td class="win">{{ counts.wincount }}</td>
+                                <td class="loss">{{ counts.losscount }}</td>
+                                <td class="tie">{{ counts.tiecount }}</td>
+                            {% endwith %}
 
                             <td class="pow">
                                 {% ifnotequal player.user.username user.username %}
