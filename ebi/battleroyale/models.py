@@ -175,57 +175,57 @@ class Duel(models.Model):
         
         if self.response_move.style.id == 1:
             if self.challenge_move.style.id == 8:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 2:
             if self.challenge_move.style.id == 10:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 5:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 3:
             if self.challenge_move.style.id == 6:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 11:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 4:
             if self.challenge_move.style.id == 1:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 8:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 5:
             if self.challenge_move.style.id == 9:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 2:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 6:
             if self.challenge_move.style.id == 9:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 3:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 7:
             if self.challenge_move.style.id == 11:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 4:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 8:
             if self.challenge_move.style.id == 1:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 4:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 9:
             if self.challenge_move.style.id == 5:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 6:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 10:
             if self.challenge_move.style.id == 2:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 5:
-                modifier = 0.2
+                modifier = 0.5
         elif self.response_move.style.id == 11:
             if self.challenge_move.style.id == 7:
-                modifier = -0.2
+                modifier = -0.5
             elif self.challenge_move.style.id == 3:
-                modifier = 0.2
+                modifier = 0.5
         return modifier
         
     def get_response_awesomeness(self):
@@ -243,7 +243,7 @@ class Duel(models.Model):
             if random.random() < abs(modifier):
                 awesomeness -= 1
                 
-            return max(awesomeness, 0)
+            return max(awesomeness, 1)
             
         return awesomeness
         
