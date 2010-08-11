@@ -25,7 +25,8 @@ import logging
 def klassement(request):
     c = {
         'styles': Style.objects.all().order_by('name'),
-        'current': 'klassement'
+        'current': 'klassement',
+        'skills': None
     }
     
     if not request.GET.get('style'):
