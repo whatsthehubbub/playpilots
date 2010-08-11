@@ -238,8 +238,6 @@ def challenge_resolve(request):
         # Invalidate ranks
         cache.set('player_%d_rank' % d.challenger.id, None, 5)
         cache.set('player_%d_rank' % d.target.id, None, 5)
-        # Invalidate klassement page rank
-        cache.set('klassement_fragment', None, 5)
         
         d.challenger_newrank = d.challenger.get_rank()
         d.responder_newrank = d.target.get_rank()
