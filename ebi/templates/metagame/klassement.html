@@ -61,7 +61,7 @@
             </tr>
             
             {% if players %}
-                {% cache 300 klassement_fragment %}
+                {% cache 900 klassement_fragment %}
                 {% for player in players %}
                     <tr class="player{% if forloop.counter < 4  %} topplayers{% endif %}">
                         <td class="rank">{{ forloop.counter }}</td>
