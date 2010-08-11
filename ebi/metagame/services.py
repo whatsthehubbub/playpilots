@@ -6,8 +6,11 @@ import urllib2
 
 def get_feed(url):
     if url:
-        feed = urllib2.urlopen(url, timeout=2)
-        content = feed.read()
+        try:
+            feed = urllib2.urlopen(url, timeout=2)
+            content = feed.read()
+        except:
+            content = ''
         return feedparser.parse(content)
 
 def feed_first_entry(url):
