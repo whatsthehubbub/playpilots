@@ -29,12 +29,9 @@ def klassement(request):
     }
     
     if not request.GET.get('style'):
-        result = cache.get('klassement_page')
-        if not result:
-            c['players'] = Player.objects.all().order_by('-rating')
-            result = render_to_string('metagame/klassement.html', c, context_instance=RequestContext(request))
-            
-            cache.set('klassement_page', result, 60*10)
+        c['players'] = Player.objects.all().order_by('-rating')
+        
+        result = render_to_string('metagame/klassement.html', c, context_instance=RequestContext(request))
         
         return HttpResponse(result)
     else:
