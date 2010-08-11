@@ -1,0 +1,301 @@
+#contentwrapper {
+}
+
+#headwrapper {
+	position: relative;
+	background: #b7d1d0 url(../image/grain_overlay.png);
+	border-bottom: 2px solid #999;
+}
+
+#startduel {
+    float: right;
+    margin-right: 20px;
+}
+
+#klassementhead {
+	position: relative;
+	z-index: 1;
+    color: #666;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#klassementexplanation {
+	position: relative;
+	z-index: 4;
+    width: 540px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+#klassementexplanation a {
+	color: #ff3300;
+	text-decoration: none;
+}
+
+#klassementexplanation a:hover {
+	text-decoration: underline;
+}
+
+#klassementhead H2 {
+    color: #fff;
+	text-shadow: #666 0px 1px 0px;
+    display: inline;
+}
+
+#klassementexplanation dl {
+	margin-top: 16px;
+	font-size: 12px;
+	overflow: hidden;
+}
+
+#klassementexplanation dl dt {
+	clear: left;
+	float: left;
+	width: 140px;
+	font-weight: normal;
+}
+
+#klassementexplanation dl dd {
+	float: left;
+}
+
+#rankwrapper {
+	position: relative;
+    border-top: 5px solid #ddd;
+    background: #f5f5f5 url(../image/grain_overlay.png);
+	padding-bottom: 42px;
+}
+
+#ranking {
+	position: relative;
+    overflow: hidden;
+	margin-top: -10px;
+}
+
+#stylepicker {
+	position: relative;
+	z-index: 3;
+    width: 240px;
+	margin-top: 10px;
+    overflow: hidden;
+    float: left;
+}
+
+#styles {
+    float: left;
+    
+    margin: 10px;
+    
+    width: 220px;
+    
+    margin: 0;
+    padding: 0;
+}
+
+#styles li {
+    color: #f30;
+    
+    margin: 0;
+    padding: 5px;
+    
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-top: 1px none #ddd;
+}
+
+#styles a {
+    text-decoration: none;
+    color: #f30;
+}
+
+#styles .selected, #styles li:hover {
+	color: #fff;
+	text-transform: uppercase;
+	background-color: #262a33;
+	font-weight: bold;
+	border-left: 1px solid #262a33;
+	border-bottom: 1px solid #262a33;
+	border-right: 1px solid #262a33;
+	border-top: 1px none #262a33;
+}
+
+#styles .selected A, #styles li:hover A {
+    color: white;
+}
+
+#tablewrapper {
+	position: relative;
+    overflow: hidden;
+    background: #b7d1d0 url(../image/grain_overlay.png);
+    width: 700px;
+    float: right;
+    border-bottom: 5px solid #ddd;
+}
+
+#illustr_container {
+	position: absolute;
+	z-index: 5;
+	right: 0px;
+	top: 0px;
+}
+
+table a {
+	color: #fff;
+	text-decoration: none;
+}
+
+#rank {
+	position: relative;
+	z-index: 2;
+}
+
+table#rank {
+    width: 700px;
+    border-bottom: 2px solid #999;
+    border-collapse: separate;
+    border-spacing: 10px;            
+}
+        
+#rank th {
+    text-align: left;
+    font-size: 10px;
+    color: #666;
+	border-bottom: 1px solid #666;
+}
+
+tr.player {
+    height: 30px;
+}
+
+.player td {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	background: transparent url(../image/ranking_bar_bg_light.png) repeat-x 50% 50%;
+	vertical-align: middle;
+	font-size: 18px;
+	line-height: 18px;
+	margin: 4px 0 0;
+	padding: 0;
+	color: #f5f5f5;
+}
+
+.player td img {
+	float: left;
+}
+
+.player {
+	text-transform: uppercase;
+}
+
+.topplayers td {
+	height: 40px;
+}
+
+td.rank {
+    width: 50px;
+    text-align: center;
+}
+
+td.info img {
+	float: left;
+    width: 30px;
+    height: 30px;
+}
+
+td.info span {
+	float: left;
+	margin-top: 6px;
+	margin-left: 10px;
+	width: 320px;
+}
+
+.topplayers td.info span {
+	font-size: 21px;
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.topplayers td.info img {
+    width: 40px;
+    height: 40px;
+}
+
+td.info img.jijtag {
+	float: right;
+	width: 50px;
+	height: 30px;
+}
+
+td.win, td.loss, td.tie {
+    width: 40px;
+    text-align: center;
+}
+
+td.win p, td.loss p, td.tie p {
+	margin: 0 auto;
+}
+
+td.pow {
+    background: transparent;
+    text-align: center;
+    width: 40px;
+}
+
+td.pow form {
+    overflow: hidden;
+	margin: -4px auto;
+	padding: 0;
+    width: 30px;
+	height: 34px;
+}
+
+.topplayers td.pow form {
+    width: 40px;
+	height: 44px;
+}
+
+.topplayers td.pow button {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    
+    border: none;
+    background: transparent url(../image/action_buttons_medium.png) center center;
+}
+
+td.pow button {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    
+    border: none;
+    background-color: transparent;
+    background-image: url(../image/action_buttons_small.png);
+    background-position: center center;
+}
+td.pow button:hover { background-position: center top; }
+td.pow button:active { background-position: center bottom; }
+
+.leveldescription {
+	padding-top: 10px;
+}
+
+.leveldescription img {
+	float: left;
+}
+
+.leveldescription span {
+	float: left;
+	margin-top: -3px;
+	margin-left: 10px;
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #fff;
+	text-shadow: #999999 0 1px 0;
+}
