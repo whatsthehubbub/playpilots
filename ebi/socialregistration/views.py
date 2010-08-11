@@ -239,8 +239,11 @@ def oauth_callback(request, consumer_key=None, secret_key=None,
     if not client.is_valid():
         # Here we get when the oauth client is not valid
         logging.debug('client is invalid')
-        logging.debug('request token %s', client._get_rt_from_session())
-        logging.debug('access token %s', client._get_access_token())
+        try:
+            logging.debug('request token %s', client._get_rt_from_session())
+            logging.debug('access token %s', client._get_access_token())
+        except:
+            pass
         
         return render_to_response(
             template, extra_context, context_instance=RequestContext(request)
