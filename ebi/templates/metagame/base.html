@@ -54,7 +54,7 @@ _gaq.push(['_trackPageview']);
                     <div id="login"><a href="/login/">Inloggen</a></div>
                 {% else %}
                     <img src="{{ user.get_profile.get_avatar_url }}">
-                    <div id="username"><a href="/players/{{ user.get_profile.get_display_name }}/">{{ user.username }}</a></div>
+                    <div id="username"><a href="{{ user.get_profile.get_absolute_url }}">{{ user.get_profile.get_display_name }}</a></div>
                     <div id="logout"><a href="/logout/" id="logout">uitloggen</a></div>
                 {% endif %}
 				</div>
