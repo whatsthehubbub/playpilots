@@ -148,13 +148,8 @@ def game_detail(request, slug):
     interest = False
     if request.user.is_authenticated() and request.user.get_profile() in game.interested.all():
         interest = True
-    
-    
+
     templateName = 'metagame/game_detail.html'
-    
-    if request.GET.get('staging', 0) == 'yes':
-        templateName = 'metagame/game_detail2.html'
-    
     
     return render_to_response(templateName, {
         'game': game,
