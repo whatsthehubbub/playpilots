@@ -51,6 +51,11 @@ urlpatterns += patterns('ebi.battleroyale.views',
 )
 
 
+urlpatterns += patterns('ebi.kipwip.views',
+    (r'^kipwip/code/$', 'kipwip_code')
+)
+
+
 urlpatterns += patterns('',
     (r'^login/$', 'django.contrib.auth.views.login')
 )

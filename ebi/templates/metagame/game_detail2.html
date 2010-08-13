@@ -380,6 +380,8 @@
 			-moz-border-radius: 5px;
 			-webkit-border-radius: 5px;
 			border-radius: 5px;
+			
+			display: none;
 		}
 		
 		.resultinfo strong {
@@ -476,6 +478,15 @@
                     
                 return false;
             });
+            
+            $('#codeform').ajaxForm({
+                dataType: 'json',
+                success: function(data) {
+                    $('.resultinfo').slideDown();
+                    
+                    $('#codeinput').val('');
+                }
+            });
         });
     </script>
 {% endblock %}
@@ -536,25 +547,34 @@
     </div>
 </div>
 
+{% ifequal game.id 1 %}
 <div id="gamecode_wrapper">
 	<div id="gamecode" class="mainblock">
 		<h2>Wip 'n' Kip gespeeld op Stekker Fest?</h2>
-		<p>Vul hieronder de code in die op je handout staat (eerst even aanmelden) en we &lsquo;pingen&rsquo; je zodra de racetijden en -filmpjes online staan.</p>
+		<p>Vul hieronder de code in die op je handout staat en we &lsquo;pingen&rsquo; je zodra de racetijden en -filmpjes online staan.</p>
 		<div id="form_container">
-    		<div class="logininfo"><a href="/login/">Meld je aan</a> om je racegegevens te claimen.</div>
-			<form id="codeform">
-				<input type="text" maxlength="8" placeholder="Jouw code" name="c" id="codeinput">
-				<input type="submit" id="codesubmit" value="Claimen">
-			</form>
+		    {% if not user.is_authenticated %}
+		      <div class="logininfo"><a href="/login/">Meld je aan</a> om je racegegevens te claimen.</div>
+		    {% else %}
+		        <form id="codeform" name="codeform" action="/kipwip/code/" method="POST">
+    				<input type="text" maxlength="8" placeholder="Jouw code" name="codeinput" id="codeinput">
+    				<input type="submit" id="codesubmit" value="Claimen">
+    			</form>
+    			
+    			<div class="resultinfo">
+    				<strong>Bedankt!</strong> Zodra de tijden en filmpjes online staan ben je de eerste die het hoort. <span class="again">(<a href="javascript:$('#codeinput').focus();">Nog een code invoeren?</a>)</span>
+    			</div>
+		    {% endif %}
+    		
+			<!--
 			<p class="errorinfo">Hmm&hellip; Die code lijkt niet te kloppen. Probeer het nog eens. Hint: een code bestaat uit een combinatie van acht kleine letters en cijfers.</p>
             <!-- Extra info is niet nodig, laat maar weg. -Kars -->
             <!-- <p class="extrainfo">Meerdere codes? Nog een keer invullen...</p> -->
-			<div class="resultinfo">
-				<strong>Bedankt!</strong> Zodra de tijden en filmpjes online staan ben je de eerste die het hoort. <span class="again">(<a href="#">Nog een code invoeren?</a>)</span>
-			</div>
+			
 		</div>
     </div>
 </div>
+{% endifequal %}
 
 <div id="interest_wrapper">
     <div id="interest" class="mainblock">
