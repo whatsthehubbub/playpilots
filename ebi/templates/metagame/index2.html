@@ -19,14 +19,14 @@
 	<div id="billboard" class="mainblock">
 		<div id="livegames">
 			<div id="schedule">
-				<h2 class="nextevent"><a href="{{ nextgame.get_absolute_url }}">{{ nextgame.name }}</a></h2>
-				<p class="nextfestival"><a href="{{ nextgame.festival.link }}" target="_blank">{{ nextgame.festival.name }}</a></p>
+				<h2 class="nextevent"><a href="{{ nextgame.get_absolute_url }}">De Stereoscoop</a></h2>
+				<p class="nextfestival">Nederlands Film Festival</p>
 				<p class="nextdays">{{ nextgame.get_days_till }}</p>
 				<p class="nexthours">{{ nextgame.get_hours_till }}</p>
-				<p class="upcoming1">Nederlands Film Festival</p>
+				<p class="upcoming1">Le Guess Who?</p>
 				<p class="upcoming1state">binnenkort</p>
-				<p class="upcoming2">Le Guess Who?</p>
-				<p class="upcoming2state">binnenkort</p>
+				<p class="upcoming2"><a href="">Wip 'n' Kip op Stekker Fest</a></p>
+				<p class="upcoming2state">voorbij</p>
 			</div>
 			<h2>Live games in Utrecht</h2>
 			<p>PLAY Pilots nodigt je uit om live games te spelen op Utrechtse festivals. Mis het niet!</p>
@@ -34,12 +34,9 @@
 		</div>
 		
 		<div id="onlinebattle">
-			
 			<div id="teaser">
 			</div>
-			
 			<h2>Ontwikkel je stijl en skills</h2>
-			
             <p>PLAY Pilots presenteert een online battle van subculturen. Voor fans van muziek, films en games.</p>
             {% if request.user.is_anonymous %}                
                 <a href="/klassement/login/" class="button"><h4>Meld je aan en speel</h4></a>
@@ -47,9 +44,6 @@
                 <a href="/klassement/" class="button"><h4>Ga naar het klassement &amp; start een duel</h4></a>
                 <p style="clear:left; color:#999; font-size:10px; padding-top:10px; margin:0;">Je bent ingelogd als <a style="text-transform:uppercase;" href="{{ request.user.get_profile.get_absolute_url }}">{{ request.user.get_profile.get_display_name }}</a> (Iemand anders? <a href="/logout/">Uitloggen</a>)</p>
 			{% endif %}
-			
-			<div class="button_badge" style="position:absolute;width:160px;height:70px;top:13px;right:-30px;"><img src="{{ MEDIA_URL }}image/buttons_badge.png" width="160" height="70" alt="Speel mee en win buttons" /></div>
-			
 		</div>
     </div>
 </div>

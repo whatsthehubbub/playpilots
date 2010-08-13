@@ -1,8 +1,10 @@
 #intro_wrapper {
+	position: relative;
     background: #b7d1d0 url(../image/grain_overlay.png) repeat;
 }
 
 #intro {
+	position: relative;
 	text-align: center;
 	background: url(../image/home_tagline_bg.png) no-repeat;
 }
@@ -58,7 +60,7 @@
 }
 
 #schedule a {
-	color: #fff;
+	color: #f6e9d7;
 	text-decoration: none;
 }
 
@@ -142,6 +144,7 @@
 }
 
 #billboard #onlinebattle {
+	position: relative;
 	width: 460px;
 	float: right;
 }
@@ -220,15 +223,12 @@ a:active.button h4 {
 }
 
 #participants a {
+	color: #ff3300;
 	text-decoration: none;
 }
 
-#participants .participant a .name {
-	color: #666;
-}
-
-#participants .participant a:hover .name {
-	color: #ff3300;
+#participants a:hover {
+	text-decoration: underline;
 }
 
 #participants .participant {
@@ -241,12 +241,12 @@ a:active.button h4 {
 	margin-left: 10px;
 	width: 30px;
 	height: 30px;
+	float: left;
 }
 
 #participants .participant .name {
 	margin: 10px 10px 0 0;
 	width: 95px;
-	color: #666;
 	line-height: 16px;
 	font-weight: bold;
 	float: right;

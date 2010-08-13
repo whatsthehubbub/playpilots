@@ -28,11 +28,12 @@
 }
 
 #checkin {
-    font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Arial;
+	font-size: 12px;
     text-transform: uppercase;
 	font-weight: bold;
     text-shadow: 0px 1px 0 #000;
     float: right;
+	position: relative;
     color: #ddd;
     background: transparent url(../image/login_box_bg.png) no-repeat;
     margin-right: -5px;
@@ -47,13 +48,16 @@
 }
 
 #checkin .middlepart {
+	position: relative;
 	float: left;
+	display: block;
 	background: #fff url(../image/login_box_bg.png) no-repeat -20px top;
 	height: 65px;
+	min-width: 150px;
 }
 
 #checkin .rightpart {
-	float: left;
+	float: right;
 	background: #fff url(../image/login_box_bg.png) no-repeat right top;
 	width: 10px;
 	height: 65px;
@@ -67,7 +71,7 @@
 }
 
 #checkin a {
-    color: white;
+    color: #fff;
     text-decoration: none;
 }
 
@@ -76,12 +80,17 @@
 }
 
 #checkin #username, #checkin #login {
+	position: relative;
+	font-family: "proxima-nova-1", "proxima-nova-2", Arial;
 	float: right;
-	font-size: 16px;
+	font-size: 14px;
 	margin: 18px 10px 0;
 }
 
 #checkin #logout, #checkin #register {
+	position: relative;
+	clear: both;
+	float: right;
 	text-align: right;
     margin: 0 5px 0 0;
     font-size: 10px;
@@ -112,11 +121,15 @@
     margin-right: 40px;
 }
 
-#menu A:visited {
+#menu a:visited {
     color: #bababa;
 }
 
-#menu A.current {
+#menu a:hover {
+    color: #333;
+}
+
+#menu a.current {
 	font-family: "proxima-nova-1", "proxima-nova-2", Arial;
     font-weight: 800;
 	border-bottom: 2px solid #f30;

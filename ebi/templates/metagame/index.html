@@ -36,15 +36,13 @@
 		<div id="onlinebattle">
 			<div id="teaser">
 			</div>
-			
 			<h2>Ontwikkel je stijl en skills</h2>
-			
             <p>PLAY Pilots presenteert een online battle van subculturen. Voor fans van muziek, films en games.</p>
             {% if request.user.is_anonymous %}                
                 <a href="/klassement/login/" class="button"><h4>Meld je aan en speel</h4></a>
             {% else %}
                 <a href="/klassement/" class="button"><h4>Ga naar het klassement &amp; start een duel</h4></a>
-                <p style="clear:left; color:#b7d1d0; font-size:10px; padding-top:10px; margin:0;">Je bent ingelogd als <a style="text-transform:uppercase;" href="{{ request.user.get_profile.get_absolute_url }}">{{ request.user.get_profile.get_display_name }}</a>. (Iemand anders? <a href="/logout/">Uitloggen</a>.)</p>
+                <p style="clear:left; color:#999; font-size:10px; padding-top:10px; margin:0;">Je bent ingelogd als <a style="text-transform:uppercase;" href="{{ request.user.get_profile.get_absolute_url }}">{{ request.user.get_profile.get_display_name }}</a> (Iemand anders? <a href="/logout/">Uitloggen</a>)</p>
 			{% endif %}
 		</div>
     </div>

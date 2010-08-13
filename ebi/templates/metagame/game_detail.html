@@ -10,6 +10,10 @@
         
         body {
         }
+
+		#headerwrapper {
+			-webkit-box-shadow: #333 0px 2px 2px;
+		}
         
         #taglinewrapper {
             display: none;
@@ -20,6 +24,7 @@
         }
         
         #title {
+			position: relative;
             color: #ddd;
 			overflow: hidden;
         }
@@ -78,12 +83,12 @@
             margin-top: -140px;
             background-repeat: repeat;
             background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
-            overflow: auto;
+            overflow: hidden;
         }
         
         #game {
             padding-top: 20px;
-            overflow: auto;
+            overflow: hidden;
         }
         
         #description_background {
@@ -99,9 +104,8 @@
         
         #description {
             background-color: white;
-			padding: 10px 10px 21px;
-            
-            overflow: auto;
+			padding: 10px;
+            overflow: hidden;
         }
         
         #description .description {
@@ -202,13 +206,13 @@
         
         #interest_wrapper {
             border-bottom: 5px solid #ddd;
-            overflow: auto;
+            overflow: hidden;
             width: 100%;
             background: white;
         }
         
         #interest {
-            overflow: auto;
+            overflow: hidden;
             width: 918px; /* to account for padding & border */
             padding: 0 10px;
             
@@ -245,7 +249,7 @@
         }
         
         #participants {
-            overflow: auto;
+            overflow: hidden;
             border-left: 1px solid #ddd;
             border-right: 1px solid #ddd;
             width: 938px;
@@ -359,7 +363,7 @@
     <div id="game" class="mainblock">
         <div id="description_background">
             <div id="description">
-                <div id="blog_posts">
+                <div id="blog_posts" style="position:relative;z-index:5;">
                     <p>Blog posts</p>
                     <ol>
                         {% for item in feed %}
@@ -368,7 +372,8 @@
                     </ol>
                 </div>
                 
-                <p class="description">{{ game.description }}</p>
+                <p class="description" style="float:left;">{{ game.description }}</p>
+				<img src="{{ MEDIA_URL }}image/buttons_badge.png" width="280" height="70" alt="Speel mee en win buttons" style="float:left;margin-top:10px;margin-left:-10px;margin-bottom:-10px;" />
             </div>
         </div>
         

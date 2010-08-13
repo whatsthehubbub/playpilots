@@ -12,6 +12,7 @@
 		}
 		
 		#game_list {
+			position: relative;
 			margin: 0 auto;
 			width: 940px;
 			padding: 0;
@@ -20,6 +21,7 @@
         }
         
         #game_intro {
+			position: relative;
             color: #666;
             padding: 21px 0;
             width: 620px;
@@ -151,7 +153,7 @@
         
         <div id="game_intro">
             <h2>3 festivals, 3 games</h2> PLAY Pilots daagt je uit! Dit jaar kun je op drie culturele festivals in Utrecht live games spelen. Lees alles over het wat, waar en wanneer.</div>
-        
+
         {% for game in games %}
         {% if forloop.first %}<a href="/games/{{ game.slug }}/">{% endif %}
             <div id="game_{{ game.id }}" class="game {% if not forloop.first %}soon space{% endif %}">

@@ -1,7 +1,7 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>STAGING {{ game.name }} door {{ game.maker.name}} voor {{ game.festival.name }} &bull; PLAY Pilots</title>
+    <title>{{ game.name }} door {{ game.maker.name}} voor {{ game.festival.name }} &bull; PLAY Pilots</title>
     
     <style type="text/css" media="screen">
         html {
@@ -310,10 +310,148 @@
         .participant a:hover span {
             color: #f30;
         }
-        
-        #footerwrapper {
-        }
-        
+
+		#gamecode_wrapper {
+			overflow: hidden;
+			background: #fff url({{ MEDIA_URL }}image/dot_grid.png) repeat;
+			border-top: 5px solid #ccc;;
+			-moz-box-shadow: inset 0 -2px 4px #ccc;
+			-webkit-box-shadow: inset 0px -2px 4px #ccc;
+			box-shadow: inset 0 -2px 4px #ccc;
+			padding-bottom: 22px;
+		}
+		
+		#gamecode {
+			overflow: hidden;
+			margin: 0 auto;
+		}
+		
+		#gamecode h2 {
+			color: #262a33;
+			margin-top: 22px;
+		}
+		
+		#form_container {
+			width: 370px;
+			position: relative;
+			overflow: hidden;
+			margin: 0 auto;
+		}
+		
+		#form_container p {
+			clear: both;
+			float: left;
+			overflow: hidden;
+			font-size: 12px;
+		}
+		
+		.extrainfo {
+			width: 345px;
+			color: #999;
+			margin: 5px 0;
+		}
+		
+		.errorinfo {
+			width: 345px;
+			font-weight: bold;
+			color: #e11600;
+			margin: 5px 0;
+		}
+		
+		.logininfo {
+			float: left;
+			width: 345px;
+			margin: 11px 0 0;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			padding: 10px;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+		}
+		
+		.resultinfo {
+			float: left;
+			width: 345px;
+			margin: 11px 0 0;
+			background-color: #f6e9d7;
+			border: 1px solid #ddd;
+			padding: 10px;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+		}
+		
+		.resultinfo strong {
+			color: #ff3300;
+			font-size: 18px;
+		}
+		
+		.resultinfo .again {
+/*          color: #ddd;*/
+		    font-size: 12px;
+		}
+		
+		.resultinfo a, .logininfo a {
+		    color: #f30;
+		    text-decoration: underline;
+		}
+		
+		.resultinfo a:hover, .logininfo a:hover {
+		    text-decoration: none;
+		}
+				
+		#codeinput {
+			position: relative;
+			float: left;
+			font-size: 25px;
+			width: 200px;
+			background-color: #fff;
+			border: none;
+			padding: 5px 8px;
+			color: #666;
+/*          text-transform: uppercase;*/
+			-moz-border-radius-topleft: 5px;
+			-moz-border-radius-bottomleft: 5px;
+			-webkit-border-top-left-radius: 5px;
+			-webkit-border-bottom-left-radius: 5px;
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+			-moz-box-shadow: inset 0 2px 4px #ccc;
+			-webkit-box-shadow: inset 0px 2px 4px #ccc;
+			box-shadow: inset 0 2px 4px #ccc;
+		}
+		
+		#codesubmit {
+			position: relative;
+			float: left;
+			background-color: #ff3300;
+			width: 150px;
+			border: 0px;
+			padding: 5px 15px;
+			font-size: 25px;
+			font-weight: bold;
+			color: #fff;
+			text-transform: uppercase;
+			text-shadow: #333 0 1px 0;
+			-moz-border-radius-topright: 5px;
+			-moz-border-radius-bottomright: 5px;
+			-webkit-border-top-right-radius: 5px;
+			-webkit-border-bottom-right-radius: 5px;
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+			
+		}
+		
+		#codesubmit:hover {
+			background-color: #e11600;
+		}
+		
+		#codesubmit:active {
+			background-color: #333;
+			color: #fff;
+		}
+		
     </style>
     
     <script type="text/javascript" charset="utf-8">
@@ -356,7 +494,6 @@
 		<div id="game_image">
 			<img src="{{ game.get_first_photo }}">
 		</div>
-		<div class="button_badge" style="position:absolute;width:160px;height:70px;top:15px;right:345px;"><img src="{{ MEDIA_URL }}image/buttons_badge.png" width="160" height="70" alt="Speel mee en win buttons" /></div>
     </div>
 </div>
 
@@ -364,7 +501,7 @@
     <div id="game" class="mainblock">
         <div id="description_background">
             <div id="description">
-                <div id="blog_posts">
+                <div id="blog_posts" style="position:relative;z-index:5;">
                     <p>Blog posts</p>
                     <ol>
                         {% for item in feed %}
@@ -372,8 +509,7 @@
                         {% endfor %}
                     </ol>
                 </div>
-                
-                <p class="description">{{ game.description }}</p>
+				<p class="description" style="float:left;">{{ game.description }}</p>
             </div>
         </div>
         
@@ -397,6 +533,26 @@
             
             <p class="link"><a href="{{ game.maker.link }}">{{ game.maker.link|slice:"7:" }}</a></p>
         </div>
+    </div>
+</div>
+
+<div id="gamecode_wrapper">
+	<div id="gamecode" class="mainblock">
+		<h2>Wip 'n' Kip gespeeld op Stekker Fest?</h2>
+		<p>Vul hieronder de code in die op je handout staat (eerst even aanmelden) en we &lsquo;pingen&rsquo; je zodra de racetijden en -filmpjes online staan.</p>
+		<div id="form_container">
+    		<div class="logininfo"><a href="/login/">Meld je aan</a> om je racegegevens te claimen.</div>
+			<form id="codeform">
+				<input type="text" maxlength="8" placeholder="Jouw code" name="c" id="codeinput">
+				<input type="submit" id="codesubmit" value="Claimen">
+			</form>
+			<p class="errorinfo">Hmm&hellip; Die code lijkt niet te kloppen. Probeer het nog eens. Hint: een code bestaat uit een combinatie van acht kleine letters en cijfers.</p>
+            <!-- Extra info is niet nodig, laat maar weg. -Kars -->
+            <!-- <p class="extrainfo">Meerdere codes? Nog een keer invullen...</p> -->
+			<div class="resultinfo">
+				<strong>Bedankt!</strong> Zodra de tijden en filmpjes online staan ben je de eerste die het hoort. <span class="again">(<a href="#">Nog een code invoeren?</a>)</span>
+			</div>
+		</div>
     </div>
 </div>
 
@@ -431,4 +587,5 @@
         {% endfor %}
     </div>
 </div>
+
 {% endblock %}

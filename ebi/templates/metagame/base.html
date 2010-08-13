@@ -47,20 +47,7 @@ _gaq.push(['_trackPageview']);
 
     <div id="headerwrapper">
         <div id="header" class="mainblock">
-            <div id="checkin">
-				<div class="leftpart"></div>
-				<div class="middlepart">
-                {% if not user.is_authenticated %}
-                    <div id="login"><a href="/login/">Inloggen</a></div>
-                {% else %}
-                    <img src="{{ user.get_profile.get_avatar_url }}">
-                    <div id="username"><a href="{{ user.get_profile.get_absolute_url }}">{{ user.get_profile.get_display_name }}</a></div>
-                    <div id="logout"><a href="/logout/" id="logout">uitloggen</a></div>
-                {% endif %}
-				</div>
-				<div class="rightpart"></div>
-            </div>
-
+	
             <div id="logo">
                 <p><a href="/"><img src="{{ MEDIA_URL }}image/logo_playpilots.png" alt="PLAY Pilots"></a></p>
             </div>
@@ -74,6 +61,21 @@ _gaq.push(['_trackPageview']);
                     <li id="menu_help"><a href="/help/" class="{% ifequal current "help" %}current{% endifequal %}">Help</a></li>
                 </ol>
             </div>
+
+			<div id="checkin">
+				<div class="leftpart"></div>
+				<div class="middlepart">
+                {% if not user.is_authenticated %}
+                    <div id="login"><a href="/login/">Inloggen</a></div>
+                {% else %}
+                    <img src="{{ user.get_profile.get_avatar_url }}">
+                    <div id="username"><a href="{{ user.get_profile.get_absolute_url }}">{{ user.get_profile.get_display_name }}</a></div>
+                    <div id="logout"><a href="/logout/" id="logout">uitloggen</a></div>
+                {% endif %}
+				</div>
+				<div class="rightpart"></div>
+            </div>
+
         </div>
     </div>
 	
@@ -106,6 +108,24 @@ _gaq.push(['_trackPageview']);
             	<div>Deze site wordt aangeboden onder een <a href="http://creativecommons.org/licenses/by-nc/3.0/nl/">Creative Commons Naamsvermelding-NietCommercieel 3.0 Licentie</a></div>
             	</div>
         </div>
+        <!-- Begin Get Satisfaction Feedback Tab Widget -->
+        <script type="text/javascript" charset="utf-8">
+        var is_ssl = ("https:" == document.location.protocol);
+        var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+        document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
 
+        <script type="text/javascript" charset="utf-8">
+        var feedback_widget_options = {};
+
+        feedback_widget_options.display = "overlay";  
+        feedback_widget_options.company = "whatsthehubbub";
+        feedback_widget_options.placement = "hidden";
+        feedback_widget_options.color = "#f30";
+        feedback_widget_options.style = "idea";
+
+        var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+        </script>
+        <!-- End Get Satisfaction Feedback Tab Widget -->
     </body>
     </html>

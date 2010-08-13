@@ -204,7 +204,7 @@
         <div class="box">
             <div id="styleplayer1" class="player1">
                 <div id="stylechosen1" class="{% if not duel %}choice{% endif %} stylechosen">
-                    <p class="stylename">{{ duel.challenger.user.username }} speelt als {{ duel.challenge_move.style.name }}</p>
+                    <p><span class="username">{{ duel.challenger.user.username }}</span> speelt als <span class="stylename">{{ duel.challenge_move.style.name }}</span></p>
                 </div>
             </div>
         
@@ -257,10 +257,10 @@
         <div class="box">
             <div id="actionplayer1" class="player1 {% if not duel %}choice{% endif %}">
                 <div class="finalmove">
-                    <b>{{ duel.challenger.user.username }}
-                    {{ duel.get_challenge_move|safe }}
+                    <b><span class="username">{{ duel.challenger.user.username }}</span>
+                    <span class="move">{{ duel.get_challenge_move|safe }}</span>
                     {% if duel.challenge_message %}
-                        en zegt:</b> &ldquo;{{ duel.challenge_message }}&rdquo;
+                        en zegt:</b> <span class="message">&ldquo;{{ duel.challenge_message }}&rdquo;</span>
                     {% else %}
                         maar had niks te zeggen.</b>
                     {% endif %}

@@ -65,6 +65,7 @@ p {
 /* Code for a sliding door button. */
 
 button.door {
+	height: 21px;
     cursor: hand;
     color: white;
 
