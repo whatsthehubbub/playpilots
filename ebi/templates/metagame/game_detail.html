@@ -554,7 +554,7 @@
 		<p>Vul hieronder de code in die op je handout staat en we &lsquo;pingen&rsquo; je zodra de racetijden en -filmpjes online staan.</p>
 		<div id="form_container">
 		    {% if not user.is_authenticated %}
-		      <div class="logininfo"><a href="/login/">Meld je aan</a> om je racegegevens te claimen.</div>
+		      <div class="logininfo"><a href="/games/{{ game.slug }}/login/">Meld je aan</a> om je racegegevens te claimen.</div>
 		    {% else %}
 		        <form id="codeform" name="codeform" action="/kipwip/code/" method="POST">
     				<input type="text" maxlength="8" placeholder="Jouw code" name="codeinput" id="codeinput">

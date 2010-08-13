@@ -26,6 +26,7 @@ urlpatterns += patterns('ebi.metagame.views',
 	(r'^players/(?P<username>\S+?)/$', 'user_detail'),
 	
 	(r'^games/(?P<slug>\S+?)/interested/$', 'game_interest'),
+	(r'^games/(?P<slug>\S+?)/login/$', 'game_auth_redirect'),
 	(r'^games/(?P<slug>\S+?)/$', 'game_detail'),
 	(r'^games/$', 'game_list'),
 	

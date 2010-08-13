@@ -157,6 +157,11 @@ def game_detail(request, slug):
         'interest': interest,
         'feed': feedEntries[:3]
     }, context_instance=RequestContext(request))
+    
+@login_required
+def game_auth_redirect(request, slug):
+    '''View to force people to login before going to the klassement.'''
+    return HttpResponseRedirect('/games/%s/#gamecode' % slug)
 
 @login_required
 def game_interest(request, slug):
