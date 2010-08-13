@@ -132,7 +132,7 @@ def logout_view(request):
     
 def game_list(request):
     return render_to_response('metagame/game_list.html', {
-        'games': Game.objects.all().order_by('-start'),
+        'games': Game.objects.all().order_by('start'),
         'current': 'games'
     }, context_instance=RequestContext(request))
 
