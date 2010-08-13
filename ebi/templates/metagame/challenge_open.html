@@ -258,7 +258,7 @@
             <div id="actionplayer1" class="player1 {% if not duel %}choice{% endif %}">
                 <div class="finalmove">
                     <b><span class="username">{{ duel.challenger.user.username }}</span>
-                    <span class="move">{{ duel.get_challenge_move|safe }}</span>
+                    <span>{{ duel.get_challenge_move|safe }}</span>
                     {% if duel.challenge_message %}
                         en zegt:</b> <span class="message">&ldquo;{{ duel.challenge_message }}&rdquo;</span>
                     {% else %}
