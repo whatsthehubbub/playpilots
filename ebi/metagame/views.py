@@ -48,11 +48,7 @@ def index(request):
         
         nextgame = Game.objects.filter(start__gt=datetime.datetime.now()).order_by('start')[0]
         
-        templateName = 'metagame/index.html'
-        
-        # Render the post stekker template
-        if True or request.GET.get('staging', 0) == 'yes' or datetime.datetime.now() > datetime.datetime(2010, 8, 15, 0):
-            templateName = 'metagame/index2.html'
+        templateName = 'metagame/index_poststekker.html'
         
         return render_to_response(templateName, {
             'current': 'home',
@@ -74,7 +70,12 @@ def player_detail(request, id):
     
     skills = Skill.objects.all().filter(player=player).order_by('style__name')
     
-    return render_to_response('metagame/player_detail.html', {
+    templateName = 'metagame/player_detail.html'
+    
+    if request.GET.get('staging', 0) == 'yes':
+        templateName = 'metagame/player_detail2.html'
+        
+    return render_to_response(templateName, {
         'player': player,
         'skills': skills
     }, context_instance=RequestContext(request))
@@ -150,6 +151,9 @@ def game_detail(request, slug):
         interest = True
 
     templateName = 'metagame/game_detail.html'
+    
+    if request.GET.get('staging', 0) == 'yes':
+        templateName = 'metagame/game_detail_wipnkip.html'
     
     return render_to_response(templateName, {
         'game': game,
