@@ -25,5 +25,5 @@ admin.site.register(Game, GameAdmin)
 
 
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ('user', 'rating')
+    list_display = ('user', 'rating', 'battleroyale_wins', 'battleroyale_ties', 'battleroyale_losses')
 admin.site.register(Player, PlayerAdmin)
