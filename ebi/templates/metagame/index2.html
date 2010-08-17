@@ -1,7 +1,7 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>Staging &bull; PLAY Pilots</title>
+    <title>Home &bull; PLAY Pilots</title>
 
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/index.css" type="text/css" media="screen" charset="utf-8">
 
@@ -19,7 +19,7 @@
 	<div id="billboard" class="mainblock">
 		<div id="livegames">
 			<div id="schedule">
-				<h2 class="nextevent"><a href="{{ nextgame.get_absolute_url }}">De Stereoscoop</a></h2>
+				<h2 class="nextevent">De Stereoscoop</h2>
 				<p class="nextfestival">Nederlands Film Festival</p>
 				<p class="nextdays">{{ nextgame.get_days_till }}</p>
 				<p class="nexthours">{{ nextgame.get_hours_till }}</p>
@@ -27,6 +27,7 @@
 				<p class="upcoming1state">binnenkort</p>
 				<p class="upcoming2"><a href="/games/wip-n-kip/">Wip 'n' Kip op Stekker Fest</a></p>
 				<p class="upcoming2state">voorbij</p>
+				<p class="gogetgadget"><a href="/games/wip-n-kip/#gamecode">Heb je bij Wip ‘n’ Kip meegedaan? Klik dan hier »</a></p>
 			</div>
 			<h2>Live games in Utrecht</h2>
 			<p>PLAY Pilots nodigt je uit om live games te spelen op Utrechtse festivals. Mis het niet!</p>

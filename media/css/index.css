@@ -34,7 +34,7 @@
 }
 
 #billboard_wrapper h2 {
-	color: #b7d1d0;
+	color: #fff;
 	text-shadow: #000 0 1px 0;
 }
 
@@ -54,18 +54,18 @@
 }
 
 #livegames #schedule {
-	height: 220px;
+	height: 240px;
 	margin-bottom: 21px;
 	background: url(../image/schedule_frame_bg.png) no-repeat;
 }
 
 #schedule a {
-	color: #f6e9d7;
+	color: #b7d1d0;
 	text-decoration: none;
 }
 
 #schedule a:hover {
-	color: #ff3300;
+	text-decoration: underline;
 }
 
 #schedule .nextevent {
@@ -143,6 +143,22 @@
 	left: 270px;
 }
 
+#schedule .gogetgadget {
+	font-size: 11px;
+	position: relative;
+	width: 360px;
+	height: 30px;
+	top: -176px;
+	left: 10px;
+}
+
+#schedule .gogetgadget a {
+	background-color: #ff3300;
+	color: #fff;
+	text-shadow: none;
+	padding: 2px;
+}
+
 #billboard #onlinebattle {
 	position: relative;
 	width: 460px;
@@ -150,7 +166,7 @@
 }
 
 #onlinebattle #teaser {
-	height: 220px;
+	height: 240px;
 	margin-bottom: 21px;
 	background: url(../image/online_battle_visual.png) no-repeat center 50px;
 }

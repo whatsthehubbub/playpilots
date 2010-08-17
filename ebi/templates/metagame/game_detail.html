@@ -60,6 +60,15 @@
 		#title #game_info {
 			float: left;
 		}
+		
+		#game_gogetgadget {
+			position: absolute;
+			width: 150px;
+			height: 65px;
+			top: 20px;
+			left: 420px;
+			background-image: url({{ MEDIA_URL }}image/goget_gadget.png);
+		}
         
         #game_image {
 			float: right;
@@ -104,8 +113,9 @@
         
         #description {
             background-color: white;
-			padding: 10px 10px 21px;
+			padding: 10px 10px 10px 10px;
             overflow: hidden;
+/*            background: white url({{ MEDIA_URL }}image/buttons_badge.png) no-repeat left bottom;*/
         }
         
         #description .description {
@@ -324,6 +334,7 @@
 		#gamecode {
 			overflow: hidden;
 			margin: 0 auto;
+			background: transparent url({{ MEDIA_URL }}image/code_paper.png) no-repeat top right;
 		}
 		
 		#gamecode h2 {
@@ -331,13 +342,17 @@
 			margin-top: 22px;
 		}
 		
+		#gamecode p {
+		    width: 540px;
+		}
+		
 		#form_container {
 			width: 370px;
 			position: relative;
 			overflow: hidden;
-			margin: 0 auto;
-		}
-		
+			margin: 0 auto 0 auto;
+        }		
+        
 		#form_container p {
 			clear: both;
 			float: left;
@@ -362,7 +377,7 @@
 			float: left;
 			width: 345px;
 			margin: 11px 0 0;
-			background-color: #fff;
+			background-color: #f6e9d7;
 			border: 1px solid #ddd;
 			padding: 10px;
 			-moz-border-radius: 5px;
@@ -390,7 +405,6 @@
 		}
 		
 		.resultinfo .again {
-/*          color: #ddd;*/
 		    font-size: 12px;
 		}
 		
@@ -412,7 +426,6 @@
 			border: none;
 			padding: 5px 8px;
 			color: #666;
-/*          text-transform: uppercase;*/
 			-moz-border-radius-topleft: 5px;
 			-moz-border-radius-bottomleft: 5px;
 			-webkit-border-top-left-radius: 5px;
@@ -502,6 +515,8 @@
         	<h1>{{ game.name }}</h1>
         	<h3>door {{ game.maker }} voor {{ game.festival }}</h3>
 		</div>
+		<a href="#gamecode" title=""><div id="game_gogetgadget">
+        </div></a>
 		<div id="game_image">
 			<img src="{{ game.get_first_photo }}">
 		</div>
@@ -552,6 +567,7 @@
 	<div id="gamecode" class="mainblock">
 		<h2>Wip 'n' Kip gespeeld op Stekker Fest?</h2>
 		<p>Vul hieronder de code in die op je handout staat en we &lsquo;pingen&rsquo; je zodra de racetijden en -filmpjes online staan.</p>
+        <!-- <img src="{{ MEDIA_URL }}image/handout.png" alt="FourceLabs Wip 'n' Kip handout"> -->
 		<div id="form_container">
 		    {% if not user.is_authenticated %}
 		      <div class="logininfo"><a href="/games/{{ game.slug }}/login/">Meld je aan</a> om je racegegevens te claimen.</div>
@@ -568,6 +584,7 @@
     		
 			<!--
 			<p class="errorinfo">Hmm&hellip; Die code lijkt niet te kloppen. Probeer het nog eens. Hint: een code bestaat uit een combinatie van acht kleine letters en cijfers.</p>
+			-->
             <!-- Extra info is niet nodig, laat maar weg. -Kars -->
             <!-- <p class="extrainfo">Meerdere codes? Nog een keer invullen...</p> -->
 			
@@ -578,17 +595,17 @@
 
 <div id="interest_wrapper">
     <div id="interest" class="mainblock">
-        <h2>Wie zijn erbij?</h2> 
+        <h2>Wie waren erbij?</h2> 
 
 		{% if not user.get_profile in game.interested.all %}
             <!-- TODO handje op button verschijnt niet -->
             <form method="GET" action="/games/{{ game.slug }}/interested/" id="interest_form">
-                <button class="door"><p class="door">Ik ben erbij!</p></button>
+                <button class="door"><p class="door">Ik was erbij!</p></button>
             </form>
         {% endif %}        
 
         {% if user.get_profile in game.interested.all %}
-            <h3 id="jekomt">Je komt!</h3> <span id="tochniet">[<a href="#" class="notparticipatelink">toch niet?</a>]</span>
+            <h3 id="jekomt">Je was er bij!</h3> <span id="tochniet">[<a href="#" class="notparticipatelink">toch niet?</a>]</span>
         {% endif %}
     </div>
 </div>

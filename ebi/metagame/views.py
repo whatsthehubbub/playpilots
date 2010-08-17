@@ -51,7 +51,7 @@ def index(request):
         templateName = 'metagame/index.html'
         
         # Render the post stekker template
-        if request.GET.get('staging', 0) == 'yes' or datetime.datetime.now() > datetime.datetime(2010, 8, 15, 0):
+        if True or request.GET.get('staging', 0) == 'yes' or datetime.datetime.now() > datetime.datetime(2010, 8, 15, 0):
             templateName = 'metagame/index2.html'
         
         return render_to_response(templateName, {

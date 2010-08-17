@@ -19,7 +19,7 @@
 	<div id="billboard" class="mainblock">
 		<div id="livegames">
 			<div id="schedule">
-				<h2 class="nextevent"><a href="{{ nextgame.get_absolute_url }}">{{ nextgame.name }}</a></h2>
+				<h2 class="nextevent">{{ nextgame.name }}</h2>
 				<p class="nextfestival"><a href="{{ nextgame.festival.link }}" target="_blank">{{ nextgame.festival.name }}</a></p>
 				<p class="nextdays">{{ nextgame.get_days_till }}</p>
 				<p class="nexthours">{{ nextgame.get_hours_till }}</p>
