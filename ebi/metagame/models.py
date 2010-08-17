@@ -160,6 +160,10 @@ class Player(models.Model):
     
     rating = models.IntegerField(blank=True, null=True, default=0, db_index=True)
     
+    battleroyale_wins = models.IntegerField(blank=True, null=True, default=0)
+    battleroyale_ties = models.IntegerField(blank=True, null=True, default=0)
+    battleroyale_losses = models.IntegerField(blank=True, null=True, default=0)
+    
     def get_display_name(self):
         if self.twitter_name:
             return self.twitter_name
