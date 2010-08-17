@@ -232,10 +232,6 @@ def challenge_resolve(request):
 
             actstream.action.send(winner, verb='heeft net gewonnen van %s en' % loser.user.username, target=d)
         
-        # Invalidate caches for win loss tie for these players
-        # TODO remove these
-        d.challenger.invalidate_winlosstie_counts()
-        d.target.invalidate_winlosstie_counts()
         
         d.challenger.save()
         d.target.save()
