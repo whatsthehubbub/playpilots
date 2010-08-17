@@ -199,6 +199,9 @@ def challenge_resolve(request):
             
             stronger.rating += Kfactor * (0.5-prob)
             weaker.rating += Kfactor * (0.5-(1-prob))
+            
+            stronger.battleroyale_ties += 1
+            weaker.battleroyale_ties += 1
 
             result['phrase'] = 'Helaas, gelijkspel. Probeer het nog eens!'
                 
@@ -223,10 +226,14 @@ def challenge_resolve(request):
 
             winner.rating += round(Kfactor * (1-prob))
             loser.rating += round(Kfactor * (0-(1-prob)))
+            
+            winner.battleroyale_wins += 1
+            loser.battleroyale_losses += 1
 
             actstream.action.send(winner, verb='heeft net gewonnen van %s en' % loser.user.username, target=d)
         
         # Invalidate caches for win loss tie for these players
+        # TODO remove these
         d.challenger.invalidate_winlosstie_counts()
         d.target.invalidate_winlosstie_counts()
         

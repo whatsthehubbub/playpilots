@@ -370,7 +370,13 @@ Uw gezagvoerder''' % {
             cache.set('player_%d_tiecount' % self.id, count, 60*60)
             
         return count
+    
+    def updateWinTieLoss(self):
+        self.battleroyale_wins = self.get_win_count()
+        self.battleroyale_ties = self.get_tie_count()
+        self.battleroyale_losses = self.get_loss_count()
         
+        self.save()
         
     def invalidate_winlosstie_counts(self):
         # Invalidate the counts
