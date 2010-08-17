@@ -158,7 +158,7 @@ class Player(models.Model):
     
     created = models.DateTimeField(auto_now_add=True)
     
-    rating = models.IntegerField(blank=True, null=True, default=0)
+    rating = models.IntegerField(blank=True, null=True, default=0, db_index=True)
     
     def get_display_name(self):
         if self.twitter_name:
