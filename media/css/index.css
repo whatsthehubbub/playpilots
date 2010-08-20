@@ -159,6 +159,12 @@
 	padding: 2px;
 }
 
+#schedule .gogetgadget a:hover {
+	background-color: #fff;
+	color: #ff3300;
+	text-decoration: none;
+}
+
 #billboard #onlinebattle {
 	position: relative;
 	width: 460px;

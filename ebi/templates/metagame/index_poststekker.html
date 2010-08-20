@@ -27,7 +27,7 @@
 				<p class="upcoming1state">binnenkort</p>
 				<p class="upcoming2"><a href="/games/wip-n-kip/">Wip 'n' Kip op Stekker Fest</a></p>
 				<p class="upcoming2state">voorbij</p>
-				<p class="gogetgadget"><a href="/games/wip-n-kip/#gamecode">Heb je bij Wip ‘n’ Kip meegedaan? Klik dan hier »</a></p>
+				<p class="gogetgadget"><a href="/games/wip-n-kip/#gamecode">Heb je meegespeeld? Haal je racetijd en filmpje op &raquo;</a></p>
 			</div>
 			<h2>Live games in Utrecht</h2>
 			<p>PLAY Pilots nodigt je uit om live games te spelen op Utrechtse festivals. Mis het niet!</p>
@@ -42,7 +42,7 @@
             {% if request.user.is_anonymous %}                
                 <a href="/klassement/login/" class="button"><h4>Meld je aan en speel</h4></a>
             {% else %}
-                <a href="/klassement/" class="button"><h4>Ga naar het klassement &amp; start een duel</h4></a>
+                <a href="/klassement/" class="button"><h4>Ga naar het klassement en start een duel</h4></a>
                 <p style="clear:left; color:#999; font-size:10px; padding-top:10px; margin:0;">Je bent ingelogd als <a style="text-transform:uppercase;" href="{{ request.user.get_profile.get_absolute_url }}">{{ request.user.get_profile.get_display_name }}</a> (Iemand anders? <a href="/logout/">Uitloggen</a>)</p>
 			{% endif %}
 		</div>
