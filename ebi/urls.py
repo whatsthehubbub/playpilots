@@ -20,6 +20,8 @@ urlpatterns += socialregistration.urls.urlpatterns
 
 urlpatterns += patterns('ebi.metagame.views',
     (r'^$', 'index'),
+    
+    (r'^actions/$', 'actions_since'),
 	
 	(r'^users/(?P<username>\S+?)/$', 'user_detail'),
 	(r'^players/(?P<id>\d+)/$', 'player_detail'),

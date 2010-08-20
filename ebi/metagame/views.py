@@ -57,6 +57,29 @@ def index(request):
             'nextgame': nextgame
         }, context_instance=RequestContext(request))
 
+def actions_since(request):
+    resultlist = []
+    
+    timestring = request.GET.get('since', '')
+    
+    actions = Action.objects.all()
+    
+    if timestring:
+        d = datetime.datetime.strptime(timestring, '%Y-%m-%dT%H:%M:%S.%f')
+        actions = actions.filter(timestamp__gt=d)
+        
+    actions = actions.order_by('-timestamp')
+        
+    for action in actions[:4]:
+        output = {}
+        
+        output['verb'] = action.verb
+        output['timestamp'] = action.timestamp.isoformat()
+        
+        resultlist.append(output)
+        
+    return HttpResponse(json.dumps(resultlist))
+
 def flatpage(request):
     raise Http404
 
@@ -152,7 +175,7 @@ def game_detail(request, slug):
 
     templateName = 'metagame/game_detail.html'
     
-    if request.GET.get('staging', 0) == 'yes':
+    if game.slug == 'wip-n-kip':
         templateName = 'metagame/game_detail_wipnkip.html'
     
     return render_to_response(templateName, {
