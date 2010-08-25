@@ -52,10 +52,14 @@ class Kippenrijder(models.Model):
         if self.time:
             return '%s:%s' % (str(self.time)[0], str(self.time)[1:])
         else:
-            return '5:00'
+            return 'leeg'
             
     def get_player(self):
-        pass
+        try:
+            return KippenrenCode.objects.get(code=self.code).player
+        except KippenrenCode.DoesNotExist:
+            pass
+            
         
     def get_color_class(self):
         if self.kipid == 1:

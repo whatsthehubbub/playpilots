@@ -798,8 +798,18 @@
 				    <tr class="player" id="#{{ rider.code }}">
     					<td class="rank">{{ forloop.counter }}</td>
     					<td class="info">
-    						<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
-    						<span class="userame">{{ rider.name }}</span>
+    					    {% if rider.get_player %}
+    					        <a href="{{ rider.get_player.get_absolute_url }}"><img sr="{{ rider.get_player.get_avatar_url }}" alt="" /></a>
+    					    {% else %}
+    					        <img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
+    					    {% endif %}
+    						
+    						
+    						{% if rider.get_player %}
+    						    <a href="{{ rider.get_player.get_absolute_url }}" class="username">{{ rider.name }}</a>
+    						{% else %}
+    						    <span class="username">{{ rider.name }}</span>
+    						{% endif %}
     					</td>
     					<td class="time">{{ rider.get_time }}</td>
     				</tr>
@@ -813,7 +823,7 @@
     			<div class="racewrapper">
     				<h3>Race {{ race.raceid }} <span>({{ race.get_time_of_day }})</span></h3>
     				<div class="video">
-    					<iframe src="http://player.vimeo.com/video/14211388?title=0&amp;byline=0&amp;portrait=0&amp;color=ff3300" width="147" height="110" frameborder="0"></iframe>
+    					<iframe src="http://player.vimeo.com/video/{{ race.movie_vimeo_code }}?title=0&amp;byline=0&amp;portrait=0&amp;color=ff3300" width="147" height="110" frameborder="0"></iframe>
     				</div>
     				<table id="race">
     				    {% for rider in race.get_riders %}
@@ -821,8 +831,17 @@
         						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_{{ rider.get_color_class }}.png" alt="" /></td>
         						<td class="rank">{{ rider.position }}</td>
         						<td class="info">
-        							<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
-        							<span class="userame">{{ rider.name }}</span>
+        							{% if rider.get_player %}
+            					        <a href="{{ rider.get_player.get_absolute_url }}"><img sr="{{ rider.get_player.get_avatar_url }}" alt="" /></a>
+            					    {% else %}
+            					        <img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
+            					    {% endif %}
+        							
+        							{% if rider.get_player %}
+            						    <a href="{{ rider.get_player.get_absolute_url }}" class="username">{{ rider.name }}</a>
+            						{% else %}
+            						    <span class="username">{{ rider.name }}</span>
+            						{% endif %}
         						</td>
         						<td class="time">{{ rider.get_time }}</td>
         					</tr>
