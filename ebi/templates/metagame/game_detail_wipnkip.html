@@ -588,7 +588,7 @@
 		    height: 30px;
 		}
 
-		td.info span {
+		td.info span, td.info a {
 			float: left;
 			margin-top: 6px;
 			margin-left: 10px;
@@ -795,7 +795,7 @@
 				</tr>
 				
 				{% for rider in riders %}
-				    <tr class="player" id="#{{ rider.code }}">
+				    <tr class="player" id="#{{ rider.id }}">
     					<td class="rank">{{ forloop.counter }}</td>
     					<td class="info">
     					    {% if rider.get_player %}
