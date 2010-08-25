@@ -56,7 +56,10 @@ class Kippenrijder(models.Model):
             
     def get_player(self):
         try:
-            return KippenrenCode.objects.get(code=self.code).player
+            codes = KippenrenCode.objects.filter(code=self.code)
+            
+            if codes:
+                return codes[0].player
         except KippenrenCode.DoesNotExist:
             pass
             
