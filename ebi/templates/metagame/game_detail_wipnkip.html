@@ -799,7 +799,7 @@
     					<td class="rank">{{ forloop.counter }}</td>
     					<td class="info">
     					    {% if rider.get_player %}
-    					        <a href="{{ rider.get_player.get_absolute_url }}"><img sr="{{ rider.get_player.get_avatar_url }}" alt="" /></a>
+    					        <a href="{{ rider.get_player.get_absolute_url }}"><img src="{{ rider.get_player.get_avatar_url }}" alt="" /></a>
     					    {% else %}
     					        <img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
     					    {% endif %}
@@ -832,7 +832,7 @@
         						<td class="rank">{{ rider.position }}</td>
         						<td class="info">
         							{% if rider.get_player %}
-            					        <a href="{{ rider.get_player.get_absolute_url }}"><img sr="{{ rider.get_player.get_avatar_url }}" alt="" /></a>
+            					        <a href="{{ rider.get_player.get_absolute_url }}"><img src="{{ rider.get_player.get_avatar_url }}" alt="" /></a>
             					    {% else %}
             					        <img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
             					    {% endif %}
