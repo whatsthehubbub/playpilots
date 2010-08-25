@@ -794,111 +794,42 @@
 					<th>Tijd</th>
 				</tr>
 				
-				<tr class="player" id="pos001">
-					<td class="rank">001</td>
-					<td class="info">
-						<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
-						<span class="userame">Username</span>
-					</td>
-					<td class="time">01:05</td>
-				</tr>
+				{% for rider in riders %}
+				    <tr class="player" id="#{{ rider.code }}">
+    					<td class="rank">{{ forloop.counter }}</td>
+    					<td class="info">
+    						<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
+    						<span class="userame">{{ rider.name }}</span>
+    					</td>
+    					<td class="time">{{ rider.get_time }}</td>
+    				</tr>
+				{% endfor %}
 				
-				<tr class="player" id="pos114">
-					<td class="rank">114</td>
-					<td class="info">
-						<a href="#">
-							<img src="http://a3.twimg.com/profile_images/559831071/Cor2_normal.png" alt="" />
-							<span class="userame">@username</span>
-							<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />
-						</a>
-					</td>
-					<td class="time">01:07</td>
-				</tr>
 	        </table>
 		</div>
 		<div id="races" class="tabcontent">
 			
-			<div class="racewrapper">
-				<h3>Race 01 <span>(13:45)</span></h3>
-				<div class="video">
-					<iframe src="http://player.vimeo.com/video/14211388?title=0&amp;byline=0&amp;portrait=0&amp;color=ff3300" width="147" height="110" frameborder="0"></iframe>
-				</div>
-				<table id="race">
-					<tr class="player purple">
-						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_purple.png" alt="" /></td>
-						<td class="rank">1</td>
-						<td class="info">
-							<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
-							<span class="userame">Username</span>
-						</td>
-						<td class="time">01:05</td>
-					</tr>
-					<tr class="player orange">
-						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_orange.png" alt="" /></td>
-						<td class="rank">2</td>
-						<td class="info">
-							<a href="#">
-								<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
-								<span class="userame">@username</span>
-							</a>
-						</td>
-						<td class="time">01:06</td>
-					</tr>
-					<tr class="player blue">
-						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_blue.png" alt="" /></td>
-						<td class="rank">3</td>
-						<td class="info">
-							<a href="#">
-								<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
-								<span class="userame">@username</span>
-							</a>
-						</td>
-						<td class="time">01:07</td>
-					</tr>
-	        	</table>
-			</div>
-			
-			<div class="racewrapper">
-				<h3>Race 02 <span>(13:51)</span></h3>
-				<div class="video">
-					<iframe src="http://player.vimeo.com/video/14211388?title=0&amp;byline=0&amp;portrait=0&amp;color=ff3300" width="147" height="110" frameborder="0"></iframe>
-				</div>
-				<table id="race">
-					<tr class="player blue">
-						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_blue.png" alt="" /></td>
-						<td class="rank">1</td>
-						<td class="info">
-							<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
-							<span class="userame">Username</span>
-						</td>
-						<td class="time">01:05</td>
-					</tr>
-					<tr class="player purple">
-						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_purple.png" alt="" /></td>
-						<td class="rank">2</td>
-						<td class="info">
-							<a href="#">
-								<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
-								<span class="userame">@username</span>
-								<img src="{{ MEDIA_URL }}image/tag_jij.png" class="jijtag" width="50" height="30" alt="JIJ!" />
-							</a>
-						</td>
-						<td class="time">01:06</td>
-					</tr>
-					<tr class="player orange">
-						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_orange.png" alt="" /></td>
-						<td class="rank">3</td>
-						<td class="info">
-							<a href="#">
-								<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
-								<span class="userame">@username</span>
-							</a>
-						</td>
-						<td class="time">01:07</td>
-					</tr>
-	        	</table>
-			</div>
-
+			{% for race in races %}
+    			<div class="racewrapper">
+    				<h3>Race {{ race.raceid }} <span>({{ race.get_time_of_day }})</span></h3>
+    				<div class="video">
+    					<iframe src="http://player.vimeo.com/video/14211388?title=0&amp;byline=0&amp;portrait=0&amp;color=ff3300" width="147" height="110" frameborder="0"></iframe>
+    				</div>
+    				<table id="race">
+    				    {% for rider in race.get_riders %}
+    				        <tr class="player {{ rider.get_color_class }}">
+        						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_{{ rider.get_color_class }}.png" alt="" /></td>
+        						<td class="rank">{{ rider.position }}</td>
+        						<td class="info">
+        							<img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
+        							<span class="userame">{{ rider.name }}</span>
+        						</td>
+        						<td class="time">{{ rider.get_time }}</td>
+        					</tr>
+        				{% endfor %}
+    	        	</table>
+    			</div>
+			{% endfor %}
 		</div>	
 	</div>
 </div>

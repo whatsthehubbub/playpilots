@@ -15,6 +15,8 @@ from ebi.metagame.models import Maker, Festival, Game, Player
 from ebi.battleroyale.models import Skill
 from metagame.services import send_tweet
 
+from kipwip.models import *
+
 import actstream
 from actstream.models import Action, actor_stream
 from services import feed_entries, feed_first_entry
@@ -173,17 +175,22 @@ def game_detail(request, slug):
     if request.user.is_authenticated() and request.user.get_profile() in game.interested.all():
         interest = True
 
-    templateName = 'metagame/game_detail.html'
-    
-    if game.slug == 'wip-n-kip':
-        templateName = 'metagame/game_detail_wipnkip.html'
-    
-    return render_to_response(templateName, {
+    convars = {
         'game': game,
         'current': 'games',
         'interest': interest,
         'feed': feedEntries[:3]
-    }, context_instance=RequestContext(request))
+    }
+
+    templateName = 'metagame/game_detail.html'
+    
+    if request.GET.get('staging', '') == 'yes' and game.slug == 'wip-n-kip':
+        templateName = 'metagame/game_detail_wipnkip.html'
+        
+        convars['races'] = Kippenrace.objects.all().order_by('raceid')
+        convars['riders'] = Kippenrijder.objects.all().order_by('time')
+    
+    return render_to_response(templateName, convars, context_instance=RequestContext(request))
     
 @login_required
 def game_auth_redirect(request, slug):
