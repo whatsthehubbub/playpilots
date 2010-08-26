@@ -795,7 +795,7 @@
 				</tr>
 				
 				{% for rider in riders %}
-				    <tr class="player" id="#{{ rider.id }}">
+				    <tr class="player" id="#rider_{{ rider.id }}">
     					<td class="rank">{{ forloop.counter }}</td>
     					<td class="info">
     					    {% if rider.get_player %}
@@ -806,7 +806,7 @@
     						
     						
     						{% if rider.get_player %}
-    						    <a href="{{ rider.get_player.get_absolute_url }}" class="username">{{ rider.name }}</a>
+    						    <a href="{{ rider.get_player.get_absolute_url }}" class="username">{{ rider.get_player.get_display_name }}</a>
     						{% else %}
     						    <span class="username">{{ rider.name }}</span>
     						{% endif %}
@@ -821,7 +821,7 @@
 			
 			{% for race in races %}
     			<div class="racewrapper">
-    				<h3>Race {{ race.raceid }} <span>({{ race.get_time_of_day }})</span></h3>
+    				<h3>Race #{{ race.raceid }} <span>({{ race.get_time_of_day }})</span></h3>
     				<div class="video">
     					<iframe src="http://player.vimeo.com/video/{{ race.movie_vimeo_code }}?title=0&amp;byline=0&amp;portrait=0&amp;color=ff3300" width="147" height="110" frameborder="0"></iframe>
     				</div>
@@ -838,7 +838,7 @@
             					    {% endif %}
         							
         							{% if rider.get_player %}
-            						    <a href="{{ rider.get_player.get_absolute_url }}" style="width: 260px;" class="username">{{ rider.name }}</a>
+            						    <a href="{{ rider.get_player.get_absolute_url }}" style="width: 260px;" class="username">{{ rider.get_player.get_display_name }}</a>
             						{% else %}
             						    <span class="username">{{ rider.name }}</span>
             						{% endif %}
