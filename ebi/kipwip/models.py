@@ -62,7 +62,6 @@ class Kippenrijder(models.Model):
                 return codes[0].player
         except KippenrenCode.DoesNotExist:
             pass
-            
         
     def get_color_class(self):
         if self.kipid == 1:
@@ -71,3 +70,16 @@ class Kippenrijder(models.Model):
             return 'purple'
         elif self.kipid == 3:
             return 'orange'
+            
+    def get_rank(self):
+        # TODO cache
+        riders = Kippenrijder.objects.all().order_by('time')
+        
+        rank = 1
+        
+        for rider in riders:
+            if rider==self:
+                break
+            
+            rank += 1
+        return rank

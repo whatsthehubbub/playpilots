@@ -371,6 +371,18 @@ Uw gezagvoerder''' % {
         
         return skills
     
+    def get_kippenrijder(self):
+        from kipwip.models import KippenrenCode, Kippenrijder
+        
+        codes = KippenrenCode.objects.filter(player=self)
+        
+        if codes:
+            code = codes[0].code
+            
+            rider = Kippenrijder.objects.get(code=code)
+            
+            return rider
+    
     def __unicode__(self):
         return self.user.username
         
