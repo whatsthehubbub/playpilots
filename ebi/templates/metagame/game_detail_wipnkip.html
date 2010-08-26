@@ -825,7 +825,7 @@
     				<div class="video">
     					<iframe src="http://player.vimeo.com/video/{{ race.movie_vimeo_code }}?title=0&amp;byline=0&amp;portrait=0&amp;color=ff3300" width="147" height="110" frameborder="0"></iframe>
     				</div>
-    				<table id="race">
+    				<table id="race_{{ race.raceid }}">
     				    {% for rider in race.get_riders %}
     				        <tr class="player {{ rider.get_color_class }}">
         						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_{{ rider.get_color_class }}.png" alt="" /></td>
