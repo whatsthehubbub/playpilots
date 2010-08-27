@@ -656,14 +656,24 @@
 		.info a:hover span {
 			text-decoration: underline;
 		}
-
     </style>
+    
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.custom.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.scrollTo.js" charset="utf-8"></script>
     
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 			$('#game_image').css('-webkit-transform', 'rotate(-5deg)');
 			$('#game_image').css('-moz-transform', 'rotate(-5deg)');
+			
 			$("#gameresults").tabs();
+			
+			// If people want to see a race, we have to open that tab instead and scroll to it
+			if (window.location.hash.indexOf('#race') != -1) {
+			    $('#gameresults').tabs('select', 1);
+			    
+			    setTimeout('$.scrollTo(window.location.hash, 100);', 100); 
+			}
 			
             {% if user.is_authenticated %}
                 $('#interest_form').ajaxForm({
@@ -824,7 +834,7 @@
 		<div id="races" class="tabcontent">
 			{% for race in races %}
     			<div class="racewrapper">
-    				<h3>Race #{{ race.raceid }} <span>({{ race.get_time_of_day }})</span></h3>
+    				<h3 id="race_{{ race.raceid }}">Race #{{ race.raceid }} <span>({{ race.get_time_of_day }})</span></h3>
     				<div class="video">
     				    {% if race.movie_vimeo_code %}
     				        <iframe src="http://player.vimeo.com/video/{{ race.movie_vimeo_code }}?title=0&amp;byline=0&amp;portrait=0&amp;color=ff3300" width="147" height="110" frameborder="0"></iframe>
@@ -832,7 +842,7 @@
     				        <p>Sorry, de video is verloren gegaan in het wipkipgeweld.</p>
     				    {% endif %}
     				</div>
-    				<table id="race_{{ race.raceid }}">
+    				<table>
     				    {% for rider in race.get_riders %}
     				        <tr class="player {{ rider.get_color_class }}">
         						<td class="color"><img src="{{ MEDIA_URL }}image/wipnkip_{{ rider.get_color_class }}.png" alt="" /></td>
