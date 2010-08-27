@@ -1,7 +1,7 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>Profiel van {{ player.user.username }} &bull; PLAY Pilots</title>
+    <title>STAGING &bull; Profiel van {{ player.user.username }} &bull; PLAY Pilots</title>
     
     <style type="text/css" media="screen">
         html {
@@ -37,7 +37,7 @@
             margin-bottom: 20px;
         }
         
-        #profile H4 {
+        #profile h4 {
             border-bottom: thin solid #ddd;
             margin-bottom: 10px;
         }
@@ -151,11 +151,78 @@
             vertical-align: text-bottom;
         }
         
-        #record, #levels, #festivals {
+        #record, #badges, #levels, #festivals {
             padding: 10px 20px;
             background: #fff;
-/*            margin-bottom: 20px ;*/
         }
+
+		#badges  {
+			overflow: hidden;
+		}
+		
+		#badges h4 {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+		
+		#badges p {
+			font-size: 11px;
+			line-height: 16px;
+			margin-bottom: 5px;
+		}
+		
+		#badges img {
+			position: relative;
+			z-index: 0;
+			padding-top: 10px;
+		}
+		
+		#badges ul {
+			width: 100%;
+			float: left;
+			display: inline;
+			background: #f5f5f5 url({{ MEDIA_URL }}image/badge_collection_bg.png) repeat-y 0 0;
+			-webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+			border-radius: 5px;
+			-moz-box-shadow: inset 0 1px 2px #ccc;
+			-webkit-box-shadow: inset 0px 1px 2px #ccc;
+			box-shadow: inset 0 1px 2px #ccc;
+		}
+		
+		#badges li {
+			width: 33.2%;
+			float: left;
+			display: block;
+			text-align: center;
+		}
+		
+		#badges .rank {
+			position: relative;
+			z-index: 10;
+            color: white;
+            background: transparent url({{ MEDIA_URL }}image/ranking_bar_bg.png) no-repeat center center;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            font-size: 10px;
+            padding: 0 2px;
+            line-height: 21px;
+            float: left;
+            margin: 10px 0 -30px 10px;
+        }
+		
+		#badges a {
+			color: #ff3300;
+			text-decoration: none;
+		}
+		
+		#badges a:hover {
+			text-decoration: underline;
+		}
+		
+		#badges strong {
+			margin-top: 10px;
+		}
         
         #festivals p a {
             font-weight: bold;
@@ -315,6 +382,32 @@
                 </tr>
             </table>
         </div>
+		
+		<div id="badges">
+			<h4>Badges</h4>
+			<ul>
+                <li class="left">
+                    {% if player.get_kippenrijder %}
+                        {% with player.get_kippenrijder as rider %}
+                            <div class="rank">{{ rider.get_rank|stringformat:".3d" }}</div>
+        					<a href="/games/wip-n-kip/?staging=yes#rider_{{ rider.id }}"><img src="{{ MEDIA_URL }}image/event_badge_stekker.png" /></a>
+        					<p><a href="/games/wip-n-kip/?staging=yes#rider_{{ rider.id }}"><strong>Wip 'n' Kip</strong></a><br />{{ rider.get_time }}</p>
+                        {% endwith %}
+                    {% else %}
+                        <img src="{{ MEDIA_URL }}image/event_badge_empty.png" />
+    					<p><strong>Wip 'n' Kip</strong></p>
+                    {% endif %}
+				</li>
+                <li class="middle">
+					<img src="{{ MEDIA_URL }}image/event_badge_empty.png" />
+					<p><strong>De Stereoscoop</strong></p>
+				</li>
+                <li class="right">
+					<img src="{{ MEDIA_URL }}image/event_badge_empty.png" />
+					<p><strong>LGW? Pilot</strong></p>
+				</li>
+            </ul>
+		</div>
         
         <div id="levels">
             <h4>Stijlen</h4>
