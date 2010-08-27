@@ -390,8 +390,8 @@
                     {% if player.get_kippenrijder %}
                         {% with player.get_kippenrijder as rider %}
                             <div class="rank">{{ rider.get_rank|stringformat:".3d" }}</div>
-        					<a href="/games/wip-n-kip/?staging=yes#rider_{{ rider.id }}"><img src="{{ MEDIA_URL }}image/event_badge_stekker.png" /></a>
-        					<p><a href="/games/wip-n-kip/?staging=yes#rider_{{ rider.id }}"><strong>Wip 'n' Kip</strong></a><br />{{ rider.get_time }}</p>
+        					<a href="/games/wip-n-kip/#rider_{{ rider.id }}"><img src="{{ MEDIA_URL }}image/event_badge_stekker.png" /></a>
+        					<p><a href="/games/wip-n-kip/#rider_{{ rider.id }}"><strong>Wip 'n' Kip</strong></a><br />{{ rider.get_time }}</p>
                         {% endwith %}
                     {% else %}
                         <img src="{{ MEDIA_URL }}image/event_badge_empty.png" />
