@@ -815,10 +815,13 @@
     				</tr>
 				{% endfor %}
 				
+				<tr>
+				    <td colspan="3">“Een tijd van 5:00 betekent dat je bent gepakt door de horde en de race niet hebt kunnen afmaken, of dat je tijd door een gremlin uit onze database is gegapt.”</td>
+				</tr>
 	        </table>
 		</div>
+		
 		<div id="races" class="tabcontent">
-			
 			{% for race in races %}
     			<div class="racewrapper">
     				<h3>Race #{{ race.raceid }} <span>({{ race.get_time_of_day }})</span></h3>
@@ -853,7 +856,12 @@
     	        	</table>
     			</div>
 			{% endfor %}
-		</div>	
+			
+			<div class="racewrapper">
+			    <p>“Een tijd van 5:00 betekent dat je bent gepakt door de horde en de race niet hebt kunnen afmaken, of dat je tijd door een gremlin uit onze database is gegapt.”</p>
+			</div>
+		</div>
+		
 	</div>
 </div>
 {% endifequal %}
