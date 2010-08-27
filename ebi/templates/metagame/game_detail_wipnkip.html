@@ -1,4 +1,5 @@
 {% extends "metagame/base.html" %}
+{% load cache %}
 
 {% block extrahead %}
     <title>{{ game.name }} door {{ game.maker.name}} voor {{ game.festival.name }} &bull; PLAY Pilots</title>
@@ -791,6 +792,8 @@
 			
 		</div>
     </div>
+    
+    {% cache 500 gameresults %}
 	<div id="gameresults" class="mainblock">
 		<ul class="tabnav">
 			<li><a href="#tijden"><span>Tijden</span></a></li>
@@ -873,6 +876,8 @@
 		</div>
 		
 	</div>
+	
+	{% endcache %}
 </div>
 {% endifequal %}
 
