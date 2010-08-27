@@ -185,7 +185,7 @@ def game_detail(request, slug):
         templateName = 'metagame/game_detail_wipnkip.html'
         
         convars['races'] = Kippenrace.objects.all().order_by('raceid')
-        convars['riders'] = Kippenrijder.objects.all().order_by('time')
+        convars['riders'] = Kippenrijder.objects.all().order_by('time', 'raceid')
     
     return render_to_response(templateName, convars, context_instance=RequestContext(request))
     
