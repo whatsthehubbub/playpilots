@@ -5,6 +5,55 @@
 
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/index.css" type="text/css" media="screen" charset="utf-8">
 
+    <script type="text/javascript" charset="utf-8">
+        
+        var d = new Date();
+        var timeStamp = "" + d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate() + 'T' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '.' + d.getMilliseconds();
+        
+        // TODO replace with websockets ;)
+        function checkNewActions() {
+            $.getJSON('/actions/', {'since': timeStamp}, function(data, textStatus) {
+                for (var counter in data) {
+                    var action = data[counter];
+                    
+                    if (counter == 0) {
+                        timeStamp = action['timestamp'];
+                    }
+                    
+                    // Remove the last action, and prepend this one at the front
+                    if ($('.participant').length >= 4) {
+                        $('.participant:last').slideUp(500).remove();
+                    }
+                    
+                    var html = '<div class="participant" style="display: none;">';
+                    html += '<a href="/users/' + action['display_name'] + '/">';
+                    html += '<img src="' + action['avatar'] + '" class="avatar" alt="">';
+                    html += '<p class="name">' + action['display_name'] + '</p>';
+                    html += '</a>';
+                    html += '<p class="activity">';
+
+                    html += '' + action['display_name'] + ' ' + action['verb'];
+
+                    if ('target_url' in action) {
+                        html += ' <a href="' + action['target_url'] + '">' + action['target_str'] + '</a>';
+                    };
+
+                    html += '</p>';
+                    html += '</div>';
+                    
+                    $('#participants').prepend(html);
+                    $('.participant:first').slideDown(500);
+                    $('.participant:last').addClass('last');
+                }
+            });
+        }
+        
+        
+        $(document).ready(function() {
+            setInterval('checkNewActions();', 15000);
+        });
+    </script>
+
 {% endblock %}
 
 {% block content %}

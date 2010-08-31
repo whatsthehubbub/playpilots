@@ -43,7 +43,8 @@ def index(request):
         for action in actions:
             if len(action_list) > 3:
                 break
-                
+            
+            # Make the actions on the front page initially from unique users
             if not action.actor_object_id in [a.actor_object_id for a in action_list]:
                 action_list.append(action)
             
@@ -70,6 +71,7 @@ def actions_since(request):
         d = datetime.datetime.strptime(timestring, '%Y-%m-%dT%H:%M:%S.%f')
         actions = actions.filter(timestamp__gt=d)
         
+        
     actions = actions.order_by('-timestamp')
         
     for action in actions[:4]:
@@ -77,6 +79,13 @@ def actions_since(request):
         
         output['verb'] = action.verb
         output['timestamp'] = action.timestamp.isoformat()
+        
+        output['display_name'] = action.actor.get_display_name()
+        output['avatar'] = action.actor.get_avatar_url()
+        
+        if action.target:
+            output['target_url'] = action.target.get_absolute_url()
+            output['target_str'] = str(action.target)
         
         resultlist.append(output)
         
