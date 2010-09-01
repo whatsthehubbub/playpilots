@@ -249,7 +249,7 @@ Uw gezagvoerder''' % {'target': self.get_display_name(),
                 
             messageParts.append(u'Doe iets terug op: %(url)s' % {'url': url})
             
-            send_tweet(' '.join(messageParts))
+            send_tweet(u' '.join(messageParts))
             
     def send_win_message(self, duel):
         logging.info('sending win message to %s', self.get_display_name())

@@ -1,8 +1,10 @@
 import feedparser
 
-from ebi import twitter
+from ebi import oauthtwitter
 import logging
 import urllib2
+
+from django.conf import settings
 
 def get_feed(url):
     if url:
@@ -30,10 +32,12 @@ def feed_entries(url):
     return []
     
 def send_tweet(msg):
-    api = twitter.Api(username='playpilots', password='boarding45paris')
+    api = oauthtwitter.OAuthApi('E0iCfzFo5Xzx64kYGvIa8w', 'yHKc2oOpxg73isTyVPNPpN5UMdm6vGUwUxfeSTJY', token='163033853-fZLBb7czDySTztYtEC2ig5Rn4HVmpWmCZFzDdGix', token_secret='DmLKAPqZBihdELE9Z2OqGsWlGPZWj5PmD5dKDbrOI')
     
     try:
-        status = api.PostUpdate(msg)
-        logging.info('sent tweet %d', status.id)
+        status = api.UpdateStatus(msg.encode('utf-8'))
+        logging.info('sent tweet %s', str(status))
     except:
         logging.error('sending tweet %s failed', msg)
+
+    return status
