@@ -155,7 +155,7 @@
             <h2>3 festivals, 3 games</h2> PLAY Pilots daagt je uit! Dit jaar kun je op drie culturele festivals in Utrecht live games spelen. Lees alles over het wat, waar en wanneer.</div>
 
         {% for game in games %}
-        {% if forloop.first %}<a href="/games/{{ game.slug }}/">{% endif %}
+        {% if forloop.counter < 3 %}<a href="/games/{{ game.slug }}/">{% endif %}
             <div id="game_{{ game.id }}" class="game {% if not forloop.first %}soon space{% endif %}">
                 <div class="mainimage" style="{% if game.get_first_photo %}background-image: url({{ game.get_first_photo }});{% endif %}"></div>
             
@@ -169,7 +169,7 @@
                     {% if forloop.first %}<p>{{ game.description|truncatewords:10}}</p>{% else %}<p>Coming soon!</p>{% endif %}
                 </div>
             </div>
-            {% if forloop.first %}</a>{% endif %}
+            {% if forloop.counter < 3 %}</a>{% endif %}
         {% endfor %}
     </div>
 </div>
