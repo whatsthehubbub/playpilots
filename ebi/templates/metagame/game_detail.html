@@ -62,15 +62,6 @@
 		#title #game_info {
 			float: left;
 		}
-		
-		#game_gogetgadget {
-			position: absolute;
-			width: 150px;
-			height: 65px;
-			top: 20px;
-			left: 420px;
-			background-image: url({{ MEDIA_URL }}image/goget_gadget.png);
-		}
         
         #game_image {
 			float: right;
@@ -517,8 +508,7 @@
         	<h1>{{ game.name }}</h1>
         	<h3>door {{ game.maker }} voor {{ game.festival }}</h3>
 		</div>
-		<a href="#gamecode" title=""><div id="game_gogetgadget">
-        </div></a>
+		
 		<div id="game_image">
 			<img src="{{ game.get_first_photo }}">
 		</div>
@@ -597,12 +587,12 @@
 
 <div id="interest_wrapper">
     <div id="interest" class="mainblock">
-        <h2>Wie waren erbij?</h2> 
+        <h2>Wie zijn erbij?</h2> 
 
 		{% if not user.get_profile in game.interested.all %}
             <!-- TODO handje op button verschijnt niet -->
             <form method="GET" action="/games/{{ game.slug }}/interested/" id="interest_form">
-                <button class="door"><p class="door">Ik was erbij!</p></button>
+                <button class="door"><p class="door">Ik ben erbij!</p></button>
             </form>
         {% endif %}        
 
