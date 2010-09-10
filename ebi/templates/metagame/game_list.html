@@ -164,7 +164,7 @@
                     
                     <p class="metadata">door {{ game.maker }}<br>
                         op {{ game.festival }}<br>
-                        {{ game.start|date:"j b Y" }}</p>
+                        {{ game.start|date:"j b Y" }}{% if game.end %} - {{ game.end|date:"j b Y"}}{% endif %}</p>
             
                     {% if forloop.first %}<p>{{ game.description|truncatewords:10}}</p>{% else %}<p>Coming soon!</p>{% endif %}
                 </div>

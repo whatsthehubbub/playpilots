@@ -536,7 +536,7 @@
             
             <h3>{{ game.festival.name }}</h3>
             
-            <p class="meta">{{ game.start|date:"j b Y"}}, {{ game.festival.location }}</p>
+            <p class="meta">{{ game.start|date:"j b Y"}}{% if game.end %} - {{ game.end|date:"j b Y"}}{% endif %}, {{ game.festival.location }}</p>
             <p>{{ game.festival.description }}</p>
             
             <p class="link"><a href="{{ game.festival.link }}">{{ game.festival.link|slice:"7:" }}</a></p>
