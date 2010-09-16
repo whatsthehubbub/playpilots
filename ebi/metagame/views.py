@@ -200,7 +200,7 @@ def game_detail(request, slug):
         convars['races'] = Kippenrace.objects.all().order_by('raceid')
         convars['riders'] = Kippenrijder.objects.all().order_by('time', 'raceid')
         
-    if game.slug == 'de-stereoscoop':
+    if request.GET.get('staging', '') == 'yes' and game.slug == 'de-stereoscoop':
         templateName = 'metagame/game_detail_stereoscoop.html'
     
     return render_to_response(templateName, convars, context_instance=RequestContext(request))
