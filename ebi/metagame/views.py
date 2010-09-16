@@ -106,6 +106,9 @@ def player_detail(request, id):
     skills = Skill.objects.all().filter(player=player).order_by('style__name')
     
     templateName = 'metagame/player_detail.html'
+    
+    if request.GET.get('staging', '') == 'yes':
+        templateName = 'metagame/player_detail2.html'
         
     return render_to_response(templateName, {
         'player': player,
