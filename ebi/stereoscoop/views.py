@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseBadRequest
 
 from django.shortcuts import render_to_response, get_object_or_404
 
@@ -15,4 +15,4 @@ def token_catcher(request):
         
         return HttpResponse('success\r\n' + json.dumps(request.POST))
         
-    return HttpResponse('error')
+    return HttpResponseBadRequest()
