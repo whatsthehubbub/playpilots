@@ -58,6 +58,10 @@ urlpatterns += patterns('ebi.kipwip.views',
     (r'^kipwip/code/$', 'kipwip_code')
 )
 
+urlpatterns += patterns('ebi.stereoscoop.views',
+    (r'^stereoscoop/catcher/$', 'token_catcher'),
+)
+
 
 urlpatterns += patterns('',
     (r'^login/$', 'django.contrib.auth.views.login')
