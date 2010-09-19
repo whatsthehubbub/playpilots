@@ -164,6 +164,14 @@
             border-bottom: none;
             margin-bottom: 0;
         }
+        
+        #badges h5 {
+			color: #999;
+			font-size: 14px;
+            border-bottom: none;
+            margin-bottom: 0;
+            margin-top: 5px;
+        }
 		
 		#badges p {
 			font-size: 11px;
@@ -171,17 +179,11 @@
 			margin-bottom: 5px;
 		}
 		
-		#badges img {
-			position: relative;
-			z-index: 0;
-			padding-top: 10px;
-		}
-		
-		#badges ul {
+		#badges .games {
 			width: 100%;
 			float: left;
-			display: inline;
-			background: #f5f5f5 url({{ MEDIA_URL }}image/badge_collection_bg.png) repeat-y 0 0;
+			display: block;
+			background-color: #f5f5f5;
 			-webkit-border-radius: 5px;
             -moz-border-radius: 5px;
 			border-radius: 5px;
@@ -190,26 +192,16 @@
 			box-shadow: inset 0 1px 2px #ccc;
 		}
 		
-		#badges li {
-			width: 33.2%;
-			float: left;
-			display: block;
-			text-align: center;
+		#badges .games li {
+			padding-left: 30px;
 		}
 		
-		#badges .rank {
-			position: relative;
-			z-index: 10;
-            color: white;
-            background: transparent url({{ MEDIA_URL }}image/ranking_bar_bg.png) no-repeat center center;
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-            font-size: 10px;
-            padding: 0 2px;
-            line-height: 21px;
-            float: left;
-            margin: 10px 0 -30px 10px;
-        }
+		#badges li.first, #badges li.middle { border-bottom: 1px solid #ccc; }
+		#badges li.last { padding-bottom: 5px; }
+		
+		#badges li.checked { background: transparent url({{ MEDIA_URL }}image/game_check_yes.png) no-repeat 0 -5px; }
+		
+		#badges li.unchecked { background: transparent url({{ MEDIA_URL }}image/game_check_no.png) no-repeat 0 -5px; }
 		
 		#badges a {
 			color: #ff3300;
@@ -224,17 +216,15 @@
 			margin-top: 10px;
 		}
         
-        #festivals p a {
-            font-weight: bold;
-            text-decoration: none;
-            color: #f30;
-            font-size: 12px;
-        }
-        
-        #festivals p a:hover {
-            text-decoration: underline;
-        }
-        
+      	#badges ul .stereobadges {
+			overflow: hidden;
+			float: left;
+			display: block;
+			background-color: #fff;
+			margin-left: 30px;
+			margin-right: 10px; width: 190px;
+		}
+		
         /* TODO schaduw onderaan linker kolom */
         
         #actions h3 img {
@@ -385,26 +375,21 @@
 		
 		<div id="badges">
 			<h4>Games</h4>
-			<ul>
-                <li class="left">
-                    {% if player.get_kippenrijder %}
-                        {% with player.get_kippenrijder as rider %}
-                            <div class="rank">{{ rider.get_rank|stringformat:".3d" }}</div>
-        					<a href="/games/wip-n-kip/#rider_{{ rider.id }}"><img src="{{ MEDIA_URL }}image/event_badge_stekker.png" /></a>
-        					<p><a href="/games/wip-n-kip/#rider_{{ rider.id }}"><strong>Wip 'n' Kip</strong></a><br />{{ rider.get_time }}</p>
-                        {% endwith %}
-                    {% else %}
-                        <img src="{{ MEDIA_URL }}image/event_badge_empty.png" />
-    					<p><strong>Wip 'n' Kip</strong></p>
-                    {% endif %}
+			<ul class="games">
+                <li class="checked first">
+					<h5><a href="">Wip 'n' Kip</a></h5>
+					<p>Jouw tijd: <strong>1 minuut 9 seconden</strong></p>
 				</li>
-                <li class="middle">
-					<img src="{{ MEDIA_URL }}image/event_badge_empty.png" />
-					<p><strong>De Stereoscoop</strong></p>
+                <li class="checked middle">
+					<h5><a href="">De Stereoscoop</a></h5>
+					<a href=""><img src="{{ MEDIA_URL }}sterescoop_badges/badge_placeholder.png" width="50" height="45" /></a>
+					<a href=""><img src="{{ MEDIA_URL }}sterescoop_badges/badge_placeholder.png" width="50" height="45" /></a>
+					<a href=""><img src="{{ MEDIA_URL }}sterescoop_badges/badge_placeholder.png" width="50" height="45" /></a>
+					<a href=""><img src="{{ MEDIA_URL }}sterescoop_badges/badge_placeholder.png" width="50" height="45" /></a>
+					<a href=""><img src="{{ MEDIA_URL }}sterescoop_badges/badge_placeholder.png" width="50" height="45" /></a>
 				</li>
-                <li class="right">
-					<img src="{{ MEDIA_URL }}image/event_badge_empty.png" />
-					<p><strong>LGW? Pilot</strong></p>
+                <li class="unchecked last">
+					<h5>LGW? Pilot</h5>
 				</li>
             </ul>
 		</div>
@@ -425,13 +410,6 @@
                     </tr>
                 {% endfor %}             
             </table>
-        </div>
-        
-        <div id="festivals">
-            <h4>Festivals</h4>            
-            {% for game in player.game_set.all %}
-                <p><a href="/games/{{ game.slug }}">{{ game.festival }} &raquo;</a></p>
-            {% endfor %}
         </div>
     </div>
     

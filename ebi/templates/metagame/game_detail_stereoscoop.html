@@ -336,7 +336,7 @@
 		}
 		
 		#gamecode p {
-		    width: 540px;
+		    width: 450px;
 		}
 		
 		#form_container {
@@ -458,6 +458,25 @@
 		#codesubmit:active {
 			background-color: #333;
 			color: #fff;
+		}
+		
+		#badges {
+			padding-top: 20px;
+			margin-top: 20px;
+			border-top: 1px solid #ccc;
+		}
+		
+		#badges h2 {
+			color: #333;
+		}
+		
+		#badges .imageblock {
+			display: inline;
+		}
+		
+		#badges .imageblock li {
+			display: block;
+			float: left;
 		}
 		
     </style>
@@ -584,6 +603,41 @@
     </div>
 </div>
 {% endifequal %}
+
+<div id="gamecode_wrapper">
+	<div id="gamecode" class="mainblock">
+		<h2>Een bonnetje bij Stereoscoop gevonden?</h2>
+		<p>Vul hieronder de code in die op je handout staat en we koppelen je badge aan je profiel.</p>
+		<div id="form_container">
+		    {% if not user.is_authenticated %}
+		      <div class="logininfo"><a href="/games/{{ game.slug }}/login/">Meld je aan</a> om je racegegevens te claimen.</div>
+		    {% else %}
+		        <form id="codeform" name="codeform" action="/stereoscoop/code/" method="POST">
+    				<input type="text" maxlength="8" placeholder="Jouw code" name="codeinput" id="codeinput">
+    				<input type="submit" id="codesubmit" value="Claimen">
+    			</form>
+    			
+    			<div class="resultinfo">
+    				<strong>Bedankt!</strong> Je profiel is nu gekoppeld aan je tijd en filmpje. <span class="again">(<a href="javascript:$('.resultinfo').slideUp();$('#codeinput').focus();">Nog een code invoeren?</a>)</span>
+    			</div>
+		    {% endif %}
+		</div>
+    </div>
+
+	<div id="badges" class="mainblock">
+		<h2>Gevonden badges</h2>
+		<p>Lorem ipsum dolor este lauda dolor ulla lirum este vakuum.</p>
+		<ul class="imageblock">
+			<li><a href=""><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140" /></a></li>
+			<li><a href=""><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140" /></a></li>
+			<li><a href=""><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140" /></a></li>
+			<li><a href=""><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140" /></a></li>
+			<li><a href=""><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140" /></a></li>
+			<li><a href=""><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140" /></a></li>
+			<li><a href=""><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140" /></a></li>
+		</ul>
+	</div>
+</div>
 
 <div id="interest_wrapper">
     <div id="interest" class="mainblock">
