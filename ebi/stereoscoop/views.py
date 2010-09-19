@@ -13,6 +13,12 @@ def token_catcher(request):
     if request.method == "POST":
         # TODO log all the stuff that we catch
         
+        logging.debug('stereoscoop catcher received %s', str(request.POST))
+        
         return HttpResponse('success\r\n' + json.dumps(request.POST))
         
     return HttpResponseBadRequest()
+    
+    
+def stereoscoop_badge(request):
+    return render_to_response('stereoscoop/badge.html', {}, context_instance=RequestContext(request))
