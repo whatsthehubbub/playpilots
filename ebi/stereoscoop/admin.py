@@ -2,18 +2,18 @@ from ebi.stereoscoop.models import StereoscoopUnlock, StereoscoopCode, Stereosco
 from django.contrib import admin
 
 class StereoscoopUnlockAdmin(admin.ModelAdmin):
-    pass # list_display = ('created', 'code', 'player')
+    list_display = ('code', 'time', 'badge', 'movie1', 'movie2')
 admin.site.register(StereoscoopUnlock, StereoscoopUnlockAdmin)
 
 class StereoscoopCodeAdmin(admin.ModelAdmin):
-    pass # list_display = ('raceid', 'movie_filename', 'movie_vimeo_code')
+    list_display = ('player', 'code')
 admin.site.register(StereoscoopCode, StereoscoopCodeAdmin)
 
 class StereoscoopBadgeAdmin(admin.ModelAdmin):
-    pass # list_display = ('race', 'name', 'kipid', 'raceid', 'position', 'code', 'time')
+    list_display = ('badgeid', 'title', 'blurb', 'image')
     prepopulated_fields = {"slug": ("title",)}
 admin.site.register(StereoscoopBadge, StereoscoopBadgeAdmin)
 
 class StereoscoopMovieAdmin(admin.ModelAdmin):
-    pass # list_display = ('race', 'name', 'kipid', 'raceid', 'position', 'code', 'time')
+    list_display = ('title', 'imdb', 'year')
 admin.site.register(StereoscoopMovie, StereoscoopMovieAdmin)
