@@ -21,6 +21,7 @@ def token_catcher(request):
         dt = datetime.datetime.strptime(request.POST.get('datetime', ''), '%Y-%m-%d %H:%M:%S')
         
         badgeid = int(request.POST.get('badgeid', ''))
+        badge = StereoscoopBadge.objects.get(badgeid=badgeid)
         
         movie1 = StereoscoopMovie.objects.get(title=request.POST.get('movie1', ''))
         movie2 = StereoscoopMovie.objects.get(title=request.POST.get('movie2', ''))
