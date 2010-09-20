@@ -28,8 +28,6 @@ def token_catcher(request):
         
         logging.log('got data %s %s %d %s %s', token, str(datetime), badgeid, str(movie1), str(movie2))
         
-        badge = StereoscoopBadge.objects.all()[0]
-        
         s = StereoscoopUnlock.objects.create(code=token, time=dt, badge=badge, movie1=movie1, movie2=movie2)
         
         scene1 = request.POST.get('scene1', '')
