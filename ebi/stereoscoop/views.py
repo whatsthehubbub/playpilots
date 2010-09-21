@@ -20,15 +20,26 @@ def token_catcher(request):
         token = request.POST.get('token')
         dt = datetime.datetime.strptime(request.POST.get('datetime', ''), '%Y-%m-%d %H:%M:%S')
         
+        logging.debug('got token %s and datetime %s', token, str(dt))
+        
         badgeid = int(request.POST.get('badgeid', ''))
         badge = StereoscoopBadge.objects.get(badgeid=badgeid)
         
-        movie1 = StereoscoopMovie.objects.get(title=request.POST.get('movie1', ''))
-        movie2 = StereoscoopMovie.objects.get(title=request.POST.get('movie2', ''))
+        logging.debug('got badgeid %d and badge %s', badgeid, str(badge))
         
-        logging.debug('got data %s %s %d %s %s', token, str(datetime), badgeid, str(movie1), str(movie2))
+        movie1Title = request.POST.get('movie1', '')
+        movie2Title = request.POST.get('movie2', '')
+        
+        logging.debug('got movie titles %s and %s', movie1Title, movie2Title)
+        
+        movie1 = StereoscoopMovie.objects.get(title=movie1Title)
+        movie2 = StereoscoopMovie.objects.get(title=movie2Title)
+        
+        logging.debug('resolved to movies %s and %s', str(movie1), str(movie2))
         
         s = StereoscoopUnlock.objects.create(code=token, time=dt, badge=badge, movie1=movie1, movie2=movie2)
+        
+        logging.debug('created stereoscoop unlock %d', s.id)
         
         scene1 = request.POST.get('scene1', '')
         scene2 = request.POST.get('scene2', '')
