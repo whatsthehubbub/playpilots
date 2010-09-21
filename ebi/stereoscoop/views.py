@@ -22,7 +22,7 @@ def token_catcher(request):
         
         logging.debug('got token %s and datetime %s', token, str(dt))
         
-        badgeid = int(request.POST.get('badgeid', ''))
+        badgeid = int(request.POST.get('badge', ''))
         badge = StereoscoopBadge.objects.get(badgeid=badgeid)
         
         logging.debug('got badgeid %d and badge %s', badgeid, str(badge))
