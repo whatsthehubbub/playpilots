@@ -4,15 +4,15 @@
 <title>{{ user.get_profile.get_display_name|upper }} vs {{ target.get_display_name|upper }} &bull; PLAY Pilots</title>
 
     {{ block.super }}
-    
+
     <script type="text/javascript" charset="utf-8">
         var targetUsername = '{{ target.user.username }}';
         var targetPlayerId = {{ target.id }};
-        
+
         var actiontId = 0;
         var actionString = '';
         var message = '';
-        
+
         // Prefill actions
         var actions = {};
         {% for style in styles %}
@@ -22,64 +22,64 @@
                 actions['{{ style.name }}'].push([{{ action.id }}, '{{ action.phrase }}']);
             {% endfor %}
         {% endfor %}
-        
+
         function fillMoves(style) {
             $('#moves').empty();
-            
+
             for (var counter in actions[style]) {
                 var action = actions[style][counter];
-                
+
                 $('#moves').append('<li id="move_' + action[0] + '" class="move"><b>{{ user.username }}</b> ' + templateAction(action[1], targetUsername) + '</li>');
             }
         }
-        
+
         $(document).ready(function() {
             $('#challenge_form').ajaxForm({
                 dataType: 'json',
                 success: function(data) {
                     var awesomeness = data['awesomeness'];
-                    
+
                     $('#challenge_button').replaceWith('<p>Je beweging heeft de coolness: ' + awesomeness + '</p>');
                 }
             });
-            
+
             $('.stylerow').mouseover(function() {
                 $('.stylerow').removeClass('hover');
-                
+
                 var i = this.id.split('_')[2];
                 $('#style_row_' + i).addClass('hover');
             });
-            
+
             $('.stylerow').mouseout(function() {
                 $('.stylerow').removeClass('hover');
             });
-            
+
             $('.stylerow').click(function() {
                 $('.stylerow').removeClass('active');
                 $('.style_detail').removeClass('active');
-                
+
                 var i = this.id.split('_')[2];
-                
+
                 $('#style_row_' + i).addClass('active');
                 $('#style_detail_' + i).addClass('active');
             });
-            
+
             $('.choosestylebutton').click(function() {
                 // Display the style pick field and show the chosen style
                 var i = $(this).parent().attr('id').split('_')[2];
-                
+
                 var style = $('#style_row_' + i + ' TD.style').text();
-                
+
                 $('#stylechosen1 .stylename').html(style);
-                
+
                 $('#stylechooser').css('display', 'none');
                 $('#stylechosen1').css('display', 'block');
                 $('#action').css('display', 'block');
-                
+
                 // Also show the action choice field and fill the correct actions
-                
+
                 fillMoves(style);
-                
+
                 // Live does not work on mobile safari
                 $('.move').click(function() {
                     $('.move').removeClass('selected');
@@ -92,24 +92,24 @@
                     actionId = parseInt(i);
                     actionString = $('#move_' + i).text();
                 });
-                
+
                 $('.move').first().click();
             });
-            
+
             $('#changestylelink').click(function() {
                 $('.stylerow').removeClass('active');
                 $('.style_detail').removeClass('active');
-                
+
                 $('#stylechooser').css('display', 'block');
                 $('#stylechosen1').css('display', 'none');
                 $('#action').css('display', 'none');
             });
-            
+
             $('#makemovebutton').click(function() {
                 $('#changestylelink').remove();
-                
+
                 message = $('#messagetext').val();
-                
+
                 // Send move to server
                 $.post('/challenge/create/', {
                     'target': targetPlayerId,
@@ -118,17 +118,17 @@
                 }, function(data) {
                     var awesomeness = data['awesomeness'];
                     var awesomenessMessage = awesomenessMessages[awesomeness];
-                    
+
                     $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2><p>Kijken wat <span class="responder">' + targetUsername + '</span> gaat doen&hellip;</p></div>');
                 }, 'json');
-                
+
                 var totalMove = '<div class="finalmove"><b>' + actionString.capitalize();
                 if (message == '') {
                 } else {
                     totalMove += '<br>{{ user.username|upper }} zegt:</b> &ldquo;' + message + '&rdquo;';
                 }
                 totalMove += '</div>';
-                
+
                 $('#actionselect').html(totalMove);
             });
         });
@@ -137,7 +137,7 @@
 
 {% block content %}
 <div id="content" class="mainblock start">
-    
+
     <div id="headline">
         <div class="player1">
             <!-- <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png"> -->
@@ -150,7 +150,7 @@
                 <p><span class="rank">{{ user.get_profile.get_rank|stringformat:".3d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
-        
+
         <div class="player2">
             <div class="player">
                 <img src="{{ target.get_avatar_url }}" alt="">
@@ -159,13 +159,13 @@
             </div>
         </div>
     </div>
-    
+
     <div id="style">
         <div class="headingbox">
             <h5>Kies je stijl</h5>
-            <!-- <p>Welke subcultuur wil je in dit duel vertegenwoordigen?</p> -->
+            <!-- <p>Welke subcultuur wil je vertegenwoordigen in dit duel? Hoe hoger je stijlniveau, hoe groter de kans dat je een vette move doet.</p> -->
         </div>
-        
+
         <div class="box">
             <div id="styleplayer1" class="player1">
                 <div id="stylechooser" class="choice">
@@ -204,12 +204,13 @@
             </div>
         </div>
     </div>
-    
+
     <div id="action">
         <div class="headingbox">
             <h5>Kies je actie</h5>
+            <!-- <p>Met welke move wil je je doelwit imponeren? Je kan je actie extra kracht bij zetten met een boodschap. (Dit heeft geen invloed op je winkans, maar wel op je street cred.)</p> -->
         </div>
-        
+
         <div class="box">
             <div id="actionplayer1" class="player1 {% if not duel %}choice{% endif %}">
                 <div id="actionselect">
@@ -224,14 +225,17 @@
 
                         <p style="text-align: center;"><button type="submit" id="makemovebutton" class="bang"></button></p>
                     </div>
+
+                    <!-- <p>Wat gebeurt er als je klikt? Het lot bepaalt de vetheid van je move en we sturen een tweet naar je doelwit om te reageren.</p> -->
+
                 </div>
             </div>
-        
+
             <div id="actionplayer2" class="player2">
                 <p>&hellip;en we wachten ook nog op de actie van {{ target.user.username|upper }}.</p>
             </div>
         </div>
-        
+
     </div>
 
 </div>
