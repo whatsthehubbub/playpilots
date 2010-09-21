@@ -10,6 +10,12 @@ class StereoscoopCode(models.Model):
     
     def __unicode__(self):
         return '%s' % self.code
+        
+    def getUnlock(self):
+        try:
+            return StereoscoopUnlock.objects.filter(code=self.code)[0]
+        except:
+            pass
 
 class StereoscoopUnlock(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -32,6 +38,12 @@ class StereoscoopUnlock(models.Model):
     
     def __unicode__(self):
         return self.code
+        
+    def byUser(self):
+        try:
+            return StereoscoopCode.objects.filter(code__iexact=self.code.lower())[0].player
+        except:
+            pass
     
 
 class StereoscoopBadge(models.Model):
@@ -49,6 +61,20 @@ class StereoscoopBadge(models.Model):
     
     def __unicode__(self):
         return self.title
+        
+    def isUnlocked(self):
+        if self.stereoscoopunlock_set.count() > 0:
+            return True        
+        return False
+        
+    def finds(self):
+        return self.stereoscoopunlock_set.all().order_by('time')
+        
+    # def firstFind(self):
+    #     try:
+    #         return self.stereoscoopunlock_set.all().order_by('time')[0]
+    #     except:
+    #         pass
     
 
 class StereoscoopMovie(models.Model):

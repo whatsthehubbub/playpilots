@@ -154,7 +154,6 @@
 			text-align: center;
 			overflow: hidden;
 		}
-		
 		.userframe .foundby {
 			color: #666;
 			margin-bottom: 3px;
@@ -174,11 +173,12 @@
 <div id="badgeintro_wrapper">
 	<div id="badge" class="mainblock">
 		<div class="illustration">
-			<img src="{{ MEDIA_URL }}stereoscoop_badges/badge_xlarge-romanticus.png" />
+			<img src="{{ MEDIA_URL }}stereoscoop_badges/badge_xlarge-{{ badge.slug }}.png" />
 		</div>
-		<h2>De Romanticus</h2>
-		<p>Badge one liner lorem ipsum dolor este lauda durum ad lorem. Etiam convallis massa vel justo blandit eget lacinia eros tincidunt. Morbi eget quam vitae lacus rhoncus porta.</p>
-		<p>Ook een badge bij De Stereoscoop gevonden? <a href="">Claim jouw code &raquo;</a></p>
+		
+		<h2>{{ badge.title }}</h2>
+		<p>{{ badge.blurb }}</p>
+		<p>Ook een badge bij gevonden bij de De Stereoscoop? <a href="/games/de-stereoscoop/#gamecode">Koppel deze aan je profiel&nbsp;&raquo;</a></p>
 	</div>
 </div>
 
@@ -186,85 +186,26 @@
 	<div class="mainblock">
 		<h3>Vondsten</h3>
 		
-		<div class="poster left first">
-			<div class="posterframe left">
-				<img src="{{ MEDIA_URL }}stereoscoop_posters/tt0081547.jpg" width="100" height="130" alt="" />
-			</div>
-			<div class="posterframe right">
-				<img src="{{ MEDIA_URL }}stereoscoop_posters/tt0091685.jpg" width="100" height="130" alt="" />
-			</div>
-			<div class="userframe">
-				<p class="foundby">gevonden door...</p>
+		{% for find in badge.finds %}
+		  <div class="poster {% cycle 'left' 'right' %} {% if forloop.first %}first{% endif %}">
+  			<div class="posterframe left"><img src="{{ MEDIA_URL }}stereoscoop_posters/{{ find.movie1.imdb }}.jpg" width="100" height="130" alt="{{ find.movie1.title }}" /></div>
+  			<div class="posterframe right"><img src="{{ MEDIA_URL }}stereoscoop_posters/{{ find.movie2.imdb }}.jpg" width="100" height="130" alt="{{ find.movie2.title }}" /></div>
+  			<div class="userframe">
+  			    <p class="foundby">gevonden door...</p>
 				<div class="turntable">
 					<img src="{{ MEDIA_URL }}/image/turntable_state-01.png" width="48" height="48" alt="" class="stateleft" />
-					<a href=""><img src="{{ MEDIA_URL }}/image/unknown_avatar.png" width="48" height="48" alt="" /></a>
-					<img src="{{ MEDIA_URL }}/image/turntable_state-14.png" width="48" height="48" alt="" class="stateright" />
+					<a href=""><img src="{{ find.byUser.get_avatar_url }}" width="48" height="48" alt="" /></a>
+					<img src="{{ MEDIA_URL }}/image/turntable_state-09.png" width="48" height="48" alt="" class="stateright" />
 				</div>
-				<h5><a href="">@loremdolor</a></h5>
-				<p class="foundwhen">3 dagen geleden</p>
-			</div>
-			<img src="{{ MEDIA_URL }}image/first_claimed_star.png" alt="" class="first_claimed" />
-		</div>
-		
-		<div class="poster right">
-			<div class="posterframe left">
-				<img src="{{ MEDIA_URL }}stereoscoop_posters/tt0112379.jpg" width="100" height="130" alt="" />
-			</div>
-			<div class="posterframe right">
-				<img src="{{ MEDIA_URL }}stereoscoop_posters/tt1095427.jpg" width="100" height="130" alt="" />
-			</div>
-			<div class="userframe">
-				<p class="foundby">gevonden door...</p>
-				<div class="turntable">
-					<img src="{{ MEDIA_URL }}/image/turntable_state-12.png" width="48" height="48" alt="" class="stateleft" />
-					<a href=""><img src="{{ MEDIA_URL }}/image/unknown_avatar.png" width="48" height="48" alt="" /></a>
-					<img src="{{ MEDIA_URL }}/image/turntable_state-04.png" width="48" height="48" alt="" class="stateright" />
-				</div>
-				<h5><a href="">@loremdolor</a></h5>
-				<p class="foundwhen">3 dagen geleden</p>
-			</div>
-
-		</div>
-	
-		<div class="poster left">
-			<div class="posterframe left">
-				<img src="{{ MEDIA_URL }}stereoscoop_posters/tt0090579.jpg" width="100" height="130" alt="" />
-			</div>
-			<div class="posterframe right">
-				<img src="{{ MEDIA_URL }}stereoscoop_posters/tt0105884.jpg" width="100" height="130" alt="" />
-			</div>
-			<div class="userframe">
-				<p class="foundby">gevonden door...</p>
-				<div class="turntable">
-					<img src="{{ MEDIA_URL }}/image/turntable_state-03.png" width="48" height="48" alt="" class="stateleft" />
-					<a href=""><img src="{{ MEDIA_URL }}/image/unknown_avatar.png" width="48" height="48" alt="" /></a>
-					<img src="{{ MEDIA_URL }}/image/turntable_state-16.png" width="48" height="48" alt="" class="stateright" />
-				</div>
-				<h5><a href="">@loremdolor</a></h5>
-				<p class="foundwhen">3 dagen geleden</p>
-			</div>
-
-		</div>
-		
-		<div class="poster right">
-			<div class="posterframe left">
-				<img src="{{ MEDIA_URL }}stereoscoop_posters/tt0142772.jpg" width="100" height="130" alt="" />
-			</div>
-			<div class="posterframe right">
-				<img src="{{ MEDIA_URL }}stereoscoop_posters/tt0341578.jpg" width="100" height="130" alt="" />
-			</div>
-			<div class="userframe">
-				<p class="foundby">gevonden door...</p>
-				<div class="turntable">
-					<img src="{{ MEDIA_URL }}/image/turntable_state-04.png" width="48" height="48" alt="" class="stateleft" />
-					<a href=""><img src="{{ MEDIA_URL }}/image/unknown_avatar.png" width="48" height="48" alt="" /></a>
-					<img src="{{ MEDIA_URL }}/image/turntable_state-08.png" width="48" height="48" alt="" class="stateright" />
-				</div>
-				<h5><a href="">@loremdolor</a></h5>
-				<p class="foundwhen">3 dagen geleden</p>
-			</div>
-		</div>
-		
+				<h5><a href="{{ find.byUser.get_absolute_url }}">{{ find.byUser.get_display_name }}</a></h5>
+				<p class="foundwhen">{{ find.time|timesince }} geleden</p>
+  			</div>
+  			
+  			{% if forloop.first %}
+  			    <img src="{{ MEDIA_URL }}image/first_claimed_star.png" alt="" class="first_claimed" />
+  			{% endif %}
+  		</div>
+		{% endfor %}
 	</div>
 </div>
 {% endblock %}

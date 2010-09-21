@@ -376,12 +376,18 @@
 		<div id="badges">
 			<h4>Games</h4>
 			<ul class="games">
-                <li class="checked first">
-					<h5><a href="">Wip 'n' Kip</a></h5>
-					<p>Jouw tijd: <strong>1 minuut 9 seconden</strong></p>
+                <li class="{% if player.get_kippenrijder %}checked{% else %}unchecked{% endif %} first">
+					<h5><a href="/games/wip-n-kip/#rider_{{ rider.id }}">Wip 'n' Kip</a></h5>
+					<p>Jouw tijd: <strong>{{ rider.get_time }}</strong></p>
 				</li>
-                <li class="checked middle">
-					<h5><a href="">De Stereoscoop</a></h5>
+                <li class="{% if stereoscoopcodes %}checked{% else %}unchecked{% endif %} middle">
+					<h5><a href="/games/de-stereoscoop/">De Stereoscoop</a></h5>
+					{% for stereocode in stereoscoopcodes %}
+					   {% if stereocode.getUnlock %}
+					       <a href="/stereoscoop/badge/{{ stereocode.getUnlock.badge.slug }}/"><img src="{{ MEDIA_URL }}stereoscoop_badges/badge-kletsmajoor.png" width="50" height="45" /></a>
+					   {% endif %}
+					{% endfor %}
+					
 					<a href=""><img src="{{ MEDIA_URL }}stereoscoop_badges/badge-kletsmajoor.png" width="50" height="45" /></a>
 					<a href=""><img src="{{ MEDIA_URL }}stereoscoop_badges/badge-placeholder.png" width="50" height="45" /></a>
 					<a href=""><img src="{{ MEDIA_URL }}stereoscoop_badges/badge-romanticus.png" width="50" height="45" /></a>

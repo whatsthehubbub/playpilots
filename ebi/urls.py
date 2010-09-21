@@ -61,6 +61,8 @@ urlpatterns += patterns('ebi.kipwip.views',
 urlpatterns += patterns('ebi.stereoscoop.views',
     (r'^stereoscoop/catcher/$', 'token_catcher'),
     (r'^stereoscoop/badge/$', 'stereoscoop_badge'),
+    (r'^stereoscoop/badge/(?P<slug>\S+?)/$', 'stereoscoop_badge'),
+    (r'^stereoscoop/code/$', 'stereoscoop_code')
 )
 
 

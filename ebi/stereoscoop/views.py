@@ -12,6 +12,17 @@ import logging
 
 import json
 
+def stereoscoop_code(request):
+    if request.user.is_authenticated() and request.method=="POST":
+        player = request.user.get_profile()
+
+        code = request.POST.get('codeinput', '')
+
+        StereoscoopCode.objects.create(player=player, code=code)
+
+        return HttpResponse(json.dumps({'result': 1}))
+
+
 def token_catcher(request):
     if request.method == "POST":
         receivedParams = str(request.POST)
@@ -68,5 +79,12 @@ def token_catcher(request):
     return HttpResponseBadRequest()
     
     
-def stereoscoop_badge(request):
-    return render_to_response('stereoscoop/badge.html', {}, context_instance=RequestContext(request))
+def stereoscoop_badge(request, slug=''):
+    convars = {}
+    
+    if slug:
+        badge = StereoscoopBadge.objects.get(slug=slug)
+        
+        convars['badge'] = badge
+    
+    return render_to_response('stereoscoop/badge.html', convars, context_instance=RequestContext(request))

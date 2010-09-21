@@ -16,6 +16,7 @@ from ebi.battleroyale.models import Skill
 from metagame.services import send_tweet
 
 from kipwip.models import *
+from stereoscoop.models import StereoscoopBadge, StereoscoopCode
 
 import actstream
 from actstream.models import Action, actor_stream
@@ -112,7 +113,8 @@ def player_detail(request, id):
         
     return render_to_response(templateName, {
         'player': player,
-        'skills': skills
+        'skills': skills,
+        'stereoscoopcodes': StereoscoopCode.objects.filter(player=player)
     }, context_instance=RequestContext(request))
     
 def user_detail(request, username):
@@ -201,6 +203,8 @@ def game_detail(request, slug):
         convars['riders'] = Kippenrijder.objects.all().order_by('time', 'raceid')
         
     if request.GET.get('staging', '') == 'yes' and game.slug == 'de-stereoscoop':
+        convars['badges'] = StereoscoopBadge.objects.all().order_by('badgeid')
+        
         templateName = 'metagame/game_detail_stereoscoop.html'
     
     return render_to_response(templateName, convars, context_instance=RequestContext(request))
