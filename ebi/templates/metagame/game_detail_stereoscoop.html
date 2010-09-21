@@ -479,6 +479,15 @@
 			float: left;
 		}
 		
+		#game_gogetgadget {
+			position: absolute;
+			width: 150px;
+			height: 65px;
+			top: 20px;
+			left: 460px;
+			background-image: url({{ MEDIA_URL }}image/goget_gadgeto.png);
+		}
+		
     </style>
     
     <script type="text/javascript" charset="utf-8">
@@ -527,7 +536,7 @@
         	<h1>{{ game.name }}</h1>
         	<h3>door {{ game.maker }} voor {{ game.festival }}</h3>
 		</div>
-		
+		<a href="#gamecode" title=""><div id="game_gogetgadget"></div></a>
 		<div id="game_image">
 			<img src="{{ game.get_first_photo }}">
 		</div>
@@ -576,19 +585,19 @@
 
 <div id="gamecode_wrapper">
 	<div id="gamecode" class="mainblock">
-		<h2>Een bonnetje bij Stereoscoop gevonden?</h2>
+		<h2>Een bonnetje bij De Stereoscoop gevonden?</h2>
 		<p>Vul hieronder de code in die op je handout staat en we koppelen je badge aan je profiel.</p>
 		<div id="form_container">
 		    {% if not user.is_authenticated %}
 		      <div class="logininfo"><a href="/games/{{ game.slug }}/login/">Meld je aan</a> om je racegegevens te claimen.</div>
 		    {% else %}
 		        <form id="codeform" name="codeform" action="/stereoscoop/code/" method="POST">
-    				<input type="text" maxlength="8" placeholder="Jouw code" name="codeinput" id="codeinput">
+    				<input type="text" placeholder="Jouw code" name="codeinput" id="codeinput">
     				<input type="submit" id="codesubmit" value="Claimen">
     			</form>
     			
     			<div class="resultinfo">
-    				<strong>Bedankt!</strong> De badge is nu gekoppeld aan <a href="{{ user.get_profile.get_absolute_url }}">je profiel</a>. <span class="again">(<a href="javascript:$('.resultinfo').slideUp();$('#codeinput').focus();">Nog een code invoeren?</a>)</span>
+    				<strong>Bedankt!</strong> De badge is toegevoegd aan <a href="{{ user.get_profile.get_absolute_url }}">je profiel</a>. <span class="again">(<a href="javascript:$('.resultinfo').slideUp();$('#codeinput').focus();">Nog een code invoeren?</a>)</span>
     			</div>
 		    {% endif %}
 		</div>
@@ -596,7 +605,7 @@
 
 	<div id="badges" class="mainblock">
 		<h2>Gevonden badges</h2>
-		<p>Lorem ipsum dolor este lauda dolor ulla lirum este vakuum.</p>
+		<p>Dit zijn de badges die door alle spelers van De Stereoscoop <br />samen zijn gevonden. Vind ze allemaal.</p>
 		<ul class="imageblock">
 		    {% for badge in badges %}
 	            <li><a href="/stereoscoop/badge/{{ badge.slug }}/"><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140"></a></li>
