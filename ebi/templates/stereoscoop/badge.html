@@ -173,7 +173,7 @@
 <div id="badgeintro_wrapper">
 	<div id="badge" class="mainblock">
 		<div class="illustration">
-			<img src="{{ MEDIA_URL }}stereoscoop_badges/badge_xlarge-{{ badge.slug }}.png" />
+			<img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" />
 		</div>
 		
 		<h2>{{ badge.title }}</h2>
@@ -194,9 +194,9 @@
       			<div class="userframe">
       			    <p class="foundby">gevonden door...</p>
     				<div class="turntable">
-    					<img src="{{ MEDIA_URL }}/image/turntable_state-01.png" width="48" height="48" alt="" class="stateleft" />
+    					<img src="{{ MEDIA_URL }}/image/turntable_state-{{ find.cue1|stringformat:".2d" }}.png" width="48" height="48" alt="" class="stateleft" />
     					<a href="{{ find.byUser.get_absolute_url }}"><img src="{{ find.byUser.get_avatar_url }}" width="48" height="48" alt="" /></a>
-    					<img src="{{ MEDIA_URL }}/image/turntable_state-09.png" width="48" height="48" alt="" class="stateright" />
+    					<img src="{{ MEDIA_URL }}/image/turntable_state-{{ find.cue2|stringformat:".2d" }}.png" width="48" height="48" alt="" class="stateright" />
     				</div>
     				<h5><a href="{{ find.byUser.get_absolute_url }}">{{ find.byUser.get_display_name }}</a></h5>
     				<p class="foundwhen">{{ find.time|timesince }} geleden</p>
