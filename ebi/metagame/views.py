@@ -109,7 +109,7 @@ def player_detail(request, id):
     templateName = 'metagame/player_detail.html'
     
     if request.GET.get('staging', '') == 'yes':
-        templateName = 'metagame/player_detail2.html'
+        pass
         
     return render_to_response(templateName, {
         'player': player,
@@ -202,7 +202,7 @@ def game_detail(request, slug):
         convars['races'] = Kippenrace.objects.all().order_by('raceid')
         convars['riders'] = Kippenrijder.objects.all().order_by('time', 'raceid')
         
-    if request.GET.get('staging', '') == 'yes' and game.slug == 'de-stereoscoop':
+    if game.slug == 'de-stereoscoop':
         convars['badges'] = StereoscoopBadge.objects.all().order_by('badgeid')
         
         templateName = 'metagame/game_detail_stereoscoop.html'

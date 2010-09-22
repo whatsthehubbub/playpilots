@@ -623,7 +623,11 @@
 		<p>Verdien badges door filmfragmenten met elkaar te combineren. Dit zijn de badges<br /> die tot nu toe door alle spelers van De Stereoscoop samen zijn gevonden. <br />Werk samen en vind ze allemaal.</p>
 		<ul class="imageblock">
 		    {% for badge in badges %}
-	            <li><a href="/de-stereoscoop/badge/{{ badge.slug }}/"><img src="{{ MEDIA_URL}}destereoscoop_badges/{{ badge.slug }}-medium.png" width="188" height="140"><p>{{ badge.title }}</p></a></li>
+	            {% if badge.isUnlocked %}
+                    <li><a href="/de-stereoscoop/badge/{{ badge.slug }}/"><img src="{{ MEDIA_URL}}destereoscoop_badges/{{ badge.slug }}-medium.png" width="188" height="140"><p>{{ badge.title }}</p></a></li>
+	            {% else %}
+	                <li><img src="{{ MEDIA_URL}}destereoscoop_badges/placeholder-medium.png" width="188" height="140"><p>{{ badge.title }}</p></li>
+	            {% endif %}
 		    {% endfor %}
 		</ul>
 	</div>
