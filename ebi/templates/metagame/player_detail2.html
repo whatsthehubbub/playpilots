@@ -386,7 +386,7 @@
 					<h5><a href="/games/de-stereoscoop/">De Stereoscoop</a></h5>
 					{% for stereocode in stereoscoopcodes %}
 					   {% if stereocode.getUnlock %}
-					       <a href="/de-stereoscoop/badge/{{ stereocode.getUnlock.badge.slug }}/"><img src="{{ MEDIA_URL }}destereoscoop_badges/de_{{ stereocode.getUnlock.badge.slug }}-small.png" width="50" height="45" /></a>
+					       <a href="/de-stereoscoop/badge/{{ stereocode.getUnlock.badge.slug }}/"><img src="{{ MEDIA_URL }}destereoscoop_badges/{{ stereocode.getUnlock.badge.slug }}-small.png" width="50" height="45" /></a>
 					   {% endif %}
 					{% endfor %}
 				</li>
