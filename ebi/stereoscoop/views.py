@@ -10,6 +10,8 @@ from stereoscoop.models import StereoscoopUnlock, StereoscoopCode, StereoscoopBa
 import datetime
 import logging
 
+from metagame.services import send_tweet
+
 import json
 
 def stereoscoop_code(request):
@@ -19,6 +21,19 @@ def stereoscoop_code(request):
         code = request.POST.get('codeinput', '')
 
         StereoscoopCode.objects.create(player=player, code=code)
+        
+        # Check for unlock 
+        try:
+            unlock = StereoscoopUnlock.objects.get(code=code)
+            
+            if player.get_twitter_name():
+                send_tweet('@%(player)s heeft %(badgetitle)s gevonden bij De Stereoscoop %(badgelink)s' % {
+                    'player': player.get_twitter_name(),
+                    'badgetitle': unlock.badge.title,
+                    'badgelink': 'http://playpilots.nl/de-stereoscoop/badge/%s/' % unlock.badge.slug
+                })
+        except StereoscoopUnlock.DoesNotExist:
+            pass
 
         return HttpResponse(json.dumps({'result': 1}))
 
