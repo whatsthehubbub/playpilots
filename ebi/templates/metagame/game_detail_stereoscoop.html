@@ -472,11 +472,26 @@
 		
 		#badges .imageblock {
 			display: inline;
+			text-align: center;
 		}
 		
 		#badges .imageblock li {
 			display: block;
 			float: left;
+		}
+		
+		#badges .imageblock p { 
+			color: #999;
+			font-size: 11px;
+		}
+		
+		#badges .imageblock a {
+			color: #666;
+			text-decoration: none;
+		}
+		
+		#badges .imageblock a:hover {
+			text-decoration: underline;
 		}
 		
 		#game_gogetgadget {
@@ -589,7 +604,7 @@
 		<p>Vul hieronder de code in die op je handout staat en we koppelen je badge aan je profiel.</p>
 		<div id="form_container">
 		    {% if not user.is_authenticated %}
-		      <div class="logininfo"><a href="/games/{{ game.slug }}/login/">Meld je aan</a> om je racegegevens te claimen.</div>
+		      <div class="logininfo"><a href="/games/{{ game.slug }}/login/">Meld je aan</a> om je badges te claimen.</div>
 		    {% else %}
 		        <form id="codeform" name="codeform" action="/stereoscoop/code/" method="POST">
     				<input type="text" placeholder="Jouw code" name="codeinput" id="codeinput">
@@ -605,10 +620,10 @@
 
 	<div id="badges" class="mainblock">
 		<h2>Gevonden badges</h2>
-		<p>Dit zijn de badges die door alle spelers van De Stereoscoop <br />samen zijn gevonden. Vind ze allemaal.</p>
+		<p>Verdien badges door filmfragmenten met elkaar te combineren. Dit zijn de badges<br /> die tot nu toe door alle spelers van De Stereoscoop samen zijn gevonden. <br />Werk samen en vind ze allemaal.</p>
 		<ul class="imageblock">
 		    {% for badge in badges %}
-	            <li><a href="/stereoscoop/badge/{{ badge.slug }}/"><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140"></a></li>
+	            <li><a href="/stereoscoop/badge/{{ badge.slug }}/"><img src="{{ MEDIA_URL}}sterescoop_badges/badge_large_placeholder.png" width="188" height="140"><p>{{ badge.title }}</p></a></li>
 		    {% endfor %}
 		</ul>
 	</div>
