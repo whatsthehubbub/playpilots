@@ -606,7 +606,7 @@
 		    {% if not user.is_authenticated %}
 		      <div class="logininfo"><a href="/games/{{ game.slug }}/login/">Meld je aan</a> om je badges te claimen.</div>
 		    {% else %}
-		        <form id="codeform" name="codeform" action="/stereoscoop/code/" method="POST">
+		        <form id="codeform" name="codeform" action="/de-stereoscoop/code/" method="POST">
     				<input type="text" placeholder="Jouw code" name="codeinput" id="codeinput">
     				<input type="submit" id="codesubmit" value="Claimen">
     			</form>
@@ -623,7 +623,7 @@
 		<p>Verdien badges door filmfragmenten met elkaar te combineren. Dit zijn de badges<br /> die tot nu toe door alle spelers van De Stereoscoop samen zijn gevonden. <br />Werk samen en vind ze allemaal.</p>
 		<ul class="imageblock">
 		    {% for badge in badges %}
-	            <li><a href="/stereoscoop/badge/{{ badge.slug }}/"><img src="{{ MEDIA_URL}}stereoscoop_badges/badge_large-placeholder.png" width="188" height="140"><p>{{ badge.title }}</p></a></li>
+	            <li><a href="/de-stereoscoop/badge/{{ badge.slug }}/"><img src="{{ MEDIA_URL}}destereoscoop_badges/de_{{ badge.slug }}-medium.png" width="188" height="140"><p>{{ badge.title }}</p></a></li>
 		    {% endfor %}
 		</ul>
 	</div>
