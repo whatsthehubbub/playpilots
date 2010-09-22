@@ -68,7 +68,13 @@ class StereoscoopBadge(models.Model):
         return False
         
     def finds(self):
-        return self.stereoscoopunlock_set.all().order_by('time')
+        results = []
+        
+        for obj in self.stereoscoopunlock_set.all().order_by('time'):
+            if StereoscoopCode.objects.filter(code__iexact=obj.code.lower()).exists() > 0:
+                results.append(obj)
+                
+        return results
         
     # def firstFind(self):
     #     try:
