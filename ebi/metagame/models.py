@@ -121,7 +121,7 @@ class Game(models.Model):
     def get_days_till(self):
         delta = self.start - datetime.datetime.now()
         
-        if delta.days > 0:
+        if self.start > datetime.datetime.now() and delta.days > 0:
             return delta.days
         else:
             return 0
@@ -129,7 +129,7 @@ class Game(models.Model):
     def get_hours_till(self):
         delta = self.start - datetime.datetime.now()
         
-        if delta.seconds > 0:
+        if self.start > datetime.datetime.now() and delta.seconds > 0:
             return delta.seconds / 60 / 60
         else:
             return 0
