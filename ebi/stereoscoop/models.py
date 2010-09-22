@@ -63,11 +63,12 @@ class StereoscoopBadge(models.Model):
         return self.title
         
     def isUnlocked(self):
-        if self.stereoscoopunlock_set.count() > 0:
+        if bool(self.finds()):
             return True        
         return False
         
     def finds(self):
+        # Roughly filter to only return claimed finds
         results = []
         
         for obj in self.stereoscoopunlock_set.all().order_by('time'):
