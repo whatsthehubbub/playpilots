@@ -50,7 +50,8 @@ def index(request):
                 action_list.append(action)
             
         
-        nextgame = Game.objects.filter(start__gt=datetime.datetime.now()).order_by('start')[0]
+        # nextgame = Game.objects.filter(start__gt=datetime.datetime.now()).order_by('start')[0]
+        nextgame = Game.objects.get(slug='de-stereoscoop')
         
         templateName = 'metagame/index_poststekker.html'
         
