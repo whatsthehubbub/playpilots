@@ -10,7 +10,7 @@ class StereoscoopCodeAdmin(admin.ModelAdmin):
 admin.site.register(StereoscoopCode, StereoscoopCodeAdmin)
 
 class StereoscoopBadgeAdmin(admin.ModelAdmin):
-    list_display = ('badgeid', 'title', 'blurb', 'image')
+    list_display = ('badgeid', 'title', 'slug', 'blurb', 'image')
     prepopulated_fields = {"slug": ("title",)}
 admin.site.register(StereoscoopBadge, StereoscoopBadgeAdmin)
 
