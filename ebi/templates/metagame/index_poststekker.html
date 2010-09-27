@@ -123,7 +123,7 @@
 		<div id="blog">
 			<h2>blog</h2>
 			<div id="post">
-				<p><a href="{{ blogentry.link }}" class="title">{{ blogentry.title }}</a><br /><span class="date">{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }}</span> - {{ blogentry.summary|striptags|truncatewords:25 }}  <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
+				<p><a href="{{ blogentry.link }}" class="title">{{ blogentry.title }}</a><br /><span class="date">{{ blogentry.updated_parsed.2 }}/{{ blogentry.updated_parsed.1 }}/{{ blogentry.updated_parsed.0 }}</span> - {{ blogentry.summary|striptags|truncatewords:25|safe }}  <a href="{{ blogentry.link }}" target="_blank">more &raquo;</a></p>
 		</div>
     </div>
 </div>
