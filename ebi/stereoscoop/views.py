@@ -20,22 +20,36 @@ def stereoscoop_code(request):
 
         code = request.POST.get('codeinput', '')
 
-        StereoscoopCode.objects.create(player=player, code=code)
-        
-        # Check for unlock 
-        try:
-            unlock = StereoscoopUnlock.objects.get(code=code)
+        if not StereoscoopCode.objects.filter(code=code).exists():
+            # Check for unlock 
+            try:
+                unlock = StereoscoopUnlock.objects.get(code=code)
             
-            if player.get_twitter_name():
-                send_tweet('@%(player)s heeft %(badgetitle)s gevonden bij De Stereoscoop %(badgelink)s' % {
-                    'player': player.get_twitter_name(),
-                    'badgetitle': unlock.badge.title,
-                    'badgelink': 'http://playpilots.nl/de-stereoscoop/badge/%s/' % unlock.badge.slug
-                })
-        except StereoscoopUnlock.DoesNotExist:
-            pass
+                # Only create the code object if the unlock exists
+                StereoscoopCode.objects.create(player=player, code=code)
+            
+                if player.get_twitter_name():
+                    send_tweet('@%(player)s heeft %(badgetitle)s gevonden bij De Stereoscoop %(badgelink)s' % {
+                        'player': player.get_twitter_name(),
+                        'badgetitle': unlock.badge.title,
+                        'badgelink': 'http://playpilots.nl/de-stereoscoop/badge/%s/' % unlock.badge.slug
+                    })
+            except StereoscoopUnlock.DoesNotExist:
+                logging.error('we do not have an unlock for code: %s', code)
+                
+                return HttpResponse(json.dumps({
+                    'result': 0,
+                    'error': 'Sorry, maar onze robots kunnen deze code niet ontcijferen. Weet je zeker dat je geen typefout hebt gemaakt?'
+                }))
 
-        return HttpResponse(json.dumps({'result': 1}))
+            return HttpResponse(json.dumps({'result': 1}))
+        else:
+            logging.error('code %s aready exists in the database', code)
+            
+            return HttpResponse(json.dumps({
+                'result': 0,
+                'error': 'Iemand anders heeft deze code al geclaimed. Of was jij het?'
+            }))
 
 
 def token_catcher(request):

@@ -378,7 +378,7 @@
 			border-radius: 5px;
 		}
 		
-		.resultinfo {
+		.codeinfo {
 			float: left;
 			width: 345px;
 			margin: 11px 0 0;
@@ -392,21 +392,21 @@
 			display: none;
 		}
 		
-		.resultinfo strong {
+		.codeinfo strong {
 			color: #ff3300;
 			font-size: 18px;
 		}
 		
-		.resultinfo .again {
+		.codeinfo .again {
 		    font-size: 12px;
 		}
 		
-		.resultinfo a, .logininfo a {
+		.codeinfo a, .logininfo a {
 		    color: #f30;
 		    text-decoration: underline;
 		}
 		
-		.resultinfo a:hover, .logininfo a:hover {
+		.codeinfo a:hover, .logininfo a:hover {
 		    text-decoration: none;
 		}
 				
@@ -535,9 +535,14 @@
             $('#codeform').ajaxForm({
                 dataType: 'json',
                 success: function(data) {
-                    $('.resultinfo').slideDown();
-                    
                     $('#codeinput').val('');
+                    
+                    if (data['result'] == 1) {
+                        $('#resultinfo').slideDown();
+                    } else {
+                        $('#errorinfo').slideDown();
+                        $('#errortext').text(data['error']);
+                    }
                 }
             });
         });
@@ -615,8 +620,13 @@
     				<input type="submit" id="codesubmit" value="Claimen">
     			</form>
     			
-    			<div class="resultinfo">
-    				<strong>Bedankt!</strong> De badge is toegevoegd aan <a href="{{ user.get_profile.get_absolute_url }}">je profiel</a>. <span class="again">(<a href="javascript:$('.resultinfo').slideUp();$('#codeinput').focus();">Nog een code invoeren?</a>)</span>
+    			<div id="resultinfo" class="codeinfo">
+    				<strong>Bedankt!</strong> De badge is toegevoegd aan <a href="{{ user.get_profile.get_absolute_url }}">je profiel</a>. <span class="again">(<a href="javascript:$('#resultinfo').slideUp();$('#codeinput').focus();">Nog een code invoeren?</a>)</span>
+    			</div>
+    			<div id="errorinfo" class="codeinfo">
+    			    <strong>Fout!</strong>
+    			    <span id="errortext"></span>
+    			    <span class="again">(<a href="javascript:$('#errorinfo').slideUp();$('#codeinput').focus();">Nog een keer proberen?</a>)</span>
     			</div>
 		    {% endif %}
 		</div>
