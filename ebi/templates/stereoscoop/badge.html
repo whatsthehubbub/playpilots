@@ -1,7 +1,7 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>Badge page &bull; PLAY Pilots</title>
+    <title>{{ badge.title }} &bull; De Stereoscoop &bull; PLAY Pilots</title>
     
 	<style type="text/css" media="screen">
 		html {
@@ -51,12 +51,12 @@
 			padding: 0 0 10px;
 			background-repeat: repeat;
 			background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
-			height: 220px;
+			height: 212px;
 		}
 		
 		#posters_wrapper {
 			clear: both;
-            padding: 11px 0 21px;
+            padding: 33px 0 22px;
             background: #f5f5f5 url({{ MEDIA_URL }}image/grain_overlay.png) repeat;
             border-top: 1px solid #ddd;
             overflow: hidden;
@@ -183,7 +183,7 @@
 		
 		<h2>{{ badge.title }}</h2>
 		<p>{{ badge.blurb }}</p>
-		<p class="claimbadge">Ook een badge bij gevonden bij de De Stereoscoop? <br /><a href="/games/de-stereoscoop/#gamecode">Koppel deze aan je profiel&nbsp;&raquo;</a></p>
+		<p class="claimbadge">Ook een badge gevonden bij de De Stereoscoop? <br /><a href="/games/de-stereoscoop/#gamecode">Koppel deze aan je profiel&nbsp;&raquo;</a></p>
 	</div>
 </div>
 
