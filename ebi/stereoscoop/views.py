@@ -109,11 +109,13 @@ def token_catcher(request):
     
     
 def stereoscoop_badge(request, slug=''):
-    convars = {}
+    convars = {
+        'current': 'games'
+    }
     
     if slug:
         badge = StereoscoopBadge.objects.get(slug=slug)
-        
+
         convars['badge'] = badge
     
     return render_to_response('stereoscoop/badge.html', convars, context_instance=RequestContext(request))
