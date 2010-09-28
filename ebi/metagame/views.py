@@ -231,11 +231,18 @@ def game_interest(request, slug):
             
             actstream.action.send(player, verb="doet mee met", target=game)
             
+            # Text needs to be modified is the game has already passed
+            if game.end < datetime.datetime.now():
+                action = 'deed'
+            else:
+                action = 'doet'
+            
             if player.get_twitter_name():
-                send_tweet('@%(player)s je doet mee met %(game)s, kijk op: http://playpilots.nl%(url)s en vertel je vrienden!' % {
+                send_tweet('@%(player)s je %(action)s mee met %(game)s, kijk op: http://playpilots.nl%(url)s en vertel je vrienden!' % {
                     'player': player.get_twitter_name(),
                     'game': game.name,
-                    'url': game.get_absolute_url()
+                    'url': game.get_absolute_url(),
+                    'action': action
                 })
             
         elif action == 'remove':
