@@ -27,6 +27,9 @@ class Style(models.Model):
     def get_reaction_phrases(self):
         return self.actionphrase_set.filter(action=False).order_by('style__name')
         
+    def get_blurb(self):
+        return self.description.split('\n')[0]
+        
 
 class Skill(models.Model):
     player = models.ForeignKey(Player, related_name="skills")
