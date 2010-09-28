@@ -29,7 +29,7 @@ def stereoscoop_code(request):
                 StereoscoopCode.objects.create(player=player, code=code)
             
                 if player.get_twitter_name():
-                    send_tweet('@%(player)s heeft %(badgetitle)s gevonden bij De Stereoscoop %(badgelink)s' % {
+                    send_tweet('@%(player)s heeft %(badgetitle)s gevonden bij De Stereoscoop %(badgelink)s #NFF' % {
                         'player': player.get_twitter_name(),
                         'badgetitle': unlock.badge.title,
                         'badgelink': 'http://playpilots.nl/de-stereoscoop/badge/%s/' % unlock.badge.slug

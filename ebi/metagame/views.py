@@ -237,12 +237,18 @@ def game_interest(request, slug):
             else:
                 action = 'doet'
             
+            if game.slug == 'de-stereoscoop':
+                hashtags = '#NFF'
+            else:
+                hashtags = ''
+            
             if player.get_twitter_name():
-                send_tweet('@%(player)s je %(action)s mee met %(game)s, kijk op: http://playpilots.nl%(url)s en vertel je vrienden!' % {
+                send_tweet('@%(player)s je %(action)s mee met %(game)s, kijk op: http://playpilots.nl%(url)s en vertel je vrienden! %(hashtags)s' % {
                     'player': player.get_twitter_name(),
                     'game': game.name,
                     'url': game.get_absolute_url(),
-                    'action': action
+                    'action': action,
+                    'hashtags': hashtags
                 })
             
         elif action == 'remove':
