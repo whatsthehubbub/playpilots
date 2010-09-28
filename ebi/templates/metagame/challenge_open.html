@@ -164,11 +164,7 @@
 <div id="content" class="mainblock open">
 
     <div id="headline">
-        <div class="player1">
-            {% if duel.challenger.user == user %}
-                <!-- <img class="you" src="{{ MEDIA_URL }}image/tag_jij.png"> -->
-            {% endif %}
-
+        <div class="player1 {% if duel.challenger.user == user %}you{% endif %}">
             <img id="vs" {% if duel.challenger.user == user %}style="right: -50px;"{% endif %} src="{{ MEDIA_URL }}image/vs_stars.png">
 
             <div class="player">
@@ -178,11 +174,7 @@
             </div>
         </div>
 
-        <div class="player2">
-            {% if duel.target.user == user %}
-                <!-- <img class="you" src="{{ MEDIA_URL }}image/tag_jij_mirrored.png"> -->
-            {% endif %}
-
+        <div class="player2 {% if duel.target.user == user %}you{% endif %}">
             <div class="player">
                 <img src="{{ duel.target.get_avatar_url }}" alt="">
                 <h2>{{ duel.target.user.username }}</h2>

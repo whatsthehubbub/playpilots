@@ -181,7 +181,11 @@
             background-image: url({{ MEDIA_URL }}image/action_bg_yellow.png);
         }
         
-        div.start div#headline div.player1, div.open div#headline div.player2, div.closed div#headline div.player1.you, div.closed div#headline div.player2.you {
+        div.open div#headline div.player2 {
+            background-image: url({{ MEDIA_URL }}image/action_bg_blue.png);
+        }
+        
+        div.start div#headline div.player1, div.closed div#headline div.player1.you, div.open div#headline div.player2.you, div.closed div#headline div.player2.you {
             background-image: url({{ MEDIA_URL }}image/action_bg_blue_you.png);
         }
         

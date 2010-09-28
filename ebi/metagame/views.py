@@ -36,7 +36,7 @@ def index(request):
         blogentry = cache.get('blogentry')
         if not blogentry:
             blogentry = feed_first_entry('http://ebi.posterous.com/rss.xml')
-            cache.set('blogentry', blogentry, 60*60*4)
+            cache.set('blogentry', blogentry, 60*60*1)
     
         # Rough code to get 4 actions with unique actors in this list
         action_list = []
