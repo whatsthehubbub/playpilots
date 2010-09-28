@@ -7,6 +7,8 @@ from django.template.loader import get_template, render_to_string
 
 from stereoscoop.models import StereoscoopUnlock, StereoscoopCode, StereoscoopBadge, StereoscoopMovie
 
+import actstream
+
 import datetime
 import logging
 
@@ -34,6 +36,8 @@ def stereoscoop_code(request):
                         'badgetitle': unlock.badge.title,
                         'badgelink': 'http://playpilots.nl/de-stereoscoop/badge/%s/' % unlock.badge.slug
                     })
+                    
+                actstream.action.send(request.user.get_profile(), verb="scratchte op de Stereoscoop net de", target=unlock.badge)
             except StereoscoopUnlock.DoesNotExist:
                 logging.error('we do not have an unlock for code: %s', code)
                 
