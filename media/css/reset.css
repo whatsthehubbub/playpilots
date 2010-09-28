@@ -77,3 +77,6 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+/* Firefox horizontal bar fix */
+html { overflow-x: hidden; }

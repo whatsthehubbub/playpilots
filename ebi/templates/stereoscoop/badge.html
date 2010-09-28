@@ -26,6 +26,12 @@
 			margin: 5px 0 5px 260px;
 		}
 		
+		#badge h4 {
+			color: #333;
+			width: 480px; 
+			margin: 5px 0 15px 260px;
+		}
+		
 		#badge p {
 			width: 480px; 
 			margin-left: 260px;
@@ -42,6 +48,17 @@
 		
 		#badge .claimbadge { 
 			font-size: 12px;
+			color: #666;
+		}
+		
+		#badge .backlink {
+			margin-top: 0px;
+			
+			padding: 0px;
+			font-size: 11px;
+		}
+		
+		#badge .backlink a {
 			color: #666;
 		}
 		
@@ -180,9 +197,9 @@
 		<div class="illustration">
 			<img src="{{ MEDIA_URL}}destereoscoop_badges/{{ badge.slug }}-large.png" />
 		</div>
-		
+		<p class="backlink"><a href="http://playpilots.com/games/de-stereoscoop/#badges">&laquo;&nbsp;terug naar alle badges</a></p>
 		<h2>{{ badge.title }}</h2>
-		<p>{{ badge.blurb }}</p>
+		<h4>{{ badge.blurb }}</h4>
 		<p class="claimbadge">Ook een badge gevonden bij de De Stereoscoop? <br /><a href="/games/de-stereoscoop/#gamecode">Koppel deze aan je profiel&nbsp;&raquo;</a></p>
 	</div>
 </div>
