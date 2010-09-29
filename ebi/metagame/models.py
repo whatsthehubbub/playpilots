@@ -379,9 +379,10 @@ Uw gezagvoerder''' % {
         if codes:
             code = codes[0].code
             
-            rider = Kippenrijder.objects.get(code=code)
+            if code:
+                rider = Kippenrijder.objects.get(code=code)
             
-            return rider
+                return rider
     
     def __unicode__(self):
         return self.user.username
