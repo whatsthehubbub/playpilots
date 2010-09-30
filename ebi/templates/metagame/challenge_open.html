@@ -169,7 +169,7 @@
 
             <div class="player">
                 <img src="{{ duel.challenger.get_avatar_url }}" alt="">
-                <h2>{{ duel.challenger.user.username }}</h2>
+                <h2><a href="{{ duel.challenger.get_absolute_url }}">{{ duel.challenger.user.username }}</a></h2>
                 <p><span class="rank">{{ duel.challenger.get_rank|stringformat:".3d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
@@ -177,7 +177,7 @@
         <div class="player2 {% if duel.target.user == user %}you{% endif %}">
             <div class="player">
                 <img src="{{ duel.target.get_avatar_url }}" alt="">
-                <h2>{{ duel.target.user.username }}</h2>
+                <h2><a href="{{ duel.target.get_absolute_url }}">{{ duel.target.user.username }}</a></h2>
                 <p><span class="rank">{{ duel.target.get_rank|stringformat:".3d" }}</span> in het algemeen klassement</p>
             </div>
         </div>

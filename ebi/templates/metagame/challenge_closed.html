@@ -34,7 +34,7 @@
                 {% endifequal %}
                 
                 <img src="{{ duel.challenger.get_avatar_url }}" alt="">
-                <h2>{{ duel.challenger.user.username }}</h2>
+                <h2><a href="{{ duel.challenger.get_absolute_url }}">{{ duel.challenger.user.username }}</a></h2>
                 <p><span class="rank">{{ duel.challenger_newrank|stringformat:".3d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
@@ -50,7 +50,7 @@
                 {% endifequal %}
                 
                 <img src="{{ duel.target.get_avatar_url }}" alt="">
-                <h2>{{ duel.target.user.username }}</h2>
+                <h2><a href="{{ duel.target.get_absolute_url }}">{{ duel.target.user.username }}</a></h2>
                 <p><span class="rank">{{ duel.responder_newrank|stringformat:".3d" }}</span> in het algemeen klassement</p>
             </div>
         </div>
