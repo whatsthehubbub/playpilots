@@ -111,10 +111,23 @@
         }
         
         H5 {
+			margin-top: 10px;
             width: 470px;
             float: left;
             color: #12151a;
         }
+
+		.extrainfo {
+			font-size: 11px;
+			line-height: 18px;
+			color: #666;
+			width: 360px;
+			margin-bottom: 5px;
+		}
+		
+		.extrainfo.last {
+			margin-left: 10px;
+		}
         
         .box {
             border: 1px solid #ddd;
@@ -525,6 +538,7 @@
         }
         
         #resultstats TH {
+			width: 50%;
             text-align: left;
             text-transform: uppercase;
             padding: 10px 0 0 0;
@@ -552,6 +566,15 @@
             float: left;
             margin-right: 10px;
         }
+
+		p.styleblurb, p.probability_text {
+			width: 360px;
+		}
+		
+		p.probability_text {
+			color: #666;
+			font-style: italic;
+		}
         
     </style>
 {% endblock %}
