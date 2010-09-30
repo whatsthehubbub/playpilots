@@ -120,7 +120,10 @@
                     var awesomeness = data['awesomeness'];
                     var awesomenessMessage = awesomenessMessages[awesomeness];
 
-                    $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '_animated.gif"><br><h2>' + awesomenessMessage + '</h2><p>Kijken wat <span class="responder">' + targetUsername + '</span> gaat doen&hellip;</p></div>');
+                    $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '_animated.gif"><br><div>');
+                    
+                    // TODO delay this 5 seconds until the stars are finished moving
+                    setTimeout('$(\'#actionselect\').append(\'<div class="result"><h2>' + awesomenessMessage + '</h2><p>Kijken wat <span class="responder">' + targetUsername + '</span> gaat doen&hellip;</p></div>\');', 5000);
                 }, 'json');
 
                 var totalMove = '<div class="finalmove"><b>' + actionString.capitalize();
@@ -132,6 +135,7 @@
 
                 $('#actionselect').html(totalMove);
             });
+
         });
     </script>
 {% endblock %}
