@@ -621,12 +621,12 @@
     			</form>
     			
     			<div id="resultinfo" class="codeinfo">
-    				<strong>Bedankt!</strong> De badge is toegevoegd aan <a href="{{ user.get_profile.get_absolute_url }}">je profiel</a>. <span class="again">(<a href="javascript:$('#resultinfo').slideUp();$('#codeinput').focus();">Nog een code invoeren?</a>)</span>
+    				<strong>Bedankt!</strong> De badge is toegevoegd aan <a href="{{ user.get_profile.get_absolute_url }}">je profiel</a>. <span class="again">(<a href="javascript:void(0);" onclick="$('#resultinfo').slideUp(); $('#codeinput').focus(); return false;">Nog een code invoeren?</a>)</span>
     			</div>
     			<div id="errorinfo" class="codeinfo">
     			    <strong>Fout!</strong>
     			    <span id="errortext"></span>
-    			    <span class="again">(<a href="javascript:$('#errorinfo').slideUp();$('#codeinput').focus();">Nog een keer proberen?</a>)</span>
+    			    <span class="again">(<a href="javascript:void(0);" onclick="$('#errorinfo').slideUp(); $('#codeinput').focus(); return false;">Nog een keer proberen?</a>)</span>
     			</div>
 		    {% endif %}
 		</div>
