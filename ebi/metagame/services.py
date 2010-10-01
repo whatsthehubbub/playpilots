@@ -37,7 +37,7 @@ def send_tweet(msg):
     try:
         status = api.UpdateStatus(msg.encode('utf-8'))
         logging.info('sent tweet %s', str(status))
+        
+        return status
     except:
         logging.error('sending tweet %s failed', msg)
-
-    return status
