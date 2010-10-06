@@ -1,4 +1,4 @@
-<em></em>{% extends "metagame/base.html" %}
+{% extends "metagame/base.html" %}
 
 {% block extrahead %}
     <title>{{ game.name }} door {{ game.maker.name}} voor {{ game.festival.name }} &bull; PLAY Pilots</title>
@@ -610,7 +610,7 @@
 <div id="gamecode_wrapper">
 	<div id="gamecode" class="mainblock">
 		<h2>Een bonnetje bij De Stereoscoop gevonden?</h2>
-		<p>Vul hieronder de code in die op je handout staat en we koppelen je badge aan je profiel.</p>
+		<p>Vul hieronder de code in die op je bonnetje staat en we koppelen je badge aan je profiel.</p>
 		<div id="form_container">
 		    {% if not user.is_authenticated %}
 		      <div class="logininfo"><a href="/games/{{ game.slug }}/login/">Meld je aan</a> om je badges te claimen.</div>
@@ -634,7 +634,7 @@
 
 	<div id="badges" class="mainblock">
 		<h2>Gevonden badges</h2>
-		<p>Verdien badges door filmfragmenten met elkaar te combineren. Dit zijn de badges<br /> die tot nu toe door alle spelers van De Stereoscoop samen zijn gevonden. <br />Werk samen en vind ze allemaal.</p>
+		<p>Verdien badges met de Stereoscoop door filmfragmenten met elkaar te combineren. Dit zijn de badges die tot nu toe door alle spelers van De Stereoscoop zijn gevonden.</p>
 		<ul class="imageblock">
 		    {% for badge in badges %}
 	            {% if badge.isUnlocked %}
@@ -649,17 +649,17 @@
 
 <div id="interest_wrapper">
     <div id="interest" class="mainblock">
-        <h2>Wie zijn erbij?</h2> 
+        <h2>Wie waren erbij?</h2> 
 
 		{% if not user.get_profile in game.interested.all %}
             <!-- TODO handje op button verschijnt niet -->
             <form method="GET" action="/games/{{ game.slug }}/interested/" id="interest_form">
-                <button class="door"><p class="door">Ik ben erbij!</p></button>
+                <button class="door"><p class="door">Ik was erbij!</p></button>
             </form>
         {% endif %}        
 
         {% if user.get_profile in game.interested.all %}
-            <h3 id="jekomt">Je bent er bij!</h3> <span id="tochniet">[<a href="#" class="notparticipatelink">toch niet?</a>]</span>
+            <h3 id="jekomt">Je was er bij!</h3> <span id="tochniet">[<a href="#" class="notparticipatelink">toch niet?</a>]</span>
         {% endif %}
     </div>
 </div>

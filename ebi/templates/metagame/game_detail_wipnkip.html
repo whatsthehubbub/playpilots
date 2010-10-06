@@ -589,11 +589,12 @@
 		    height: 30px;
 		}
 
-		td.info span, td.info a.username {
+		td.info span, td.info .username {
 			float: left;
 			margin-top: 6px;
 			margin-left: 10px;
 			width: 320px;
+			overflow: hidden;
 		}
 		
 		td.info img.jijtag {
@@ -812,14 +813,14 @@
     					<td class="rank">{{ forloop.counter }}</td>
     					<td class="info">
     					    {% if rider.get_player %}
-    					        <a href="{{ rider.get_player.get_absolute_url }}"><img src="{{ rider.get_player.get_avatar_url }}" alt="" /></a>
+    					        <a href="{{ rider.get_player.get_absolute_url }}"><img src="{{ rider.get_player.get_avatar_url }}" alt="" />
     					    {% else %}
     					        <img src="{{ MEDIA_URL }}image/unknown_avatar.png" alt="" />
     					    {% endif %}
     						
     						
     						{% if rider.get_player %}
-    						    <a href="{{ rider.get_player.get_absolute_url }}" class="username">{{ rider.get_player.get_display_name }}</a>
+    						    <span class="username">{{ rider.get_player.get_display_name }}</span></a>
     						{% else %}
     						    <span class="username">{{ rider.name }}</span>
     						{% endif %}
