@@ -128,9 +128,9 @@
 
                     // $('#actionselect').append('<div class="result"><img src="{{ MEDIA_URL }}image/stars_' + awesomeness + '.png"><br><h2>' + awesomenessMessage + '</h2></div>');
 
-                    // Show the closed version directly
-                    refreshPage();
-
+                    // Redirect to the same page (but then closed), with the first appended because this is
+                    // the first time we get there
+                    window.location.replace(window.location.href + '?first=true');
                 }, 'json');
 
                 var totalMove = '<div class="finalmove"><b>' + actionString;

@@ -13,7 +13,32 @@
         #action {
             display: block;
         }
+        
+        {% if first %}
+            #resultstats {
+                display: none;
+            }
+            
+            #player2_awesomeness_message {
+                display: none;
+            }
+        {% endif %}
+        
     </style>
+    
+    <script type="text/javascript" charset="utf-8">
+        function showStuff() {
+            $('#player2_awesomeness_message').slideDown(1000, function() {
+                $('#resultstats').slideDown(1000);
+            });
+        }
+        
+        {% if first %}
+            $(document).ready(function() {
+                setTimeout("showStuff();", 5000);
+            });
+        {% endif %}
+    </script>
     
 {% endblock %}
 
@@ -96,7 +121,8 @@
                     {% endif %}
                 </div>
                 
-                <div class="result"><img src="{{ MEDIA_URL }}image/stars_{{ duel.challenge_awesomeness }}.png"><br>
+                <div class="result">
+                    <img src="{{ MEDIA_URL }}image/stars_{{ duel.challenge_awesomeness }}.png"><br>
                     <h2><script type="text/javascript">document.write(awesomenessMessages[{{ duel.challenge_awesomeness }}]);</script></h2>
                 </div>
             </div>
@@ -111,8 +137,15 @@
                     {% endif %}
                 </div>
                 
-                <div class="result"><img src="{{ MEDIA_URL }}image/stars_{{ duel.response_awesomeness }}.png"><br>
-                    <h2><script type="text/javascript">document.write(awesomenessMessages[{{ duel.response_awesomeness }}]);</script></h2>
+                <div class="result">
+                    {% if first %}
+                        <img src="{{ MEDIA_URL }}image/stars_{{ duel.response_awesomeness }}_animated.gif">
+                    {% else %}
+                        <img src="{{ MEDIA_URL }}image/stars_{{ duel.response_awesomeness }}.png">
+                    {% endif %}
+                    <br>
+                    
+                    <h2 id="player2_awesomeness_message"><script type="text/javascript">document.write(awesomenessMessages[{{ duel.response_awesomeness }}]);</script></h2>
                     
                     {% if duel.get_response_modifier > 0 %}
                         <p>Je hebt {{ duel.get_response_modifier|stringformat:".2f"|slice:"2:"}}% meer krokans tegen {{ duel.challenge_move.style.name }}</p>
@@ -134,7 +167,7 @@
         </div>
         
         <div class="box">
-            <h2>
+            <h2 id="winphrase">
                 {% if not duel.is_tie %}
                     <span class="player">{{ duel.get_winner }}</span>
                     {{ duel.get_win_phrase|safe }}

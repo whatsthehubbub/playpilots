@@ -76,7 +76,8 @@ def challenge_detail(request, id):
         }, context_instance=RequestContext(request))
     else:
         return render_to_response('metagame/challenge_closed.html', {
-            'duel': d
+            'duel': d,
+            'first': request.GET.get('first', 0) != 0
         }, context_instance=RequestContext(request))
 
 @login_required
