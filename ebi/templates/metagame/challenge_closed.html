@@ -262,6 +262,23 @@
                     <td class="pad"><img src="{{ MEDIA_URL }}image/level_{{ duel.responder_skilllevel }}.png"></td>
                     <td>{{ duel.target.get_display_name }} is nu op niveau {{ duel.responder_skilllevel }} als {{ duel.response_move.style}}</td>
                 </tr>
+                
+                <!--
+                <tr id="rematch">
+                    <td colspan="2">
+                        {% ifequal request.user.get_profile duel.challenger %}
+                            <a href="/challenge/?target={{ duel.target.id }}"><img src="{{ MEDIA_URL }}image/revenge_button.png" class="rematch"></a>
+                        {% endifequal %}
+                    </td>
+                    
+                    <td colspan="2">
+                        {% ifequal request.user.get_profile duel.target %}
+                            <a href="/challenge/?target={{ duel.challenger.id }}"><img src="{{ MEDIA_URL }}image/revenge_button.png" class="rematch"></a>
+                        {% endifequal %}
+                    </td>
+                </tr>
+            -->
+
             </table>
         </div>
     </div>
