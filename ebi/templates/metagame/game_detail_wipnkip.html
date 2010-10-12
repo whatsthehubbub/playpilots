@@ -663,6 +663,8 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.custom.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.scrollTo.js" charset="utf-8"></script>
     
+    <script type="text/javascript" src="/static/js/jquery.cycle/jquery.cycle.all.min.js"></script>
+    
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 			$('#game_image').css('-webkit-transform', 'rotate(-5deg)');
@@ -703,6 +705,37 @@
                     $('#codeinput').val('');
                 }
             });
+            
+            {% if staging %}
+                $.ajax({
+                    url: 'http://api.flickr.com/services/rest/',
+                    data: {
+                            method: 'flickr.photos.search',
+                            group_id: '1485564@N25',
+                            tags: 'fourcelabs',
+                            api_key: 'fe6fc1a550b5d33ca56a2e3b10a860ab',
+                            format: 'json'},
+                    jsonp: 'jsoncallback',
+                    dataType: 'jsonp',
+                    success: function(data, textStatus, xhr) {                        
+                        $('#game_image').empty();
+                        
+                        for (var i in data['photos']['photo']) {
+                            var photo = data['photos']['photo'][i];
+                            
+                            $('#game_image').append('<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '.jpg">')
+                        }
+                        
+                        $('#game_image').cycle({
+                            fx: 'scrollRight',
+                            random: 1,
+                            speed: 1250,
+                            timeout: 3000
+                        });
+                    }
+                });
+            {% endif %}
+            
         });
 	</script>
 {% endblock %}

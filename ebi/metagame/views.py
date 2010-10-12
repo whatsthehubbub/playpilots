@@ -192,7 +192,8 @@ def game_detail(request, slug):
         'game': game,
         'current': 'games',
         'interest': interest,
-        'feed': feedEntries[:3]
+        'feed': feedEntries[:3],
+        'staging': request.GET.get('staging', '') != ''
     }
 
     templateName = 'metagame/game_detail.html'
