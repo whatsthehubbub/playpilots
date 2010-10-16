@@ -600,7 +600,7 @@
 		</div>
 		<a href="#gamecode" title=""><div id="game_gogetgadget"></div></a>
 		<div id="game_image">
-			{% comment %}<img src="{{ game.get_first_photo }}">{% endcomment %}
+			{% if not staging %}<img src="{{ game.get_first_photo }}">{% endif %}
 		</div>
     </div>
 </div>
