@@ -720,10 +720,15 @@
                     success: function(data, textStatus, xhr) {                        
                         $('#game_image').empty();
                         
+                        var css = '';
+                        
                         for (var i in data['photos']['photo']) {
                             var photo = data['photos']['photo'][i];
                             
-                            $('#game_image').append('<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '.jpg">')
+                            $('#game_image').append('<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '.jpg" ' + css + '>');
+                            
+                            // After the first time through the loop don't display any other images
+                            css = 'style="display: none;"';
                         }
                         
                         $('#game_image').cycle({
@@ -754,7 +759,7 @@
 		<a href="#gamecode" title=""><div id="game_gogetgadget">
         </div></a>
 		<div id="game_image">
-			<img src="{{ game.get_first_photo }}">
+			{% comment %}<img src="{{ game.get_first_photo }}">{% endcomment %}
 		</div>
     </div>
 </div>
