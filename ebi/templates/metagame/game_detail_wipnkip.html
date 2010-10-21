@@ -84,9 +84,15 @@
         }
         
         #game_image img {
-            max-height: 214px;
-            max-width: 288px;
+			margin: 8px 0 0 15px;
+			display: none;
+            max-height: 206px;
+            max-width: 278px;
         }
+
+		#game_image img.first {
+			display: block
+		}
         
         #game_wrapper {
 			clear: both;
@@ -732,9 +738,11 @@
                         }
                         
                         $('#game_image').cycle({
-                            fx: 'scrollRight',
+                            fx: 'fade',
                             random: 1,
-                            speed: 1250,
+                            speed: 400,
+							prev:   '#game_image_prev',
+							next:   '#game_image_next',
                             timeout: 3000
                         });
                     }
