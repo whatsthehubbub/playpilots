@@ -712,42 +712,40 @@
                 }
             });
             
-            {% if staging %}
-                $.ajax({
-                    url: 'http://api.flickr.com/services/rest/',
-                    data: {
-                            method: 'flickr.photos.search',
-                            group_id: '1485564@N25',
-                            tags: 'fourcelabs',
-                            api_key: 'ea0014b7d3a44b12512fc26e77bdcdab',
-                            format: 'json'},
-                    jsonp: 'jsoncallback',
-                    dataType: 'jsonp',
-                    success: function(data, textStatus, xhr) {                        
-                        $('#game_image').empty();
+            $.ajax({
+                url: 'http://api.flickr.com/services/rest/',
+                data: {
+                        method: 'flickr.photos.search',
+                        group_id: '1485564@N25',
+                        tags: 'fourcelabs',
+                        api_key: 'ea0014b7d3a44b12512fc26e77bdcdab',
+                        format: 'json'},
+                jsonp: 'jsoncallback',
+                dataType: 'jsonp',
+                success: function(data, textStatus, xhr) {                        
+                    $('#game_image').empty();
+                    
+                    var css = '';
+                    
+                    for (var i in data['photos']['photo']) {
+                        var photo = data['photos']['photo'][i];
                         
-                        var css = '';
+                        $('#game_image').append('<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '.jpg" ' + css + '>');
                         
-                        for (var i in data['photos']['photo']) {
-                            var photo = data['photos']['photo'][i];
-                            
-                            $('#game_image').append('<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '.jpg" ' + css + '>');
-                            
-                            // After the first time through the loop don't display any other images
-                            css = 'style="display: none;"';
-                        }
-                        
-                        $('#game_image').cycle({
-                            fx: 'fade',
-                            random: 1,
-                            speed: 400,
-							prev:   '#game_image_prev',
-							next:   '#game_image_next',
-                            timeout: 3000
-                        });
+                        // After the first time through the loop don't display any other images
+                        css = 'style="display: none;"';
                     }
-                });
-            {% endif %}
+                    
+                    $('#game_image').cycle({
+                        fx: 'fade',
+                        random: 1,
+                        speed: 400,
+						prev:   '#game_image_prev',
+						next:   '#game_image_next',
+                        timeout: 3000
+                    });
+                }
+            });
             
         });
 	</script>
@@ -767,7 +765,7 @@
 		<a href="#gamecode" title=""><div id="game_gogetgadget">
         </div></a>
 		<div id="game_image">
-			{% if not staging %}<img src="{{ game.get_first_photo }}">{% endif %}
+			{% comment %}<img src="{{ game.get_first_photo }}">{% endcomment %}
 		</div>
     </div>
 </div>
