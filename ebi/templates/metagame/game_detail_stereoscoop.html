@@ -552,6 +552,9 @@
             });
             
 
+            $('.slideImage').live('click', function () {
+                window.open($(this).attr('rel'));
+            });
             
             $.ajax({
                 url: 'http://api.flickr.com/services/rest/',
@@ -565,15 +568,11 @@
                 dataType: 'jsonp',
                 success: function(data, textStatus, xhr) {
                     $('#game_image').empty();
-                    
-                    var css = '';
 
                     for (var i in data['photos']['photo']) {
                         var photo = data['photos']['photo'][i];
                         
-                        $('#game_image').append('<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '.jpg" ' + css + '>');
-                        // After the first time through the loop don't display any other images
-                        css = 'style="display: none;"';
+                        $('#game_image').append('<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '.jpg" rel="http://flickr.com/photo.gne?id=' + photo['id'] + '" class="slideImage" style="display: none; cursor: pointer;">');
                     }
                     
                     $('#game_image').cycle({

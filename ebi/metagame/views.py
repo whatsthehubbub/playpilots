@@ -13,7 +13,7 @@ from django.core.signals import request_finished
 
 from ebi.metagame.models import Maker, Festival, Game, Player
 from ebi.battleroyale.models import Skill
-from metagame.services import send_tweet
+from metagame.services import send_tweet, get_pictures
 
 from kipwip.models import *
 from stereoscoop.models import StereoscoopBadge, StereoscoopCode
@@ -199,6 +199,12 @@ def game_detail(request, slug):
         
         convars['races'] = Kippenrace.objects.all().order_by('raceid')
         convars['riders'] = Kippenrijder.objects.all().order_by('time', 'raceid')
+        
+        pictures = cache.get('wipnkip_pictures')
+        if not pictures:
+            pictures = get_pictures('fourcelabs')
+            cache.set('wipnkip_pictures', pictures, 60*60)
+        convars['pictures'] = pictures
         
     if game.slug == 'de-stereoscoop':
         convars['badges'] = StereoscoopBadge.objects.all().order_by('badgeid')

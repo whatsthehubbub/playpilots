@@ -672,6 +672,48 @@
     <script type="text/javascript" src="/static/js/jquery.cycle/jquery.cycle.all.min.js"></script>
     
     <script type="text/javascript" charset="utf-8">
+        var imageCount = 0;
+        var imagesLoaded = 0;
+        var cycleStarted = false;
+        
+        {% if pictures %}
+	        {% for photo in pictures.photos.photo %}
+	            {% if forloop.counter0 >= 1 %}
+                    var src = 'http://farm{{ photo.farm }}.static.flickr.com/{{ photo.server }}/{{ photo.id }}_{{ photo.secret }}.jpg';
+                    
+                    $('<img />')
+                        .attr('src', src)
+                        .attr('rel', 'http://flickr.com/photo.gne?id={{ photo.id }}')
+                        .attr('class', 'slideImage')
+                        .css('cursor', 'pointer')
+                        .load(function() {
+                            $('#game_image').append($(this));
+                            imagesLoaded += 1;
+                            
+                            if (imagesLoaded > 0 && imageCount==imagesLoaded && !cycleStarted) {
+                                startCycle();
+                            }
+                        });
+                        
+                    imageCount += 1;
+        	    {% endif %}
+    	    {% endfor %}
+    	{% endif %}
+        
+        function startCycle() {
+            $('#game_image').cycle({
+                fx: 'fade',
+                random: 1,
+                speed: 400,
+                prev:   '#game_image_prev',
+                next:   '#game_image_next',
+                timeout: 3000
+            });
+            
+            // $('#game_image').cycle('pause');
+            // setTimeout("$('#game_image').cycle('resume');", 2000);
+        }
+    
         $(document).ready(function() {
 			$('#game_image').css('-webkit-transform', 'rotate(-5deg)');
 			$('#game_image').css('-moz-transform', 'rotate(-5deg)');
@@ -712,41 +754,9 @@
                 }
             });
             
-            $.ajax({
-                url: 'http://api.flickr.com/services/rest/',
-                data: {
-                        method: 'flickr.photos.search',
-                        group_id: '1485564@N25',
-                        tags: 'fourcelabs',
-                        api_key: 'ea0014b7d3a44b12512fc26e77bdcdab',
-                        format: 'json'},
-                jsonp: 'jsoncallback',
-                dataType: 'jsonp',
-                success: function(data, textStatus, xhr) {                        
-                    $('#game_image').empty();
-                    
-                    var css = '';
-                    
-                    for (var i in data['photos']['photo']) {
-                        var photo = data['photos']['photo'][i];
-                        
-                        $('#game_image').append('<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '.jpg" ' + css + '>');
-                        
-                        // After the first time through the loop don't display any other images
-                        css = 'style="display: none;"';
-                    }
-                    
-                    $('#game_image').cycle({
-                        fx: 'fade',
-                        random: 1,
-                        speed: 400,
-						prev:   '#game_image_prev',
-						next:   '#game_image_next',
-                        timeout: 3000
-                    });
-                }
+            $('.slideImage').live('click', function () {
+                window.open($(this).attr('rel'));
             });
-            
         });
 	</script>
 {% endblock %}
@@ -765,7 +775,15 @@
 		<a href="#gamecode" title=""><div id="game_gogetgadget">
         </div></a>
 		<div id="game_image">
-			{% comment %}<img src="{{ game.get_first_photo }}">{% endcomment %}
+		    {% if pictures %}
+		        {% for photo in pictures.photos.photo %}
+		            {% if forloop.counter0 < 1 %}
+		                <img src="http://farm{{ photo.farm }}.static.flickr.com/{{ photo.server }}/{{ photo.id }}_{{ photo.secret }}.jpg" rel="http://flickr.com/photo.gne?id={{ photo.id }}" class="slideImage {% if forloop.first %}first{% endif %}" style="cursor: pointer;">
+		            {% endif %}
+		        {% endfor %}
+		    {% else %}
+		        <img src="{{ game.get_first_photo }}">
+		    {% endif %}
 		</div>
     </div>
 </div>
