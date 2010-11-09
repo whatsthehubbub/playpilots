@@ -464,7 +464,9 @@
                         <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel &raquo;</a></p>
                     </li>
                     {% empty %}
-                    <li>Momenteel niemand uitgedaagd. Een beetje bang misschien? Ga naar het <a href="/klassement/">klassement</a> en kies je doelwit.</li>
+                        {% ifequal user.get_profile player %}
+                            <li>Momenteel niemand uitgedaagd. Een beetje bang misschien? Ga naar het <a href="/klassement/">klassement</a> en kies je doelwit.</li>
+                        {% endifequal %}
                 {% endfor %}
             </ol>
         </div>

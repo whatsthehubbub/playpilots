@@ -155,22 +155,25 @@
             <h2>3 festivals, 3 games</h2> PLAY Pilots daagt je uit! Dit jaar kun je op drie culturele festivals in Utrecht live games spelen. Lees alles over het wat, waar en wanneer.</div>
 
         {% for game in games %}
-        {% if forloop.counter < 3 %}<a href="/games/{{ game.slug }}/">{% endif %}
-            <div id="game_{{ game.id }}" class="game {% if not forloop.first %}space{% endif %} {% if forloop.counter > 2%}soon{% endif %}">
+        	<!-- {% if forloop.counter < 3 %}<a href="/games/{{ game.slug }}/">{% endif %} -->
+			<a href="/games/{{ game.slug }}/">
+            <!-- <div id="game_{{ game.id }}" class="game {% if not forloop.first %}space{% endif %} {% if forloop.counter > 2 %}soon{% endif %}"> -->
+	            <div id="game_{{ game.id }}" class="game {% if not forloop.first %}space{% endif %}">
                 <div class="mainimage" style="{% if game.get_first_photo %}background-image: url({{ game.get_first_photo }});{% endif %}"></div>
                 {% comment %} Kars: Change game.get_first_photo to game.logo.url     {% endcomment %}
             
-                <div class="gamecontent">
+            	<div class="gamecontent">
                     <h3>{{ game.name }}</h3>
                     
                     <p class="metadata">door {{ game.maker }}<br>
                         op {{ game.festival }}</p>
 					<p>{{ game.start|date:"j b Y" }}{% if game.end %} - {{ game.end|date:"j b Y"}}{% endif %}</p>
             
-                    {% if forloop.counter > 2 %}<p>Coming soon!</p>{% endif %}
+                    <!-- {% if forloop.counter > 2 %}<p>Coming soon!</p>{% endif %} -->
                 </div>
             </div>
-            {% if forloop.counter < 3 %}</a>{% endif %}
+            <!-- {% if forloop.counter < 3 %}</a>{% endif %} -->
+            </a>
         {% endfor %}
     </div>
 </div>
