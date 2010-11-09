@@ -158,6 +158,7 @@
         {% if forloop.counter < 3 %}<a href="/games/{{ game.slug }}/">{% endif %}
             <div id="game_{{ game.id }}" class="game {% if not forloop.first %}space{% endif %} {% if forloop.counter > 2%}soon{% endif %}">
                 <div class="mainimage" style="{% if game.get_first_photo %}background-image: url({{ game.get_first_photo }});{% endif %}"></div>
+                {% comment %} Kars: Change game.get_first_photo to game.logo.url     {% endcomment %}
             
                 <div class="gamecontent">
                     <h3>{{ game.name }}</h3>
