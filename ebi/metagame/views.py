@@ -197,6 +197,9 @@ def game_detail(request, slug):
     if game.slug == 'wip-n-kip':
         templateName = 'metagame/game_detail_wipnkip.html'
         
+        if request.GET.get('staging', ''):
+            templateName = 'metagame/game_detail_wipnkip2.html'
+        
         convars['races'] = Kippenrace.objects.all().order_by('raceid')
         convars['riders'] = Kippenrijder.objects.all().order_by('time', 'raceid')
         
