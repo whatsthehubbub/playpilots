@@ -24,6 +24,7 @@
         
         #title_wrapper {
             background: #262a33 url({{ MEDIA_URL }}image/grain_overlay.png) repeat;
+			height: 245px;
         }
         
         #title {
@@ -75,20 +76,30 @@
         
         #game_image {
 			float: right;
-            width: 304px;
-            height: 230px;
-            padding: 8px;
-            
-            background-image: url({{ MEDIA_URL }}image/festivalpic_frame.png);
+            width: 285px;
+            height: 300px;
+            padding: 8px;            
+            background-image: url({{ MEDIA_URL }}image/games_photoframe.png);
             background-repeat: no-repeat;
         }
         
-        #game_image img {
-			margin: 8px 0 0 15px;
-			display: none;
-            max-height: 206px;
-            max-width: 278px;
+        .image_carrousel {
+            width: 255px;
+            height: 230px;
         }
+        
+        .image_carrousel img {
+			margin: 12px 12px 0;
+			width: 245px;
+            height: 220px;
+        }
+
+		#more_onflickr {
+			margin: -5px 25px 0 0;
+			width: 150px;
+			height: 50px;
+			float: right;
+		}
 
 		#game_image img.first {
 			display: block
@@ -669,51 +680,9 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.custom.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.scrollTo.js" charset="utf-8"></script>
     
-    <script type="text/javascript" src="/static/js/jquery.cycle/jquery.cycle.all.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.cross-slide.min.js"></script>
     
     <script type="text/javascript" charset="utf-8">
-        var imageCount = 0;
-        var imagesLoaded = 0;
-        var cycleStarted = false;
-        
-        {% if pictures %}
-	        {% for photo in pictures.photos.photo %}
-	            {% if forloop.counter0 >= 1 %}
-                    var src = 'http://farm{{ photo.farm }}.static.flickr.com/{{ photo.server }}/{{ photo.id }}_{{ photo.secret }}.jpg';
-                    
-                    $('<img />')
-                        .attr('src', src)
-                        .attr('rel', 'http://flickr.com/photo.gne?id={{ photo.id }}')
-                        .attr('class', 'slideImage')
-                        .css('cursor', 'pointer')
-                        .load(function() {
-                            $('#game_image').append($(this));
-                            imagesLoaded += 1;
-                            
-                            if (imagesLoaded > 0 && imageCount==imagesLoaded && !cycleStarted) {
-                                startCycle();
-                            }
-                        });
-                        
-                    imageCount += 1;
-        	    {% endif %}
-    	    {% endfor %}
-    	{% endif %}
-        
-        function startCycle() {
-            $('#game_image').cycle({
-                fx: 'fade',
-                random: 1,
-                speed: 400,
-                prev:   '#game_image_prev',
-                next:   '#game_image_next',
-                timeout: 3000
-            });
-            
-            // $('#game_image').cycle('pause');
-            // setTimeout("$('#game_image').cycle('resume');", 2000);
-        }
-    
         $(document).ready(function() {
 			$('#game_image').css('-webkit-transform', 'rotate(-5deg)');
 			$('#game_image').css('-moz-transform', 'rotate(-5deg)');
@@ -753,10 +722,16 @@
                     $('#codeinput').val('');
                 }
             });
-            
-            $('.slideImage').live('click', function () {
-                window.open($(this).attr('rel'));
-            });
+
+            $('#image_carrousel').crossSlide({
+                sleep: 2,
+                fade: 1
+            }, [
+                
+                {% for photo in game.photos.all %}
+                    {src: '{{ photo.photo.url }}'},
+                {% endfor %}
+            ]);
         });
 	</script>
 {% endblock %}
@@ -775,15 +750,10 @@
 		<a href="#gamecode" title=""><div id="game_gogetgadget">
         </div></a>
 		<div id="game_image">
-		    {% if pictures %}
-		        {% for photo in pictures.photos.photo %}
-		            {% if forloop.counter0 < 1 %}
-		                <img src="http://farm{{ photo.farm }}.static.flickr.com/{{ photo.server }}/{{ photo.id }}_{{ photo.secret }}_m.jpg" rel="http://flickr.com/photo.gne?id={{ photo.id }}" class="slideImage {% if forloop.first %}first{% endif %}" style="cursor: pointer;">
-		            {% endif %}
-		        {% endfor %}
-		    {% else %}
-		        <img src="{{ game.get_first_photo }}">
-		    {% endif %}
+			<div id="image_carrousel" class="image_carrousel">
+				<img src="{{ MEDIA_URL }}image/wipnkip_photo_placeholder.jpg" />
+			</div>
+			<a href="http://www.flickr.com/groups/playpilots/" alt="Meer foto's op Flickr"><img src="{{ MEDIA_URL }}image/games_photomore.png" alt="Meer foto's op Flickr" id="more_onflickr"/></a>
 		</div>
     </div>
 </div>
