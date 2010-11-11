@@ -460,12 +460,31 @@
 			color: #fff;
 		}
 		
+        /* CSS for tabs */
+        .ui-tabs .ui-tabs-hide {
+             display: none;
+        }
+
+        .ui-tabs-selected {
+        	background-color: #fff;
+        	-webkit-box-shadow: #999 0px 2px 4px;
+        	-moz-box-shadow: #999 0px 2px 4px;
+        	box-shadow: #999 0px 2px 4px;
+        }
+
+        .ui-tabs-selected a {
+        	font-weight: bold;
+        	color: #ff3300;
+        }
+		
     </style>
     
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
             $('#game_image').css('-webkit-transform', 'rotate(-5deg)');
             $('#game_image').css('-moz-transform', 'rotate(-5deg)');
+            
+            $("#music").tabs();
             
             {% if user.is_authenticated %}
                 $('#interest_form').ajaxForm({
@@ -494,8 +513,15 @@
                 }
             });
             
-            $('.special').click(function () {
-                alert('special clicked');
+            $('.tape').click(function () {
+                var positions = $(this).parent().attr('rel').split(' ');
+                var width = $('.sc-time-span').width();
+                
+                for (var pos in positions) {
+                    var leftPixels = parseFloat(positions[pos]) / 100.0 * width;
+
+                    $('.sc-time-span').append('<div style="background-color: #000; top: 0px; height: 80px; width: 1px; position: absolute; left: ' + leftPixels + 'px;">');
+                }
             });
         });
     </script>
@@ -503,6 +529,8 @@
     <link rel="stylesheet" href="/static/soundcloudplayer/css/sc-player-red.css" type="text/css">
     <script type="text/javascript" src="/static/soundcloudplayer/js/soundcloud.player.api.js"></script>
     <script type="text/javascript" src="/static/soundcloudplayer/js/sc-player.js"></script>
+    
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.custom.min.js" charset="utf-8"></script>
     
 {% endblock %}
 
@@ -628,23 +656,42 @@
 
 <div id="record_wrapper">
     <div id="music" class="mainblock">
-        <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
-    </div>
-    
-    <div id="specials" class="mainblock">
-        <ol>
-            <li class="special">22:45 59'
-                <audio src="" />
-            </li>
+        <ul class="tabnav">
+			<li><a href="#vrijdag"><span>Vrijdag</span></a></li>
+			<li><a href="#zaterdag"><span>Zaterdag</span></a></li>
+		</ul>
+		
+		<div id="vrijdag" class="tabcontent">
+            <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
+            
+            <div class="specials">
+                <ol>
+                    <li class="special" rel="20 30 40">
+                        <img class="tape" src="">
+                        <span class="timestamp">22:45 59'</span>
+                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
+                    </li>
+                    
 
-            <li class="special">23:12 59'
-                <audio src="" />
-            </li>
+                    <li class="special" rel="50">
+                        <img class="tape" src="">
+                        <span class="timestamp">22:45 59'</span>
+                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
+                    </li>
 
-            <li class="special">23:25 59'
-                <audio src="" />
-            </li>
-        </ol>
+                    <li class="special" rel="1 2 3 50 60">
+                        <img class="tape" src="">
+                        <span class="timestamp">22:45 59'</span>
+                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
+                    </li>
+                </ol>
+            </div>
+		</div>
+		
+		<div id="zaterdag" class="tabcontent">
+            zaterdag
+		</div>
+        
     </div>
 </div>
 
