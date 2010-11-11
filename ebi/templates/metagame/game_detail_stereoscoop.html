@@ -23,7 +23,8 @@
         
         #title_wrapper {
             background: #262a33 url({{ MEDIA_URL }}image/grain_overlay.png) repeat;
-			height: 245px;
+            height: 245px;
+
         }
         
         #title {
@@ -90,18 +91,6 @@
 			height: 50px;
 			float: right;
 		}
-		
-		/*
-        #game_image img {
-			margin: 8px 0 0 15px;
-            max-height: 206px;
-            max-width: 278px;
-        }
-
-		#game_image img.first {
-		}
-        
-        */
         
         #game_wrapper {
 			clear: both;
@@ -575,38 +564,6 @@
             $('.slideImage').live('click', function () {
                 window.open($(this).attr('rel'));
             });
-            
-            /*
-            $.ajax({
-                url: 'http://api.flickr.com/services/rest/',
-                data: {
-                        method: 'flickr.photos.search',
-                        group_id: '1485564@N25',
-                        tags: 'Zesbaans',
-                        api_key: 'ea0014b7d3a44b12512fc26e77bdcdab',
-                        format: 'json'},
-                jsonp: 'jsoncallback',
-                dataType: 'jsonp',
-                success: function(data, textStatus, xhr) {
-                    $('#game_image').empty();
-
-                    for (var i in data['photos']['photo']) {
-                        var photo = data['photos']['photo'][i];
-                        
-                        $('#game_image').append('<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '.jpg" rel="http://flickr.com/photo.gne?id=' + photo['id'] + '" class="slideImage" style="display: none; cursor: pointer;">');
-                    }
-                    
-                    $('#game_image').cycle({
-                        fx: 'fade',
-                        random: 1,
-                        speed: 400,
-						prev:   '#game_image_prev',
-						next:   '#game_image_next',
-                        timeout: 3000
-                    });
-                }
-            });
-            */
 
             $('#image_carrousel').crossSlide({
                 sleep: 2,
