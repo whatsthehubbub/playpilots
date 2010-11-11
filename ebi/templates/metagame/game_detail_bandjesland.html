@@ -23,6 +23,7 @@
         
         #title_wrapper {
             background: #262a33 url({{ MEDIA_URL }}image/grain_overlay.png) repeat;
+            height: 245px;
         }
         
         #title {
@@ -65,18 +66,30 @@
         
         #game_image {
 			float: right;
-            width: 304px;
-            height: 230px;
-            padding: 8px;
-            
-            background-image: url({{ MEDIA_URL }}image/festivalpic_frame.png);
+            width: 285px;
+            height: 300px;
+            padding: 8px;            
+            background-image: url({{ MEDIA_URL }}image/games_photoframe.png);
             background-repeat: no-repeat;
         }
         
-        #game_image img {
-            max-height: 214px;
-            max-width: 288px;
+        .image_carrousel {
+            width: 255px;
+            height: 230px;
         }
+        
+        .image_carrousel img {
+			margin: 12px 12px 0;
+			width: 245px;
+            height: 220px;
+        }
+
+		#more_onflickr {
+			margin: -5px 25px 0 0;
+			width: 150px;
+			height: 50px;
+			float: right;
+		}
         
         #game_wrapper {
 			clear: both;
@@ -513,6 +526,21 @@
                 }
             });
             
+            {% if game.photos.all|length %}
+                $('#image_carrousel').crossSlide({
+                    sleep: 2,
+                    fade: 1
+                }, [
+                    {% for photo in game.photos.all %}
+                        {src: '{{ photo.photo.url }}'},
+                    {% endfor %}
+                
+                    {% if game.photos.all|length == 1 %}
+                        {src: '{{ game.photos.all.0.photo.url }}'},
+                    {% endif %}
+                ]);
+            {% endif %}
+            
             $('.tape').click(function () {
                 var positions = $(this).parent().attr('rel').split(' ');
                 var width = $('.sc-time-span').width();
@@ -526,7 +554,10 @@
         });
     </script>
     
-    <link rel="stylesheet" href="/static/soundcloudplayer/css/sc-player-red.css" type="text/css">
+    <script type="text/javascript" src="/static/js/jquery.cross-slide.min.js"></script>
+    
+    <link rel="stylesheet" href="/static/soundcloudplayer/css/sc-player-minimal.css" type="text/css">
+
     <script type="text/javascript" src="/static/soundcloudplayer/js/soundcloud.player.api.js"></script>
     <script type="text/javascript" src="/static/soundcloudplayer/js/sc-player.js"></script>
     
@@ -547,7 +578,10 @@
 		</div>
 		
 		<div id="game_image">
-			<img src="{{ game.get_first_photo }}">
+			<div id="image_carrousel" class="image_carrousel">
+				<img src="{{ MEDIA_URL }}image/wipnkip_photo_placeholder.jpg" />
+			</div>
+			<a href="http://www.flickr.com/groups/playpilots/" alt="Meer foto's op Flickr"><img src="{{ MEDIA_URL }}image/games_photomore.png" alt="Meer foto's op Flickr" id="more_onflickr"/></a>
 		</div>
     </div>
 </div>
