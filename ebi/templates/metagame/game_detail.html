@@ -517,7 +517,7 @@
                 {% endfor %}
                 
                 {% if game.photos.all|length == 1 %}
-                    {src: '{{ photo.photo.url }}'},
+                    {src: '{{ game.photos.all.0.photo.url }}'},
                 {% endif %}
             ]);
         });
