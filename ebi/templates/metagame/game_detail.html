@@ -515,6 +515,10 @@
                 {% for photo in game.photos.all %}
                     {src: '{{ photo.photo.url }}'},
                 {% endfor %}
+                
+                {% if game.photos.all|length == 1 %}
+                    {src: '{{ photo.photo.url }}'},
+                {% endif %}
             ]);
         });
     </script>
