@@ -204,20 +204,8 @@ def game_detail(request, slug):
         convars['races'] = Kippenrace.objects.all().order_by('raceid')
         convars['riders'] = Kippenrijder.objects.all().order_by('time', 'raceid')
         
-        pictures = cache.get('wipnkip_pictures')
-        if not pictures:
-            pictures = get_pictures('fourcelabs')
-            cache.set('wipnkip_pictures', pictures, 60*60)
-        convars['pictures'] = pictures
-        
     if game.slug == 'de-stereoscoop':
         convars['badges'] = StereoscoopBadge.objects.all().order_by('badgeid')
-        
-        pictures = cache.get('stereoscoop_pictures')
-        if not pictures:
-            pictures = get_pictures('Zesbaans')
-            cache.set('stereoscoop_pictures', pictures, 60*60)
-        convars['pictures'] = pictures
         
         templateName = 'metagame/game_detail_stereoscoop.html'
         
