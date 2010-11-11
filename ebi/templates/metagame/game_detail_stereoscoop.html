@@ -65,23 +65,42 @@
         
         #game_image {
 			float: right;
-            width: 304px;
-            height: 230px;
+            width: 285px;
+            height: 300px;
             padding: 8px;            
-            background-image: url({{ MEDIA_URL }}image/festivalpic_frame.png);
+            background-image: url({{ MEDIA_URL }}image/games_photoframe.png);
             background-repeat: no-repeat;
         }
         
+        .image_carrousel {
+            width: 255px;
+            height: 230px;
+        }
+        
+        .image_carrousel img {
+			margin: 12px 12px 0;
+			width: 245px;
+            height: 220px;
+        }
+
+		#more_onflickr {
+			margin: -5px 25px 0 0;
+			width: 150px;
+			height: 50px;
+			float: right;
+		}
+		
+		/*
         #game_image img {
 			margin: 8px 0 0 15px;
-			display: none;
             max-height: 206px;
             max-width: 278px;
         }
 
 		#game_image img.first {
-			display: block
 		}
+        
+        */
         
         #game_wrapper {
 			clear: both;
@@ -512,7 +531,7 @@
 		
     </style>
     
-    <script type="text/javascript" src="/static/js/jquery.cycle/jquery.cycle.all.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.cross-slide.min.js"></script>
     
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
@@ -556,6 +575,7 @@
                 window.open($(this).attr('rel'));
             });
             
+            /*
             $.ajax({
                 url: 'http://api.flickr.com/services/rest/',
                 data: {
@@ -585,7 +605,17 @@
                     });
                 }
             });
+            */
 
+            $('#image_carrousel').crossSlide({
+                sleep: 2,
+                fade: 1
+            }, [
+                {% for photo in game.photos.all %}
+                    {src: '{{ photo.photo.url }}'},
+                {% endfor %}
+            ]);
+            
         });
     </script>
 {% endblock %}
@@ -603,7 +633,10 @@
 		</div>
 		<a href="#gamecode" title=""><div id="game_gogetgadget"></div></a>
 		<div id="game_image">
-			{% comment %}<img src="{{ game.get_first_photo }}">{% endcomment %}
+		    <div id="image_carrousel" class="image_carrousel">
+				<img src="{{ MEDIA_URL }}image/wipnkip_photo_placeholder.jpg" />
+			</div>
+			<a href="http://www.flickr.com/groups/playpilots/" alt="Meer foto's op Flickr"><img src="{{ MEDIA_URL }}image/games_photomore.png" alt="Meer foto's op Flickr" id="more_onflickr"/></a>
 		</div>
     </div>
 </div>
