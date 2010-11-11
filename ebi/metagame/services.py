@@ -27,7 +27,7 @@ def feed_first_entry(url):
 def feed_entries(url):
     feed = get_feed(url)
 
-    if len(feed['entries']) > 0:
+    if feed and len(feed['entries']) > 0:
         return feed['entries']
 
     return []
@@ -42,8 +42,3 @@ def send_tweet(msg):
         return status
     except:
         logging.error('sending tweet %s failed', msg)
-
-def get_pictures(tag):
-    url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&group_id=1485564@N25&tags=%s&api_key=ea0014b7d3a44b12512fc26e77bdcdab&format=json&nojsoncallback=1' % tag
-    
-    return json.loads(urllib2.urlopen(url).read())

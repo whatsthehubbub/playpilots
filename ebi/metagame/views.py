@@ -13,7 +13,7 @@ from django.core.signals import request_finished
 
 from ebi.metagame.models import Maker, Festival, Game, Player
 from ebi.battleroyale.models import Skill
-from metagame.services import send_tweet, get_pictures
+from metagame.services import send_tweet
 
 from kipwip.models import *
 from stereoscoop.models import StereoscoopBadge, StereoscoopCode
@@ -175,8 +175,12 @@ def game_list(request):
 def game_detail(request, slug):
     game = get_object_or_404(Game, slug=slug)
     
-    feedURL = game.maker.updatesFeed
+    feedURL = ''
+    if game.maker:
+        feedURL = game.maker.updatesFeed
+    
     feedEntries = cache.get(feedURL)
+    
     if not feedEntries:
         feedEntries = feed_entries(feedURL)
         cache.set(feedURL, feedEntries, 60*60*24)
@@ -197,9 +201,6 @@ def game_detail(request, slug):
     if game.slug == 'wip-n-kip':
         templateName = 'metagame/game_detail_wipnkip.html'
         
-        if request.GET.get('staging', ''):
-            templateName = 'metagame/game_detail_wipnkip2.html'
-        
         convars['races'] = Kippenrace.objects.all().order_by('raceid')
         convars['riders'] = Kippenrijder.objects.all().order_by('time', 'raceid')
         
@@ -212,7 +213,17 @@ def game_detail(request, slug):
     if game.slug == 'de-stereoscoop':
         convars['badges'] = StereoscoopBadge.objects.all().order_by('badgeid')
         
+        pictures = cache.get('stereoscoop_pictures')
+        if not pictures:
+            pictures = get_pictures('Zesbaans')
+            cache.set('stereoscoop_pictures', pictures, 60*60)
+        convars['pictures'] = pictures
+        
         templateName = 'metagame/game_detail_stereoscoop.html'
+        
+    if game.slug == 'bandjesland' and request.GET.get('staging', ''):
+        templateName = 'metagame/game_detail_bandjesland.html'
+        
     
     return render_to_response(templateName, convars, context_instance=RequestContext(request))
     
