@@ -327,169 +327,15 @@
             color: #f30;
         }
 
-		#gamecode_wrapper {
-			overflow: hidden;
+		#record_wrapper {
+			border-top: 5px solid #ccc;
 			background: #fff url({{ MEDIA_URL }}image/dot_grid.png) repeat;
-			border-top: 5px solid #ccc;;
-			-moz-box-shadow: inset 0 -2px 4px #ccc;
-			-webkit-box-shadow: inset 0px -2px 4px #ccc;
-			box-shadow: inset 0 -2px 4px #ccc;
-			padding-bottom: 22px;
 		}
-		
-		#gamecode {
-			overflow: hidden;
-			margin: 0 auto;
-			background: transparent url({{ MEDIA_URL }}image/code_paper.png) no-repeat top right;
-		}
-		
-		#gamecode h2 {
-			color: #262a33;
-			margin-top: 22px;
-		}
-		
-		#gamecode p {
-		    width: 540px;
-		}
-		
-		#form_container {
-			width: 370px;
-			position: relative;
-			overflow: hidden;
-			margin: 0 auto 0 auto;
-        }		
-        
-		#form_container p {
-			clear: both;
-			float: left;
-			overflow: hidden;
-			font-size: 12px;
-		}
-		
-		.extrainfo {
-			width: 345px;
-			color: #999;
-			margin: 5px 0;
-		}
-		
-		.errorinfo {
-			width: 345px;
-			font-weight: bold;
-			color: #e11600;
-			margin: 5px 0;
-		}
-		
-		.logininfo {
-			float: left;
-			width: 345px;
-			margin: 11px 0 0;
-			background-color: #f6e9d7;
-			border: 1px solid #ddd;
-			padding: 10px;
-			-moz-border-radius: 5px;
-			-webkit-border-radius: 5px;
-			border-radius: 5px;
-		}
-		
-		.resultinfo {
-			float: left;
-			width: 345px;
-			margin: 11px 0 0;
-			background-color: #f6e9d7;
-			border: 1px solid #ddd;
-			padding: 10px;
-			-moz-border-radius: 5px;
-			-webkit-border-radius: 5px;
-			border-radius: 5px;
-			
-			display: none;
-		}
-		
-		.resultinfo strong {
-			color: #ff3300;
-			font-size: 18px;
-		}
-		
-		.resultinfo .again {
-		    font-size: 12px;
-		}
-		
-		.resultinfo a, .logininfo a {
-		    color: #f30;
-		    text-decoration: underline;
-		}
-		
-		.resultinfo a:hover, .logininfo a:hover {
-		    text-decoration: none;
-		}
-				
-		#codeinput {
-			position: relative;
-			float: left;
-			font-size: 25px;
-			width: 200px;
-			background-color: #fff;
-			border: none;
-			padding: 5px 8px;
-			color: #666;
-			-moz-border-radius-topleft: 5px;
-			-moz-border-radius-bottomleft: 5px;
-			-webkit-border-top-left-radius: 5px;
-			-webkit-border-bottom-left-radius: 5px;
-			border-top-left-radius: 5px;
-			border-bottom-left-radius: 5px;
-			-moz-box-shadow: inset 0 2px 4px #ccc;
-			-webkit-box-shadow: inset 0px 2px 4px #ccc;
-			box-shadow: inset 0 2px 4px #ccc;
-		}
-		
-		#codesubmit {
-			position: relative;
-			float: left;
-			background-color: #ff3300;
-			width: 150px;
-			border: 0px;
-			padding: 5px 15px;
-			font-size: 25px;
-			font-weight: bold;
-			color: #fff;
-			text-transform: uppercase;
-			text-shadow: #333 0 1px 0;
-			-moz-border-radius-topright: 5px;
-			-moz-border-radius-bottomright: 5px;
-			-webkit-border-top-right-radius: 5px;
-			-webkit-border-bottom-right-radius: 5px;
-			border-top-right-radius: 5px;
-			border-bottom-right-radius: 5px;
-			
-		}
-		
-		#codesubmit:hover {
-			background-color: #e11600;
-		}
-		
-		#codesubmit:active {
-			background-color: #333;
-			color: #fff;
-		}
-		
-        /* CSS for tabs */
-        .ui-tabs .ui-tabs-hide {
-             display: none;
-        }
 
-        .ui-tabs-selected {
-        	background-color: #fff;
-        	-webkit-box-shadow: #999 0px 2px 4px;
-        	-moz-box-shadow: #999 0px 2px 4px;
-        	box-shadow: #999 0px 2px 4px;
-        }
-
-        .ui-tabs-selected a {
-        	font-weight: bold;
-        	color: #ff3300;
-        }
-		
+		#music {
+			background: transparent url({{ MEDIA_URL }}image/tape_background.png) no-repeat center top;
+			height: 270px;
+		}
     </style>
     
     <script type="text/javascript" charset="utf-8">
@@ -625,36 +471,45 @@
     </div>
 </div>
 
-{% ifequal game.slug 'wip-n-kip' %}
-<div id="gamecode_wrapper">
-	<div id="gamecode" class="mainblock">
-		<h2>Wip 'n' Kip gespeeld op Stekker Fest?</h2>
-		<p>Vul hieronder de code in die op je handout staat en we &lsquo;pingen&rsquo; je zodra de racetijden en -filmpjes online staan.</p>
-        <!-- <img src="{{ MEDIA_URL }}image/handout.png" alt="FourceLabs Wip 'n' Kip handout"> -->
-		<div id="form_container">
-		    {% if not user.is_authenticated %}
-		      <div class="logininfo"><a href="/games/{{ game.slug }}/login/">Meld je aan</a> om je racegegevens te claimen.</div>
-		    {% else %}
-		        <form id="codeform" name="codeform" action="/kipwip/code/" method="POST">
-    				<input type="text" maxlength="8" placeholder="Jouw code" name="codeinput" id="codeinput">
-    				<input type="submit" id="codesubmit" value="Claimen">
-    			</form>
-    			
-    			<div class="resultinfo">
-    				<strong>Bedankt!</strong> Zodra de tijden en filmpjes online staan ben je de eerste die het hoort. <span class="again">(<a href="javascript:$('.resultinfo').slideUp();$('#codeinput').focus();">Nog een code invoeren?</a>)</span>
-    			</div>
-		    {% endif %}
-    		
-			<!--
-			<p class="errorinfo">Hmm&hellip; Die code lijkt niet te kloppen. Probeer het nog eens. Hint: een code bestaat uit een combinatie van acht kleine letters en cijfers.</p>
-			-->
-            <!-- Extra info is niet nodig, laat maar weg. -Kars -->
-            <!-- <p class="extrainfo">Meerdere codes? Nog een keer invullen...</p> -->
-			
+<div id="record_wrapper">
+    <div id="music" class="mainblock">
+        <ul class="tabnav">
+			<li><a href="#vrijdag"><span>Vrijdag</span></a></li>
+			<li><a href="#zaterdag"><span>Zaterdag</span></a></li>
+		</ul>
+		
+		<div id="vrijdag" class="tabcontent">
+            <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
+            
+            <div class="specials">
+                <ol>
+                    <li class="special" rel="20 30 40">
+                        tape 1
+                        <span class="timestamp">22:45 59'</span>
+                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
+                    </li>
+
+                    <li class="special" rel="50">
+                        tape 2
+                        <span class="timestamp">23:48 60'</span>
+                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
+                    </li>
+					
+					<li class="special" rel="1 2 3 50 60">
+                        tape 3
+                        <span class="timestamp">22:45 59'</span>
+                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
+                    </li>
+                </ol>
+            </div>
 		</div>
+		
+		<div id="zaterdag" class="tabcontent">
+            zaterdag
+		</div>
+        
     </div>
 </div>
-{% endifequal %}
 
 <div id="interest_wrapper">
     <div id="interest" class="mainblock">
@@ -685,47 +540,6 @@
                 </a>
             </div>
         {% endfor %}
-    </div>
-</div>
-
-<div id="record_wrapper">
-    <div id="music" class="mainblock">
-        <ul class="tabnav">
-			<li><a href="#vrijdag"><span>Vrijdag</span></a></li>
-			<li><a href="#zaterdag"><span>Zaterdag</span></a></li>
-		</ul>
-		
-		<div id="vrijdag" class="tabcontent">
-            <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
-            
-            <div class="specials">
-                <ol>
-                    <li class="special" rel="20 30 40">
-                        <img class="tape" src="">
-                        <span class="timestamp">22:45 59'</span>
-                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
-                    </li>
-                    
-
-                    <li class="special" rel="50">
-                        <img class="tape" src="">
-                        <span class="timestamp">22:45 59'</span>
-                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
-                    </li>
-
-                    <li class="special" rel="1 2 3 50 60">
-                        <img class="tape" src="">
-                        <span class="timestamp">22:45 59'</span>
-                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
-                    </li>
-                </ol>
-            </div>
-		</div>
-		
-		<div id="zaterdag" class="tabcontent">
-            zaterdag
-		</div>
-        
     </div>
 </div>
 
