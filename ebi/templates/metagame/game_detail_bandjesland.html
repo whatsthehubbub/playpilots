@@ -334,8 +334,29 @@
 
 		#music {
 			background: transparent url({{ MEDIA_URL }}image/tape_background.png) no-repeat center top;
-			height: 270px;
 		}
+		
+        .tabnav {
+            padding-top: 100px;
+            margin: auto;
+    
+            width: 200px;
+            
+            height: 65px;
+            text-align: center;
+        }
+        
+        .tabnav .daytab {
+            float: left;
+            display: inline-block;
+            
+            padding: 0px 10px 0px 10px;
+        }
+        
+        .specials {
+            width: 840px;
+            margin: auto;
+        }
     </style>
     
     <script type="text/javascript" charset="utf-8">
@@ -402,7 +423,7 @@
     
     <script type="text/javascript" src="/static/js/jquery.cross-slide.min.js"></script>
     
-    <link rel="stylesheet" href="/static/soundcloudplayer/css/sc-player-minimal.css" type="text/css">
+    <link rel="stylesheet" href="/static/soundcloudplayer/css/sc-player-bandjesland.css" type="text/css">
 
     <script type="text/javascript" src="/static/soundcloudplayer/js/soundcloud.player.api.js"></script>
     <script type="text/javascript" src="/static/soundcloudplayer/js/sc-player.js"></script>
@@ -474,8 +495,8 @@
 <div id="record_wrapper">
     <div id="music" class="mainblock">
         <ul class="tabnav">
-			<li><a href="#vrijdag"><span>Vrijdag</span></a></li>
-			<li><a href="#zaterdag"><span>Zaterdag</span></a></li>
+			<li class="daytab"><a href="#vrijdag"><span>Vrijdag</span></a></li>
+			<li class="daytab"><a href="#zaterdag"><span>Zaterdag</span></a></li>
 		</ul>
 		
 		<div id="vrijdag" class="tabcontent">
