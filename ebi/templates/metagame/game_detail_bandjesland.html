@@ -3,6 +3,17 @@
 {% block extrahead %}
     <title>{{ game.name }} door {{ game.maker.name}} voor {{ game.festival.name }} &bull; PLAY Pilots</title>
     
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.cross-slide.min.js"></script>
+    
+    <link rel="stylesheet" href="/static/soundcloudplayer/css/sc-player-bandjesland.css" type="text/css">
+
+    <script type="text/javascript" src="/static/soundcloudplayer/js/soundcloud.player.api.js"></script>
+    <script type="text/javascript" src="/static/soundcloudplayer/js/sc-player.js"></script>
+    
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.custom.min.js" charset="utf-8"></script>
+    
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jQuery.jPlayer.1.2.0/jquery.jplayer.min.js" charset="utf-8"></script>
+    
     <style type="text/css" media="screen">
         html {
 /*            background: transparent url({{ MEDIA_URL }}image/grid.png) repeat-y center top;*/
@@ -336,6 +347,11 @@
 			background: transparent url({{ MEDIA_URL }}image/tape_background.png) no-repeat center top;
 		}
 		
+		/* CSS to make the tab hiding work. */
+		.ui-tabs .ui-tabs-hide {
+		     display: none;
+		}
+		
         .tabnav {
             padding-top: 100px;
             margin: auto;
@@ -421,15 +437,6 @@
         });
     </script>
     
-    <script type="text/javascript" src="/static/js/jquery.cross-slide.min.js"></script>
-    
-    <link rel="stylesheet" href="/static/soundcloudplayer/css/sc-player-bandjesland.css" type="text/css">
-
-    <script type="text/javascript" src="/static/soundcloudplayer/js/soundcloud.player.api.js"></script>
-    <script type="text/javascript" src="/static/soundcloudplayer/js/sc-player.js"></script>
-    
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.custom.min.js" charset="utf-8"></script>
-    
 {% endblock %}
 
 
@@ -502,24 +509,24 @@
 		<div id="vrijdag" class="tabcontent">
             <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
             
+            <h2>Alle opgenomen samples</h2>
+            
+            <!-- TODO fully implement audio playback
+                http://www.happyworm.com/jquery/jplayer/latest/demo-04.htm
+            -->
+            
             <div class="specials">
+                <!-- TODO split this up in three to create three columns? Easy enough to do. -->
                 <ol>
-                    <li class="special" rel="20 30 40">
-                        tape 1
-                        <span class="timestamp">22:45 59'</span>
-                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
-                    </li>
-
-                    <li class="special" rel="50">
-                        tape 2
-                        <span class="timestamp">23:48 60'</span>
-                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
-                    </li>
-					
-					<li class="special" rel="1 2 3 50 60">
-                        tape 3
-                        <span class="timestamp">22:45 59'</span>
-                        <audio src="/static/audio/bandjesland_4_2.wav" loop controls>
+                    <li class="special" id="special_1" rel="20 30 40">
+                        <div id="specialplayer_1" class="jplayer"><!-- Empty element for the player. --></div>
+                        <img src="" class="playpausebutton">
+                        <img src="" class="waveformicon">
+                        <p>opgenomen om</p>
+                        <p>23:45 uur</p>
+                        
+                        <p>10</p>
+                        <button src="" type="image" class="heart">
                     </li>
                 </ol>
             </div>
