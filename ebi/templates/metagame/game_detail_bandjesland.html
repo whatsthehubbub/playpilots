@@ -339,12 +339,26 @@
         }
 
 		#record_wrapper {
-			border-top: 5px solid #ccc;
+			overflow: hidden;
+			border-top: 5px solid #ddd;
+			border-bottom: 1px solid #ddd;
 			background: #fff url({{ MEDIA_URL }}image/dot_grid.png) repeat;
 		}
 
 		#music {
-			background: transparent url({{ MEDIA_URL }}image/tape_background.png) no-repeat center top;
+			position: relative;
+			z-index: 2;
+			background: transparent url({{ MEDIA_URL }}image/bandjesland_tapebg.png) no-repeat center top;
+		}
+		
+		.tabcontent {
+			margin: 38px 0 20px;
+		}
+		
+		.tabcontent h3 {
+			color: #262a33;
+			margin: 30px 10px 5px 10px;
+			border-bottom: 1px #ccc solid;
 		}
 		
 		/* CSS to make the tab hiding work. */
@@ -353,26 +367,169 @@
 		}
 		
         .tabnav {
-            padding-top: 100px;
-            margin: auto;
-    
-            width: 200px;
-            
-            height: 65px;
-            text-align: center;
+            padding: 110px 0 10px 370px;
+			font: bold 16px "proxima-nova-1", "proxima-nova-2", Arial;
+			text-transform: uppercase;
         }
+
+		.tabnav a {
+			color: #ff2200;
+			text-decoration: none;
+		}
         
         .tabnav .daytab {
-            float: left;
+		 	text-align: center;
             display: inline-block;
-            
-            padding: 0px 10px 0px 10px;
+            padding: 3px 7px;
+			margin: 0 5px;
         }
+
+		.time {
+			height: 20px;
+			width: 840px;
+			margin: 0 50px;
+		}
+
+		#vrijdag .time {
+			background: transparent url({{ MEDIA_URL }}image/bandjesland_time_fri.png) no-repeat center top;
+		}
+		
+		#zaterdag .time {
+			background: transparent url({{ MEDIA_URL }}image/bandjesland_time_sat.png) no-repeat center top;
+		}
+
+		.player {
+			width: 840px;
+			height: 80px;
+			margin: 0 50px 10px;
+			border-top: 1px solid #ccc;
+		}
         
         .specials {
-            width: 840px;
+			overflow: hidden;
+            width: 930px;
             margin: auto;
         }
+
+		.special {
+			float: left;
+			color: #666;
+			width: 300px;
+			height: 40px;
+			margin: 5px;
+			overflow: hidden;
+		}
+		
+		.special.odd {
+			background-color: #f5f5f5;
+		}
+		
+		.special.even {
+			background-color: #ddd;
+		}
+		
+		.special p.small {
+			font-size: 11px;
+		}
+		
+		.special p.timestamp {
+			margin: -22px 0 0 75px;
+			font: bold 14px "proxima-nova-1", "proxima-nova-2", Arial;
+		}
+		
+		.special p.heartrate {
+			float: right;
+			font-size: 11px;
+			text-decoration: none;
+			margin: -27px 40px 0 0;
+		}
+		
+		.heartrate a {
+			color: #666;
+			text-decoration: none;
+		}
+		
+		.heartrate a:hover {
+			color: #333;
+			text-decoration: underline;
+		}
+		
+		.special .heart {
+			background: transparent url({{ MEDIA_URL }}image/bandjesland_like.png) no-repeat center 0;
+			float: right;
+			width: 30px;
+			height: 30px;
+			margin: -32px 5px 0 0;
+			border: 0;
+		}
+		
+		.special .heart:hover {
+			background-position: center -100px;
+		}
+		
+		.ui-state-default {
+			background-color: #f6e9d7;
+		}
+		
+		.ui-tabs-selected {
+			height: 27px;
+			background: #ff3300 url({{ MEDIA_URL }}image/bandjesland_tab_arrow.png) no-repeat center bottom;
+		}
+		
+		.ui-tabs-selected a {
+			color: #fff;
+		}
+		
+		.icons {
+			float: left;
+			margin: 5px;
+			width: 30px;
+			height: 30px;
+		}
+		
+		.playpausebutton {
+			background: url({{ MEDIA_URL }}image/bandjesland_play.png) no-repeat center 0;
+		}
+		
+		.playpausebutton:hover {
+			background-position: center -50px;
+		}
+		
+		.playpausebutton:active {
+			background-position: center -100px;
+		}
+		
+		.waveformicon {
+			margin-left: 0;
+			background: url({{ MEDIA_URL }}image/bandjesland_wave.png) no-repeat center 0;
+		}
+		
+		.waveformicon:hover {
+			background-position: center -50px;
+		}
+		
+		.waveformicon:active {
+			background-position: center -100px;
+		}
+		
+		.tapeleft {
+			position: absolute;
+			z-index: 1;
+			background: transparent url({{ MEDIA_URL }}image/bandjesland_tapewheel.gif) no-repeat center center;
+			width: 130px;
+			height: 75px;
+			margin-left: 134px;
+		}
+		
+		.taperight {
+			position: absolute;
+			z-index: 1;
+			background: transparent url({{ MEDIA_URL }}image/bandjesland_tapewheel.gif) no-repeat center center;
+			width: 130px;
+			height: 75px;
+			margin-left: 675px;
+		}
+		
     </style>
     
     <script type="text/javascript" charset="utf-8">
@@ -453,7 +610,7 @@
 		
 		<div id="game_image">
 			<div id="image_carrousel" class="image_carrousel">
-				<img src="{{ MEDIA_URL }}image/wipnkip_photo_placeholder.jpg" />
+				<img src="{{ MEDIA_URL }}image/empty_polaroid.png" />
 			</div>
 			<a href="http://www.flickr.com/groups/playpilots/" alt="Meer foto's op Flickr"><img src="{{ MEDIA_URL }}image/games_photomore.png" alt="Meer foto's op Flickr" id="more_onflickr"/></a>
 		</div>
@@ -500,44 +657,103 @@
 </div>
 
 <div id="record_wrapper">
-    <div id="music" class="mainblock">
-        <ul class="tabnav">
-			<li class="daytab"><a href="#vrijdag"><span>Vrijdag</span></a></li>
-			<li class="daytab"><a href="#zaterdag"><span>Zaterdag</span></a></li>
-		</ul>
+	<div class="mainblock">
+		<div class="tapeleft"></div>
+		<div class="taperight"></div>
+    	<div id="music">
+			<ul class="tabnav">
+				<li class="daytab"><a href="#vrijdag"><span>Vrijdag</span></a></li>
+				<li class="daytab"><a href="#zaterdag"><span>Zaterdag</span></a></li>
+			</ul>
 		
-		<div id="vrijdag" class="tabcontent">
-		    <!-- Player is skinned by the soundcloud player bandjesland skin. -->
-            <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
+			<div id="vrijdag" class="tabcontent">
+		    	<!-- Player is skinned by the soundcloud player bandjesland skin. -->
+				<div class="time"></div>
+            	<div class="player">
+					<!-- <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a> -->
+				</div>
             
-            <h2>Alle opgenomen samples</h2>
+            	<h3>Alle opgenomen samples</h3>
             
-            <!-- TODO fully implement audio playback
-                http://www.happyworm.com/jquery/jplayer/latest/demo-04.htm
-            -->
+            	<!-- TODO fully implement audio playback
+                	http://www.happyworm.com/jquery/jplayer/latest/demo-04.htm
+            		-->
             
-            <div class="specials">
-                <!-- TODO split this up in three to create three columns? Easy enough to do. -->
-                <ol>
-                    <li class="special" id="special_1" rel="20 30 40">
-                        <div id="specialplayer_1" class="jplayer"><!-- Empty element for the player. --></div>
-                        <img src="" class="playpausebutton">
-                        <img src="" class="waveformicon">
-                        <p>opgenomen om</p>
-                        <p>23:45 uur</p>
-                        
-                        <p>10</p>
-                        <button src="" type="image" class="heart">
-                    </li>
-                </ol>
-            </div>
-		</div>
+            	<div class="specials">
+                	<ul>
+                    	<li class="special odd" id="special_1" rel="20 30 40">
+                        	<div id="specialplayer_1" class="jplayer"><!-- Empty element for the player. --></div>
+                        	<div class="icons playpausebutton"></div>
+                        	<div class="icons waveformicon"></div>
+                        	<p class="small">opgenomen om</p>
+                        	<p class="timestamp">23:45 uur</p>
+                        	<p class="heartrate"><a href="">10</a></p>
+                        	<button type="image" class="heart" />
+                    	</li>
+
+						<li class="special even" id="special_2" rel="20 30 40">
+                        	<div id="specialplayer_2" class="jplayer"><!-- Empty element for the player. --></div>
+                        	<div class="icons playpausebutton"></div>
+                        	<div class="icons waveformicon"></div>
+                        	<p class="small">opgenomen om</p>
+                        	<p class="timestamp">23:32 uur</p>
+                        	<p class="heartrate"><a href="">3</a></p>
+                        	<button type="image" class="heart" />
+                    	</li>
+
+						<li class="special odd" id="special_3" rel="20 30 40">
+                        	<div id="specialplayer_3" class="jplayer"><!-- Empty element for the player. --></div>
+                        	<div class="icons playpausebutton"></div>
+                        	<div class="icons waveformicon"></div>
+                        	<p class="small">opgenomen om</p>
+                        	<p class="timestamp">23:26 uur</p>
+                        	<p class="heartrate"><a href="">0</a></p>
+                        	<button type="image" class="heart" />
+                    	</li>
+
+						<li class="special even" id="special_4" rel="20 30 40">
+                        	<div id="specialplayer_4" class="jplayer"><!-- Empty element for the player. --></div>
+                        	<div class="icons playpausebutton"></div>
+                        	<div class="icons waveformicon"></div>
+                        	<p class="small">opgenomen om</p>
+                        	<p class="timestamp">23:16 uur</p>
+                        	<p class="heartrate"><a href="">8</a></p>
+                        	<button type="image" class="heart" />
+                    	</li>
+                	</ul>
+            	</div>
+			</div>
 		
-		<div id="zaterdag" class="tabcontent">
-            zaterdag
-		</div>
-        
-    </div>
+			<div id="zaterdag" class="tabcontent">
+            	<div class="time"></div>
+            	<div class="player">
+					<!-- <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a> -->
+				</div>
+			
+				<h3>Alle opgenomen samples</h3>
+            
+            	<!-- TODO fully implement audio playback
+                	http://www.happyworm.com/jquery/jplayer/latest/demo-04.htm
+            		-->
+            
+            	<div class="specials">
+               		<ul>
+                    	<li class="special odd" id="special_1" rel="20 30 40">
+                        	<div id="specialplayer_1" class="jplayer"><!-- Empty element for the player. --></div>
+                        	<div class="icons playpausebutton"></div>
+                        	<div class="icons waveformicon"></div>
+                        	<p class="small">opgenomen om</p>
+                        	<p class="timestamp">23:45 uur</p>
+                        	<p class="heartrate"><a href="">10</a></p>
+                        	<button type="image" class="heart" />
+                    	</li>
+                	</ul>
+           		</div>
+			
+			</div>
+		
+    	</div>
+	</div>
 </div>
 
 <div id="interest_wrapper">
