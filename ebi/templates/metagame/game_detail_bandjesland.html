@@ -96,7 +96,7 @@
         }
 
 		#more_onflickr {
-			margin: -5px 25px 0 0;
+			margin: 0 25px 0 0;
 			width: 150px;
 			height: 50px;
 			float: right;
@@ -352,7 +352,7 @@
 		}
 		
 		.tabcontent {
-			margin: 38px 0 20px;
+			margin: 31px 0 20px;
 		}
 		
 		.tabcontent h3 {
@@ -530,6 +530,15 @@
 			margin-left: 675px;
 		}
 		
+		#game_gogetgadget {
+			position: absolute;
+			width: 150px;
+			height: 70px;
+			top: 18px;
+			left: 460px;
+			background-image: url({{ MEDIA_URL }}image/goget_gadgetoo.png);
+		}
+		
     </style>
     
     <script type="text/javascript" charset="utf-8">
@@ -607,7 +616,7 @@
         	<h1>{{ game.name }}</h1>
         	<h3>door {{ game.maker }} voor {{ game.festival }}</h3>
 		</div>
-		
+		<a href="#music" title=""><div id="game_gogetgadget"></div></a>
 		<div id="game_image">
 			<div id="image_carrousel" class="image_carrousel">
 				<img src="{{ MEDIA_URL }}image/empty_polaroid.png" />
@@ -670,7 +679,7 @@
 		    	<!-- Player is skinned by the soundcloud player bandjesland skin. -->
 				<div class="time"></div>
             	<div class="player">
-					<!-- <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a> -->
+					<a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
 				</div>
             
             	<h3>Alle opgenomen samples</h3>
@@ -727,7 +736,7 @@
 			<div id="zaterdag" class="tabcontent">
             	<div class="time"></div>
             	<div class="player">
-					<!-- <a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a> -->
+					<a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
 				</div>
 			
 				<h3>Alle opgenomen samples</h3>
