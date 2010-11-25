@@ -118,6 +118,7 @@
         }
         
         #description {
+			position: relative;
             background-color: white;
 			padding: 10px 10px 10px 10px;
             overflow: hidden;
@@ -473,6 +474,12 @@
 			color: #fff;
 		}
 		
+		.followlive {
+			position: absolute;
+			right: 5px;
+			bottom: 0px;
+		}
+		
     </style>
     
     <script type="text/javascript" src="/static/js/jquery.cross-slide.min.js"></script>
@@ -558,6 +565,7 @@
                         {% endfor %}
                     </ol>
                 </div>
+				<a href="http://twitter.com/playpilots" class="followlive" title="Follow PLAY Pilots on Twitter"><img src="{{ MEDIA_URL }}image/bandjesland_follow_live.png" alt="Follow us on Twitter" /></a>
 				<p class="description" style="float:left;">{{ game.description|safe }}</p>
             </div>
         </div>

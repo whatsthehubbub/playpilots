@@ -56,7 +56,7 @@
 #livegames #schedule {
 	height: 240px;
 	margin-bottom: 21px;
-	background: url(../image/schedule_frame_bg.png) no-repeat;
+	background: url(../image/schedule_frame_bg_nu.png) no-repeat;
 }
 
 #schedule a {
@@ -119,7 +119,7 @@
 	text-transform: uppercase;
 	width: 230px;
 	height: 30px;
-	top: -43px;
+	top: -19px;
 	left: 20px;
 }
 
@@ -130,7 +130,7 @@
 	color: #ccc;
 	width: 100px;
 	height: 30px;
-	top: -94px;
+	top: -70px;
 	left: 270px;
 }
 
@@ -139,7 +139,7 @@
 	text-transform: uppercase;
 	width: 230px;
 	height: 30px;
-	top: -105px;
+	top: -81px;
 	left: 20px;
 }
 
@@ -150,7 +150,7 @@
 	color: #ccc;
 	width: 100px;
 	height: 30px;
-	top: -156px;
+	top: -132px;
 	left: 270px;
 }
 
