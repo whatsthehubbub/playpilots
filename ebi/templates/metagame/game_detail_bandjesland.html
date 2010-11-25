@@ -495,7 +495,7 @@
 			background-position: center -50px;
 		}
 		
-		.playpausebutton:active {
+		.playpausebutton:active, .playpausebutton.playing {
 			background-position: center -100px;
 		}
 		
@@ -600,6 +600,29 @@
                     $('.sc-time-span').append('<div style="background-color: #000; top: 0px; height: 80px; width: 1px; position: absolute; left: ' + leftPixels + 'px;">');
                 }
             });
+            
+            $('#jPlayer').jPlayer({
+                swfPath: '/static/js/jQuery.jPlayer.1.2.0/'
+            });
+            
+            $('.playpausebutton').click(function() {
+                var id = this.id.split('_')[1];
+                var mp3URL = $(this).attr('rel');
+                
+                $('.playpausebutton').removeClass('playing');
+                
+                if (mp3URL) {
+                    $('#jPlayer').jPlayer('setFile', mp3URL).jPlayer('play');
+
+                    $('#playpause_' + id).addClass('playing');
+                }
+                
+                $('#jPlayer').jPlayer("onSoundComplete", function() {
+                    // $('#specialplayer_' + id).jPlayer('stop');
+                    $('#playpause_' + id).removeClass('playing');
+                });
+            });
+            
         });
     </script>
     
@@ -682,53 +705,28 @@
 					<a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
 				</div>
             
-            	<h3>Alle opgenomen samples</h3>
+            	<h3>Alle opgenomen specials</h3>
             
             	<!-- TODO fully implement audio playback
                 	http://www.happyworm.com/jquery/jplayer/latest/demo-04.htm
             		-->
             
+                <div id="jPlayer"></div>
+            
             	<div class="specials">
-                	<ul>
-                    	<li class="special odd" id="special_1" rel="20 30 40">
-                        	<div id="specialplayer_1" class="jplayer"><!-- Empty element for the player. --></div>
-                        	<div class="icons playpausebutton"></div>
-                        	<div class="icons waveformicon"></div>
-                        	<p class="small">opgenomen om</p>
-                        	<p class="timestamp">23:45 uur</p>
-                        	<p class="heartrate"><a href="">10</a></p>
-                        	<button type="image" class="heart" />
-                    	</li>
-
-						<li class="special even" id="special_2" rel="20 30 40">
-                        	<div id="specialplayer_2" class="jplayer"><!-- Empty element for the player. --></div>
-                        	<div class="icons playpausebutton"></div>
-                        	<div class="icons waveformicon"></div>
-                        	<p class="small">opgenomen om</p>
-                        	<p class="timestamp">23:32 uur</p>
-                        	<p class="heartrate"><a href="">3</a></p>
-                        	<button type="image" class="heart" />
-                    	</li>
-
-						<li class="special odd" id="special_3" rel="20 30 40">
-                        	<div id="specialplayer_3" class="jplayer"><!-- Empty element for the player. --></div>
-                        	<div class="icons playpausebutton"></div>
-                        	<div class="icons waveformicon"></div>
-                        	<p class="small">opgenomen om</p>
-                        	<p class="timestamp">23:26 uur</p>
-                        	<p class="heartrate"><a href="">0</a></p>
-                        	<button type="image" class="heart" />
-                    	</li>
-
-						<li class="special even" id="special_4" rel="20 30 40">
-                        	<div id="specialplayer_4" class="jplayer"><!-- Empty element for the player. --></div>
-                        	<div class="icons playpausebutton"></div>
-                        	<div class="icons waveformicon"></div>
-                        	<p class="small">opgenomen om</p>
-                        	<p class="timestamp">23:16 uur</p>
-                        	<p class="heartrate"><a href="">8</a></p>
-                        	<button type="image" class="heart" />
-                    	</li>
+                    <ul>
+                        {% for special in vrijdag.get_specials_for_session %}
+                            {% ifchanged %}<h3 style="width: 800px; display: block; clear: both;">{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
+                                                    	
+                            <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}" rel="20 30 40">
+                            	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
+                            	<div class="icons waveformicon"></div>
+                            	<p class="small">opgenomen om</p>
+                            	<p class="timestamp">{{ special.created|date:"H:i" }} uur</p>
+                            	<p class="heartrate"><a href="">{{ special.get_like_count }}</a></p>
+                            	<button type="image" class="heart" />
+                        	</li>
+                        {% endfor %}
                 	</ul>
             	</div>
 			</div>
@@ -739,7 +737,7 @@
 					<a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
 				</div>
 			
-				<h3>Alle opgenomen samples</h3>
+				<h3>Alle opgenomen specials</h3>
             
             	<!-- TODO fully implement audio playback
                 	http://www.happyworm.com/jquery/jplayer/latest/demo-04.htm

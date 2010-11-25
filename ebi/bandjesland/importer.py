@@ -7,7 +7,7 @@ from django.core.files import File
 
 from ebi.bandjesland.models import *
 
-dataFile = '/Users/alper/Downloads/20101118-2344-pretestdata/samplePlaybackRecordings.csv'
+dataFile = '/Users/alper/Downloads/db/samplePlaybackRecordings.csv'
 sampleDirectory = os.path.join(os.path.dirname(dataFile), 'setRecorded')
 
 
@@ -42,11 +42,12 @@ for line in reader:
     
         specialPath = getAudioFilePath(dateCreated)
         
-        special = BandjeslandSpecial(created=parseDate(dateCreated))
-        special.mp3.save(dateCreated + '.mp3', File(open(specialPath, 'rb')), save=True)
-        special.save()
-    
         if not dateCreated in specialDict:
+            special = BandjeslandSpecial(created=parseDate(dateCreated))
+            if os.path.exists(specialPath):
+                special.mp3.save(dateCreated + '.mp3', File(open(specialPath, 'rb')), save=True)
+            special.save()
+
             specialDict[dateCreated] = special
     
         occ = BandjeslandSpecialOccurrence()

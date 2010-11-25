@@ -16,6 +16,9 @@ class BandjeslandSessie(models.Model):
     def __unicode__(self):
         return self.label
         
+    def get_specials_for_session(self):
+        return self.specials.all().distinct().order_by('created')
+        
 class BandjeslandSpecial(models.Model):
     created = models.DateTimeField()
     
@@ -25,6 +28,11 @@ class BandjeslandSpecial(models.Model):
     
     def __unicode__(self):
         return str(self.created)
+        
+        
+    def get_like_count(self):
+        '''aka heart rate'''
+        return BandjeslandLike.objects.filter(special=self).count()
     
 class BandjeslandSpecialOccurrence(models.Model):
     time = models.DateTimeField()
