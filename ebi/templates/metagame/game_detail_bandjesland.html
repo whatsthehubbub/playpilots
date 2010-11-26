@@ -467,6 +467,10 @@
 			background-position: center -100px;
 		}
 		
+		.special .heart.active {
+			background-position: center -100px;
+		}
+		
 		.ui-state-default {
 			background-color: #f6e9d7;
 		}
@@ -542,11 +546,35 @@
     </style>
     
     <script type="text/javascript" charset="utf-8">
+        var playerid = '{{ user.get_profile.id }}';
+        
+        /* Create lookup table for likers. */
+        var likers = {}
+        {% for special in specials %}
+            likers['{{ special.id }}'] = {};
+            
+            {% for liker in special.get_likers %}
+                likers['{{ special.id }}']['{{ liker.id }}'] = {};
+                likers['{{ special.id }}']['{{ liker.id }}']['playername'] = '{{ liker.get_display_name }}';
+                likers['{{ special.id }}']['{{ liker.id }}']['playeravatar'] = '{{ liker.get_avatar_url }}';
+            {% endfor %}
+        {% endfor %}
+        
+        function playerLikesSpecial(playerid, specialid) {
+            return playerid in likers[specialid];
+        }
+        
+    
         $(document).ready(function() {
             $('#game_image').css('-webkit-transform', 'rotate(-5deg)');
             $('#game_image').css('-moz-transform', 'rotate(-5deg)');
             
-            $("#music").tabs();
+            
+            $("#music").tabs({
+                show: function(event, ui) {
+                    $('.sc-player.playing a.sc-pause').click();
+                }
+            });
             
             {% if user.is_authenticated %}
                 $('#interest_form').ajaxForm({
@@ -621,6 +649,47 @@
                     // $('#specialplayer_' + id).jPlayer('stop');
                     $('#playpause_' + id).removeClass('playing');
                 });
+            });
+            
+            $('.heart').click(function() {
+                var specialid = $(this).parent().attr('id').split('_')[1];
+                
+                if (playerid) {
+                    // Player logged in
+                    
+                    // Send Ajax call
+                    $.post('/bandjesland/like/toggle/', {
+                        'playerid': playerid,
+                        'specialid': specialid
+                    }, function(data, textStatus, xhr) {
+                        var specialid = data['specialid'];
+                        var oldHeartrate = parseInt($('#heartrate_' + specialid + ' A').html());
+                        
+                        var newHeartrate = oldHeartrate;
+                        if (data['action']=='added') {
+                            newHeartrate += 1;
+                        } else {
+                            newHeartrate -= 1;
+                        }
+                        
+                        $('#heartrate_' + specialid + ' A').html(newHeartrate);
+                    });
+                    
+                    // Toggle heart
+                    
+                    $('#special_' + specialid + ' .heart').toggleClass('active');
+                    
+                } else {
+                    // Redirect to login, add parameters?
+                }
+            });
+            
+            $('.heart').each(function(index, el) {
+                var specialid = el.id.split('_')[1];
+                
+                if (playerLikesSpecial(playerid, specialid)) {
+                    $(el).addClass('active');
+                }
             });
             
         });
@@ -702,7 +771,7 @@
 		    	<!-- Player is skinned by the soundcloud player bandjesland skin. -->
 				<div class="time"></div>
             	<div class="player">
-					<a href="http://soundcloud.com/gregwilson/sunset-halloween-boat-party-san-francisco-31-10-10-greg-wilson-live-mix" class="sc-player">My new dub track</a>
+					<a href="http://soundcloud.com/playpilots/bandjesland-testsessie-vrijdag-19-november-2010" class="sc-player" id="player_vrijdag">My new dub track</a>
 				</div>
             
             	<h3>Alle opgenomen specials</h3>
@@ -717,14 +786,14 @@
                     <ul>
                         {% for special in vrijdag.get_specials_for_session %}
                             {% ifchanged %}<h3 style="width: 800px; display: block; clear: both;">{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
-                                                    	
+
                             <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}" rel="20 30 40">
                             	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
                             	<div class="icons waveformicon"></div>
                             	<p class="small">opgenomen om</p>
                             	<p class="timestamp">{{ special.created|date:"H:i" }} uur</p>
-                            	<p class="heartrate"><a href="">{{ special.get_like_count }}</a></p>
-                            	<button type="image" class="heart" />
+                            	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="">{{ special.get_like_count }}</a></p>
+                            	<button type="image" class="heart" id="heart_{{ special.id }}" />
                         	</li>
                         {% endfor %}
                 	</ul>

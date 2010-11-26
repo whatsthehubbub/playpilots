@@ -18,9 +18,32 @@ import datetime, random, math, json, os
 import logging
 
 
-def add_like(request):
-    pass
+def toggle_like(request):
+    playerid = request.POST.get('playerid', '')
+    specialid = request.POST.get('specialid', '')
 
-
-def remove_like(request):
-    pass
+    if playerid and specialid:
+        player = Player.objects.get(id=playerid)
+        special = BandjeslandSpecial.objects.get(id=specialid)
+        
+        likes = BandjeslandLike.objects.filter(special=special, player=player)
+        
+        if likes:
+            for like in likes:
+                logging.debug('deleting bandjesland like %s', str(like))
+                like.delete()
+                
+            action = 'removed'
+        else:
+            b = BandjeslandLike.objects.create(special=special, player=player)
+            logging.debug('created bandjesland like %s', str(b))
+            
+            action = 'added'
+            
+        return HttpResponse(json.dumps({
+            'error': '0',
+            'specialid': specialid,
+            'action': action
+        }), mimetype='text/json')
+        
+    return HttpResponse(json.dumps({'error': '1'}), mimetype='text/json')

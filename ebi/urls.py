@@ -65,6 +65,10 @@ urlpatterns += patterns('ebi.stereoscoop.views',
     (r'^de-stereoscoop/code/$', 'stereoscoop_code')
 )
 
+urlpatterns += patterns('ebi.bandjesland.views',
+    (r'^bandjesland/like/toggle/$', 'toggle_like'),
+)
+
 
 urlpatterns += patterns('',
     (r'^login/$', 'django.contrib.auth.views.login')

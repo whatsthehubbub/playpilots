@@ -5,7 +5,7 @@ class BandjeslandSessie(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
     
-    mp3 = models.FileField(upload_to='bandjesland_sessions')
+    mp3 = models.FileField(upload_to='bandjesland_sessions', blank=True)
 
     label = models.CharField(max_length=255)
     
@@ -29,10 +29,12 @@ class BandjeslandSpecial(models.Model):
     def __unicode__(self):
         return str(self.created)
         
-        
     def get_like_count(self):
         '''aka heart rate'''
         return BandjeslandLike.objects.filter(special=self).count()
+        
+    def get_likers(self):
+        return Player.objects.filter(bandjeslandlike__special=self)
     
 class BandjeslandSpecialOccurrence(models.Model):
     time = models.DateTimeField()
