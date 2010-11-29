@@ -14,6 +14,9 @@
     
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jQuery.jPlayer.1.2.0/jquery.jplayer.min.js" charset="utf-8"></script>
     
+    <link rel="stylesheet" href="{{ MEDIA_URL }}js/tipsy-0.1.7/src/stylesheets/tipsy.css" type="text/css" /> 
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/tipsy-0.1.7/src/javascripts/jquery.tipsy.js" charset="utf-8"></script>
+    
     <style type="text/css" media="screen">
         html {
 /*            background: transparent url({{ MEDIA_URL }}image/grid.png) repeat-y center top;*/
@@ -561,7 +564,10 @@
         {% endfor %}
         
         function playerLikesSpecial(playerid, specialid) {
-            return playerid in likers[specialid];
+            if (likers[specialid]) {
+                return playerid in likers[specialid];
+            }
+            return false;
         }
         
     
@@ -692,6 +698,10 @@
                 }
             });
             
+            $('.heartrate a').each(function(index, el) {
+                $(el).tipsy();
+            });
+            
         });
     </script>
     
@@ -792,7 +802,7 @@
                             	<div class="icons waveformicon"></div>
                             	<p class="small">opgenomen om</p>
                             	<p class="timestamp">{{ special.created|date:"H:i" }} uur</p>
-                            	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="">{{ special.get_like_count }}</a></p>
+                            	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip">{{ special.get_like_count }}</a></p>
                             	<button type="image" class="heart" id="heart_{{ special.id }}" />
                         	</li>
                         {% endfor %}
