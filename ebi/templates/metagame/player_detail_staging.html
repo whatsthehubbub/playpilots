@@ -1,0 +1,500 @@
+{% extends "metagame/base.html" %}
+
+{% block extrahead %}
+    <title>STAGING &bull; Profiel van {{ player.user.username }} &bull; PLAY Pilots</title>
+    
+    <style type="text/css" media="screen">
+        html {
+/*            background: transparent url({{ MEDIA_URL }}image/grid.png) repeat-y center top ;*/
+        }
+        #contentwrapper {
+            background-color: #f5f5f5;
+            background-image: url({{ MEDIA_URL }}image/grain_overlay.png);
+        }
+
+		.mainblock {
+			background-image: url({{ MEDIA_URL }}image/border_bg_profile.png);
+		}
+        
+        #player {
+            overflow: auto;
+        }
+    
+        #actions {
+            width: 620px; /* 620px; */
+/*            padding: 20px;*/
+            
+            float: right;
+        }
+        
+        #profile {
+            margin-top: 20px;
+            
+            width: 300px;
+            float: left;
+            background: transparent url({{ MEDIA_URL }}image/profile-box-bottom-shadow.png) no-repeat center bottom;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        #profile h4 {
+            border-bottom: thin solid #ddd;
+            margin-bottom: 10px;
+        }
+        
+        #details {
+            background-color: #b7d1d0;
+            padding: 40px 20px 20px 20px;
+            color: #fff;
+            border-bottom: 5px solid #ddd;
+        }
+        
+        .you #details {
+            background: #f30 url({{ MEDIA_URL }}image/profile-box-bg-you.png) no-repeat center 10px;
+        }
+        
+        #details img#profile_badge_tag {
+            position: relative;
+            top: -60px;
+            left: 50px;
+        }
+        
+        #details img.buddy-icon {
+            width: 40px;
+            height: 40px;
+            float: left;
+        }
+        
+        #details H2 {
+            color: white;
+            text-shadow: black 0px 1px 0px;
+            margin: -50px 0 0 50px;
+        }
+        
+        #details p.rank {
+            font-size: 12px;
+            margin: 0 0 0 50px;
+            color: #333;
+        }
+        
+        .you #details p.rank {
+            color: #fff;
+        }
+        
+        #details p.rank span, #levels td.rank span {
+            color: white;
+            background: transparent url({{ MEDIA_URL }}image/ranking_bar_bg.png) no-repeat center center;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            font-size: 10px;
+            padding: 0 2px;
+            display: inline-block;
+            line-height: 21px;
+            margin: 0 2px 0 0;        
+            
+        }
+        
+        #details form {
+            text-align: right;
+            margin-bottom: 0;
+        }
+        
+        #details button {
+            margin-bottom: 0;
+        }
+        
+        #record table, #levels table {
+            color: #666;
+            width: 260px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        #record tr.even, #levels tr.even {
+            background-color: #f5f5f5;
+        }
+        
+        #record td, #levels td {
+            line-height: 30px;
+            padding: 0 5px;
+        }
+        
+        #record td {
+            width: 88%;
+        }
+
+		#record td.count {
+			width: 12%;
+		}
+        
+        #levels td {
+            width: 15%;
+        }
+        
+        #levels td.style {
+            width: 60%;
+        }
+
+		#levels td.level {
+            width: 25%;
+        }
+		
+		#levels td.#rank {
+			width: 15%;
+		}
+        
+        #levels h4 {
+        }
+        
+        #levels td img {
+            display: inline;
+            vertical-align: text-bottom;
+        }
+        
+        #record, #badges, #levels, #festivals {
+            padding: 10px 20px;
+            background: #fff;
+        }
+
+		#badges  {
+			overflow: hidden;
+		}
+		
+		#badges h4 {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        #badges h5 {
+			color: #999;
+			font-size: 14px;
+            border-bottom: none;
+            margin-bottom: 0;
+            margin-top: 5px;
+        }
+		
+		#badges p {
+			font-size: 11px;
+			line-height: 16px;
+			margin-bottom: 5px;
+		}
+		
+		#badges .games {
+			width: 100%;
+			float: left;
+			display: block;
+			background-color: #f5f5f5;
+			-webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+			border-radius: 5px;
+			-moz-box-shadow: inset 0 1px 2px #ccc;
+			-webkit-box-shadow: inset 0px 1px 2px #ccc;
+			box-shadow: inset 0 1px 2px #ccc;
+		}
+		
+		#badges .games li {
+			padding-left: 30px;
+		}
+		
+		#badges li.first, #badges li.middle { border-bottom: 1px solid #ccc; }
+		#badges li.last { padding-bottom: 5px; }
+		
+		#badges li.checked { background: transparent url({{ MEDIA_URL }}image/game_check_yes.png) no-repeat 0 -5px; }
+		
+		#badges li.unchecked { background: transparent url({{ MEDIA_URL }}image/game_check_no.png) no-repeat 0 -5px; }
+		
+		#badges a {
+			color: #ff3300;
+			text-decoration: none;
+		}
+		
+		#badges a:hover {
+			text-decoration: underline;
+		}
+		
+		#badges strong {
+			margin-top: 10px;
+		}
+        
+      	#badges ul .stereobadges {
+			overflow: hidden;
+			float: left;
+			display: block;
+			background-color: #fff;
+			margin-left: 30px;
+			margin-right: 10px; width: 190px;
+		}
+		
+        /* TODO schaduw onderaan linker kolom */
+        
+        #actions h3 img {
+            margin-top: 19px;
+            margin-left: 18px;
+            margin-bottom: 20px;            
+        }
+        
+        #incoming, #outgoing {            
+            border: thin solid #ddd;
+            
+            background-color: white;
+            
+            margin: 0 20px 20px 20px;            
+        }
+        
+        #incoming A, #outgoing A, #history A {
+            color: #f30;
+            text-decoration: none;
+        }
+        
+        #incoming A:hover, #outgoing A:hover, #history A:hover {
+            text-decoration: underline;
+        }
+        
+        #incoming h4, #outgoing h4 {
+            color: #bbb;
+            margin: -10px 0 10px 15px;
+            background: transparent url({{ MEDIA_URL }}image/action_title_bg.png) no-repeat center center;
+            padding: 0 5px;
+            float: left;
+        }
+        
+        #incoming OL, #outgoing OL {
+            clear: left;
+            margin: 0 20px 10px 20px;
+        }
+        
+        #incoming LI, #outgoing LI, #history LI {
+            font-weight: bold;
+            margin-bottom: 21px;
+        }
+        
+        #incoming LI.notlast, #outgoing LI.notlast, #history LI.notlast {
+            border-bottom: thin solid #ddd;
+            padding-bottom: 9px;
+            padding-bottom: 21px;            
+        }
+        
+        li span.style, li span.username {
+            text-transform: uppercase;
+        }
+        
+        li span.message {
+            font-weight: normal;
+        }
+        
+        li span.timestamp {
+            font-weight: normal;
+            font-size: 12px;
+            color: #666;
+            display: block;
+        }
+        
+        .duel form {
+            display: block;
+            overflow: auto;
+            width: 100%;
+            margin: -21px 0 0 0;
+        }
+        
+        .duel BUTTON.door {
+            float: right;
+            margin: 0;
+        }
+        
+        .duel .style {
+            text-transform: capitalize;
+        }
+        
+        .duel .view {
+            text-align: right;
+            margin: -21px 0 0 0;
+            font-weight: normal;
+        }
+        
+        #history {
+            border-top: 1px solid #ddd;
+            padding: 10px 20px;
+        }
+
+		#history h4 {
+			margin-bottom: 10px;
+		}
+        
+        #history ol {
+            margin: 0;
+        }
+        
+        #history li {
+        }
+    </style>
+    
+    
+{% endblock %}
+
+{% block content %}
+<div id="player" class="mainblock{% ifequal player.user user %} you{% endifequal%}">
+    <div id="profile">
+        
+        <div id="details">
+            <img id="profile_badge_tag" src="{{ MEDIA_URL }}image/profile_badge_tag.png" alt="">
+            <img class="buddy-icon" src="{{ player.get_avatar_url }}" alt="">
+            
+            <h2>{{ player.user.username }}</h2>
+            
+            <p class="rank"><span>{{ player.get_rank|stringformat:".3d" }}</span> in het algemeen klassement</p>
+            
+            {% ifnotequal player.user user %}
+                <form method="GET" action="/challenge/">
+                    <input type="hidden" name="target" value="{{ player.id }}">
+                    
+                    <button class="door"><p class="door">Daag {{ player.get_display_name }} nu uit</p></button>
+                </form>
+                {% else %}
+                <!-- <p>Dit is jouw profiel.</p> -->
+            {% endifnotequal %}
+        </div>
+        
+        <div id="record">
+            <table>
+                <tr class="odd">
+                    <td class="descr">Gewonnen</td>
+                    <td class="count">{{ player.battleroyale_wins }}</td>
+                </tr>
+                
+                <tr class="even">
+                    <td class="descr">Gelijkspel</td>
+                    <td class="count">{{ player.battleroyale_ties }}</td>
+                </tr>
+                
+                <tr class="odd">
+                    <td class="descr">Verloren</td>
+                    <td class="count">{{ player.battleroyale_losses }}</td>
+                </tr>
+            </table>
+        </div>
+		
+		<div id="badges">
+			<h4>Games</h4>
+			<ul class="games">
+                <li class="{% if player.get_kippenrijder %}checked{% else %}unchecked{% endif %} first">
+					<h5><a href="/games/wip-n-kip/#rider_{{ player.get_kippenrijder.id }}">Wip 'n' Kip</a></h5>
+					{% if player.get_kippenrijder %}
+					    <p>Jouw tijd: <strong>{{ player.get_kippenrijder.get_time }}</strong></p>
+					{% endif %}
+				</li>
+                <li class="{% if stereoscoopcodes %}checked{% else %}unchecked{% endif %} middle">
+					<h5><a href="/games/de-stereoscoop/">De Stereoscoop</a></h5>
+					{% for stereocode in stereoscoopcodes %}
+					   {% if stereocode.getUnlock %}
+					       <a href="/de-stereoscoop/badge/{{ stereocode.getUnlock.badge.slug }}/"><img src="{{ MEDIA_URL }}destereoscoop_badges/{{ stereocode.getUnlock.badge.slug }}-small.png" width="50" height="45" /></a>
+					   {% endif %}
+					{% endfor %}
+				</li>
+                <li class="unchecked last">
+					<h5>LGW? Pilot</h5>
+				</li>
+            </ul>
+		</div>
+        
+        <div id="levels">
+            <h4>Stijlen</h4>
+            
+            <table>
+                {% for skill in skills %}
+                    <tr class="{% cycle 'odd' 'even' %}">
+                        <td class="style">{{ skill.style.name }}</td>
+                        <td class="level"><img src="{{ MEDIA_URL }}image/level_{{ skill.level }}.png"></td>
+                        
+                        <!--
+                            TODO think of a decent way to calculate rank per style
+                        --> 
+                        <td class="rank"><span>{{ skill.experience|stringformat:".3d" }}</span></td>
+                    </tr>
+                {% endfor %}             
+            </table>
+        </div>
+    </div>
+    
+    <div id="actions">
+        
+        <h3><img src="{{ MEDIA_URL }}image/tag_lopende_duels.png" alt="lopende duels"></h3>
+        
+        <div id="incoming">
+            <h4>Ontvangen</h4>
+            
+            <ol id="incoming_duels">
+                {% for duel in player.get_responder_duels %}
+                    <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}">
+                        <span class="style">{{ duel.challenge_move.style.name }}</span>
+                        <span class="username"><a href="/players/{{ duel.challenger.id }}/">{{ duel.challenger }}</a></span>
+                        <span class="move">{{ duel.get_challenge_move }}</span>
+                        
+                        {% if duel.challenge_message %}
+                            en zegt: <span class="message">&ldquo;{{ duel.challenge_message }}&rdquo;</span>
+                        {% endif %}
+
+                        <span class="timestamp">{{ duel.created|timesince }} geleden</span>
+                        
+                        {% ifequal user.get_profile duel.target %}
+                            <form method="GET" action="/c/{{ duel.id }}/">
+                                <button class="door"><p class="door">beantwoord</p></button>
+                            </form>
+                        {% endifequal %}
+                    </li>
+                    {% empty %}
+                    <li>Niks, nada, noppes. Ze durven niet!</li>
+                {% endfor %}                
+            </ol>
+        </div>
+        
+        <div id="outgoing">
+            <h4>Verzonden</h4>
+            
+            <ol id="outgoing_duels">
+                {% for duel in player.get_challenger_duels %}
+                    <li id="duel_{{ duel.id }}" class="duel {% if not forloop.last %}notlast{% endif %}"><span class="style">{{ duel.challenge_move.style.name }}</span>
+                        <span class="username">{{ player.get_display_name }}</span>
+                        <span class="move">{{ duel.get_challenge_move }}</span>
+                        
+                        {% if duel.challenge_message %}
+                            en zegt: <span class="message">&ldquo;{{ duel.challenge_message }}&rdquo;</span>
+                        {% endif %}
+                        
+                        <span class="timestamp">{{ duel.created|timesince }} geleden</span>
+                        <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel &raquo;</a></p>
+                    </li>
+                    {% empty %}
+                        {% ifequal user.get_profile player %}
+                            <li>Momenteel niemand uitgedaagd. Een beetje bang misschien? Ga naar het <a href="/klassement/">klassement</a> en kies je doelwit.</li>
+                        {% endifequal %}
+                {% endfor %}
+            </ol>
+        </div>
+        
+        <div id="history">
+            <h4>Historie</h4>
+            
+            <ol>
+                {% for duel in player.get_finished_duels %}
+                    <li class="notlast duel">
+                        {% if not duel.is_tie %}
+                            <span class="style">{{ duel.get_winner_style }}</span> 
+                            <span class="username">{{ duel.get_winner }}</span>
+                            {% if duel.get_win_phrase %}
+                                {{ duel.get_win_phrase|safe }}
+                            {% endif %}
+                        {% else %}
+                            <span class="style">{{ duel.challenge_move.style }}</span>
+                            <span class="username">{{ duel.challenger }}</span>
+                            speelt gelijk tegen
+                            <span class="style">{{ duel.response_move.style }}</span>
+                            <span class="username">{{ duel.target }}</span>
+                        {% endif %}
+                        
+                        <span class="timestamp">{{ duel.responded|timesince }} geleden</span> <p class="view"><a href="/c/{{ duel.id }}/">Bekijk duel &raquo;</a></p></li>  
+                {% endfor %}
+            </ol>
+        </div>
+
+    </div>
+{% endblock %}
