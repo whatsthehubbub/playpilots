@@ -170,6 +170,28 @@
 	text-decoration: underline;
 }
 
+#itsoverwrapper {
+	background: #fff url(../image/bg_over.png) repeat -50% 0;
+	border-bottom: 1px solid #ddd;
+	text-align: center;
+}
+
+#itsoverwrapper p {
+	font-size: 12px;
+	padding: 3px 0;
+	width: 500px;
+	margin: 0px auto;
+}
+
+#itsoverwrapper a {
+	color: #ff3300;
+	text-decoration: none;
+}
+
+#itsoverwrapper a:hover {
+	text-decoration: underline;
+}
+
 #contentwrapper {
 
 }

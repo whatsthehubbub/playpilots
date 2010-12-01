@@ -21,7 +21,7 @@
 }
 
 .airmail {
-	background: #fff url(../image/bg_airmail.png) repeat;
+	background: #fff url(../image/bg_airmail.png) repeat -50% 0;
 }
 
 #intro_wrapper .airmail {
