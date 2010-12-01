@@ -935,7 +935,7 @@
                 <a href="/players/{{ player.id }}/">
                     <img src="{{ player.get_avatar_url }}" alt="">
                     <div class="rank">{{ player.get_rank|stringformat:".3d" }}</div>
-                    <span>{{ player.get_display_name|slice:":12" }}{% if player.get_display_name|length > 12 %}&hellip;{% endif %}</span>
+                    <span title="{{ player.get_display_name }}">{{ player.get_display_name|slice:":12" }}{% if player.get_display_name|length > 12 %}&hellip;{% endif %}</span>
                 </a>
             </div>
         {% endfor %}
