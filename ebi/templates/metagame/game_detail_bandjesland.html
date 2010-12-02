@@ -862,15 +862,18 @@
             
             	<div class="specials">
                		<ul>
-                    	<li class="special odd" id="special_1" rel="20 30 40">
-                        	<div id="specialplayer_1" class="jplayer"><!-- Empty element for the player. --></div>
-                        	<div class="icons playpausebutton"></div>
-                        	<div class="icons waveformicon"></div>
-                        	<p class="small">opgenomen om</p>
-                        	<p class="timestamp">23:45 uur</p>
-                        	<p class="heartrate"><a href="">10</a></p>
-                        	<button type="image" class="heart" />
-                    	</li>
+                        {% for special in zaterdag.get_specials_for_session %}
+                            {% ifchanged %}<h3 style="width: 800px; display: block; clear: both;">{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
+
+                            <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}" rel="20 30 40">
+                            	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
+                            	<div class="icons waveformicon"></div>
+                            	<p class="small">opgenomen om</p>
+                            	<p class="timestamp">{{ special.created|date:"H:i" }} uur</p>
+                            	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
+                            	<button type="image" class="heart" id="heart_{{ special.id }}" />
+                        	</li>
+                        {% endfor %}
                 	</ul>
            		</div>
 			
