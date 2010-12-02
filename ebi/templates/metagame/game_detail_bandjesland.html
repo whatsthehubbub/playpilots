@@ -550,6 +550,10 @@
     
     <script type="text/javascript" charset="utf-8">
         var playerid = '{{ user.get_profile.id }}';
+        var playername = '{{ user.get_profile.get_display_name }}';
+        var playeravatar = '{{ user.get_profile.get_avatar_url }}';
+        
+        console.log('page entered for player', playerid, playername, playeravatar);
         
         /* Create lookup table for likers. */
         var likers = {}
@@ -660,6 +664,8 @@
             $('.heart').click(function() {
                 var specialid = $(this).parent().attr('id').split('_')[1];
                 
+                console.log('clicked heart for special', specialid);
+                
                 if (playerid) {
                     // Player logged in
                     
@@ -676,14 +682,18 @@
                             newHeartrate += 1;
                         } else {
                             newHeartrate -= 1;
+                            
+                            delete likers[specialid][playerid];
                         }
                         
                         $('#heartrate_' + specialid + ' A').html(newHeartrate);
                     });
                     
                     // Toggle heart
-                    
                     $('#special_' + specialid + ' .heart').toggleClass('active');
+                    
+                    // Also add player to local likers array
+                    likers[specialid][playerid] = {'playeravatar': playeravatar, 'playername': playername };
                     
                 } else {
                     // Redirect to login, add parameters?
@@ -698,8 +708,36 @@
                 }
             });
             
+            function getTooltip(specialid) {
+                return function() { 
+                    var returnValue = '<div style="overflow: auto;">';
+                    
+                    var likerFound = false;
+                    
+                    if (likers[specialid]) {
+                        for (var key in likers[specialid]) {
+                            likerFound = true;
+                            var liker = likers[specialid][key];
+                            
+                            returnValue += '<div style="float: left;"><img src="' + liker['playeravatar'] + '" style="margin: 1em 1em 0 1em;"><br><span>' + liker['playername'] + '</span></div>';
+                        }
+                    }
+                    
+                    if (!likerFound) {
+                        returnValue += 'Druk op het hartje!';
+                    }
+                    
+                    return returnValue + '</div>';
+                };
+            }
+            
             $('.heartrate a').each(function(index, el) {
-                $(el).tipsy();
+                $(el).tipsy({
+                    html: true,
+                    title: getTooltip($(el).attr('id').split('_')[2]),
+                    delayOut: 2000,
+                    // fade: true
+                });
             });
             
         });
@@ -802,7 +840,7 @@
                             	<div class="icons waveformicon"></div>
                             	<p class="small">opgenomen om</p>
                             	<p class="timestamp">{{ special.created|date:"H:i" }} uur</p>
-                            	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip">{{ special.get_like_count }}</a></p>
+                            	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
                             	<button type="image" class="heart" id="heart_{{ special.id }}" />
                         	</li>
                         {% endfor %}
