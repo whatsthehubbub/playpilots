@@ -7,9 +7,8 @@ from django.core.files import File
 
 from ebi.bandjesland.models import *
 
-dataFile = '/Users/alper/Downloads/db/samplePlaybackRecordings.csv'
+dataFile = '/home/alper/bandjesland_import/zaterdag/samplePlaybackRecordings.csv'
 sampleDirectory = os.path.join(os.path.dirname(dataFile), 'setRecorded')
-
 
 f = open(dataFile, 'U')
 reader = csv.reader(f)
@@ -26,9 +25,12 @@ def getAudioFilePath(datecreated):
 counter = 0
 
 session = BandjeslandSessie()
-session.start = datetime.datetime.now()
-session.end = datetime.datetime.now()
-session.label = 'test'
+# session.start = datetime.datetime(2010, 11, 26, 20, 23, 34)
+# session.end = datetime.datetime(2010, 11, 26, 23, 38, 03)
+# session.label = 'vrijdag'
+session.start = datetime.datetime(2010, 11, 27, 19, 59, 04)
+session.end = datetime.datetime(2010, 11, 28, 1, 9, 26)
+session.label = 'zaterdag'
 
 session.save()
 

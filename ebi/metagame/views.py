@@ -217,7 +217,8 @@ def game_detail(request, slug):
     if game.slug == 'bandjesland' and request.GET.get('staging', ''):
         templateName = 'metagame/game_detail_bandjesland.html'
         
-        convars['vrijdag'] = BandjeslandSessie.objects.get(label='test')
+        convars['vrijdag'] = BandjeslandSessie.objects.get(label='vrijdag')
+        convars['zaterdag'] = BandjeslandSessie.objects.get(label='zaterdag')
         convars['specials'] = BandjeslandSpecial.objects.all()
     
     return render_to_response(templateName, convars, context_instance=RequestContext(request))
