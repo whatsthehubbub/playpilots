@@ -19,6 +19,9 @@ class BandjeslandSessie(models.Model):
     def get_specials_for_session(self):
         return self.specials.all().distinct().order_by('created')
         
+    def duration(self):
+        return (self.end-self.start).seconds
+        
 class BandjeslandSpecial(models.Model):
     created = models.DateTimeField()
     
