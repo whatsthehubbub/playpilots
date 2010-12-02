@@ -218,7 +218,12 @@ def game_detail(request, slug):
         templateName = 'metagame/game_detail_bandjesland.html'
         
         convars['vrijdag'] = BandjeslandSessie.objects.get(label='vrijdag')
-        convars['zaterdag'] = BandjeslandSessie.objects.get(label='zaterdag')
+        
+        try:
+            convars['zaterdag'] = BandjeslandSessie.objects.get(label='zaterdag')
+        except BandjeslandSessie.DoesNotExist:
+            logging.error('bandjesland for zaterdag does not exist')
+            
         convars['specials'] = BandjeslandSpecial.objects.all()
     
     return render_to_response(templateName, convars, context_instance=RequestContext(request))

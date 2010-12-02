@@ -47,3 +47,9 @@ def toggle_like(request):
         }), mimetype='text/json')
         
     return HttpResponse(json.dumps({'error': '1'}), mimetype='text/json')
+    
+def special_occurrences(request):
+    specialid = request.GET.get('specialid', '')
+    sessionLabel = request.GET.get('sessionlabel', '')
+    
+    occurrences = BandjeslandOccurrence.objects.filter().filter().order_by()

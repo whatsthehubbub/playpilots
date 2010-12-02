@@ -67,6 +67,7 @@ urlpatterns += patterns('ebi.stereoscoop.views',
 
 urlpatterns += patterns('ebi.bandjesland.views',
     (r'^bandjesland/like/toggle/$', 'toggle_like'),
+    (r'^bandjesland/occurrences/$', 'special_occurrences'),
 )
 
 
