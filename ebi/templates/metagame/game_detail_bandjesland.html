@@ -553,6 +553,14 @@
         var playername = '{{ user.get_profile.get_display_name }}';
         var playeravatar = '{{ user.get_profile.get_avatar_url }}';
         
+        {% if vrijdag %}
+            var vrijdagDuration = {{ vrijdag.duration }};
+        {% endif %}
+        
+        {% if zaterdag %}
+            var zaturdagDuration = {{ zaterdag.duration }};
+        {% endif %}
+        
         console.log('page entered for player', playerid, playername, playeravatar);
         
         /* Create lookup table for likers. */
@@ -740,6 +748,43 @@
                 });
             });
             
+            $('.waveformicon').click(function() {
+                var identparts = $(this).attr('id').split('_');
+                var specialid = identparts[2];
+                var day = identparts[1];
+                
+                $.getJSON('/bandjesland/occurrences/', {
+                    'sessionlabel': day,
+                    'specialid': specialid
+                }, function(data, textStatus) {
+                    var day = data['label'];
+                    
+                    var duration = null;
+                    if (day == 'vrijdag') {
+                        duration = vrijdagDuration;
+                    } else if (day == 'zaterdag') {
+                        duration = zaturdagDuration;
+                    }
+                    
+                    var width = 780;
+                    
+                    $('.occurrence-indicator').remove();
+                    
+                    for (var index in data['offsets']) {
+                        var offset = data['offsets'][index];
+                        
+                        var left = Math.round(offset / duration * width);
+                        
+                        console.log('calculating offset', offset, 'duration', duration, 'left', left);
+                        
+                        var indicator = '<div style="position: absolute; border-right: 1px solid #262A33; width: ' + left + 'px; top: 0px; height: 80px; z-index: 5;" class="occurrence-indicator"></div>';
+                        $('#vrijdag .sc-time-span').append(indicator);
+                    }
+                    
+                    
+                });
+            });
+            
         });
     </script>
     
@@ -837,7 +882,7 @@
 
                             <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}" rel="20 30 40">
                             	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
-                            	<div class="icons waveformicon"></div>
+                            	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
                             	<p class="small">opgenomen om</p>
                             	<p class="timestamp">{{ special.created|date:"H:i" }} uur</p>
                             	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
