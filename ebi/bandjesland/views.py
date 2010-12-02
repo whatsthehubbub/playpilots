@@ -60,4 +60,4 @@ def special_occurrences(request):
     return HttpResponse(json.dumps({
         'label': sessionLabel,
         'offsets': [(occ['time']-session.start).seconds for occ in occurrenceTimes if occ['time'] < session.start]
-    }), mimetype='text/plain')
+    }), mimetype='text/json')
