@@ -326,6 +326,34 @@
         
         #history li {
         }
+
+		.tapeplayer {
+			line-height: 15px;
+			height: 20px;
+			margin: 0 10px 0 0;
+			padding: 5px 0px;
+		}
+		
+		.tapeplayer .playbuttonsmall {
+			float: left;
+			width: 20px;
+			height: 20px;
+			margin: 0 5px 0 0;
+			background: transparent url({{ MEDIA_URL }}image/bandjesland_play_small.png) 0 0;
+		}
+		
+		.tapeplayer .playbuttonsmall:hover {
+			background-position: 0 -35px;
+		}
+		
+		.tapeplayer .timestamp {
+			float: left;
+			font-size: 11px;
+			height: 20px;
+			padding: 2px 0 0 35px;
+			background: transparent url({{ MEDIA_URL }}image/bandjesland_tape_small.png) no-repeat 0 0;
+		}
+		
     </style>
     
     
@@ -390,8 +418,16 @@
 					   {% endif %}
 					{% endfor %}
 				</li>
-                <li class="unchecked last">
-					<h5>LGW? Pilot</h5>
+                <li class="checked last">
+					<h5><a href="/games/bandjesland/">LGW? Pilot</a></h5>
+					<div class="tapeplayer">
+						<div class="playbuttonsmall"></div>
+						<a href="" class="timestamp"><strong>Vrijdag</strong>, 23:14:10 &raquo;</a>
+					</div>
+					<div class="tapeplayer">
+						<div class="playbuttonsmall"></div>
+						<a href="" class="timestamp"><strong>Zaterdag</strong>, 22:45:23 &raquo;</a>
+					</div>
 				</li>
             </ul>
 		</div>

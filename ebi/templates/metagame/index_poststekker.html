@@ -104,9 +104,9 @@
 			<div id="participants">
 			    {% for action in actions %}
 			        <div class="participant {% if forloop.last %}last{% endif %}">
-    					<a href="/users/{{ action.actor.get_display_name }}/">
+    					<a href="/users/{{ action.actor.get_display_name }}/" title="{{ action.actor.get_display_name }}">
     						<img src="{{ action.actor.get_avatar_url }}" class="avatar" alt="">
-    						<p class="name">{{ action.actor.get_display_name }}</p>
+    						<p class="name">{{ action.actor.get_display_name|slice:":11" }}{% if action.actor.get_display_name|length > 11 %}&hellip;{% endif %}</p>
     					</a>
     					<p class="activity">
     					    {{ action.actor.get_display_name }} {{ action.verb }}
