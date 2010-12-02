@@ -59,5 +59,5 @@ def special_occurrences(request):
     
     return HttpResponse(json.dumps({
         'label': sessionLabel,
-        'offsets': [(session.start-occ['time']).seconds for occ in occurrenceTimes if occ['time'] > session.start]
+        'offsets': [(session.start-occ['time']).seconds for occ in occurrenceTimes if occ['time'] < session.start]
     }), mimetype='text/plain')
