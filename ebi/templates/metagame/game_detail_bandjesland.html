@@ -911,7 +911,7 @@
 
                             <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
                             	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
-                            	<div class="icons waveformicon"></div>
+                            	<div class="icons waveformicon" id="waveform_zaterdag_{{ special.id }}"></div>
                             	<p class="small">opgenomen om</p>
                             	<p class="timestamp">{{ special.created|date:"H:i" }} uur</p>
                             	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
