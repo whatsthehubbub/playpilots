@@ -515,7 +515,7 @@
 			background-position: center -50px;
 		}
 		
-		.waveformicon:active {
+		.waveformicon:active, .waveformicon.active {
 			background-position: center -100px;
 		}
 		
@@ -753,6 +753,9 @@
                 var specialid = identparts[2];
                 var day = identparts[1];
                 
+                $('.waveformicon').removeClass('active');
+                $(this).addClass('active');
+                
                 $.getJSON('/bandjesland/occurrences/', {
                     'sessionlabel': day,
                     'specialid': specialid
@@ -778,7 +781,7 @@
                         console.log('calculating offset', offset, 'duration', duration, 'left', left);
                         
                         var indicator = '<div style="position: absolute; border-right: 1px solid #262A33; width: ' + left + 'px; top: 0px; height: 80px; z-index: 5;" class="occurrence-indicator"></div>';
-                        $('#vrijdag .sc-time-span').append(indicator);
+                        $('#' + day + ' .sc-time-span').append(indicator);
                     }
                     
                     
