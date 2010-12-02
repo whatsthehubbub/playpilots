@@ -57,4 +57,4 @@ def special_occurrences(request):
     
     occurrenceTimes = BandjeslandSpecialOccurrence.objects.filter(session__label=sessionLabel).filter(special=special).order_by('time').values('time')
     
-    return HttpResponse(json.dumps([(occ['time']-session.start).seconds for occ in occurrenceTimes]), mimetype='text/plain')
+    return HttpResponse(json.dumps([(session.start-occ['time']).seconds for occ in occurrenceTimes]), mimetype='text/plain')
