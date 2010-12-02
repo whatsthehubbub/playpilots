@@ -883,7 +883,7 @@
                         {% for special in vrijdag.get_specials_for_session %}
                             {% ifchanged %}<h3 style="width: 800px; display: block; clear: both;">{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
 
-                            <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}" rel="20 30 40">
+                            <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
                             	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
                             	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
                             	<p class="small">opgenomen om</p>
@@ -909,7 +909,7 @@
                         {% for special in zaterdag.get_specials_for_session %}
                             {% ifchanged %}<h3 style="width: 800px; display: block; clear: both;">{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
 
-                            <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}" rel="20 30 40">
+                            <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
                             	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
                             	<div class="icons waveformicon"></div>
                             	<p class="small">opgenomen om</p>
