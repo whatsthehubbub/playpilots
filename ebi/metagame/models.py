@@ -327,6 +327,9 @@ class Player(models.Model):
                 rider = Kippenrijder.objects.get(code=code)
             
                 return rider
+                
+    def get_bandjesland_special_likes(self):
+        return self.bandjeslandspecial_set.all().order_by('created')
     
     def __unicode__(self):
         return self.user.username

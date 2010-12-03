@@ -346,6 +346,10 @@
 			background-position: 0 -35px;
 		}
 		
+		.playbuttonsmall.playing {
+		    background-position: 0 -70px;
+		}
+		
 		.tapeplayer .timestamp {
 			float: left;
 			font-size: 11px;
@@ -356,6 +360,38 @@
 		
     </style>
     
+    
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jQuery.jPlayer.1.2.0/jquery.jplayer.min.js" charset="utf-8"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            
+            $('#jPlayer').jPlayer({
+                swfPath: '/static/js/jQuery.jPlayer.1.2.0/'
+            });
+            
+            $('.playbuttonsmall').click(function() {
+                var id = $(this).parent().attr('id').split('_')[1];
+                var mp3URL = $(this).attr('rel');
+                
+                console.log('clicked play button', id, mp3URL);
+                
+                $('.playbuttonsmall').removeClass('playing');
+                
+                if (mp3URL) {
+                    $('#jPlayer').jPlayer('setFile', mp3URL).jPlayer('play');
+
+                    $('#playbutton_' + id).addClass('playing');
+                }
+                
+                $('#jPlayer').jPlayer("onSoundComplete", function() {
+                    // $('#specialplayer_' + id).jPlayer('stop');
+                    $('#playbutton_' + id).removeClass('playing');
+                });
+            });
+            
+        });
+    </script>
     
 {% endblock %}
 
@@ -401,6 +437,8 @@
             </table>
         </div>
 		
+		<div id="jPlayer"></div>
+		
 		<div id="badges">
 			<h4>Games</h4>
 			<ul class="games">
@@ -420,14 +458,15 @@
 				</li>
                 <li class="checked last">
 					<h5><a href="/games/bandjesland/">LGW? Pilot</a></h5>
-					<div class="tapeplayer">
-						<div class="playbuttonsmall"></div>
-						<a href="" class="timestamp"><strong>Vrijdag</strong>, 23:14:10 &raquo;</a>
-					</div>
-					<div class="tapeplayer">
-						<div class="playbuttonsmall"></div>
-						<a href="" class="timestamp"><strong>Zaterdag</strong>, 22:45:23 &raquo;</a>
-					</div>
+					
+					{% for special in player.get_bandjesland_special_likes %}
+					    {% if special.mp3 %}
+                            <div class="tapeplayer" id="tapeplayer_{{ special.id }}">
+                                <div class="playbuttonsmall" id="playbutton_{{ special.id }}" rel="{{ special.mp3.url }}"></div>
+                                <a href="/games/bandjesland/?staging=yes#special_{{ special.id }}" class="timestamp"><strong>{{ special.created|date:"l" }}</strong>, {{ special.created|date:"H:i:s" }} &raquo;</a>
+                            </div>
+                        {% endif %}
+					{% endfor %}
 				</li>
             </ul>
 		</div>
