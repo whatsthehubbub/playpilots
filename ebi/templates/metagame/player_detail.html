@@ -1,7 +1,7 @@
 {% extends "metagame/base.html" %}
 
 {% block extrahead %}
-    <title>STAGING &bull; Profiel van {{ player.user.username }} &bull; PLAY Pilots</title>
+    <title>Profiel van {{ player.user.username }} &bull; PLAY Pilots</title>
     
     <style type="text/css" media="screen">
         html {
@@ -463,7 +463,7 @@
 					    {% if special.mp3 %}
                             <div class="tapeplayer" id="tapeplayer_{{ special.id }}">
                                 <div class="playbuttonsmall" id="playbutton_{{ special.id }}" rel="{{ special.mp3.url }}"></div>
-                                <a href="/games/bandjesland/?staging=yes#special_{{ special.id }}" class="timestamp"><strong>{{ special.created|date:"l" }}</strong>, {{ special.created|date:"H:i:s" }} &raquo;</a>
+                                <a href="/games/bandjesland/#special_{{ special.id }}" class="timestamp"><strong>{{ special.created|date:"l" }}</strong>, {{ special.created|date:"H:i:s" }} &raquo;</a>
                             </div>
                         {% endif %}
 					{% endfor %}
