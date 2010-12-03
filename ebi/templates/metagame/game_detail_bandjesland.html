@@ -245,7 +245,6 @@
             overflow: hidden;
             width: 918px; /* to account for padding & border */
             padding: 0 10px;
-            
             border-left: 1px solid #ddd;
             border-right: 1px solid #ddd;
         }
@@ -355,13 +354,19 @@
 		}
 		
 		.tabcontent {
+			position: relative;
 			margin: 31px 0 20px;
 		}
 		
-		.tabcontent h3 {
-			color: #262a33;
-			margin: 30px 10px 5px 10px;
-			border-bottom: 1px #ccc solid;
+		.tabcontent h2 {
+			color: #666;
+			margin: 50px 10px -10px 10px;
+		}
+		
+		.tabcontent .soundcloud {
+			position: absolute;
+			top: -80px;
+			right: 80px;
 		}
 		
 		/* CSS to make the tab hiding work. */
@@ -414,6 +419,15 @@
             margin: auto;
         }
 
+		.specials h3 {
+			width: 920px;
+			display: block;
+			clear: both;
+			padding-top: 20px;
+			margin-left: 5px;
+			border-bottom: 1px #ccc solid;
+		}
+
 		.special {
 			float: left;
 			color: #666;
@@ -444,7 +458,7 @@
 			float: right;
 			font-size: 11px;
 			text-decoration: none;
-			margin: -27px 40px 0 0;
+			margin: -27px 70px 0 0;
 		}
 		
 		.heartrate a {
@@ -462,7 +476,7 @@
 			float: right;
 			width: 30px;
 			height: 30px;
-			margin: -32px 5px 0 0;
+			margin: -32px 35px 0 0;
 			border: 0;
 		}
 		
@@ -472,6 +486,18 @@
 		
 		.special .heart.active {
 			background-position: center -100px;
+		}
+		
+		.special .download {
+			float: right;
+			width: 30px;
+			height: 30px;
+			margin: -32px 5px 0px 0px;
+			background: transparent url({{ MEDIA_URL }}image/bandjesland_download.png) no-repeat center 0;
+		}
+		
+		.special a:hover .download {
+			background-position: 0 -30px;
 		}
 		
 		.ui-state-default {
@@ -866,13 +892,14 @@
 			</ul>
 		
 			<div id="vrijdag" class="tabcontent">
+				<a href="http://snd.sc/eVeVnN" class="soundcloud" title="Luister naar deze opname op Soundcloud"><img src="{{ MEDIA_URL }}image/bandjesland_soundcloud.png" width="55px" height="35px" /></a>
 		    	<!-- Player is skinned by the soundcloud player bandjesland skin. -->
 				<div class="time"></div>
             	<div class="player">
 					<a href="http://soundcloud.com/playpilots/bandjesland-sessie-le-guess-who-vrijdag-26-november-2010" class="sc-player" id="player_vrijdag">My new dub track</a>
 				</div>
             
-            	<h3>Alle opgenomen specials</h3>
+            	<h2>Alle opgenomen samples van vrijdag:</h2>
             
             	<!-- TODO fully implement audio playback
                 	http://www.happyworm.com/jquery/jplayer/latest/demo-04.htm
@@ -883,15 +910,16 @@
             	<div class="specials">
                     <ul>
                         {% for special in vrijdag.get_specials_for_session %}
-                            {% ifchanged %}<h3 style="width: 800px; display: block; clear: both;">{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
+                            {% ifchanged %}<h3>{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
 
                             <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
                             	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
                             	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
                             	<p class="small">opgenomen om</p>
-                            	<p class="timestamp">{{ special.created|date:"H:i" }} uur</p>
+                            	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
                             	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
-                            	<button type="image" class="heart" id="heart_{{ special.id }}" />
+                            	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
+								<a href="" title="Download sample"><div class="download"></div></a>
                         	</li>
                         {% endfor %}
                 	</ul>
@@ -899,25 +927,27 @@
 			</div>
 		
 			<div id="zaterdag" class="tabcontent">
+				<a href="http://snd.sc/hwhUnO" class="soundcloud" title="Luister naar deze opname op Soundcloud"><img src="{{ MEDIA_URL }}image/bandjesland_soundcloud.png" width="55px" height="35px" /></a>
             	<div class="time"></div>
             	<div class="player">
 					<a href="http://soundcloud.com/playpilots/bandjesland-sessie-le-guess-who-zaterdag-27-november-2010" class="sc-player">My new dub track</a>
 				</div>
 			
-				<h3>Alle opgenomen specials</h3>
+				<h2>Alle opgenomen samples van zaterdag:</h2>
             
             	<div class="specials">
                		<ul>
                         {% for special in zaterdag.get_specials_for_session %}
-                            {% ifchanged %}<h3 style="width: 800px; display: block; clear: both;">{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
+                            {% ifchanged %}<h3>{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
 
                             <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
                             	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
                             	<div class="icons waveformicon" id="waveform_zaterdag_{{ special.id }}"></div>
                             	<p class="small">opgenomen om</p>
-                            	<p class="timestamp">{{ special.created|date:"H:i" }} uur</p>
+                            	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
                             	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
-                            	<button type="image" class="heart" id="heart_{{ special.id }}" />
+                            	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
+								<a href="" title="Download sample"><div class="download"></div></a>
                         	</li>
                         {% endfor %}
                 	</ul>
