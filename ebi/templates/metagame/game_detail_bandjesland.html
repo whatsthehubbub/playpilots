@@ -812,7 +812,6 @@
                         $('#' + day + ' .sc-time-span').append(indicator);
                     }
                     
-                    
                 });
             });
             
@@ -899,7 +898,7 @@
 					<a href="http://soundcloud.com/playpilots/bandjesland-sessie-le-guess-who-vrijdag-26-november-2010" class="sc-player" id="player_vrijdag">My new dub track</a>
 				</div>
             
-            	<h2>Alle opgenomen samples van vrijdag:</h2>
+            	<h2>Alle {{ vrijdag.get_specials_for_session|length }} opgenomen samples van vrijdag:</h2>
             
             	<!-- TODO fully implement audio playback
                 	http://www.happyworm.com/jquery/jplayer/latest/demo-04.htm
@@ -912,15 +911,17 @@
                         {% for special in vrijdag.get_specials_for_session %}
                             {% ifchanged %}<h3>{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
 
-                            <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
-                            	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
-                            	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
-                            	<p class="small">opgenomen om</p>
-                            	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                            	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
-                            	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
-								<a href="" title="Download sample"><div class="download"></div></a>
-                        	</li>
+                            {% if special.mp3 %}
+                                <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
+                                	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
+                                	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
+                                	<p class="small">opgenomen om</p>
+                                	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
+                                	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
+                                	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
+    								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
+                            	</li>
+                            {% endif %}
                         {% endfor %}
                 	</ul>
             	</div>
@@ -933,22 +934,24 @@
 					<a href="http://soundcloud.com/playpilots/bandjesland-sessie-le-guess-who-zaterdag-27-november-2010" class="sc-player">My new dub track</a>
 				</div>
 			
-				<h2>Alle opgenomen samples van zaterdag:</h2>
+				<h2>Alle {{ zaterdag.get_specials_for_session|length }} opgenomen samples van zaterdag:</h2>
             
             	<div class="specials">
                		<ul>
                         {% for special in zaterdag.get_specials_for_session %}
                             {% ifchanged %}<h3>{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
 
-                            <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
-                            	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
-                            	<div class="icons waveformicon" id="waveform_zaterdag_{{ special.id }}"></div>
-                            	<p class="small">opgenomen om</p>
-                            	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                            	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
-                            	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
-								<a href="" title="Download sample"><div class="download"></div></a>
-                        	</li>
+                            {% if special.mp3 %}
+                                <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
+                                	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
+                                	<div class="icons waveformicon" id="waveform_zaterdag_{{ special.id }}"></div>
+                                	<p class="small">opgenomen om</p>
+                                	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
+                                	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
+                                	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
+    								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
+                            	</li>
+                            {% endif %}
                         {% endfor %}
                 	</ul>
            		</div>
