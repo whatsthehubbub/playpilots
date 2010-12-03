@@ -765,7 +765,7 @@
                 };
             }
             
-            $('.heartrate a').each(function(index, el) {
+            $('.heartrate span').each(function(index, el) {
                 $(el).tipsy({
                     html: true,
                     title: getTooltip($(el).attr('id').split('_')[2]),
@@ -917,7 +917,7 @@
                                 	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
                                 	<p class="small">opgenomen om</p>
                                 	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
+                                	<p class="heartrate" id="heartrate_{{ special.id }}"><span class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</span></p>
                                 	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
     								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
                             	</li>
@@ -943,11 +943,11 @@
 
                             {% if special.mp3 %}
                                 <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
-                                	<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
-                                	<div class="icons waveformicon" id="waveform_zaterdag_{{ special.id }}"></div>
+                                	<div class="icons playpausebutton" title="Afspelen" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
+                                	<div class="icons waveformicon" title="Markeren in speler" id="waveform_zaterdag_{{ special.id }}"></div>
                                 	<p class="small">opgenomen om</p>
                                 	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                	<p class="heartrate" id="heartrate_{{ special.id }}"><a href="" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
+                                	<p class="heartrate" id="heartrate_{{ special.id }}"><span href="#" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</span></p>
                                 	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
     								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
                             	</li>
