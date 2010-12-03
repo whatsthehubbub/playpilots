@@ -728,9 +728,8 @@
                     
                     // Also add player to local likers array
                     likers[specialid][playerid] = {'playeravatar': playeravatar, 'playername': playername };
-                    
                 } else {
-                    // Redirect to login, add parameters?
+                    window.location.href = '/login/?next=/games/bandjesland/';
                 }
             });
             

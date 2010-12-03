@@ -110,9 +110,6 @@ def player_detail(request, id):
     skills = Skill.objects.all().filter(player=player).order_by('style__name')
     
     templateName = 'metagame/player_detail.html'
-    
-    if request.GET.get('staging', ''):
-        templateName = 'metagame/player_detail_staging.html'
         
     return render_to_response(templateName, {
         'player': player,
@@ -214,7 +211,7 @@ def game_detail(request, slug):
         
         templateName = 'metagame/game_detail_stereoscoop.html'
         
-    if game.slug == 'bandjesland' and request.GET.get('staging', ''):
+    if game.slug == 'bandjesland':
         templateName = 'metagame/game_detail_bandjesland.html'
         
         convars['vrijdag'] = BandjeslandSessie.objects.get(label='vrijdag')
