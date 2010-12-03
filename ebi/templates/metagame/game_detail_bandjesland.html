@@ -14,6 +14,8 @@
     
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jQuery.jPlayer.1.2.0/jquery.jplayer.min.js" charset="utf-8"></script>
     
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.scrollTo.js" charset="utf-8"></script>
+    
     <link rel="stylesheet" href="{{ MEDIA_URL }}js/tipsy-0.1.7/src/stylesheets/tipsy.css" type="text/css" /> 
     <script type="text/javascript" src="{{ MEDIA_URL }}js/tipsy-0.1.7/src/javascripts/jquery.tipsy.js" charset="utf-8"></script>
     
@@ -774,8 +776,6 @@
             });
             
             $('.waveformicon').click(function() {
-                window.location.hash = '';
-                
                 var identparts = $(this).attr('id').split('_');
                 var specialid = identparts[2];
                 var day = identparts[1];
@@ -813,8 +813,7 @@
                         $('#' + day + ' .sc-time-span').append(indicator);
                     }
                     
-                    
-                    window.location.hash = 'music';
+                    $.scrollTo('#music');
                 });
             });
             
