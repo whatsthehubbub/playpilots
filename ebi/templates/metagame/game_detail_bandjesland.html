@@ -774,6 +774,8 @@
             });
             
             $('.waveformicon').click(function() {
+                window.location.hash = '';
+                
                 var identparts = $(this).attr('id').split('_');
                 var specialid = identparts[2];
                 var day = identparts[1];
