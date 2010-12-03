@@ -807,7 +807,10 @@
                         
                         console.log('calculating offset', offset, 'duration', duration, 'left', left);
                         
-                        // TODO see if left is not larger than width
+                        if (left > width) {
+                            // TODO workaround, figure out why left is larger than width
+                            left = width;
+                        }
                         
                         var indicator = '<div style="position: absolute; border-right: 1px solid #262A33; width: ' + left + 'px; top: 0px; height: 80px; z-index: 5;" class="occurrence-indicator"></div>';
                         $('#' + day + ' .sc-time-span').append(indicator);
@@ -901,10 +904,6 @@
 				</div>
             
             	<h2>Alle {{ vrijdag.get_specials_for_session|length }} opgenomen samples van vrijdag:</h2>
-            
-            	<!-- TODO fully implement audio playback
-                	http://www.happyworm.com/jquery/jplayer/latest/demo-04.htm
-            		-->
             
                 <div id="jPlayer"></div>
             
