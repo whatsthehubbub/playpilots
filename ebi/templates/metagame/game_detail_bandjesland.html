@@ -878,7 +878,7 @@
             
             <h3>{{ game.maker.name }}</h3>
             
-            <p>{{ game.maker.description }}</p>
+            <p>{{ game.maker.description|safe }}</p>
             
             <p class="link"><a href="{{ game.maker.link }}">{{ game.maker.link|slice:"7:" }}</a></p>
         </div>
