@@ -1,5 +1,6 @@
 from django.db import models
 from metagame.models import Player
+from django.core.cache import cache
 
 class BandjeslandSessie(models.Model):
     start = models.DateTimeField()
@@ -17,7 +18,13 @@ class BandjeslandSessie(models.Model):
         return self.label
         
     def get_specials_for_session(self):
-        return self.specials.all().distinct().order_by('created')
+        specials = cache.get('sessie_specials_%s' % self.label)
+
+        if not specials:
+            specials = self.specials.all().distinct().order_by('created')
+            cache.set('sessie_specials_%s' % self.label, specials, 60*60*24)
+        
+        return specials
         
     def duration(self):
         return (self.end-self.start).seconds
