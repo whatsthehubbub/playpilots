@@ -36,6 +36,18 @@ class BandjeslandSpecial(models.Model):
         '''aka heart rate'''
         return BandjeslandLike.objects.filter(special=self).count()
         
+    def is_leuk(self):
+        count = BandjeslandLike.objects.filter(special=self).count()
+        
+        if count >= 5 and count <= 10:
+            return True
+        return False
+        
+    def is_gaaf(self):
+        if BandjeslandLike.objects.filter(special=self).count() > 10:
+            return True
+        return False
+        
     def get_likers(self):
         return Player.objects.filter(bandjeslandlike__special=self)
     

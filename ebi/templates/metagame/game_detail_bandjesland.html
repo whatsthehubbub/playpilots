@@ -918,7 +918,7 @@
                                 	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
                                 	<p class="small">opgenomen om</p>
                                 	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                	<p class="heartrate" id="heartrate_{{ special.id }}"><span class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</span></p>
+                                	<p class="heartrate {{ special.is_leuk|yesno:"leuk," }} {{ special.is_gaaf|yesno:"gaaf," }}" id="heartrate_{{ special.id }}"><span class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</span></p>
                                 	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
     								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
                             	</li>
@@ -948,7 +948,7 @@
                                 	<div class="icons waveformicon" title="Markeren in speler" id="waveform_zaterdag_{{ special.id }}"></div>
                                 	<p class="small">opgenomen om</p>
                                 	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                	<p class="heartrate" id="heartrate_{{ special.id }}"><span href="#" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</span></p>
+                                	<p class="heartrate {{ special.is_leuk|yesno:"leuk," }} {{ special.is_gaaf|yesno:"gaaf," }}" id="heartrate_{{ special.id }}"><span href="#" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</span></p>
                                 	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
     								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
                             	</li>
