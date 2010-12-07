@@ -770,7 +770,7 @@
                 $(el).tipsy({
                     html: true,
                     title: getTooltip($(el).attr('id').split('_')[2]),
-                    trigger: 'manual'
+                    delayOut: 4000,
                 });
             });
             
@@ -784,13 +784,20 @@
             });
             */
             
+            /*
             $('.heartrate').mouseover(function() {
                 $('.heartrate A').each(function(index, el) {
                     $(el).tipsy('hide');
                 });
                 
                 $(':first-child', this).tipsy('show');
+                
+                $('.tipsy').mouseout(function() {
+                    setTimeout("$('.heartrate A').each(function(index, el) { $(el).tipsy('hide'); });", 4000);
+                });
             });
+            
+            */
             
             $('.waveformicon').click(function() {
                 var identparts = $(this).attr('id').split('_');
