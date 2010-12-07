@@ -463,7 +463,7 @@
 			margin: -27px 70px 0 0;
 		}
 		
-		.heartrate a {
+		.heartrate a,  {
 			color: #666;
 			text-decoration: none;
 		}
@@ -754,7 +754,7 @@
                             likerFound = true;
                             var liker = likers[specialid][key];
                             
-                            returnValue += '<div style="float: left;"><img src="' + liker['playeravatar'] + '" style="margin: 1em 1em 0 1em;"><br><span>' + liker['playername'] + '</span></div>';
+                            returnValue += '<div style="float: left;"><a href="/players/' + key + '/" style="color: white; text-decoration: none;"><img src="' + liker['playeravatar'] + '" style="margin: 1em 1em 0 1em;"><br><span>' + liker['playername'] + '</span></a></div>';
                         }
                     }
                     
@@ -766,13 +766,20 @@
                 };
             }
             
-            $('.heartrate span').each(function(index, el) {
+            $('.heartrate A').each(function(index, el) {
                 $(el).tipsy({
                     html: true,
                     title: getTooltip($(el).attr('id').split('_')[2]),
-                    delayOut: 2000,
-                    // fade: true
+                    trigger: 'manual'
                 });
+            });
+            
+            $('.heartrate A').click(function() {
+                $('.heartrate A').each(function(index, el) {
+                    $(el).tipsy('hide');
+                });
+                
+                $(this).tipsy('show');
             });
             
             $('.waveformicon').click(function() {
@@ -918,7 +925,7 @@
                                 	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
                                 	<p class="small">opgenomen om</p>
                                 	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                	<p class="heartrate {{ special.is_leuk|yesno:"leuk," }} {{ special.is_gaaf|yesno:"gaaf," }}" id="heartrate_{{ special.id }}"><span class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</span></p>
+                                	<p class="heartrate {{ special.is_leuk|yesno:"leuk," }} {{ special.is_gaaf|yesno:"gaaf," }}" id="heartrate_{{ special.id }}"><a class="" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
                                 	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
     								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
                             	</li>
@@ -948,7 +955,7 @@
                                 	<div class="icons waveformicon" title="Markeren in speler" id="waveform_zaterdag_{{ special.id }}"></div>
                                 	<p class="small">opgenomen om</p>
                                 	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                	<p class="heartrate {{ special.is_leuk|yesno:"leuk," }} {{ special.is_gaaf|yesno:"gaaf," }}" id="heartrate_{{ special.id }}"><span href="#" class="" title="test tooltip" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</span></p>
+                                	<p class="heartrate {{ special.is_leuk|yesno:"leuk," }} {{ special.is_gaaf|yesno:"gaaf," }}" id="heartrate_{{ special.id }}"><span href="#" class="" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</span></p>
                                 	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
     								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
                             	</li>
