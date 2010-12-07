@@ -714,7 +714,7 @@
                         'specialid': specialid
                     }, function(data, textStatus, xhr) {
                         var specialid = data['specialid'];
-                        var oldHeartrate = parseInt($('#heartrate_' + specialid + ' SPAN').html());
+                        var oldHeartrate = parseInt($('#heartrate_' + specialid + ' A').html());
                         
                         var newHeartrate = oldHeartrate;
                         if (data['action']=='added') {
@@ -725,7 +725,7 @@
                             delete likers[specialid][playerid];
                         }
                         
-                        $('#heartrate_' + specialid + ' SPAN').html(newHeartrate);
+                        $('#heartrate_' + specialid + ' A').html(newHeartrate);
                     });
                     
                     // Toggle heart
