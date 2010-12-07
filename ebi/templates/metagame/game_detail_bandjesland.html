@@ -774,12 +774,22 @@
                 });
             });
             
+            /*
             $('.heartrate A').click(function() {
                 $('.heartrate A').each(function(index, el) {
                     $(el).tipsy('hide');
                 });
                 
                 $(this).tipsy('show');
+            });
+            */
+            
+            $('.heartrate').mouseover(function() {
+                $('.heartrate A').each(function(index, el) {
+                    $(el).tipsy('hide');
+                });
+                
+                $(':first-child', this).tipsy('show');
             });
             
             $('.waveformicon').click(function() {
