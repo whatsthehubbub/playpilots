@@ -42,7 +42,10 @@ class BandjeslandSpecial(models.Model):
     def get_like_count(self):
         '''aka heart rate'''
         return BandjeslandLike.objects.filter(special=self).count()
-        
+    
+    def is_alive(self):
+        return BandjeslandLike.objects.filter(special=self).count() > 0
+    
     def is_leuk(self):
         count = BandjeslandLike.objects.filter(special=self).count()
         
