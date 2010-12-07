@@ -466,6 +466,9 @@
 		.heartrate a,  {
 			color: #666;
 			text-decoration: none;
+			
+			cursor: hand;
+			cursor: pointer;
 		}
 		
 		.heartrate a:hover {
@@ -771,18 +774,26 @@
                     html: true,
                     title: getTooltip($(el).attr('id').split('_')[2]),
                     delayOut: 2000,
+                    trigger: 'manual'
                 });
             });
             
-            /*
-            $('.heartrate A').click(function() {
+            $('.heartrate A').click(function(event) {
                 $('.heartrate A').each(function(index, el) {
                     $(el).tipsy('hide');
                 });
                 
                 $(this).tipsy('show');
+                
+                event.stopPropagation();
             });
-            */
+            
+            $('#record_wrapper').click(function (event) {                
+                $('.heartrate A').each(function(index, el) {
+                    $(el).tipsy('hide');
+                });
+            });
+            
             
             /*
             $('.heartrate').mouseover(function() {
