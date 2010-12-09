@@ -798,6 +798,8 @@
                 
                 $(this).tipsy('show');
                 
+                setTimeout("$('#" + this.id + "').tipsy('show');", 500);
+                
                 event.stopPropagation();
             });
             
