@@ -374,7 +374,7 @@
                 var id = $(this).parent().attr('id').split('_')[1];
                 var mp3URL = $(this).attr('rel');
                 
-                console.log('clicked play button', id, mp3URL);
+                if (console) console.log('clicked play button', id, mp3URL);
                 
                 $('.playbuttonsmall').removeClass('playing');
                 
