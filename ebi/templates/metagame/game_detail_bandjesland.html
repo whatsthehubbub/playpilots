@@ -1,4 +1,5 @@
 {% extends "metagame/base.html" %}
+{% load cache %}
 
 {% block extrahead %}
     <title>{{ game.name }} door {{ game.maker.name}} voor {{ game.festival.name }} &bull; PLAY Pilots</title>
@@ -958,6 +959,7 @@
             
                 <div id="jPlayer"></div>
             
+                {% cache 300 vrijdag_specials %}
             	<div class="specials">
                     <ul>
                         {% for special in vrijdag.get_specials_for_session %}
@@ -983,6 +985,7 @@
                         {% endfor %}
                 	</ul>
             	</div>
+            	{% endcache %}
 			</div>
 		
 			<div id="zaterdag" class="tabcontent">
@@ -994,6 +997,7 @@
 			
 				<h2>Alle {{ zaterdag.get_specials_for_session|length }} opgenomen samples van zaterdag:</h2>
             
+                {% cache 300 zaterdag_specials %}
             	<div class="specials">
                		<ul>
                         {% for special in zaterdag.get_specials_for_session %}
@@ -1019,6 +1023,7 @@
                         {% endfor %}
                 	</ul>
            		</div>
+           		{% endcache %}
 			
 			</div>
 		
