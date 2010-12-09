@@ -770,7 +770,7 @@
                             likerFound = true;
                             var liker = likers[specialid][key];
                             
-                            returnValue += '<div style="float: left; margin: 0; padding: 0; line-height: 0; overflow: hidden;"><a href="/players/' + key + '/" style="color: white; text-decoration: none;" title="' + liker['playername'] +'"><img src="' + liker['playeravatar'] + '" style="margin: 5px; line-height: 0;"></a></div>';
+                            returnValue += '<div style="float: left; margin: 0; padding: 0; line-height: 0; overflow: hidden;"><a href="/players/' + key + '/" style="color: white; text-decoration: none;" title="' + liker['playername'] +'"><img src="' + liker['playeravatar'] + '" style="margin: 5px; line-height: 0; height: 48px; width: 48px;"></a></div>';
                         }
                     }
                     
@@ -798,6 +798,7 @@
                 
                 $(this).tipsy('show');
                 
+                // Work around against wrong position
                 setTimeout("$('#" + this.id + "').tipsy('show');", 500);
                 
                 event.stopPropagation();
