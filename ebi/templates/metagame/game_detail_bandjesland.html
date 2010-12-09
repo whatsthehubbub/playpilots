@@ -961,15 +961,21 @@
                             {% ifchanged %}<h3>{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
 
                             {% if special.mp3 %}
-                                <li class="special {% cycle 'odd' 'even' %} {{ special.is_alive|yesno:"alive," }} {{ special.is_leuk|yesno:"leuk," }} {{ special.is_gaaf|yesno:"gaaf," }}" id="special_{{ special.id }}">
-									<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
-                                	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
-                                	<p class="small">opgenomen om</p>
-                                	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                	<p class="heartrate" id="heartrate_{{ special.id }}"><a class="" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
-                                	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
-    								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
-                            	</li>
+                                {% with special.get_like_count as like_count %}
+                                    <li class="special {% cycle 'odd' 'even' %} {% if like_count > 0 %}alive{% endif %}" id="special_{{ special.id }}">
+    									<div class="icons playpausebutton" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
+                                    	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
+                                    	<p class="small">opgenomen om</p>
+                                    	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
+                                    	<p class="heartrate" id="heartrate_{{ special.id }}">
+                                    	    {% if like_count > 0 %}
+                                    	        <a class="" id="heartrate_link_{{ special.id }}">{{ like_count }}</a>
+                                            {% endif %}
+                                    	</p>
+                                    	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
+        								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
+                                	</li>
+                            	{% endwith %}
                             {% endif %}
                         {% endfor %}
                 	</ul>
@@ -991,15 +997,21 @@
                             {% ifchanged %}<h3>{{ special.created|date:"H:00" }}</h3>{% endifchanged %}
 
                             {% if special.mp3 %}
-                                <li class="special {% cycle 'odd' 'even' %}" id="special_{{ special.id }}">
+                                {% with special.get_like_count as like_count %}
+                                <li class="special {% cycle 'odd' 'even' %} {% if like_count > 0 %}alive{% endif %}" id="special_{{ special.id }}">
                                 	<div class="icons playpausebutton" title="Afspelen" id="playpause_{{ special.id }}" {% if special.mp3 %}rel="{{ special.mp3.url }}"{% endif %}></div>
                                 	<div class="icons waveformicon" title="Markeren in speler" id="waveform_zaterdag_{{ special.id }}"></div>
                                 	<p class="small">opgenomen om</p>
                                 	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                	<p class="heartrate {{ special.is_alive|yesno:"alive," }} {{ special.is_leuk|yesno:"leuk," }} {{ special.is_gaaf|yesno:"gaaf," }}" id="heartrate_{{ special.id }}"><a class="" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a></p>
+                                	<p class="heartrate" id="heartrate_{{ special.id }}">
+                                	    {% if like_count > 0 %}
+                                	        <a class="" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a>
+                                	    {% endif %}
+                                	</p>
                                 	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
     								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
                             	</li>
+                                {% endwith %}
                             {% endif %}
                         {% endfor %}
                 	</ul>
