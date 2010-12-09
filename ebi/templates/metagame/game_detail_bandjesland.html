@@ -603,7 +603,7 @@
             var zaturdagDuration = {{ zaterdag.duration }};
         {% endif %}
         
-        if (console) console.log('page entered for player', playerid, playername, playeravatar);
+        // if (console) console.log('page entered for player', playerid, playername, playeravatar);
         
         /* Create lookup table for likers. */
         var likers = {}
@@ -714,7 +714,7 @@
             $('.heart').click(function() {
                 var specialid = $(this).parent().attr('id').split('_')[1];
                 
-                if (console) console.log('clicked heart for special', specialid);
+                // if (console) console.log('clicked heart for special', specialid);
                 
                 if (playerid) {
                     // Player logged in
@@ -853,7 +853,7 @@
                         
                         var left = Math.round(offset / duration * width);
                         
-                        if (console) console.log('calculating offset', offset, 'duration', duration, 'left', left);
+                        // if (console) console.log('calculating offset', offset, 'duration', duration, 'left', left);
                         
                         if (left > width) {
                             // TODO workaround, figure out why left is larger than width
