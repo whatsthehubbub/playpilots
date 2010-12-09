@@ -68,14 +68,14 @@
 	<div id="billboard" class="mainblock">
 		<div id="livegames">
 			<div id="schedule">
-				<h2 class="nextevent"><a href="/games/bandjesland/" title="Bandjesland">Bandjesland</a></h2>
-				<p class="nextfestival"><a href="/games/bandjesland/" title="Le Guess Who?">Le Guess Who?</a></p>
-                <p class="now">voorbij</p>
-				<p class="gogetgadget"><a href="http://playpilots.nl/games/bandjesland/" title="">Luister naar de opnames van het bandjesland &raquo;</a></p>
-				<p class="upcoming1"><a href="/games/de-stereoscoop/" title="De Stereoscoop">De Stereoscoop op NFF</a></p>
-				<p class="upcoming1state">voorbij</p>
-				<p class="upcoming2"><a href="/games/wip-n-kip/" title="Wip 'n' Kip">Wip 'n' Kip op Stekker Fest</a></p>
-				<p class="upcoming2state">voorbij</p>
+				<h2 class="overheader">Seizoen 2010</h2>
+				<h4 class="oversub">We komen volgend jaar terug!</h4>
+				<span class="over1 small"><a href="/games/wip-n-kip/" title="Wip 'n' Kip">Wip 'n' Kip op Stekker Fest</a></span>
+				<span class="over1date small">14 aug</span>
+				<span class="over2 small"><a href="/games/de-stereoscoop/" title="De Stereoscoop">De Stereoscoop op NFF</a></span>
+				<span class="over2date small">22 sep - 1 okt</span>
+				<span class="over3 small"><a href="/games/bandjesland/" title="Bandjesland">Bandjesland op Le Guess Who?</a></span>
+				<span class="over3date small">24 - 28 nov</span>
 			</div>
 			<h2>Live games in Utrecht</h2>
 			<p>PLAY Pilots nodigt je uit om live games te spelen op Utrechtse festivals. Mis het niet!</p>
@@ -87,11 +87,14 @@
 			</div>
 			<h2>Ontwikkel je stijl en skills</h2>
             <p>PLAY Pilots presenteert een online battle van subculturen. Voor fans van muziek, films en games.</p>
+			
             {% if request.user.is_anonymous %}                
                 <a href="/klassement/login/" class="button"><h4>Meld je aan en speel</h4></a>
             {% else %}
-                <a href="/klassement/" class="button"><h4>Ga naar het klassement en start een duel</h4></a>
+                <a href="/klassement/" class="button"><h4>Start een duel</h4></a>
+				<!--
                 <p style="clear:left; color:#999; font-size:10px; padding-top:10px; margin:0;">Je bent ingelogd als <a style="text-transform:uppercase;" href="{{ request.user.get_profile.get_absolute_url }}">{{ request.user.get_profile.get_display_name }}</a> (Iemand anders? <a href="/logout/">Uitloggen</a>)</p>
+				-->
 			{% endif %}
 		</div>
     </div>

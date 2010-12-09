@@ -53,10 +53,12 @@
 	padding-bottom: 42px;
 }
 
-#livegames #schedule {
-	height: 240px;
+#schedule {
+	position: relative;
+	height: 205px;
 	margin-bottom: 21px;
-	background: url(../image/schedule_frame_bg_nu.png) no-repeat;
+	background: url(../image/schedule_frame_bg_over.png) no-repeat;
+	color: #ddd;
 }
 
 #schedule a {
@@ -66,6 +68,87 @@
 
 #schedule a:hover {
 	text-decoration: underline;
+}
+
+#schedule .overheader {
+	position: relative;
+	width: 340px;
+	height: 30px;
+	top: 25px;
+	left: 10px;
+}
+
+#schedule .oversub {
+	color: #bbb;
+	text-shadow: #333 0 1px 0;
+	position: relative;
+	width: 340px;
+	height: 30px;
+	top: 18px;
+	left: 10px;
+}
+
+#schedule .small {
+	font-size: 12px;
+	line-height: 22px;
+	text-transform: uppercase;
+}
+
+#schedule .over1 {
+	position: absolute;
+	text-align: left;
+	font-weight: bold;
+	width: 220px;
+	height: 22px;
+	top: 88px;
+	left: 20px;
+}
+
+#schedule .over1date {
+	position: absolute;
+	text-align: center;
+	width: 100px;
+	height: 22px;
+	top: 88px;
+	left: 265px;
+}
+
+#schedule .over2 {
+	position: absolute;
+	text-align: left;
+	font-weight: bold;
+	width: 220px;
+	height: 22px;
+	top: 128px;
+	left: 20px;
+}
+
+#schedule .over2date {
+	position: absolute;
+	text-align: center;
+	width: 100px;
+	height: 22px;
+	top: 128px;
+	left: 265px;
+}
+
+#schedule .over3 {
+	position: absolute;
+	text-align: left;
+	font-weight: bold;
+	width: 220px;
+	height: 22px;
+	top: 168px;
+	left: 20px;
+}
+
+#schedule .over3date {
+	position: absolute;
+	text-align: center;
+	width: 100px;
+	height: 22px;
+	top: 168px;
+	left: 265px;
 }
 
 #schedule .nextevent {
@@ -183,7 +266,7 @@
 }
 
 #onlinebattle #teaser {
-	height: 240px;
+	height: 205px;
 	margin-bottom: 21px;
 	background: url(../image/online_battle_visual.png) no-repeat center 50px;
 }
