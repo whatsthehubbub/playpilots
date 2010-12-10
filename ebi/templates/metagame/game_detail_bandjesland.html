@@ -726,7 +726,11 @@
                         'specialid': specialid
                     }, function(data, textStatus, xhr) {
                         var specialid = data['specialid'];
+                        
                         var oldHeartrate = parseInt($('#heartrate_' + specialid + ' A').html());
+                        if (isNaN(oldHeartrate)) {
+                            oldHeartrate = 0;
+                        }
                         
                         var newHeartrate = oldHeartrate;
                         if (data['action']=='added') {
@@ -972,11 +976,9 @@
                                     	<div class="icons waveformicon" id="waveform_vrijdag_{{ special.id }}"></div>
                                     	<p class="small">opgenomen om</p>
                                     	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                    	<p class="heartrate" id="heartrate_{{ special.id }}">
-                                    	    {% if like_count > 0 %}
-                                    	        <a class="" id="heartrate_link_{{ special.id }}">{{ like_count }}</a>
-                                            {% endif %}
-                                    	</p>
+                                    	<p class="heartrate" id="heartrate_{{ special.id }}"><a class="" id="heartrate_link_{{ special.id }}">
+                                    	    {% if like_count > 0 %}{{ like_count }}{% endif %}
+                                    	</a></p>
                                     	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
         								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
                                 	</li>
@@ -1010,11 +1012,9 @@
                                 	<div class="icons waveformicon" title="Markeren in speler" id="waveform_zaterdag_{{ special.id }}"></div>
                                 	<p class="small">opgenomen om</p>
                                 	<p class="timestamp">{{ special.created|date:"H:i:s" }}</p>
-                                	<p class="heartrate" id="heartrate_{{ special.id }}">
-                                	    {% if like_count > 0 %}
-                                	        <a class="" id="heartrate_link_{{ special.id }}">{{ special.get_like_count }}</a>
-                                	    {% endif %}
-                                	</p>
+                                	<p class="heartrate" id="heartrate_{{ special.id }}"><a class="" id="heartrate_link_{{ special.id }}">
+                                	    {% if like_count > 0 %}{{ special.get_like_count }}{% endif %}
+                                	</a></p>
                                 	<button type="image" class="heart" id="heart_{{ special.id }}"></button>
     								<a href="{{ special.mp3.url }}" title="Download sample"><div class="download"></div></a>
                             	</li>
