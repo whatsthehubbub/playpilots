@@ -46,6 +46,7 @@ class BandjeslandSpecial(models.Model):
     def is_alive(self):
         return BandjeslandLike.objects.filter(special=self).count() > 0
     
+    # TODO remove these methods
     def is_leuk(self):
         count = BandjeslandLike.objects.filter(special=self).count()
         

@@ -32,7 +32,7 @@ def toggle_like(request):
             for like in likes:
                 logging.debug('deleting bandjesland like %s', str(like))
                 like.delete()
-                
+
             action = 'removed'
         else:
             b = BandjeslandLike.objects.create(special=special, player=player)
@@ -60,7 +60,15 @@ def special_occurrences(request):
     
     # print session.start
     
-    occurrenceTimes = BandjeslandSpecialOccurrence.objects.filter(session=session).filter(special=special).order_by('-time').values('time')
+    occurrenceTimes = BandjeslandSpecialOccurrence.objects.filter(
+        session=session
+    ).filter(
+        special=special
+    ).filter(
+        time__gte=session.start
+    ).filter(
+        time__lte=session.end
+    ).order_by('-time').values('time')
     
     # print occurrenceTimes
     
