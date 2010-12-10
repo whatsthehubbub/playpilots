@@ -856,23 +856,25 @@
                     
                     $('.occurrence-indicator').remove();
                     
-                    for (var index in data['offsets']) {
-                        var offset = data['offsets'][index];
+                    if (data['offsets'].length > 0) {
+                        for (var index in data['offsets']) {
+                            var offset = data['offsets'][index];
                         
-                        var left = Math.round(offset / duration * width);
+                            var left = Math.round(offset / duration * width);
                         
-                        // if (console) console.log('calculating offset', offset, 'duration', duration, 'left', left);
+                            // if (console) console.log('calculating offset', offset, 'duration', duration, 'left', left);
                         
-                        if (left > width) {
-                            // TODO workaround, figure out why left is larger than width
-                            left = width;
+                            if (left > width) {
+                                // TODO workaround, figure out why left is larger than width
+                                left = width;
+                            }
+                        
+                            var indicator = '<div style="position: absolute; border-right: 1px solid #262A33; width: ' + left + 'px; top: 0px; height: 80px; z-index: 5;" class="occurrence-indicator"></div>';
+                            $('#' + day + ' .sc-time-span').append(indicator);
                         }
-                        
-                        var indicator = '<div style="position: absolute; border-right: 1px solid #262A33; width: ' + left + 'px; top: 0px; height: 80px; z-index: 5;" class="occurrence-indicator"></div>';
-                        $('#' + day + ' .sc-time-span').append(indicator);
-                    }
                     
-                    $.scrollTo('#music');
+                        $.scrollTo('#music');
+                    }
                 });
             });
             
