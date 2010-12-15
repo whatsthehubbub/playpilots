@@ -456,7 +456,7 @@
 					   {% endif %}
 					{% endfor %}
 				</li>
-                <li class="checked last">
+                <li class="{% if player.get_bandjesland_special_likes %}checked{% else %}unchecked{% endif %} last">
 					<h5><a href="/games/bandjesland/">Bandjesland</a></h5>
 					
 					{% for special in player.get_bandjesland_special_likes %}
