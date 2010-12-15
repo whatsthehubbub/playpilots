@@ -1035,17 +1035,17 @@
 
 <div id="interest_wrapper">
     <div id="interest" class="mainblock">
-        <h2>Wie zijn erbij?</h2> 
+        <h2>Wie waren erbij?</h2> 
 
 		{% if not user.get_profile in game.interested.all %}
             <!-- TODO handje op button verschijnt niet -->
             <form method="GET" action="/games/{{ game.slug }}/interested/" id="interest_form">
-                <button class="door"><p class="door">Ik ben erbij!</p></button>
+                <button class="door"><p class="door">Ik was erbij!</p></button>
             </form>
         {% endif %}        
 
         {% if user.get_profile in game.interested.all %}
-            <h3 id="jekomt">Je bent er bij!</h3> <span id="tochniet">[<a href="#" class="notparticipatelink">toch niet?</a>]</span>
+            <h3 id="jekomt">Je was er bij!</h3> <span id="tochniet">[<a href="#" class="notparticipatelink">toch niet?</a>]</span>
         {% endif %}
     </div>
 </div>
