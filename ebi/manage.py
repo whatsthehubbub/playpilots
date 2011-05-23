@@ -5,6 +5,9 @@ import sys
 sys.path.append('/Users/alper/Documents/projects/play/site/Django-1.2.1')
 sys.path.append('/Users/alper/Documents/projects/play/site/')
 
+sys.path.append('/home/alper/ebi/Django-1.2.1')
+sys.path.append('/home/alper/ebi/')
+
 # Because it won't catch PIL otherwise, fucking bugger!
 # sys.path.append('/Library/Python/2.6/site-packages/')
 
