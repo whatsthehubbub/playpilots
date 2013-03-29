@@ -125,7 +125,7 @@ em, i { font-style: italic; }
 
 /* @group headings */
 h1, h2, h3, h4, h5, h6 { 
-    font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+    font-family: "proxima-nova", Arial;
     text-transform: uppercase;
     font-weight: 900;
     
