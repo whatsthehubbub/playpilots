@@ -81,7 +81,7 @@
 
 #checkin #username, #checkin #login {
 	position: relative;
-	font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+	font-family: "proxima-nova", Arial;
 	float: right;
 	font-size: 14px;
 	margin: 18px 10px 0;
@@ -100,7 +100,7 @@
     margin-left: 0;
     float: left;
     font-size: 18px;
-    font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Arial;
+    font-family: "proxima-nova-condensed", Arial;
 	font-weight: 600;
 }
 
@@ -130,7 +130,7 @@
 }
 
 #menu a.current {
-	font-family: "proxima-nova-1", "proxima-nova-2", Arial;
+	font-family: "proxima-nova", Arial;
     font-weight: 800;
 	border-bottom: 2px solid #f30;
     color: #f30;
